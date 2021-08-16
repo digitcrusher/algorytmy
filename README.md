@@ -10,7 +10,9 @@
 
 - Nie poświęcaj czytelności za szybkość.
 
-## Algorytmy
+## Lista zadań
+
+### Algorytmy
 
 - [ ] matematyka
   - [x] nwd, nww
@@ -26,12 +28,16 @@
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] testy pierwszości
   - [ ] dwumian Newtona
-  - [ ] FFT
+  - [ ] FFT/NTT
+  - [ ] permutacje
+  - [ ] funkcje tworzące
+  - [ ] ważne wzory kombinatoryczne np. liczba sposobów na wsadzenie n kulek do m kubełków
+  - [ ] spamiętywana silnia
 - [ ] grafy
-  - [ ] przeszukiwanie grafu - DFS, BFS
+  - [ ] przeszukiwanie grafu - DFS, BFS - preorder, inorder, postorder
   - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial
   - [ ] silnie spójne składowe
-  - [ ] minimalne drzewo spinające - Kruskal
+  - [ ] minimalne drzewo spinające - Kruskal, Borůvka, Prim
   - [ ] heavy-light decomposition
   - [ ] chain decomposition
   - [ ] mosty i punkty artykulacji
@@ -40,14 +46,22 @@
   - [ ] lowest common ancestor
   - [ ] centroid decomposition
   - [ ] 2-SAT
+  - [ ] transformacje drzew binarnych
 - [ ] struktury danych
-  - [ ] drzewa przedziałowe
+  - [x] drzewa przedziałowe
   - [ ] drzewo trie
   - [ ] struktura zbiorów rozłącznych - Union-Find
   - [ ] algorytm Mo
   - [ ] big inty
   - [ ] ułamki
-- [ ] algorytmy tekstowe
+  - [ ] modularne inty
+  - [ ] modularne ułamki
+  - [ ] treap (drzewiec)
+  - [ ] ciągi
+  - [ ] dynamiczne drzewo AABB
+  - [ ] range minimum query
+  - [ ] leniwe drzewo przedziałowe
+- [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
   - [ ] najdłuższy wspólny podciąg
@@ -56,13 +70,14 @@
   - [ ] podstawowe konstrukcje - punkt, linia, koło
   - [ ] triangulacja wielokątów
   - [ ] convex hull trick
+  - [ ] convex hull - Graham's scan
 - [ ] reszta algorytmów
 
-## Notatki i materiały
+### Notatki i materiały
 
 - [ ] wszystko
 
-## Przykładowe zadania
+### Przykładowe zadania
 
 - [ ] wszystko
 

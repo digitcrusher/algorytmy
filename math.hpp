@@ -8,11 +8,12 @@
  * notice and this notice are preserved. This software is offered as-is,
  * without any warranty.
  */
+#pragma once
 #include "common.hpp"
 #include <cmath>
 #include <vector>
 
-
+// TODO: https://stackoverflow.com/questions/68772236/what-is-the-difference-between-std-gcd-and-stdgcd
 
 /*
  * Znajduje gotowe funkcje nwd i nww lub definiuje własną implementację.
@@ -216,13 +217,13 @@ ll mod_inv_prime(ll a, ll prime_mod) {
 struct CrtResult {
   ll soln, mod;
 };
-CrtResult crt(const std::vector<ll> &rems, const std::vector<ll> &mods) {
+CrtResult crt(std::vector<ll> const& rems, std::vector<ll> const& mods) {
   assert(rems.size() == mods.size());
 
   ll mod1 = mods.front();
   assert(mod1 > 0);
   ll rem1 = norm_mod(rems.front(), mod1);
-  for(int i = 1; i < rems.size(); i++) {
+  for(size_t i = 1; i < rems.size(); i++) {
     ll mod2 = mods[i];
     assert(mod2 > 0);
     ll rem2 = norm_mod(rems[i], mod2);
