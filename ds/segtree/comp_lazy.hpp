@@ -46,7 +46,7 @@ struct DefaultMergeChange {
     Change const& a,
     __attribute__((unused)) Change const& b
   ) const {
-    return a;
+    return b;
   }
 };
 

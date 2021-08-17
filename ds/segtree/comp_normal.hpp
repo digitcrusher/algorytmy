@@ -57,7 +57,7 @@ struct DefaultMergeChange {
   Change operator()(Change const& a,
                     Change const& b __attribute__((unused))) const
   {
-    return a;
+    return b;
   }
 };
 
@@ -589,11 +589,14 @@ template<
     size_t height() const {
       return this->elemc == 0 ? 0 : ceil_log2(this->elemc) + 1;
     }
+    size_t nodec() const {
+      return (1ull << this->height()) - 1;
+    }
     size_t basec() const {
       return this->elemc == 0 ? 0 : 1ull << (this->height() - 1);
     }
-    size_t nodec() const {
-      return (1ull << this->height()) - 1;
+    size_t base_offset() const {
+      return (1ull << (this->height() - 1)) - 1;
     }
     size_t level_nodec(size_t level) const {
       return 1ull << level;
@@ -609,11 +612,14 @@ template<
   size_t height() const {
     return this->metrics().height();
   }
+  size_t nodec() const {
+    return this->metrics().nodec();
+  }
   size_t basec() const {
     return this->metrics().basec();
   }
-  size_t nodec() const {
-    return this->metrics().nodec();
+  size_t base_offset() const {
+    return this->metrics().base_offset();
   }
   size_t level_nodec(size_t level) const {
     return this->metrics().level_nodec(level);
