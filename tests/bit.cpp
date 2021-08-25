@@ -1,4 +1,6 @@
-#include "../bit.hpp"
+#include "bit.hpp"
+
+#include <cassert>
 #include <iostream>
 
 int main() {

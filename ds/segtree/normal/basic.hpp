@@ -1,5 +1,6 @@
 /*
- * Drzewo przedziałowe przedział-przedział - digitcrusher/algorytmy
+ * Podstawowa implementacja drzewa przedziałowego przedział-przedział
+ *                                             digitcrusher/algorytmy
  *
  * Copyright (c) 2021 Karol Łacina aka digitcrusher
  *
@@ -9,9 +10,9 @@
  * without any warranty.
  */
 #pragma once
-#include "../../bit.hpp"
-#include "../../common.hpp"
-#include "../../misc.hpp"
+#include "bit.hpp"
+#include "common.hpp"
+#include "misc.hpp"
 #include <algorithm>
 #include <initializer_list>
 #include <iterator>
@@ -20,7 +21,7 @@
 #include <vector>
 
 /*
- * Drzewo przedziałowe przedział-przedział -
+ * Podstawowa implementacja drzewa przedziałowego przedział-przedział -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
  *   elementów (get) i modyfikacji (modify) w czasie logarytmicznym.
  *
@@ -31,7 +32,7 @@
  *   (a sum b) sum c = a sum (b sum c).
  * ApplyChange: (Value, Change, size_t) -> Value
  *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów o rozmiarze
- *   będacym potęgą dwójki.
+ *   będącym potęgą dwójki.
  * MergeChange: (Change, Change) -> Change
  *   Kumuluje dwie zmiany do jednej.
  */
@@ -156,7 +157,7 @@ template<
     this->elemc = std::distance(first, end);
     this->nodes.clear();
     this->nodes.resize(this->nodec());
-    std::copy(first, end, this->nodes.end() - this->basec());
+    std::copy(first, end, this->nodes.end() - this->base_nodec());
     if(this->elemc > 0) {
       this->root_ops().resum();
     }
@@ -185,20 +186,21 @@ template<
   size_t height() const {
     return this->elemc == 0 ? 0 : ceil_log2(this->elemc) + 1;
   }
-  size_t nodec() const {
-    return (1ull << this->height()) - 1;
-  }
-  size_t basec() const {
-    return this->elemc == 0 ? 0 : 1ull << (this->height() - 1);
-  }
-  size_t base_offset() const {
-    return (1ull << (this->height() - 1)) - 1;
-  }
   size_t level_nodec(size_t level) const {
     return 1ull << level;
   }
   size_t level_offset(size_t level) const {
     return (1ull << level) - 1;
+  }
+
+  size_t nodec() const {
+    return this->level_offset(this->height());
+  }
+  size_t base_nodec() const {
+    return this->level_nodec(this->height() - 1);
+  }
+  size_t base_offset() const {
+    return this->level_offset(this->height() - 1);
   }
 
   /*
@@ -230,7 +232,7 @@ template<
       return floor_log2(this->num());
     }
     size_t elemc() const {
-      return tree.basec() >> this->level();
+      return tree.base_nodec() >> this->level();
     }
     size_t l() const {
       return (this->num() - (1ull << this->level())) * this->elemc();
@@ -256,7 +258,6 @@ template<
       if(this->r() < tree.elemc) {
         node.val = tree.apply_change(node.val, change, this->elemc());
       }
-      // SegmentTree.has_latent_changes zależy od poniższego zachowania.
       if(this->has_children()) {
         node.latent_change = node.has_change ? tree.merge_change(node.latent_change, change) : change;
         node.has_change = true;

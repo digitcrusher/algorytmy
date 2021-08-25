@@ -1,5 +1,9 @@
-#include "../ds/segtree/comp_normal.hpp"
-#include "dummy_segtree.hpp"
+#include "ds/segtree/normal/comp.hpp"
+
+#include "../dummy_segtree.hpp"
+#include <cassert>
+#include <cstdlib>
+#include <functional>
 #include <iostream>
 
 int main() {
@@ -14,7 +18,7 @@ int main() {
     }
   };
   using Tree = SegmentTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
-  using DummyTree = DummySegmentTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
+  using DummyTree = DummySegTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
 
   auto print_nodes = [&](Tree const& tree) {
     for(size_t i = 1; i <= tree.nodec(); i++) {

@@ -1,5 +1,9 @@
-#include "../ds/segtree/comp_lazy.hpp"
+#include "ds/segtree/lazy/comp.hpp"
+
+#include <cassert>
+#include <functional>
 #include <iostream>
+#include <utility>
 
 int main() {
   struct ApplyChange {

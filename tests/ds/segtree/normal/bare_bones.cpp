@@ -1,5 +1,9 @@
-#include "../ds/segtree/normal.hpp"
-#include "dummy_segtree.hpp"
+#include "ds/segtree/normal/bare_bones.hpp"
+
+#include "../dummy_segtree.hpp"
+#include <cassert>
+#include <cstdlib>
+#include <functional>
 #include <iostream>
 
 int main() {
@@ -13,36 +17,21 @@ int main() {
       return a + b;
     }
   };
-  using Tree = SegmentTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
-  using DummyTree = DummySegmentTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
+  using Tree = SegTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
+  using DummyTree = DummySegTree<int, std::plus<int>, int, ApplyChange, MergeChange>;
 
-  Tree tree(10, 0);
+  Tree tree(10);
   DummyTree correct_tree(10, 0);
 
   constexpr int min_change = -10, max_change = 10;
 
-  auto print_both = [&]() {
-    tree.root_ops().propagate_change(true);
-    std::cout << "    tree: ";
-    for(size_t i = 0; i < tree.size(); i++) {
-      std::cout << tree.nodes[tree.base_offset() + i].val << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "    correct_tree: ";
-    for(size_t i = 0; i < correct_tree.size(); i++) {
-      std::cout << correct_tree[i] << " ";
-    }
-    std::cout << std::endl;
-  };
-
   srand(time(nullptr));
   auto rand_idx = [&]() {
-    return rand() % tree.size();
+    return rand() % tree.elemc;
   };
   auto rand_range = [&]() {
-    size_t i = rand() % tree.size();
-    size_t j = rand() % (tree.size() - i) + i;
+    size_t i = rand() % tree.elemc;
+    size_t j = rand() % (tree.elemc - i) + i;
     return std::make_pair(i, j);
   };
   auto rand_change = [&]() {
@@ -53,9 +42,6 @@ int main() {
     std::cerr << "iter = " << iter << std::endl;
     switch(rand() % 3) {
     case 0: {
-      if(tree.empty()) {
-        break;
-      }
       auto [i, j] = rand_range();
       std::cout << "tree.get(" << i << ", " << j << "); [iter = " << iter << "]" << std::endl;
       auto res = tree.get(i, j);
@@ -65,23 +51,12 @@ int main() {
     } break;
 
     case 1: {
-      if(tree.empty()) {
-        break;
-      }
       auto [i, j] = rand_range();
       int change = rand_change();
       std::cout << "tree.modify(" << i << ", " << j << ", " << change << "); [iter = " << iter << "]" << std::endl;
       tree.modify(i, j, change);
       correct_tree.modify(i, j, change);
     } break;
-
-    case 2:
-      std::cout << "equals [iter = " << iter << "]"<< std::endl;
-      print_both();
-      for(size_t i = 0; i < tree.size(); i++) {
-        assert(tree.nodes[tree.base_offset() + i].val == correct_tree[i]);
-      }
-      break;
     }
   }
 }

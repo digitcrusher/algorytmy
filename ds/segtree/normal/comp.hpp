@@ -10,9 +10,9 @@
  * without any warranty.
  */
 #pragma once
-#include "../../bit.hpp"
-#include "../../common.hpp"
-#include "../../misc.hpp"
+#include "bit.hpp"
+#include "common.hpp"
+#include "misc.hpp"
 #include <algorithm>
 #include <initializer_list>
 #include <iterator>
@@ -20,6 +20,8 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+
+// TODO: https://en.cppreference.com/w/cpp/container/node_handle
 
 /*
  * Wyczerpująca implementacja drzewa przedziałowego przedział-przedział -
@@ -38,7 +40,7 @@
  *   (a sum b) sum c = a sum (b sum c).
  * ApplyChange: (Value, Change, size_t) -> Value
  *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów o rozmiarze
- *   będacym potęgą dwójki.
+ *   będącym potęgą dwójki.
  * MergeChange: (Change, Change) -> Change
  *   Kumuluje dwie zmiany do jednej.
  */
@@ -282,12 +284,12 @@ template<
     assert(idx < this->elemc);
     require_up_to_date_base(idx, idx);
     invalidate_elem_parents(idx, idx);
-    return this->nodes[this->nodec() - this->basec() + idx].val;
+    return this->nodes[this->nodec() - this->base_nodec() + idx].val;
   }
   Value const& operator[](size_t idx) const {
     assert(idx < this->elemc);
     require_up_to_date_base(idx, idx);
-    return this->nodes[this->nodec() - this->basec() + idx].val;
+    return this->nodes[this->nodec() - this->base_nodec() + idx].val;
   }
 
   Value& at(size_t idx) {
@@ -454,7 +456,7 @@ template<
     clear();
     this->elemc = std::distance(first, end);
     this->nodes.resize(this->nodec());
-    std::copy(first, end, this->nodes.end() - this->basec());
+    std::copy(first, end, this->nodes.end() - this->base_nodec());
     if(this->elemc > 0) {
       this->root_ops().resum();
     }
@@ -589,43 +591,46 @@ template<
     size_t height() const {
       return this->elemc == 0 ? 0 : ceil_log2(this->elemc) + 1;
     }
-    size_t nodec() const {
-      return (1ull << this->height()) - 1;
-    }
-    size_t basec() const {
-      return this->elemc == 0 ? 0 : 1ull << (this->height() - 1);
-    }
-    size_t base_offset() const {
-      return (1ull << (this->height() - 1)) - 1;
-    }
     size_t level_nodec(size_t level) const {
       return 1ull << level;
     }
     size_t level_offset(size_t level) const {
       return (1ull << level) - 1;
     }
+
+    size_t nodec() const {
+      return this->level_offset(this->height());
+    }
+    size_t base_nodec() const {
+      return this->level_nodec(this->height() - 1);
+    }
+    size_t base_offset() const {
+      return this->level_offset(this->height() - 1);
+    }
   };
 
   Metrics metrics() const {
     return Metrics(this->elemc);
   }
+
   size_t height() const {
     return this->metrics().height();
-  }
-  size_t nodec() const {
-    return this->metrics().nodec();
-  }
-  size_t basec() const {
-    return this->metrics().basec();
-  }
-  size_t base_offset() const {
-    return this->metrics().base_offset();
   }
   size_t level_nodec(size_t level) const {
     return this->metrics().level_nodec(level);
   }
   size_t level_offset(size_t level) const {
     return this->metrics().level_offset(level);
+  }
+
+  size_t nodec() const {
+    return this->metrics().nodec();
+  }
+  size_t base_nodec() const {
+    return this->metrics().base_nodec();
+  }
+  size_t base_offset() const {
+    return this->metrics().base_offset();
   }
 
   /*
@@ -657,7 +662,7 @@ template<
       return floor_log2(this->num());
     }
     size_t elemc() const {
-      return tree.basec() >> this->level();
+      return tree.base_nodec() >> this->level();
     }
     size_t l() const {
       return (this->num() - (1ull << this->level())) * this->elemc();
@@ -886,7 +891,7 @@ private:
 
   // operator[] bez kosztownych checków
   Node* node_at2(size_t idx) const {
-    return &this->nodes[this->nodec() - this->basec() + idx];
+    return &this->nodes[this->nodec() - this->base_nodec() + idx];
   }
   Value& val_at(size_t idx) {
     return node_at2(idx)->val;

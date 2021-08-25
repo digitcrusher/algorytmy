@@ -61,6 +61,8 @@
   - [ ] dynamiczne drzewo AABB
   - [ ] range minimum query
   - [ ] leniwe drzewo przedziałowe
+  - [ ] sumy prefiksowe
+  - [ ] liczba unikatowych elementow na przedziałach w O(n log n) z drzewem przedziałowym
 - [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
@@ -71,6 +73,7 @@
   - [ ] triangulacja wielokątów
   - [ ] convex hull trick
   - [ ] convex hull - Graham's scan
+  - [ ] operacje na wektorach - dot product, cross product
 - [ ] reszta algorytmów
 
 ### Notatki i materiały
