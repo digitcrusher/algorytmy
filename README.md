@@ -2,20 +2,18 @@
 
 ## Metodologia
 
-- Nie ma jednej implementacji algorytmu zaspokojającej wszystkie przypadki użycia, więc algorytmy powinny być proste do skopiowania i zmodyfikowania w ważnych punktach ich działania.
+- Nie ma jednej implementacji algorytmu zaspokojającej wszystkie przypadki użycia, więc algorytmy powinny być proste do skopiowania, wklejenia do własnego kodu i zmodyfikowania w ważnych punktach ich działania.
 
-- Wszystkie algorytmy w tej bibliotece powinny być niezależnymi od siebie kawałkami kodu i powinny wymagać jak najmniej kodu do samodzielnego funkcjonowania i mieć jak najprostszy interfejs - nie powinny za dużo wymagać co do ustrukturyzowania wejścia.
+- Wszystkie algorytmy w tej bibliotece powinny być możliwie niezależnymi od siebie kawałkami kodu, wymagać jak najmniej kodu do samodzielnego funkcjonowania i mieć jak najprostszy interfejs.
 
-- Pojedyncze algorytmy powinny być łatwe do wsadzenia do własnego kodu.
-
-- Nie poświęcaj czytelności za szybkość.
+- Kod ma być czytelny, krótki, bez mikrooptymalizacji.
 
 ## Lista zadań
 
 ### Algorytmy
 
 - [ ] matematyka
-  - [x] nwd, nww
+  - [x] NWD, NWW
   - [x] mnożenie i potęgowanie modulo
   - [x] rozszerzony algorytm Euklidesa
   - [x] odwrotność modularna
@@ -34,6 +32,7 @@
   - [ ] ważne wzory kombinatoryczne np. liczba sposobów na wsadzenie n kulek do m kubełków
   - [ ] spamiętywana silnia
 - [ ] grafy
+  - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
   - [ ] przeszukiwanie grafu - DFS, BFS - preorder, inorder, postorder
   - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial
   - [ ] silnie spójne składowe
@@ -47,11 +46,12 @@
   - [ ] centroid decomposition
   - [ ] 2-SAT
   - [ ] transformacje drzew binarnych
+  - [ ] znajdywanie cykli w grafie
+  - [ ] skojarzenia
 - [ ] struktury danych
-  - [x] drzewa przedziałowe
+  - [x] drzewo przedziałowe
   - [ ] drzewo trie
   - [ ] struktura zbiorów rozłącznych - Union-Find
-  - [ ] algorytm Mo
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne inty
@@ -62,7 +62,6 @@
   - [ ] range minimum query
   - [ ] leniwe drzewo przedziałowe
   - [ ] sumy prefiksowe
-  - [ ] liczba unikatowych elementow na przedziałach w O(n log n) z drzewem przedziałowym
 - [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
@@ -74,6 +73,9 @@
   - [ ] convex hull trick
   - [ ] convex hull - Graham's scan
   - [ ] operacje na wektorach - dot product, cross product
+- [ ] inne
+  - [ ] algorytm Mo
+  - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
 - [ ] reszta algorytmów
 
 ### Notatki i materiały
@@ -82,7 +84,8 @@
 
 ### Przykładowe zadania
 
-- [ ] wszystko
+- [x] "Kajaki" z IV OI
+- [ ] reszta zadań
 
 ## Podziękowania
 

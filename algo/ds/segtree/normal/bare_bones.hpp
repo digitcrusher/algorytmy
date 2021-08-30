@@ -10,6 +10,7 @@
  * without any warranty.
  */
 #pragma once
+#include "common.hpp"
 #include <vector>
 
 /*
@@ -60,7 +61,7 @@ template<
   struct NodeOps;
 
   int elemc;
-  std::vector<Node> nodes;
+  vector<Node> nodes;
 
   int height, nodec;
   int base_nodec, base_offset;
@@ -89,6 +90,9 @@ template<
   }
   void modify(int l, int r, Change change) {
     root().modify(l, r, change);
+  }
+  void resum(int l, int r) {
+    root().resum(l, r);
   }
 
   struct NodeOps {

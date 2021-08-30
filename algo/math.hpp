@@ -11,12 +11,13 @@
 #pragma once
 #include "common.hpp"
 #include <cmath>
+#include <stdexcept>
 #include <vector>
 
 // TODO: https://stackoverflow.com/questions/68772236/what-is-the-difference-between-std-gcd-and-stdgcd
 
 /*
- * Znajduje gotowe funkcje nwd i nww lub definiuje własną implementację.
+ * Znajduje gotowe funkcje NWD i NWW lub definiuje własną implementację.
  */
 #if __cplusplus >= 201402L
 # include <experimental/numeric>
@@ -82,7 +83,7 @@ ExtEuclidResult internal_ext_euclid(ll a, ll b) {
 /*
  * Rozszerzony algorytm Euklidesa -
  *   Znajduje nwd oraz współczynniki Bézouta liczb a i b,
- *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = nwd(a, b).
+ *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = NWD(a, b).
  */
 ExtEuclidResult ext_euclid(ll a, ll b) {
   auto result = internal_ext_euclid(abs(a), abs(b));
@@ -138,7 +139,7 @@ LinDiophantineSoln solve_lin_diophantine(ll a, ll b, ll c) {
 
 
 /*
- * Normalizuje a do przedziału [0, mod) z zachowaniem a' = a (% mod).
+ * Normalizuje a do przedziału [0, mod) z zachowaniem a' = a % mod.
  */
 ll norm_mod(ll a, ll mod) {
   ll x = a % mod;
@@ -148,7 +149,7 @@ ll norm_mod(ll a, ll mod) {
 
 
 /*
- * Bezpieczne iteratywne mnożenie i potęgowanie modularne
+ * Iteratywne mnożenie i potęgowanie modularne
  */
 ll mod_mul(ll a, ll b, ll mod) {
   ll result = 0;
@@ -187,7 +188,7 @@ ll mod_inv_ext_euclid(ll a, ll mod) {
   if(gcd.div != 1) {
     throw std::runtime_error(
       "Odwrotność modularna nie istnieje, "
-      "gdy liczba i dzielnik są wspólnie pierwsze."
+      "gdy liczba i dzielnik nie są wspólnie pierwsze."
     );
   }
   return norm_mod(gcd.x, mod);
@@ -217,13 +218,13 @@ ll mod_inv_prime(ll a, ll prime_mod) {
 struct CrtResult {
   ll soln, mod;
 };
-CrtResult crt(std::vector<ll> const& rems, std::vector<ll> const& mods) {
+CrtResult crt(vector<ll> const& rems, vector<ll> const& mods) {
   assert(rems.size() == mods.size());
 
   ll mod1 = mods.front();
   assert(mod1 > 0);
   ll rem1 = norm_mod(rems.front(), mod1);
-  for(size_t i = 1; i < rems.size(); i++) {
+  for(int i = 1; i < rems.size(); i++) {
     ll mod2 = mods[i];
     assert(mod2 > 0);
     ll rem2 = norm_mod(rems[i], mod2);

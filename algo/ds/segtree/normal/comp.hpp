@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <initializer_list>
 #include <iterator>
+#include <stdexcept>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -66,7 +67,7 @@ struct DefaultMergeChange {
 template<
   class Value,
   class Sum,
-  class Change = std::tuple<>,
+  class Change = tuple<>,
   class ApplyChange = DefaultApplyChange<Value, Change>,
   class MergeChange = DefaultMergeChange<Change>
 > struct SegmentTree {
@@ -271,7 +272,7 @@ template<
     assign(first, end);
   }
 
-  SegmentTree(std::initializer_list<Value> elems,
+  SegmentTree(initializer_list<Value> elems,
               Sum const& sum = Sum(),
               ApplyChange const& apply_change = ApplyChange(),
               MergeChange const& merge_change = MergeChange()):
@@ -295,8 +296,8 @@ template<
   Value& at(size_t idx) {
     if(idx >= this->elemc) {
       throw std::out_of_range(
-        "SegmentTree.at(idx): idx (równe " + std::to_string(idx) + ") >= "
-        "this->elemc (równe " + std::to_string(this->elemc) + ")"
+        "SegmentTree.at(idx): idx (równe " + to_string(idx) + ") >= "
+        "this->elemc (równe " + to_string(this->elemc) + ")"
       );
     }
     return (*this)[idx];
@@ -304,8 +305,8 @@ template<
   Value const& at(size_t idx) const {
     if(idx >= this->elemc) {
       throw std::out_of_range(
-        "SegmentTree.at(idx): idx (równe " + std::to_string(idx) + ") >= "
-        "this->elemc (równe " + std::to_string(this->elemc) + ")"
+        "SegmentTree.at(idx): idx (równe " + to_string(idx) + ") >= "
+        "this->elemc (równe " + to_string(this->elemc) + ")"
       );
     }
     return (*this)[idx];
@@ -329,7 +330,7 @@ template<
   int compare(SegmentTree<A...> const& other) const {
     require_up_to_date_base(0, this->elemc - 1);
     other.require_up_to_date_base(0, this->elemc - 1);
-    for(size_t i = 0; i < std::min(this->elemc, other.elemc); i++) {
+    for(size_t i = 0; i < min(this->elemc, other.elemc); i++) {
       if(val_at(i) < other.val_at(i)) {
         return -1;
       } else if(val_at(i) > other.val_at(i)) {
@@ -365,15 +366,15 @@ template<
   }
 
   void swap(SegmentTree &other) {
-    std::swap(this->sum, other.sum);
-    std::swap(this->apply_change, other.apply_change);
-    std::swap(this->merge_change, other.merge_change);
-    std::swap(this->elemc, other.elemc);
-    std::swap(this->nodes, other.nodes);
-    std::swap(this->has_latent_changes, other,has_latent_changes);
-    std::swap(this->needs_resum, other.needs_resum);
-    std::swap(this->to_resum_l, other.to_resum_l);
-    std::swap(this->to_resum_r, other.to_resum_r);
+    swap(this->sum, other.sum);
+    swap(this->apply_change, other.apply_change);
+    swap(this->merge_change, other.merge_change);
+    swap(this->elemc, other.elemc);
+    swap(this->nodes, other.nodes);
+    swap(this->has_latent_changes, other,has_latent_changes);
+    swap(this->needs_resum, other.needs_resum);
+    swap(this->to_resum_l, other.to_resum_l);
+    swap(this->to_resum_r, other.to_resum_r);
   }
 
   void clear() {
@@ -438,7 +439,7 @@ template<
       if(this->to_resum_l >= this->elemc) {
         this->needs_resum = false;
       } else {
-        this->to_resum_r = std::min(this->to_resum_r, this->elemc - 1);
+        this->to_resum_r = min(this->to_resum_r, this->elemc - 1);
       }
     }
   }
@@ -461,10 +462,10 @@ template<
       this->root_ops().resum();
     }
   }
-  void assign(std::initializer_list<Value> elems) {
+  void assign(initializer_list<Value> elems) {
     assign(elems.begin(), elems.end());
   }
-  SegmentTree& operator=(std::initializer_list<Value> elems) {
+  SegmentTree& operator=(initializer_list<Value> elems) {
     assign(elems);
     return *this;
   }
@@ -472,7 +473,7 @@ template<
   template<class ...Args>
   iterator emplace(const_iterator pos, Args &&...args) {
     before_insert(pos, 1);
-    val_at(pos.idx) = std::move(Value(std::forward(args)...));
+    val_at(pos.idx) = move(Value(forward(args)...));
     return after_insert(pos);
   }
   iterator insert(const_iterator pos, Value const& val) {
@@ -482,7 +483,7 @@ template<
   }
   iterator insert(const_iterator pos, Value &&val) {
     before_insert(pos, 1);
-    val_at(pos.idx) = std::move(val);
+    val_at(pos.idx) = move(val);
     return after_insert(pos);
   }
   iterator insert(const_iterator pos, size_t cnt, Value const& val) {
@@ -497,7 +498,7 @@ template<
     std::copy(first, end, node_at2(pos.idx));
     return after_insert(pos);
   }
-  iterator insert(const_iterator pos, std::initializer_list<Value> elems) {
+  iterator insert(const_iterator pos, initializer_list<Value> elems) {
     return insert(pos, elems.begin(), elems.end());
   }
 
@@ -539,23 +540,23 @@ template<
 
   template<class ...Args>
   void emplace_front(Args &&...args) {
-    emplace(this->begin(), std::forward(args)...);
+    emplace(this->begin(), forward(args)...);
   }
   template<class ...Args>
   void emplace_back(Args &&...args) {
-    emplace(this->end(), std::forward(args)...);
+    emplace(this->end(), forward(args)...);
   }
   void push_front(Value const& val) {
     insert(this->begin(), val);
   }
   void push_front(Value &&val) {
-    insert(this->begin(), std::move(val));
+    insert(this->begin(), move(val));
   }
   void push_back(Value const& val) {
     insert(this->end(), val);
   }
   void push_back(Value &&val) {
-    insert(this->end(), std::move(val));
+    insert(this->end(), move(val));
   }
   void pop_front() {
     erase(this->begin());
@@ -665,7 +666,7 @@ template<
       return tree.base_nodec() >> this->level();
     }
     size_t l() const {
-      return (this->num() - (1ull << this->level())) * this->elemc();
+      return (this->num() - 1 - tree.level_offset(this->level())) * this->elemc();
     }
     size_t r() const {
       return this->l() + this->elemc() - 1;
@@ -819,7 +820,7 @@ template<
 
 private:
   size_t elemc = 0;
-  mutable std::vector<Node> nodes;
+  mutable vector<Node> nodes;
   mutable bool has_latent_changes = false;
   mutable bool needs_resum = false;
   size_t to_resum_l, to_resum_r;
@@ -842,8 +843,8 @@ private:
     // IDEA: Wymagaj brak zmian tylko nad [l, r]?
     require_no_changes_above(0, this->elemc - 1);
     if(this->needs_resum) {
-      this->to_resum_l = std::min(this->to_resum_l, l);
-      this->to_resum_r = std::max(this->to_resum_r, r);
+      this->to_resum_l = min(this->to_resum_l, l);
+      this->to_resum_r = max(this->to_resum_r, r);
     } else {
       this->needs_resum = true;
       this->to_resum_l = l;

@@ -58,7 +58,7 @@ struct DefaultMergeChange {
 template<
   class Value,
   class Sum,
-  class Change = std::tuple<>,
+  class Change = tuple<>,
   class ApplyChange = DefaultApplyChange<Value, Change>,
   class MergeChange = DefaultMergeChange<Change>
 > struct SegmentTree {
@@ -77,7 +77,7 @@ template<
   struct NodeOps;
 
   size_t elemc = 0;
-  mutable std::vector<Node> nodes;
+  mutable vector<Node> nodes;
 
   NodeOps root_ops() const {
     assert(this->nodes.size() >= 1);
@@ -108,7 +108,7 @@ template<
     assign(first, end);
   }
 
-  SegmentTree(std::initializer_list<Value> elems,
+  SegmentTree(initializer_list<Value> elems,
               Sum const& sum = Sum(),
               ApplyChange const& apply_change = ApplyChange(),
               MergeChange const& merge_change = MergeChange()):
@@ -132,11 +132,11 @@ template<
   }
 
   void swap(SegmentTree &other) {
-    std::swap(this->sum, other.sum);
-    std::swap(this->apply_change, other.apply_change);
-    std::swap(this->merge_change, other.merge_change);
-    std::swap(this->elemc, other.elemc);
-    std::swap(this->nodes, other.nodes);
+    swap(this->sum, other.sum);
+    swap(this->apply_change, other.apply_change);
+    swap(this->merge_change, other.merge_change);
+    swap(this->elemc, other.elemc);
+    swap(this->nodes, other.nodes);
   }
 
   void clear() {
@@ -162,10 +162,10 @@ template<
       this->root_ops().resum();
     }
   }
-  void assign(std::initializer_list<Value> elems) {
+  void assign(initializer_list<Value> elems) {
     assign(elems.begin(), elems.end());
   }
-  SegmentTree& operator=(std::initializer_list<Value> elems) {
+  SegmentTree& operator=(initializer_list<Value> elems) {
     assign(elems);
     return *this;
   }
@@ -235,7 +235,7 @@ template<
       return tree.base_nodec() >> this->level();
     }
     size_t l() const {
-      return (this->num() - (1ull << this->level())) * this->elemc();
+      return (this->num() - 1 - tree.level_offset(this->level())) * this->elemc();
     }
     size_t r() const {
       return this->l() + this->elemc() - 1;

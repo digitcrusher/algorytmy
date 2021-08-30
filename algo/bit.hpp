@@ -27,9 +27,9 @@ ull floor_log2(ull a) {
 # elif defined(__GLIBCXX__) || defined(__GLIBCPP__)
   ull clz = __builtin_clzll(a);
 # endif
-  ull log = std::numeric_limits<ull>::digits - clz - 1;
+  ull log = numeric_limits<ull>::digits - clz - 1;
 #else
-  ull log = std::floor(std::log2(a));
+  ull log = floor(log2(a));
 #endif
   return log;
 }
@@ -45,11 +45,11 @@ ull ceil_log2(ull a) {
   ull clz = std::__countl_zero(a - 1);
 # elif defined(__GLIBCXX__) || defined(__GLIBCPP__)
   // Wyjaśnienie tego ifa znajduje się w tests/test_bit.cpp
-  ull clz = a == 1 ? std::numeric_limits<ull>::digits : __builtin_clzll(a - 1);
+  ull clz = a == 1 ? numeric_limits<ull>::digits : __builtin_clzll(a - 1);
 # endif
-  ull log = std::numeric_limits<ull>::digits - clz;
+  ull log = numeric_limits<ull>::digits - clz;
 #else
-  ull log = std::ceil(std::log2(a));
+  ull log = ceil(log2(a));
 #endif
   return log;
 }

@@ -60,7 +60,7 @@ template<
   typename Value,
   typename Sum,
 
-  typename Change = std::tuple<>,
+  typename Change = tuple<>,
   typename ApplyChange = DefaultApplyChange<Value, Change>,
   typename MergeChange = DefaultMergeChange<Change>
 > struct SegmentTree {
@@ -283,15 +283,15 @@ template<
     len(other.len) {}
 
   SegmentTree(SegmentTree &&other):
-    default_val(std::move(other.default_val)),
-    sum(std::move(other.sum)),
-    apply_change(std::move(other.apply_change)),
-    merge_change(std::move(other.merge_change)),
-    root(std::move(other.root)),
-    len(std::move(other.len))
+    default_val(move(other.default_val)),
+    sum(move(other.sum)),
+    apply_change(move(other.apply_change)),
+    merge_change(move(other.merge_change)),
+    root(move(other.root)),
+    len(move(other.len))
   {
-    std::swap(this->node_middleman, other.node_middleman);
-    std::swap(*this->node_middleman, *other.node_middleman);
+    swap(this->node_middleman, other.node_middleman);
+    swap(*this->node_middleman, *other.node_middleman);
     other.root = nullptr;
   }
 
@@ -313,15 +313,15 @@ template<
   }
 
   SegmentTree& operator=(SegmentTree &&other) {
-    this->default_val = std::move(other.default_val);
-    this->sum = std::move(other.sum);
-    this->apply_change = std::move(other.apply_change);
-    this->merge_change = std::move(other.merge_change);
-    this->root = std::move(other.root);
-    this->len = std::move(other.len);
+    this->default_val = move(other.default_val);
+    this->sum = move(other.sum);
+    this->apply_change = move(other.apply_change);
+    this->merge_change = move(other.merge_change);
+    this->root = move(other.root);
+    this->len = move(other.len);
 
-    std::swap(this->node_middleman, other.node_middleman);
-    std::swap(*this->node_middleman, *other.node_middleman);
+    swap(this->node_middleman, other.node_middleman);
+    swap(*this->node_middleman, *other.node_middleman);
     other.root = nullptr;
 
     return *this;
@@ -344,13 +344,13 @@ template<
   }
 
   void swap(SegmentTree &other) {
-    std::swap(this->sum, other.sum);
-    std::swap(this->apply_change, other.apply_change);
-    std::swap(this->merge_change, other.merge_change);
-    std::swap(this->node_middleman, other.node_middleman);
-    std::swap(*this->node_middleman, *other.node_middleman);
-    std::swap(this->root, other.root);
-    std::swap(this->len, other.len);
+    swap(this->sum, other.sum);
+    swap(this->apply_change, other.apply_change);
+    swap(this->merge_change, other.merge_change);
+    swap(this->node_middleman, other.node_middleman);
+    swap(*this->node_middleman, *other.node_middleman);
+    swap(this->root, other.root);
+    swap(this->len, other.len);
   }
 
   size_t size() const {
@@ -358,7 +358,7 @@ template<
   }
 
   size_t max_size() const {
-    return std::numeric_limits<difference_type>::max();
+    return numeric_limits<difference_type>::max();
   }
 
   bool empty() const {

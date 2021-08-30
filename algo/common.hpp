@@ -1,6 +1,5 @@
 #pragma once
 
-#include <stdexcept>
 // Wyłącza assert'y - funkcje wywołujące błąd, gdy dany warunek jest fałszywy.
 //#define NDEBUG
 #include <cassert>
@@ -10,3 +9,5 @@ using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;
 using ld = long double;
+
+using namespace std;
