@@ -10,44 +10,57 @@
  */
 #pragma once
 #include "common.hpp"
+#include "compat/optional.hpp"
 #include <cmath>
 #include <stdexcept>
 #include <vector>
 
 // TODO: https://stackoverflow.com/questions/68772236/what-is-the-difference-between-std-gcd-and-stdgcd
+// TODO: floor_div i ceil_div
+// TODO: poorganizuj kodzik
 
 /*
  * Znajduje gotowe funkcje NWD i NWW lub definiuje własną implementację.
  */
-#if __cplusplus >= 201402L
-# include <experimental/numeric>
-using std::experimental::gcd;
-using std::experimental::lcm;
-
-#else
+#if __cplusplus < 201402L
 # if defined(__GLIBCXX__) || defined(__GLIBCPP__)
 #   include <bits/stl_algo.h>
-ll gcd(ll a, ll b) {
-  return std::__gcd(a, b);
+namespace std {
+  ll gcd(ll a, ll b) {
+    return std::__gcd(a, b);
+  }
 }
 # else
-ll gcd(ll a, ll b) {
-  if(b == 0) {
-    return a;
+namespace std {
+  ll gcd(ll a, ll b) {
+    if(b == 0) {
+      return a;
+    }
+    return gcd(b, a % b);
   }
-  return gcd(b, a % b);
 }
 # endif
 
-ll lcm(ll a, ll b) {
-  return a / gcd(a, b) * b;
+namespace std {
+  ll lcm(ll a, ll b) {
+    return a / gcd(a, b) * b;
+  }
 }
+
+#elif __cplusplus < 201703L
+# include <experimental/numeric>
+namespace std {
+  using experimental::gcd;
+  using experimental::lcm;
+}
+
+#else
+# include <numeric>
 #endif
 
 
-
 struct ExtEuclidResult {
-  ll div;
+  ll gcd;
   ll x, y;
   ll a, b;
 
@@ -55,15 +68,15 @@ struct ExtEuclidResult {
    * Zwraca kolejne współczynniki Bézouta dla a i b.
    */
   ExtEuclidResult shift_coefs(int step) {
-    if(div == 0) {
+    if(gcd == 0) {
       throw std::runtime_error(
-        "Dla nwd równego zero istnieje nieskończenie wiele współczynników."
+        "Dla NWD równego zero istnieje nieskończenie wiele współczynników."
       );
     }
     return {
-      div,
-      x + b / div * step,
-      y - a / div * step,
+      gcd,
+      x + b / gcd * step,
+      y - a / gcd * step,
       a, b
     };
   }
@@ -74,7 +87,7 @@ ExtEuclidResult internal_ext_euclid(ll a, ll b) {
   }
   auto sub = internal_ext_euclid(b, a % b);
   return {
-    sub.div,
+    sub.gcd,
     sub.y,
     sub.x - a / b * sub.y,
     a, b
@@ -83,7 +96,8 @@ ExtEuclidResult internal_ext_euclid(ll a, ll b) {
 /*
  * Rozszerzony algorytm Euklidesa -
  *   Znajduje nwd oraz współczynniki Bézouta liczb a i b,
- *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = NWD(a, b).
+ *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = NWD(a, b)
+ *   i, co za tym idzie, wszystkie rozwiązania.
  */
 ExtEuclidResult ext_euclid(ll a, ll b) {
   auto result = internal_ext_euclid(abs(a), abs(b));
@@ -116,23 +130,19 @@ struct LinDiophantineSoln {
   }
 };
 /*
- * Rozwiązuje równanie diofantyczne ax + by = c.
+ * Znajduje rozwiązanie równania diofantycznego ax + by = c
+ * i, co za tym idzie, wszystkie rozwiązania.
  */
-LinDiophantineSoln solve_lin_diophantine(ll a, ll b, ll c) {
+optional<LinDiophantineSoln> solve_lin_diophantine(ll a, ll b, ll c) {
   auto gcd = ext_euclid(a, b);
-  if(c % gcd.div != 0) {
-    throw std::runtime_error(
-      "Nie ma rozwiązań równania diofantycznego ax + by = c, "
-      "gdy c nie jest podzielne przez nwd(a, b)."
-    );
+  if(c % gcd.gcd != 0) {
+    return nullopt;
   }
-  ll x = c / gcd.div * gcd.x;
-  ll y = c / gcd.div * gcd.y;
-  return {
-    a < 0 ? -x : x,
-    b < 0 ? -y : y,
+  return LinDiophantineSoln{
+    c / gcd.gcd * gcd.x,
+    c / gcd.gcd * gcd.y,
     a, b,
-    gcd.div,
+    gcd.gcd,
   };
 }
 
@@ -155,9 +165,10 @@ ll mod_mul(ll a, ll b, ll mod) {
   ll result = 0;
   if(b < 0) {
     a = -a;
+    b = -b;
   }
-  while(b != 0) {
-    if(b % 2 != 0) {
+  while(b > 0) {
+    if(b % 2 == 1) {
       result = (result + a) % mod;
     }
     a = a * 2 % mod;
@@ -183,17 +194,14 @@ ll mod_pow(ll a, ll b, ll mod) {
 /*
  * Odwrotność modularna - a * mod_inv(a, m) = 1 (mod m)
  */
-ll mod_inv_ext_euclid(ll a, ll mod) {
+optional<ll> mod_inv_ext_euclid(ll a, ll mod) {
   auto gcd = ext_euclid(a, mod);
-  if(gcd.div != 1) {
-    throw std::runtime_error(
-      "Odwrotność modularna nie istnieje, "
-      "gdy liczba i dzielnik nie są wspólnie pierwsze."
-    );
+  if(gcd.gcd != 1) {
+    return nullopt;
   }
   return norm_mod(gcd.x, mod);
 }
-ll mod_inv(ll a, ll mod) {
+optional<ll> mod_inv(ll a, ll mod) {
   return mod_inv_ext_euclid(a, mod);
 }
 
@@ -218,7 +226,7 @@ ll mod_inv_prime(ll a, ll prime_mod) {
 struct CrtResult {
   ll soln, mod;
 };
-CrtResult crt(vector<ll> const& rems, vector<ll> const& mods) {
+optional<CrtResult> crt(vector<ll> const& rems, vector<ll> const& mods) {
   assert(rems.size() == mods.size());
 
   ll mod1 = mods.front();
@@ -229,18 +237,14 @@ CrtResult crt(vector<ll> const& rems, vector<ll> const& mods) {
     assert(mod2 > 0);
     ll rem2 = norm_mod(rems[i], mod2);
 
-    LinDiophantineSoln soln;
-    try {
-      soln = solve_lin_diophantine(mod1, mod2, rem2 - rem1);
-    } catch(std::runtime_error &e) {
-      throw std::runtime_error(
-        "Nie ma rozwiązań dla tego układu równań modularnych."
-      );
+    auto soln = solve_lin_diophantine(mod1, mod2, rem2 - rem1);
+    if(soln == nullopt) {
+      return nullopt;
     }
-    ll lcm = mod1 / soln.gcd_ab * mod2;
+    ll lcm = mod1 / soln->gcd_ab * mod2;
     assert(lcm > 0);
-    rem1 = norm_mod(rem1 + soln.x % (lcm / mod1) * mod1, lcm);
+    rem1 = norm_mod(rem1 + soln->x % (lcm / mod1) * mod1, lcm);
     mod1 = lcm;
   }
-  return {rem1, mod1};
+  return CrtResult{rem1, mod1};
 }
