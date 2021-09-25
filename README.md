@@ -19,6 +19,7 @@
   - [x] odwrotność modularna
   - [x] liniowe równania diofantyczne
   - [x] chińskie twierdzenie o resztach
+  - [x] logarytm dyskretny
   - [ ] sito Eratostenesa
   - [ ] liczba dzielników
   - [ ] funkcja φ Eulera
@@ -34,7 +35,7 @@
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
   - [ ] przeszukiwanie grafu - DFS, BFS - preorder, inorder, postorder
-  - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial
+  - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial, SPFA
   - [ ] silnie spójne składowe
   - [ ] minimalne drzewo spinające - Kruskal, Borůvka, Prim
   - [ ] heavy-light decomposition

@@ -10,8 +10,8 @@
  * without any warranty.
  */
 #pragma once
-#include "bit.hpp"
 #include "common.hpp"
+#include "math/int.hpp"
 #include "misc.hpp"
 #include <algorithm>
 #include <initializer_list>

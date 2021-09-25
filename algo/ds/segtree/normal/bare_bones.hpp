@@ -11,6 +11,7 @@
  */
 #pragma once
 #include "common.hpp"
+#include "math/int.hpp"
 #include <vector>
 
 /*
@@ -35,13 +36,6 @@
  * MergeChange: (Change, Change) -> Change
  *   Kumuluje dwie zmiany do jednej.
  */
-int floor_log2(int a) {
-  return sizeof(int) * 8 - __builtin_clzll(a) - 1;
-}
-int ceil_log2(int a) {
-  return a == 1 ? 0 : sizeof(int) * 8 - __builtin_clzll(a - 1);
-}
-
 template<
   class Value,
   class Sum,

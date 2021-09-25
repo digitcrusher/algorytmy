@@ -10,8 +10,8 @@
  * without any warranty.
  */
 #pragma once
-#include "bit.hpp"
 #include "common.hpp"
+#include "math/int.hpp"
 #include <limits>
 #include <tuple>
 #include <utility>
