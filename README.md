@@ -49,6 +49,10 @@
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia
+  - [ ] disjoint set structure
+  - [ ] problem komiwojażera - DP, branch-and-bound
+  - [ ] problem skoczka szachowego
+  - [ ] generatorki grafów
 - [ ] struktury danych
   - [x] drzewo przedziałowe
   - [ ] drzewo trie
@@ -74,6 +78,7 @@
   - [ ] convex hull trick
   - [ ] convex hull - Graham's scan
   - [ ] operacje na wektorach - dot product, cross product
+  - [ ] sortowanie kątowe
 - [ ] inne
   - [ ] algorytm Mo
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
@@ -81,7 +86,13 @@
 
 ### Notatki i materiały
 
+- [ ] kwadraty łacińskie
 - [ ] wszystko
+
+### Inne
+
+- [x] moja templatka do rozwiązań
+- [x] pragmy
 
 ### Przykładowe zadania
 

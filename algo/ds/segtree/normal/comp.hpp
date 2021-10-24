@@ -49,7 +49,7 @@ template<class Value, class Change>
 struct DefaultApplyChange {
   Value operator()(Value const& val,
                    Change const& change __attribute__((unused)),
-                   size_t elem __attribute__((unused))) const
+                   size_t elemc __attribute__((unused))) const
   {
     return val;
   };
