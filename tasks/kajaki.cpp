@@ -1,7 +1,7 @@
 /*
  * Rozwiązanie zadania "Kajaki" z IV OI w czasie O(n^2.5)
  * z użyciem skojarzeń w grafie dwudzielnym
- *                                            digitcrusher/algorytmy
+ *                                 digitcrusher/algorytmy
  *
  * Copyright (c) 2021 Karol Łacina aka digitcrusher
  *

@@ -55,8 +55,8 @@
   - [ ] generatorki grafów
 - [ ] struktury danych
   - [x] drzewo przedziałowe
+  - [x] struktura zbiorów rozłącznych
   - [ ] drzewo trie
-  - [ ] struktura zbiorów rozłącznych - Union-Find
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne inty
@@ -100,7 +100,7 @@
 ### Przykładowe zadania
 
 - [x] "Kajaki" z IV OI
-- [ ] "Małpki" z Solve
+- [x] "Małpki" z Solve
 - [ ] zadania z przedziałami
   - [ ] "Dyżury" z Solve
   - [ ] "Szpilki i zdjęcia" z Solve
