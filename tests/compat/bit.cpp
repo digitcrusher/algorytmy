@@ -1,5 +1,4 @@
 #include "compat/bit.hpp"
-
 #include <iostream>
 
 int main() {

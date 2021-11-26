@@ -87,16 +87,24 @@
 ### Notatki i materiały
 
 - [ ] kwadraty łacińskie
+- [ ] sztuczki i triki
+  - [ ] kompresja wartości i współrzędnych
 - [ ] wszystko
 
 ### Inne
 
 - [x] moja templatka do rozwiązań
 - [x] pragmy
+- [ ] szybkie i/o
 
 ### Przykładowe zadania
 
 - [x] "Kajaki" z IV OI
+- [ ] "Małpki" z Solve
+- [ ] zadania z przedziałami
+  - [ ] "Dyżury" z Solve
+  - [ ] "Szpilki i zdjęcia" z Solve
+  - [ ] "Too Many Segments" z Codeforces
 - [ ] reszta zadań
 
 ## Podziękowania

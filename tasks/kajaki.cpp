@@ -1,6 +1,6 @@
 /*
- * Rozwiązanie zadania "Kajaki" z IV OI działające w czasie O(n^2.5)
- * przy użyciu skojarzeń w grafie dwudzielnym
+ * Rozwiązanie zadania "Kajaki" z IV OI w czasie O(n^2.5)
+ * z użyciem skojarzeń w grafie dwudzielnym
  *                                            digitcrusher/algorytmy
  *
  * Copyright (c) 2021 Karol Łacina aka digitcrusher
@@ -19,7 +19,6 @@
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
-  cout.tie(nullptr);
 
   int w, n;
   cin >> w >> n;

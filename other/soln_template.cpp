@@ -21,18 +21,6 @@
   "no-exceptions", "nothrow-opt", "strict-enums", "stdarg-opt", "tracer"
 # pragma GCC target "inline-all-stringops"
 #endif
-// NOTE: This is a multiline statement, so you have to enclose it in a code block.
-#define rep(var, begin, end, step) \
-  auto const _##var##_begin = (begin); \
-  auto const _##var##_end = (end); \
-  auto const _##var##_step = (step); \
-  bool const _##var##_is_rev = _##var##_end < _##var##_begin; \
-  assert(_##var##_step >= 0); \
-  for( \
-    auto var = _##var##_begin; \
-    _##var##_is_rev ? var >= _##var##_end : var <= _##var##_end; \
-    _##var##_is_rev ? var -= _##var##_step : var += _##var##_step \
-  )
 #define rangeof(c) (c).begin(), (c).end()
 
 using namespace std;
@@ -44,6 +32,5 @@ using ld = long double;
 int main() {
   ios_base::sync_with_stdio(false);
   cin.tie(nullptr);
-  cout.tie(nullptr);
 
 }

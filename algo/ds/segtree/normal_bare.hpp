@@ -1,6 +1,6 @@
 /*
  * Okrojona implementacja drzewa przedziałowego przedział-przedział
- *                                           digitcrusher/algorytmy
+ *                                            digitcrusher/algorytmy
  *
  * Copyright (c) 2021 Karol Łacina aka digitcrusher
  *
@@ -21,15 +21,15 @@
  *
  * Ta implementacja:
  * - jest zgodna z C++11;
- * - nie jest const-correct;
- * - zakłada, że sum(Value(), Value()) == Value() przy tworzeniu wierzchołkow;
- * - zakłada, że drzewo nigdy nie jest puste;
- * - używa int zamiast size_t do indeksowania elementów; oraz
+ * - używa int zamiast size_t do indeksowania elementów;
+ * - zakłada, że sum(Value(), Value()) == Value() przy tworzeniu pustego drzewa;
+ * - nie używa const'ów;
+ * - zakłada, że drzewo nigdy nie jest puste; oraz
  * - jest przydatna do wkuwania na zawody.
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
- *   (a sum b) sum c = a sum (b sum c).
+ *   sum(sum(a, b), c) = sum(a, sum(b, c)).
  * ApplyChange: (Value, Change, int) -> Value
  *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów o rozmiarze
  *   będącym potęgą dwójki.

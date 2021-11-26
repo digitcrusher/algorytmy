@@ -11,6 +11,7 @@
 #pragma once
 #include "common.hpp"
 #include "compat/bit.hpp"
+#include <limits>
 
 ull floor_log2(ull a) {
   assert(a != 0);

@@ -1,5 +1,4 @@
 #include "math/int.hpp"
-
 #include <cmath>
 #include <iostream>
 

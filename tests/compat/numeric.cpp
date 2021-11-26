@@ -1,11 +1,10 @@
 #include "compat/numeric.hpp"
-
 #include <iostream>
 #include <tuple>
 #include <vector>
 
 int main() {
-  const vector<tuple<int, int, int>> gcd_tests = {
+  vector<tuple<int, int, int>> const gcd_tests = {
     {0, 0, 0},
     {1, 0, 1},
     {0, 1, 1},
@@ -28,7 +27,7 @@ int main() {
 
   cout << endl << "lcm:" << endl;
 
-  const vector<tuple<int, int, int>> lcm_tests = {
+  vector<tuple<int, int, int>> const lcm_tests = {
     {1, 1, 1},
     {2, 2, 2},
     {3, 3, 3},
