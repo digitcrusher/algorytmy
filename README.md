@@ -34,28 +34,29 @@
   - [ ] spamiętywana silnia
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
-  - [ ] przeszukiwanie grafu - DFS, BFS - preorder, inorder, postorder
+  - [x] BFS, DFS (w tym funkcja low)
+  - [ ] sortowanie topologiczne
+  - [ ] silnie spójne składowe - Kosaraju
+  - [ ] mosty i punkty artykulacji
+  - [ ] jump pointery/binary lifting
+  - [ ] lowest common ancestor
   - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial, SPFA
-  - [ ] silnie spójne składowe
   - [ ] minimalne drzewo spinające - Kruskal, Borůvka, Prim
   - [ ] heavy-light decomposition
   - [ ] chain decomposition
-  - [ ] mosty i punkty artykulacji
-  - [ ] jump pointery
-  - [ ] sortowanie topologiczne
-  - [ ] lowest common ancestor
   - [ ] centroid decomposition
   - [ ] 2-SAT
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia
-  - [ ] disjoint set structure
   - [ ] problem komiwojażera - DP, branch-and-bound
   - [ ] problem skoczka szachowego
   - [ ] generatorki grafów
+  - [ ] liczba ścieżek w grafie
 - [ ] struktury danych
   - [x] drzewo przedziałowe
   - [x] struktura zbiorów rozłącznych
+  - [ ] range minimum query
   - [ ] drzewo trie
   - [ ] big inty
   - [ ] ułamki
@@ -64,9 +65,11 @@
   - [ ] treap (drzewiec)
   - [ ] ciągi
   - [ ] dynamiczne drzewo AABB
-  - [ ] range minimum query
   - [ ] leniwe drzewo przedziałowe
   - [ ] sumy prefiksowe
+  - [ ] maski bitowe
+  - [ ] stos i kolejka minimum
+  - [ ] glibc pbds
 - [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
@@ -82,6 +85,7 @@
 - [ ] inne
   - [ ] algorytm Mo
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
+  - [ ] znajdź jedną liczbe w ciągu par liczb i podobne problemy
 - [ ] reszta algorytmów
 
 ### Notatki i materiały
@@ -89,6 +93,7 @@
 - [ ] kwadraty łacińskie
 - [ ] sztuczki i triki
   - [ ] kompresja wartości i współrzędnych
+- [ ] digit dp
 - [ ] wszystko
 
 ### Inne

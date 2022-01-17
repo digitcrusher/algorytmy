@@ -15,7 +15,8 @@
 # pragma GCC diagnostic warning "-Wunsafe-loop-optimizations"
 # pragma GCC diagnostic warning "-Wdouble-promotion"
 #endif
-#pragma GCC target "arch=ivybridge", "tune=ivybridge"
+#pragma GCC target "arch=ivybridge", "tune=ivybridge" // Codeforces, Solve Turnieje
+//#pragma GCC target "arch=pentium-m", "tune=pentium-m" // Solve 3
 #if defined(ONLINE_JUDGE) || !defined(__OPTIMIZE__)
 # pragma GCC optimize "Ofast", "inline", "unroll-loops", "ipa-pta", "no-rtti", \
   "no-exceptions", "nothrow-opt", "strict-enums", "stdarg-opt", "tracer"
@@ -24,6 +25,8 @@
 #define rangeof(c) (c).begin(), (c).end()
 
 using namespace std;
+using uchar = unsigned char;
+using ushort = unsigned short;
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;

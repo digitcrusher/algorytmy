@@ -56,14 +56,6 @@
  */
 #pragma GCC target "arch=ivybridge", "tune=ivybridge"
 
-/*
- * Here are also the CPU features for Haswell because compilers on
- * some online judges don't recognize newer CPU types for some reason:
- */
-#pragma GCC target "movbe", "mmx", "sse", "sse2", "sse3", "ssse3", "sse4.1", \
-                   "sse4.2", "popcnt", "avx", "avx2", "aes", "pclmul", \
-                   "fsgsbase", "rdrnd", "fma", "bmi", "bmi2", "f16c"
-
 // Looks for an explicitly set optimization level excluding -O0 such as -Og
 #if defined(ONLINE_JUDGE) || !defined(__OPTIMIZE__)
 

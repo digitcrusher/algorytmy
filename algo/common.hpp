@@ -5,6 +5,8 @@
 #include <cassert>
 
 // Pomocnicze deklaracje znacznie skracające długość kodu
+using uchar = unsigned char;
+using ushort = unsigned short;
 using uint = unsigned int;
 using ll = long long;
 using ull = unsigned long long;

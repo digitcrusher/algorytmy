@@ -52,4 +52,4 @@ struct DSU {
     parent[a] = b;
     size[b] += size[a];
   }
-}
+};
