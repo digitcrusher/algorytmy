@@ -35,7 +35,7 @@
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
   - [x] BFS, DFS (w tym funkcja low)
-  - [ ] sortowanie topologiczne
+  - [x] sortowanie topologiczne - Kahn
   - [ ] silnie spójne składowe - Kosaraju
   - [ ] mosty i punkty artykulacji
   - [ ] jump pointery/binary lifting
