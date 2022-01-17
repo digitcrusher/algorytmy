@@ -1,7 +1,7 @@
 /*
  * Logarytm dyskretny - digitcrusher/algorytmy
  *
- * Copyright (c) 2021 Karol Łacina aka digitcrusher
+ * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty provided the copyright
