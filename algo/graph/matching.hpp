@@ -16,7 +16,7 @@
 #include <vector>
 
 /*
- * Algorytm Hopcroft-Karp -
+ * Algorytm Hopcroft-Karp (tzw. "Turbo Matching") -
  *   Znajduje największe skojarzenie w grafie dwudzielnym w O(sqrt(V) * E)
  */
 struct Matching {

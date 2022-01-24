@@ -17,7 +17,7 @@
 #include <unordered_map>
 
 /*
- * Logarytm dyskretny, dla a i mod wspólnie pierwszych
+ * Logarytm dyskretny, dla a i mod wspólnie pierwszych -
  *   Znajduje najmniejsze dodatnie x, takie że k * pow(a, x) % mod = b % mod
  */
 optional<ll> discrete_log_coprime(ll a, ll b, ll mod, ll k = 1, ll ans_off = 0) {

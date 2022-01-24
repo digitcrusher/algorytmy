@@ -20,7 +20,7 @@
   - [x] liniowe równania diofantyczne
   - [x] chińskie twierdzenie o resztach
   - [x] logarytm dyskretny
-  - [ ] sito Eratostenesa
+  - [x] sito Eratostenesa
   - [ ] liczba dzielników
   - [ ] funkcja φ Eulera
   - [ ] rozkład na czynniki pierwsze
@@ -82,6 +82,7 @@
   - [ ] convex hull - Graham's scan
   - [ ] operacje na wektorach - dot product, cross product
   - [ ] sortowanie kątowe
+  - [ ] przecięcia i różnice prostokątów
 - [ ] inne
   - [ ] algorytm Mo
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
@@ -100,6 +101,7 @@
 
 - [x] moja templatka do rozwiązań
 - [x] pragmy
+- [x] testerka w kodzie
 - [ ] szybkie i/o
 
 ### Przykładowe zadania
