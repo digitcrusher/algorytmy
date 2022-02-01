@@ -22,10 +22,10 @@
  * logarytmicznym.
  */
 struct DSU {
-  int elemc;
+  int elemc, setc;
   vector<int> parent, size;
 
-  DSU(int cnt): elemc(cnt), parent(cnt), size(cnt, 1) {
+  DSU(int cnt): elemc(cnt), setc(cnt), parent(cnt), size(cnt, 1) {
     for(int i = 0; i < elemc; i++) {
       parent[i] = i;
     }
@@ -46,6 +46,7 @@ struct DSU {
   void merge(int a, int b) {
     a = find(a), b = find(b);
     if(a == b) return;
+    setc--;
     if(size[a] > size[b]) {
       swap(a, b);
     }

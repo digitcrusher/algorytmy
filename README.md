@@ -39,6 +39,7 @@
   - [x] silnie spójne składowe - Kosaraju
   - [x] dwu-kolorowanie grafu nieskierowanego
   - [x] mosty i punkty artykulacji
+  - [x] generator grafów losowych
   - [ ] jump pointery/binary lifting
   - [ ] lowest common ancestor
   - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial, SPFA
@@ -52,7 +53,6 @@
   - [ ] skojarzenia
   - [ ] problem komiwojażera - DP, branch-and-bound
   - [ ] problem skoczka szachowego
-  - [ ] generatorki grafów
   - [ ] liczba ścieżek w grafie
 - [ ] struktury danych
   - [x] drzewo przedziałowe

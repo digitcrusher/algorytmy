@@ -38,3 +38,16 @@ using require_input_iter =
       std::input_iterator_tag
     >::value
   >::type;
+
+
+
+namespace std {
+  template<class A, class B>
+  struct hash<pair<A, B>> {
+    size_t operator()(pair<A, B> const& pair) const {
+      size_t a = hash<A>()(pair.first), b = hash<B>()(pair.second);
+      // Formuła zapożyczona z biblioteki Boost
+      return a ^ (b + 0x9e3779b9 + (a << 6) + (a >> 2));
+    }
+  };
+}
