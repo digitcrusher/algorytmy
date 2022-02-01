@@ -131,6 +131,7 @@ int main() {
       }
 
       cout << endl;
+      exit(EXIT_FAILURE);
     }
   }
 

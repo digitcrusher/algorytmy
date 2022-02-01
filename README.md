@@ -37,6 +37,7 @@
   - [x] BFS, DFS (w tym funkcja low)
   - [x] sortowanie topologiczne - Kahn
   - [x] silnie spójne składowe - Kosaraju
+  - [x] dwu-kolorowanie grafu nieskierowanego
   - [ ] mosty i punkty artykulacji
   - [ ] jump pointery/binary lifting
   - [ ] lowest common ancestor
