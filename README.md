@@ -28,7 +28,6 @@
   - [ ] testy pierwszości
   - [ ] dwumian Newtona
   - [ ] FFT/NTT
-  - [ ] permutacje
   - [ ] funkcje tworzące
   - [ ] ważne wzory kombinatoryczne np. liczba sposobów na wsadzenie n kulek do m kubełków
   - [ ] spamiętywana silnia
@@ -40,10 +39,10 @@
   - [x] dwu-kolorowanie grafu nieskierowanego
   - [x] mosty i punkty artykulacji
   - [x] generator grafów losowych
+  - [x] minimalne drzewo spinające - Kruskal, Prim
   - [ ] jump pointery/binary lifting
   - [ ] lowest common ancestor
   - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial, SPFA
-  - [ ] minimalne drzewo spinające - Kruskal, Borůvka, Prim
   - [ ] heavy-light decomposition
   - [ ] chain decomposition
   - [ ] centroid decomposition
@@ -71,6 +70,7 @@
   - [ ] maski bitowe
   - [ ] stos i kolejka minimum
   - [ ] glibc pbds
+  - [ ] permutacje
 - [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
@@ -84,6 +84,7 @@
   - [ ] operacje na wektorach - dot product, cross product
   - [ ] sortowanie kątowe
   - [ ] przecięcia i różnice prostokątów
+  - [ ] euklidesowe minimalne drzewo spinające
 - [ ] inne
   - [ ] algorytm Mo
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego

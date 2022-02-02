@@ -16,7 +16,7 @@
 
 /*
  * Algorytm Kahn'a -
- *   Zwraca dowolne sortowanie topologiczne
+ *   Znajduje dowolne sortowanie topologiczne
  *   skierowanego grafu acyklicznego w O(V + E).
  */
 vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {

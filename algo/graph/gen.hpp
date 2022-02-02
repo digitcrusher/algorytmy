@@ -17,7 +17,7 @@
 #include <vector>
 
 /*
- * Zwraca listę sąsiedztwa losowego grafu spełniającego podane własności.
+ * Generuje listę sąsiedztwa losowego grafu spełniającego podane własności.
  */
 vector<vector<int>> gen_graph(int nodec, int edgec,
                               bool is_directed = false, bool has_self_loops = false,
@@ -25,7 +25,8 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
                               bool is_acyclic = false, int k_colorable = -1)
 {
   assert(!is_acyclic || !has_self_loops);
-  assert(is_directed || !is_acyclic || edgec <= nodec - 1);
+  assert(!is_acyclic || is_directed || edgec <= nodec - 1);
+  assert(!is_acyclic || !is_directed || (edgec + nodec - 1) / nodec * 2 <= nodec - 1);
   assert(!is_connected || edgec >= nodec - 1);
   assert(has_multi_edges || is_directed || (edgec + nodec - 1) / nodec * 2 <= nodec - 1);
   assert(has_multi_edges || !is_directed || (edgec + nodec - 1) / nodec <= nodec - 1);
