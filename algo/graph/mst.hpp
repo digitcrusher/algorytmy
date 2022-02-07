@@ -1,5 +1,5 @@
 /*
- * Minimalne drzewo spinające - digitcrusher/algorytmy
+ * Minimalne drzewo rozpinające - digitcrusher/algorytmy
  *
  * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
  *
@@ -26,7 +26,7 @@ struct MST {
 
 /*
  * Algorytm Kruskala -
- *   Znajduje minimalny las spinający grafu nieskierowanego w O(E log V).
+ *   Znajduje minimalny las rozpinający grafu nieskierowanego w O(E log V).
  */
 MST mst_kruskal(int nodec, vector<Edge> edges) {
   MST mst;
@@ -52,7 +52,7 @@ MST mst_kruskal(int nodec, vector<Edge> edges) {
 
 /*
  * Algorytm Prima -
- *   Znajduje minimalny las spinający grafu nieskierowanego w O(E log V).
+ *   Znajduje minimalny las rozpinający grafu nieskierowanego w O(E log V).
  */
 MST mst_prim(vector<vector<Edge>> const& incident) {
   int const n = incident.size();

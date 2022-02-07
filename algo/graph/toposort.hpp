@@ -10,12 +10,13 @@
  */
 #pragma once
 #include "common.hpp"
+#include <functional>
 #include <queue>
 #include <stdexcept>
 #include <vector>
 
 /*
- * Algorytm Kahn'a -
+ * Algorytm Kahna -
  *   Znajduje dowolne sortowanie topologiczne
  *   skierowanego grafu acyklicznego w O(V + E).
  */
@@ -26,10 +27,12 @@ vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
   result.reserve(n);
 
   /*
-    * Po zamianie queue na priority_queue z komparatorem greater<int>,
-    * ten algorytm zwracałby najmniejsze leksykograficznie sortowanie
-    * topologiczne w czasie O(V log V + E).
-    */
+   * Poniższy BFS może być równie dobrze zastąpiony DFSem.
+   *
+   * Po zamianie queue na priority_queue z komparatorem greater<int>,
+   * ten algorytm zwracałby najmniejsze leksykograficznie sortowanie
+   * topologiczne w czasie O(V log V + E).
+   */
   queue<int> q;
   for(int root = 0; root < n; root++) {
     if(in_deg[root] == 0) {
@@ -53,5 +56,40 @@ vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
   if(result.size() != n) {
     throw std::runtime_error("Graf nie jest acykliczny.");
   }
+  return result;
+}
+
+/*
+ * Znajduje dowolne sortowanie topologiczne skierowanego
+ * grafu acyklicznego z użyciem DFS w O(V + E).
+ */
+vector<int> toposort_dfs(vector<vector<int>> const& adj) {
+  int const n = adj.size();
+
+  vector<int> result(n);
+  int next_idx = n - 1;
+
+  vector<int> is_vis(n, 0);
+  function<bool(int)> dfs = [&](int node) {
+    if(is_vis[node] == 1) return false;
+    if(is_vis[node] == 2) return true;
+    is_vis[node] = 1;
+
+    for(int child: adj[node]) {
+      if(!dfs(child)) return false;
+    }
+    result[next_idx] = node;
+    next_idx--;
+
+    is_vis[node] = 2;
+    return true;
+  };
+
+  for(int root = 0; root < n; root++) {
+    if(!dfs(root)) {
+      throw std::runtime_error("Graf nie jest acykliczny.");
+    }
+  }
+
   return result;
 }

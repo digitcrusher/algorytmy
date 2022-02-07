@@ -34,15 +34,17 @@
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
   - [x] BFS, DFS (w tym funkcja low)
-  - [x] sortowanie topologiczne - Kahn
+  - [x] sortowanie topologiczne - Kahn, z DFS
   - [x] silnie spójne składowe - Kosaraju
   - [x] dwu-kolorowanie grafu nieskierowanego
   - [x] mosty i punkty artykulacji
   - [x] generator grafów losowych
-  - [x] minimalne drzewo spinające - Kruskal, Prim
+  - [x] minimalne drzewo rozpinające - Kruskal, Prim
+  - [x] najkrótsze ścieżki
+    - [x] dla DAGów, Dijkstra, Dial, Bellman-Ford, SPFA, Floyd-Warshall
+    - [ ] A*, Johnson
   - [ ] jump pointery/binary lifting
   - [ ] lowest common ancestor
-  - [ ] najkrótsze ścieżki - Dijkstra, Bellman-Ford, Floyd-Warshall, Dial, SPFA
   - [ ] heavy-light decomposition
   - [ ] chain decomposition
   - [ ] centroid decomposition
@@ -71,6 +73,7 @@
   - [ ] stos i kolejka minimum
   - [ ] glibc pbds
   - [ ] permutacje
+  - [ ] fibonacci heap
 - [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
