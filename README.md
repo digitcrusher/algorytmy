@@ -59,6 +59,7 @@
   - [x] drzewo przedziałowe
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
+  - [x] stos i kolejka minimum/monotoniczna
   - [ ] drzewo trie
   - [ ] big inty
   - [ ] ułamki
@@ -70,7 +71,6 @@
   - [ ] leniwe drzewo przedziałowe
   - [ ] sumy prefiksowe
   - [ ] maski bitowe
-  - [ ] stos i kolejka minimum
   - [ ] glibc pbds
   - [ ] permutacje
   - [ ] fibonacci heap
