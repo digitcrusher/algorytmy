@@ -33,7 +33,9 @@ struct SparseTable {
   vector<vector<Value>> segs;
   int elemc, height;
 
-  SparseTable(vector<Value> const& elems): elemc(elems.size()) {
+  SparseTable(vector<Value> const& elems, Sum sum = Sum()):
+    elemc(elems.size()), sum(sum)
+  {
     height = elemc == 1 ? 1 : ceil_log2(elemc);
 
     segs.resize(height, vector<Value>(elemc));

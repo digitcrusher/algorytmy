@@ -60,7 +60,11 @@ template<
   int height, nodec;
   int base_nodec, base_offset;
 
-  SegTree(int cnt): elemc(cnt) {
+  SegTree(int cnt, Sum sum = Sum(),
+          ApplyChange apply_change = ApplyChange(),
+          MergeChange merge_change = MergeChange()):
+    elemc(cnt), sum(sum), apply_change(apply_change), merge_change(merge_change)
+  {
     height = ceil_log2(elemc) + 1;
     nodec = level_offset(height);
     base_nodec = level_nodec(height - 1);

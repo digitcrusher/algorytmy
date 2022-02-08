@@ -60,6 +60,7 @@
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
+  - [x] sumy prefiksowe
   - [ ] drzewo trie
   - [ ] big inty
   - [ ] ułamki
@@ -69,7 +70,6 @@
   - [ ] ciągi
   - [ ] dynamiczne drzewo AABB
   - [ ] leniwe drzewo przedziałowe
-  - [ ] sumy prefiksowe
   - [ ] maski bitowe
   - [ ] glibc pbds
   - [ ] permutacje
