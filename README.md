@@ -58,7 +58,7 @@
 - [ ] struktury danych
   - [x] drzewo przedziałowe
   - [x] struktura zbiorów rozłącznych
-  - [ ] range minimum query
+  - [x] sparse table
   - [ ] drzewo trie
   - [ ] big inty
   - [ ] ułamki
@@ -74,6 +74,7 @@
   - [ ] glibc pbds
   - [ ] permutacje
   - [ ] fibonacci heap
+  - [ ] disjoint sparse table
 - [ ] algorytmy tekstowe i ciągi
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
