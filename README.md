@@ -8,6 +8,8 @@
 
 - Kod ma być czytelny, krótki, bez mikrooptymalizacji.
 
+- Asserty powinny sprawdzać warunki, które są czesto i przypadkowo niespełniane oraz nie mogą być wykryte na inne sposoby (np. przez sygnał naruszenia ochrony pamięci lub tryb debugowania w glibc++).
+
 ## Lista zadań
 
 ### Algorytmy
@@ -55,12 +57,14 @@
   - [ ] problem komiwojażera - DP, branch-and-bound
   - [ ] problem skoczka szachowego
   - [ ] liczba ścieżek w grafie
+  - [ ] dwuspójne składowe
 - [ ] struktury danych
   - [x] drzewo przedziałowe
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
   - [x] sumy prefiksowe
+  - [x] drzewo Fenwicka
   - [ ] drzewo trie
   - [ ] big inty
   - [ ] ułamki

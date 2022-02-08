@@ -27,7 +27,7 @@
 /*
  * Wyczerpująca implementacja drzewa przedziałowego przedział-przedział -
  *   Kontener wspierający operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w czasie logarytmicznym.
+ *   elementów (get) i modyfikacji (modify) w O(log n).
  *
  * Ta implementacja jest zgodna z C++11 oraz spełnia Container, ReversibleContainer
  * i SequenceContainer.
@@ -38,7 +38,7 @@
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
- *   sum(sum(a, b), c) = sum(a, sum(b, c)).
+ *   Sum(Sum(a, b), c) = Sum(a, Sum(b, c)).
  * ApplyChange: (Value, Change, size_t) -> Value
  *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów o rozmiarze
  *   będącym potęgą dwójki.

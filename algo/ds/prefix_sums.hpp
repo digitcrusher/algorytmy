@@ -18,13 +18,13 @@
  *   elementów od lewej od prawej (get) w O(1) po wstępnym przetwarzaniu w O(n).
  *
  * Add: (Value, Value) -> Value
- *   Łączy dwa przedziały elementów.
+ *   Łączy dwa sąsiednie przedziały elementów.
  * Sub: (Value, Value) -> Value
- *   Zwraca różnicę dwóch elementów.
+ *   Operacja odwrotna do Add.
  *
- * Add i Sub muszą spełniać poniższe właśności:
- * - add(sub(a, a), b) = b
- * - sub(add(a, b), c) = add(sub(a, c), b)
+ * Add i Sub muszą spełniać poniższe własności:
+ * - Add(Sub(a, a), b) = b
+ * - Sub(Add(a, b), c) = Add(Sub(a, c), b)
  */
 template<class Value, class Add, class Sub>
 struct PrefixSums {
@@ -42,7 +42,7 @@ struct PrefixSums {
   }
 
   Value get(int l, int r) {
-    assert(l < r);
+    assert(l <= r);
     if(l == 0) {
       return pref_sum[r];
     } else {

@@ -16,22 +16,22 @@
 /*
  * Sparse table -
  *   Struktura danych wspierająca operację obliczenia sumy spójnego przedziału
- *   elementów (get) w O(1) po wstępnym przetwarzaniu w O(log n).
- *   Ta implementacja zakłada, że ciąg elementów nigdy nie jest pusty.
+ *   elementów (get) w O(1) po wstępnym przetwarzaniu w O(n log n). Ta
+ *   implementacja zakłada, że początkowa tablica nigdy nie jest pusta.
  *
  * Sum: (Value, Value) -> Value
  *   Łączy dwa nachodzące na siebie lub nie przedziały elementów. Sum musi być
  *   łączne, przemienne i idempotentne, czyli:
- *   - sum(sum(a, b), c) = sum(a, sum(b, c))
- *   - sum(a, b) = sum(b, a)
- *   - sum(a, a) = a
+ *   - Sum(Sum(a, b), c) = Sum(a, Sum(b, c))
+ *   - Sum(a, b) = Sum(b, a)
+ *   - Sum(a, a) = a
  */
 template<class Value, class Sum>
 struct SparseTable {
   Sum sum;
 
-  vector<vector<Value>> segs;
   int elemc, height;
+  vector<vector<Value>> segs;
 
   SparseTable(vector<Value> const& elems, Sum sum = Sum()):
     elemc(elems.size()), sum(sum)
@@ -46,7 +46,7 @@ struct SparseTable {
       for(int i = 0; i < elemc; i++) {
         segs[j][i] = sum(
           segs[j - 1][i],
-          segs[j - 1][min(i + level_elemc(j), elemc - 1)]
+          segs[j - 1][min(i + level_elemc(j - 1), elemc - 1)]
         );
       }
     }
@@ -57,6 +57,7 @@ struct SparseTable {
   }
 
   Value get(int l, int r) {
+    assert(l <= r);
     if(l == r) {
       return segs[0][l];
     }

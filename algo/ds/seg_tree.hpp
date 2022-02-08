@@ -1,6 +1,5 @@
 /*
- * Okrojona implementacja drzewa przedziałowego przedział-przedział
- *                                            digitcrusher/algorytmy
+ * Drzewo przedziałowe przedział-przedział - digitcrusher/algorytmy
  *
  * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
  *
@@ -15,21 +14,14 @@
 #include <vector>
 
 /*
- * Okrojona implementacja drzewa przedziałowego przedział-przedział -
+ * Drzewo przedziałowe przedział-przedział -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w czasie logarytmicznym.
- *
- * Ta implementacja:
- * - jest zgodna z C++11;
- * - używa int zamiast size_t do indeksowania elementów;
- * - zakłada, że sum(Value(), Value()) == Value() przy tworzeniu pustego drzewa;
- * - nie używa const'ów;
- * - zakłada, że drzewo nigdy nie jest puste; oraz
- * - jest przydatna do wkuwania na zawody.
+ *   elementów (get) i modyfikacji (modify) w O(log n). Ta implementacja
+ *   zakłada, że początkowa tablica nigdy nie jest pusta.
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
- *   sum(sum(a, b), c) = sum(a, sum(b, c)).
+ *   Sum(Sum(a, b), c) = Sum(a, Sum(b, c)).
  * ApplyChange: (Value, Change, int) -> Value
  *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów o rozmiarze
  *   będącym potęgą dwójki.
@@ -60,17 +52,21 @@ template<
   int height, nodec;
   int base_nodec, base_offset;
 
-  SegTree(int cnt, Sum sum = Sum(),
+  SegTree(vector<Value> const& elems, Sum sum = Sum(),
           ApplyChange apply_change = ApplyChange(),
           MergeChange merge_change = MergeChange()):
-    elemc(cnt), sum(sum), apply_change(apply_change), merge_change(merge_change)
+    elemc(elems.size()), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
     height = ceil_log2(elemc) + 1;
     nodec = level_offset(height);
     base_nodec = level_nodec(height - 1);
     base_offset = level_offset(height - 1);
-
     nodes.resize(nodec);
+
+    for(int i = 0; i < elemc; i++) {
+      nodes[base_offset + i].val = elems[i];
+    }
+    resum(0, elemc - 1);
   }
 
   int level_nodec(int level) {
@@ -84,15 +80,22 @@ template<
     return NodeOps(1, *this);
   }
   Value get(int l, int r) {
+    assert(l <= r && r < elemc);
     return root().get(l, r);
   }
   void modify(int l, int r, Change change) {
+    assert(l <= r && r < elemc);
     root().modify(l, r, change);
   }
   void resum(int l, int r) {
+    assert(l <= r && r < elemc);
     root().resum(l, r);
   }
 
+  /*
+   * Node nie ma dostępu do drzewa z jego metod, a referencja do drzewa
+   * w każdym wierzchołku byłaby za bardzo kosztowna pamięciowo.
+   */
   struct NodeOps {
     int num;
     SegTree &tree;
@@ -126,9 +129,14 @@ template<
     }
 
     void receive_change(Change change) {
-      node.val = tree.apply_change(node.val, change, elemc);
-      node.latent_change = node.has_change ? tree.merge_change(node.latent_change, change) : change;
-      node.has_change = true;
+      // Nie aktualizujemy wierzchołków z elementami spoza tablicy.
+      if(r < tree.elemc) {
+        node.val = tree.apply_change(node.val, change, elemc);
+      }
+      if(has_children) {
+        node.latent_change = node.has_change ? tree.merge_change(node.latent_change, change) : change;
+        node.has_change = true;
+      }
     }
     void propagate_change() {
       if(node.has_change) {
@@ -136,7 +144,9 @@ template<
 
         if(has_children) {
           left().receive_change(node.latent_change);
-          right().receive_change(node.latent_change);
+          if(right().l < tree.elemc) {
+            right().receive_change(node.latent_change);
+          }
         }
       }
     }
@@ -167,19 +177,22 @@ template<
         if(right().does_intersect(l, r)) {
           right().modify(l, r, change);
         }
-        node.val = tree.sum(left().node.val, right().node.val);
+        if(this->r < tree.elemc) {
+          node.val = tree.sum(left().node.val, right().node.val);
+        }
       }
     }
 
     void resum(int l, int r) {
       if(has_children) {
+        // Nie propagujemy zmian do wierzchołków w całości w [l, r].
         if(node.has_change) {
           node.has_change = false;
 
           if(!left().is_in(l, r)) {
             left().receive_change(node.latent_change);
           }
-          if(!right().is_in(l, r)) {
+          if(!right().is_in(l, r) && right().l < tree.elemc) {
             right().receive_change(node.latent_change);
           }
         }
@@ -190,7 +203,9 @@ template<
         if(right().does_intersect(l, r)) {
           right().resum(l, r);
         }
-        node.val = tree.sum(left().node.val, right().node.val);
+        if(this->r < tree.elemc) {
+          node.val = tree.sum(left().node.val, right().node.val);
+        }
       }
     }
   };

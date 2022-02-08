@@ -1,5 +1,5 @@
 /*
- * Stos i kolejka minimum/monotoniczna - digitcrusher/algorytmy
+ * Kolejka minimum/monotoniczna - digitcrusher/algorytmy
  *
  * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
  *
@@ -10,44 +10,8 @@
  */
 #pragma once
 #include "common.hpp"
-#include <stack>
-
-/*
- * Stos minimum/monotoniczny -
- *   Stos obsługujący operację obliczenia najmniejszego
- *   ze wszystkich elementów (min) w O(1).
- *
- * Cmp: (Value, Value) -> Value
- *   Zwraca true, gdy pierwszy argument jest mniejszy od drugiego.
- */
-template<class Value, class Cmp>
-struct MinStack {
-  Cmp cmp;
-
-  stack<pair<Value, Value>> s;
-
-  MinStack(Cmp cmp = Cmp()): cmp(cmp) {}
-
-  Value top() {
-    return s.top().first;
-  }
-  Value min() {
-    return s.top().second;
-  }
-  void push(Value elem) {
-    s.push({elem, s.empty() || cmp(elem, s.top().second) ? elem : s.top().second});
-  }
-  void pop() {
-    s.pop();
-  }
-
-  bool empty() {
-    return s.empty();
-  }
-  int size() {
-    return s.size();
-  }
-};
+#include "ds/min_stack.hpp"
+#include <deque>
 
 /*
  * Leniwa kolejka minimum/monotoniczna -
@@ -68,7 +32,7 @@ struct LazyMinQueue {
   LazyMinQueue(Cmp cmp = Cmp()): cmp(cmp) {}
 
   Value min() {
-    return q.top().first;
+    return q.front().first;
   }
   void push(Value elem) {
     while(!q.empty() && !cmp(q.back().first, elem)) {
