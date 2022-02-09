@@ -56,8 +56,9 @@
   - [ ] skojarzenia
   - [ ] problem komiwojażera - DP, branch-and-bound
   - [ ] problem skoczka szachowego
-  - [ ] liczba ścieżek w grafie
+  - [ ] liczba ścieżek prostych w grafie
   - [ ] dwuspójne składowe
+  - [ ] ścieżka i cykl Eulera
 - [ ] struktury danych
   - [x] drzewo przedziałowe
   - [x] struktura zbiorów rozłącznych
@@ -65,7 +66,7 @@
   - [x] stos i kolejka minimum/monotoniczna
   - [x] sumy prefiksowe
   - [x] drzewo Fenwicka
-  - [ ] drzewo trie
+  - [x] skompresowane drzewo trie
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne inty
@@ -84,12 +85,14 @@
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
   - [ ] najdłuższy wspólny podciąg
   - [ ] najdłuższy rosnący podciąg
+  - [ ] funkcja prefiksowa - KMP
+  - [ ] algorytm Manachera
 - [ ] geometria
-  - [ ] podstawowe konstrukcje - punkt, linia, koło
+  - [ ] podstawowe konstrukcje - punkt, linia, koło, trójkąt, wielokąt
   - [ ] triangulacja wielokątów
   - [ ] convex hull trick
-  - [ ] convex hull - Graham's scan
-  - [ ] operacje na wektorach - dot product, cross product
+  - [ ] otoczka wypukła - Graham's scan
+  - [ ] operacje na wektorach - iloczyn wektorowy, skalarny, współliniowość
   - [ ] sortowanie kątowe
   - [ ] przecięcia i różnice prostokątów
   - [ ] euklidesowe minimalne drzewo spinające

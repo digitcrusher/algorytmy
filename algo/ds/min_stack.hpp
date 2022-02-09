@@ -14,8 +14,8 @@
 
 /*
  * Stos minimum/monotoniczny -
- *   Stos obsługujący operację obliczenia najmniejszego
- *   ze wszystkich elementów (min) w O(1).
+ *   Stos obsługujący operację obliczenia najmniejszego ze
+ *   wszystkich elementów (min) w O(1). Zużywa O(n) pamięci.
  *
  * Cmp: (Value, Value) -> Value
  *   Zwraca true, gdy pierwszy argument jest mniejszy od drugiego.
@@ -40,7 +40,9 @@ struct MinStack {
   void pop() {
     s.pop();
   }
-
+  void clear() {
+    s.clear();
+  }
   bool empty() {
     return s.empty();
   }

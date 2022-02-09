@@ -16,7 +16,7 @@
  * Las zbiorów rozłącznych -
  *   Struktura pozwalająca na operacje znajdywania zbioru, do którego należy
  *   dany element (find) i łączenie dwóch zbiorów (merge) w zamortyzowanym
- *   czasie O(α(n)), czyli praktycznie liniowym.
+ *   czasie O(α(n)), czyli praktycznie liniowym. Zużywa O(n) pamięci.
  *
  * Wariant bez podpinania mniejszego poddrzewa do większego działa w czasie
  * logarytmicznym.

@@ -27,7 +27,7 @@
 /*
  * Wyczerpująca implementacja drzewa przedziałowego przedział-przedział -
  *   Kontener wspierający operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w O(log n).
+ *   elementów (get) i modyfikacji (modify) w O(log n). Zużywa O(n) pamięci.
  *
  * Ta implementacja jest zgodna z C++11 oraz spełnia Container, ReversibleContainer
  * i SequenceContainer.

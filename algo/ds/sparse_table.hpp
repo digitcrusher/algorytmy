@@ -16,8 +16,9 @@
 /*
  * Sparse table -
  *   Struktura danych wspierająca operację obliczenia sumy spójnego przedziału
- *   elementów (get) w O(1) po wstępnym przetwarzaniu w O(n log n). Ta
- *   implementacja zakłada, że początkowa tablica nigdy nie jest pusta.
+ *   elementów (get) w O(1) po wstępnym przetwarzaniu w O(n log n). Zużywa
+ *   O(n log n) pamięci. Ta implementacja zakłada, że początkowa tablica nigdy
+ *   nie jest pusta.
  *
  * Sum: (Value, Value) -> Value
  *   Łączy dwa nachodzące na siebie lub nie przedziały elementów. Sum musi być

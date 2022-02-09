@@ -15,7 +15,7 @@
 /*
  * Sumy prefiksowe -
  *   Struktura danych wspierająca operację obliczenia sumy spójnego przedziału
- *   elementów od lewej od prawej (get) w O(1) po wstępnym przetwarzaniu w O(n).
+ *   elementów od lewej od prawej (get) w O(1). Zużywa O(n) pamięci.
  *
  * Add: (Value, Value) -> Value
  *   Łączy dwa sąsiednie przedziały elementów.
