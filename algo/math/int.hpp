@@ -16,7 +16,7 @@
 /*
  * Zwraca wykładnik największej potęgi dwójki mniejszej lub równej a.
  */
-ull floor_log2(ull a) {
+int floor_log2(ull a) {
   assert(a != 0);
   return numeric_limits<ull>::digits - countl_zero(a) - 1;
 }
@@ -24,7 +24,7 @@ ull floor_log2(ull a) {
 /*
  * Zwraca wykładnik najmniejszej potęgi dwójki większej lub równej a.
  */
-ull ceil_log2(ull a) {
+int ceil_log2(ull a) {
   assert(a != 0);
   return numeric_limits<ull>::digits - countl_zero(a - 1);
 }

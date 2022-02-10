@@ -1,5 +1,5 @@
 /*
- * Sita liczb pierwszych - digitcrusher/algorytmy
+ * Sito liczb pierwszych - digitcrusher/algorytmy
  *
  * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
  *
@@ -60,6 +60,10 @@ Sieve sieve_eratosthenes(int lim) {
   vector<int> primes;
   vector<int> smallest_factor(lim + 1, -1);
 
+  /*
+   * Jeśli potrzebujemy tylko is_prime, to możemy pozbyć się
+   * is_under_lim i zastąpić warunek poniższej pętli takim: i * i <= lim
+   */
   bool is_under_lim = true;
   for(int i = 2; i <= lim; i += 2) {
     is_under_lim &= i * i <= lim;

@@ -22,12 +22,12 @@
   - [x] liniowe równania diofantyczne
   - [x] chińskie twierdzenie o resztach
   - [x] logarytm dyskretny
-  - [x] sita liczb pierwszych - Eratostenes, Euler
+  - [x] sito liczb pierwszych - Eratostenes, Euler
+  - [x] test pierwszości - Miller-Rabin
   - [ ] liczba dzielników
   - [ ] funkcja φ Eulera
   - [ ] rozkład na czynniki pierwsze
   - [ ] rozszerzony binarny algorytm Euklidesa
-  - [ ] testy pierwszości
   - [ ] dwumian Newtona
   - [ ] FFT/NTT
   - [ ] funkcje tworzące
@@ -35,10 +35,10 @@
   - [ ] spamiętywana silnia
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
-  - [x] BFS, DFS (w tym funkcja low)
+  - [x] przeszukiwanie grafu - BFS, DFS (w tym funkcja low)
   - [x] sortowanie topologiczne - Kahn, z DFS
   - [x] silnie spójne składowe - Kosaraju
-  - [x] dwu-kolorowanie grafu nieskierowanego
+  - [x] dwu-kolorowanie grafu
   - [x] mosty i punkty artykulacji
   - [x] generator grafów losowych
   - [x] minimalne drzewo rozpinające - Kruskal, Prim

@@ -21,12 +21,26 @@ namespace std {
     int digit_diff = numeric_limits<ull>::digits - numeric_limits<T>::digits;
     return a == 0 ? numeric_limits<T>::digits : __builtin_clzll(a) - digit_diff;
   }
+  template<class T>
+  int countr_zero(T a) {
+    return a == 0 ? numeric_limits<T>::digits : __builtin_ctzll(a);
+  }
 }
 # else
+#   include <cmath>
 namespace std {
   template<class T>
   int countl_zero(T a) {
-    return numeric_limits<T>::digits - ceil(log2(a));
+    int result = numeric_limits<T>::digits;
+    while(a > 0) {
+      result--;
+      a >>= 1;
+    }
+    return result;
+  }
+  template<class T>
+  int countr_zero(T a) {
+    return numeric_limits<T>::digits - countl_zero((a - 1) & ~a);
   }
 }
 # endif
@@ -37,6 +51,10 @@ namespace std {
   template<class T>
   int countl_zero(T a) {
     return std::__countl_zero(a);
+  }
+  template<class T>
+  int countr_zero(T a) {
+    return std::__countr_zero(a);
   }
 }
 

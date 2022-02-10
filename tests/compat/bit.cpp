@@ -15,10 +15,23 @@ int main() {
   assert(countl_zero((1ull << 63) - 1) == 1);
   assert(countl_zero(1ull << 63) == 0);
   assert(countl_zero(~0ull) == 0);
-
-  assert(countl_zero(1) == 30);
   assert(countl_zero(1u) == 31);
-  assert(countl_zero(1ll) == 62);
+
+  assert(countr_zero(0ull) == 64);
+  assert(countr_zero(1ull) == 0);
+  assert(countr_zero(2ull) == 1);
+  assert(countr_zero(3ull) == 0);
+  assert(countr_zero(4ull) == 2);
+  assert(countr_zero(5ull) == 0);
+  assert(countr_zero(6ull) == 1);
+  assert(countr_zero(7ull) == 0);
+  assert(countr_zero(8ull) == 3);
+  assert(countr_zero(9ull) == 0);
+  assert(countr_zero((1ull << 63) - 1) == 0);
+  assert(countr_zero(1ull << 63) == 63);
+  assert(countr_zero(~0ull) == 0);
+  assert(countr_zero(~0ull << 1) == 1);
+  assert(countr_zero(1u << 31) == 31);
 
   cout << "__builtin_clzll(0) = " << __builtin_clzll(0) << endl;
   ull a = 1;
