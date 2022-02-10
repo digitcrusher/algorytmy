@@ -13,17 +13,19 @@ int main() {
       cout << stack.top() << endl;
     } else if(op == "min") {
       cout << stack.min() << endl;
-    } else if(op == "pop") {
-      stack.pop();
-    } else if(op == "empty") {
-      cout << boolalpha << stack.empty() << endl;
-    } else if(op == "size") {
-      cout << stack.size() << endl;
     } else if(op == "push") {
       int a;
       cin >> a;
       if(!cin) break;
       stack.push(a);
+    } else if(op == "pop") {
+      stack.pop();
+    } else if(op == "clear") {
+      stack.clear();
+    } else if(op == "empty") {
+      cout << boolalpha << stack.empty() << endl;
+    } else if(op == "size") {
+      cout << stack.size() << endl;
     }
   }
 }

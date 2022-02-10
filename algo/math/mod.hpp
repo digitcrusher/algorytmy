@@ -21,8 +21,6 @@ ll norm_mod(ll a, ll mod) {
   return x + (x < 0 ? mod : 0);
 }
 
-
-
 /*
  * Iteratywne mnożenie i potęgowanie modularne
  */
@@ -54,27 +52,21 @@ ll mod_pow(ll a, ll b, ll mod) {
   return result;
 }
 
-
-
 /*
- * Odwrotność modularna - a * mod_inv(a, mod) % mod = 1 % mod
+ * Odwrotność modularna - a * mod_inv(a, mod) % mod = 1
  */
-optional<ll> mod_inv_ext_euclid(ll a, ll mod) {
+optional<ll> mod_inv(ll a, ll mod) {
   auto gcd = ext_euclid(a, mod);
   if(gcd.gcd != 1) {
     return nullopt;
   }
   return norm_mod(gcd.x, mod);
 }
-optional<ll> mod_inv(ll a, ll mod) {
-  return mod_inv_ext_euclid(a, mod);
-}
-
-
 
 /*
  * Odwrotność modularna dla dzielników będących liczbami pierwszymi
  */
 ll mod_inv_prime(ll a, ll prime_mod) {
+  assert(a % prime_mod != 0);
   return mod_pow(a, prime_mod - 2, prime_mod); // z małego twierdzenia Fermata
 }

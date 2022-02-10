@@ -14,21 +14,24 @@ int main() {
     } else if(op == "min") {
       cout << queue.min() << endl;
       assert(queue.min() == lazy.min());
-    } else if(op == "pop") {
-      queue.pop();
-      lazy.pop();
-    } else if(op == "empty") {
-      cout << boolalpha << queue.empty() << endl;
-      assert(queue.empty() == lazy.empty());
-    } else if(op == "size") {
-      cout << queue.size() << endl;
-      assert(queue.size() == lazy.size());
     } else if(op == "push") {
       int a;
       cin >> a;
       if(!cin) break;
       queue.push(a);
       lazy.push(a);
+    } else if(op == "pop") {
+      queue.pop();
+      lazy.pop();
+    } else if(op == "clear") {
+      queue.clear();
+      lazy.clear();
+    } else if(op == "empty") {
+      cout << boolalpha << queue.empty() << endl;
+      assert(queue.empty() == lazy.empty());
+    } else if(op == "size") {
+      cout << queue.size() << endl;
+      assert(queue.size() == lazy.size());
     }
   }
 }

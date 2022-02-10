@@ -13,7 +13,9 @@
 #include <vector>
 
 /*
- * Sito Eratostenesa - Znajduje wszystkie liczby pierwsze do lim.
+ * Sito Eratostenesa -
+ *   Znajduje wszystkie liczby pierwsze mniejsze
+ *   lub równe lim w O(lim log log lim).
  */
 struct Sieve {
   vector<bool> is_prime;
@@ -34,6 +36,7 @@ Sieve sieve_eratosthenes(ll lim) {
     is_under_lim &= i * i <= lim;
     if(is_prime[i]) {
       primes.push_back(i);
+      smallest_factor[i] = i;
       if(is_under_lim) {
         for(ll j = i * 2; j <= lim; j += i) {
           is_prime[j] = false;

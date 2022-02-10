@@ -17,14 +17,34 @@
 #include <unordered_map>
 
 /*
- * Logarytm dyskretny, dla a i mod wspólnie pierwszych -
- *   Znajduje najmniejsze dodatnie x, takie że k * pow(a, x) % mod = b % mod
+ * Logarytm dyskretny -
+ *   Znajduje najmniejsze dodatnie x, takie że k * pow(a, x) % mod = b % mod,
+ *   w O(sqrt(mod)). Rozpatrzenie przypadku gdy x = 0 jest trywialne, dlatego
+ *   nie jest on tutaj uwzględniony.
  */
-optional<ll> discrete_log_coprime(ll a, ll b, ll mod, ll k = 1, ll ans_off = 0) {
+optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
   a = norm_mod(a, mod);
   b = norm_mod(b, mod);
+  k = norm_mod(k, mod);
 
-  assert(gcd(a, mod) == 1);
+  ll g, off = 0;
+  while((g = gcd(a, mod)) > 1) {
+    if(b == k && off != 0) {
+      return off;
+    }
+    if(a == 0 && b == 0) {
+      return off + 1;
+    }
+    if(b % g != 0) {
+      return nullopt;
+    }
+    b /= g;
+    mod /= g;
+    k = k * (a / g) % mod;
+    off++;
+  }
+
+  // Rozwiązujemy logarytm dyskretny dla a i mod wspólnie pierwszych
 
   ll n = ceil(sqrt(mod));
   ll a_pow_n = mod_pow(a, n, mod);
@@ -39,8 +59,8 @@ optional<ll> discrete_log_coprime(ll a, ll b, ll mod, ll k = 1, ll ans_off = 0) 
   curr = k;
   for(ll p = 1; p <= n; p++) {
     curr = curr * a_pow_n % mod;
-    if(qs.find(curr) != qs.end()) {
-      ll ans = n * p - qs[curr] + ans_off;
+    if(qs.count(curr) != 0) {
+      ll ans = n * p - qs[curr] + off;
       if(ans != 0) {
         return ans;
       }
@@ -48,29 +68,4 @@ optional<ll> discrete_log_coprime(ll a, ll b, ll mod, ll k = 1, ll ans_off = 0) 
   }
 
   return nullopt;
-}
-
-
-
-/*
- * Logarytm dyskretny
- */
-optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
-  ll g, off = 0;
-  while((g = gcd(a, mod)) > 1) {
-    if(b == k) {
-      return off;
-    }
-    if(a % mod == 0 && b % mod == 0) {
-      return off + 1;
-    }
-    if(b % g != 0) {
-      return nullopt;
-    }
-    b /= g;
-    mod /= g;
-    k = k * (a / g) % mod;
-    off++;
-  }
-  return discrete_log_coprime(a, b, mod, k, off);
 }

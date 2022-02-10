@@ -13,6 +13,10 @@
 #include "compat/optional.hpp"
 #include "math/ext_euclid.hpp"
 
+/*
+ * Znajduje rozwiązanie równania diofantycznego ax + by = c
+ * i, co za tym idzie, wszystkie rozwiązania.
+ */
 struct LinDiophantineSoln {
   ll x, y;
   ll a, b;
@@ -30,10 +34,6 @@ struct LinDiophantineSoln {
     };
   }
 };
-/*
- * Znajduje rozwiązanie równania diofantycznego ax + by = c
- * i, co za tym idzie, wszystkie rozwiązania.
- */
 optional<LinDiophantineSoln> solve_lin_diophantine(ll a, ll b, ll c) {
   auto gcd = ext_euclid(a, b);
   if(c % gcd.gcd != 0) {

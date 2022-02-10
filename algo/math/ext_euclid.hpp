@@ -11,8 +11,15 @@
 #pragma once
 #include "common.hpp"
 #include <cmath>
+#include <functional>
 #include <stdexcept>
 
+/*
+ * Rozszerzony algorytm Euklidesa -
+ *   Znajduje NWD oraz współczynniki Bézouta liczb a i b w O(log min(a, b)),
+ *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = NWD(a, b)
+ *   i, co za tym idzie, wszystkie rozwiązania.
+ */
 struct ExtEuclidResult {
   ll gcd;
   ll x, y;
@@ -35,26 +42,20 @@ struct ExtEuclidResult {
     };
   }
 };
-ExtEuclidResult internal_ext_euclid(ll a, ll b) {
-  if(b == 0) {
-    return {a, 1, 0, a, b};
-  }
-  auto sub = internal_ext_euclid(b, a % b);
-  return {
-    sub.gcd,
-    sub.y,
-    sub.x - a / b * sub.y,
-    a, b
-  };
-}
-/*
- * Rozszerzony algorytm Euklidesa -
- *   Znajduje NWD oraz współczynniki Bézouta liczb a i b,
- *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = NWD(a, b)
- *   i, co za tym idzie, wszystkie rozwiązania.
- */
 ExtEuclidResult ext_euclid(ll a, ll b) {
-  auto result = internal_ext_euclid(abs(a), abs(b));
+  function<ExtEuclidResult(ll, ll)> internal = [&](ll a, ll b) -> ExtEuclidResult {
+    if(b == 0) {
+      return {a, 1, 0, a, b};
+    }
+    auto sub = internal(b, a % b);
+    return {
+      sub.gcd,
+      sub.y,
+      sub.x - a / b * sub.y,
+      a, b
+    };
+  };
+  auto result = internal(abs(a), abs(b));
   if(a < 0) {
     result.x = -result.x;
   }

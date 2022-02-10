@@ -1,5 +1,7 @@
 #include "math/int.hpp"
 #include <cmath>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 
 int main() {
@@ -57,7 +59,7 @@ int main() {
     ll a = rand() % 201 - 100;
     ll b = rand() % 201 - 100;
 
-    cout << "a = " << a << ", b = " << b << endl;
+    cout << "auto " << a << " " << b << endl;
 
     if(a > 0) {
       assert(floor_log2(a) == floor(log2(a)));
@@ -65,8 +67,47 @@ int main() {
     }
 
     if(b != 0) {
-      assert(floor((float) a / b) == floor_div(a, b));
-      assert(ceil((float) a / b) == ceil_div(a, b));
+      assert(floor_div(a, b) == floor((ld) a / b));
+      assert(ceil_div(a, b) == ceil((ld) a / b));
+    }
+  }
+
+  while(true) {
+    string op;
+    cin >> op;
+    if(!cin) break;
+
+    if(op == "floor_log2") {
+      ull a;
+      cin >> a;
+      if(!cin) break;
+      ull result = floor_log2(a);
+      cout << result << endl;
+      assert(result == floor(log2(a)));
+
+    } else if(op == "ceil_log2") {
+      ull a;
+      cin >> a;
+      if(!cin) break;
+      ull result = ceil_log2(a);
+      cout << result << endl;
+      assert(result == ceil(log2(a)));
+
+    } else if(op == "floor_div") {
+      ll a, b;
+      cin >> a >> b;
+      if(!cin) break;
+      ll result = floor_div(a, b);
+      cout << result << endl;
+      assert(result == floor((ld) a / b));
+
+    } else if(op == "ceil_div") {
+      ll a, b;
+      cin >> a >> b;
+      if(!cin) break;
+      ll result = ceil_div(a, b);
+      cout << result << endl;
+      assert(result == ceil((ld) a / b));
     }
   }
 }

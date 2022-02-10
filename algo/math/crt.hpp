@@ -28,9 +28,9 @@ struct CrtResult {
 optional<CrtResult> crt(vector<ll> const& rems, vector<ll> const& mods) {
   assert(rems.size() == mods.size());
 
-  ll mod1 = mods.front();
+  ll mod1 = mods[0];
   assert(mod1 > 0);
-  ll rem1 = norm_mod(rems.front(), mod1);
+  ll rem1 = norm_mod(rems[0], mod1);
   for(int i = 1; i < rems.size(); i++) {
     ll mod2 = mods[i];
     assert(mod2 > 0);
