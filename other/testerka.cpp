@@ -22,20 +22,17 @@
 
 vector<vector<int>> opt(int n, vector<int> nums) {
   // Rozwiązanie wzorcowe
-  auto max_num = nums[0];
-  for(auto num: nums) {
+  int max_num = nums[0];
+  for(int num: nums) {
     max_num = max(max_num, num);
   }
 
-  auto smallest_factor = sieve_eratosthenes(max_num).smallest_factor;
+  auto smallest_factor = sieve_euler(max_num).smallest_factor;
 
   vector<vector<int>> result(n);
   for(int i = 0; i < n; i++) {
     while(nums[i] > 1) {
-      auto prime = smallest_factor[nums[i]];
-      if(prime == -1) {
-        prime = nums[i];
-      }
+      int prime = smallest_factor[nums[i]];
       result[i].push_back(prime);
       nums[i] /= prime;
     }
@@ -71,7 +68,7 @@ int main() {
     // Generowanie testu
     n = rand() % 10 + 1;
     nums.resize(n);
-    for(auto &num: nums) {
+    for(int &num: nums) {
       num = rand() % 200000 + 1;
     }
   };
@@ -105,7 +102,7 @@ int main() {
       // Wypisanie testu z wcięciem dwóch spacji
       cout << "  " << n << "\n";
       cout << "  ";
-      for(auto num: nums) {
+      for(int num: nums) {
         cout << num << " ";
       }
       cout << "\n";
@@ -114,7 +111,7 @@ int main() {
       // Wypisanie wyniku algorytmu wzorcowego
       for(auto const& primes: opt_ans) {
         cout << "  ";
-        for(auto prime: primes) {
+        for(int prime: primes) {
           cout << prime << " ";
         }
         cout << "\n";
@@ -124,7 +121,7 @@ int main() {
       // Wypisanie wyniku algorytmu brutalnego
       for(auto const& primes: brute_ans) {
         cout << "  ";
-        for(auto prime: primes) {
+        for(int prime: primes) {
           cout << prime << " ";
         }
         cout << "\n";
@@ -140,7 +137,7 @@ int main() {
   int n;
   cin >> n;
   vector<int> nums(n);
-  for(auto &num: nums) {
+  for(int &num: nums) {
     cin >> num;
   }
 
@@ -152,7 +149,7 @@ int main() {
 
   // Wypisanie wyniku wzorcówki
   for(auto const& primes: ans) {
-    for(auto prime: primes) {
+    for(int prime: primes) {
       cout << prime << " ";
     }
     cout << "\n";

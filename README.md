@@ -22,7 +22,7 @@
   - [x] liniowe równania diofantyczne
   - [x] chińskie twierdzenie o resztach
   - [x] logarytm dyskretny
-  - [x] sito Eratostenesa
+  - [x] sita liczb pierwszych - Eratostenes, Euler
   - [ ] liczba dzielników
   - [ ] funkcja φ Eulera
   - [ ] rozkład na czynniki pierwsze
