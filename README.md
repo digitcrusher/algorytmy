@@ -25,8 +25,8 @@
   - [x] sito liczb pierwszych - Eratostenes, Euler
   - [x] test pierwszości - z sita, Miller-Rabin
   - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
+  - [x] funkcja φ Eulera
   - [ ] liczba dzielników
-  - [ ] funkcja φ Eulera
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] dwumian Newtona
   - [ ] FFT/NTT
