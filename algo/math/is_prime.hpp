@@ -23,10 +23,11 @@ bool is_prime_sieve(int n, Sieve const& sieve) {
 }
 
 /*
- * Test pierwszości Millera-Rabina
+ * Test pierwszości Millera-Rabina -
+ *   Sprawdza czy liczba mieszcząca się w 64 bitach jest pierwsza w O(log n).
  */
 bool is_prime_miller_rabin(ll n) {
-  if(n < 2) {
+  if(n <= 1) {
     return false;
   }
 
@@ -40,8 +41,8 @@ bool is_prime_miller_rabin(ll n) {
     if(mod_pow(base, odd, n) == 1) {
       is_composite = false;
     }
-    for(ll j = odd; j < n - 1 && is_composite; j *= 2) {
-      if(mod_pow(base, j, n) == n - 1) {
+    for(ll i = odd; i < n - 1 && is_composite; i *= 2) {
+      if(mod_pow(base, i, n) == n - 1) {
         is_composite = false;
       }
     }

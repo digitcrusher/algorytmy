@@ -25,6 +25,10 @@ namespace std {
   int countr_zero(T a) {
     return a == 0 ? numeric_limits<T>::digits : __builtin_ctzll(a);
   }
+  template<class T>
+  int popcount(T a) {
+    return  __builtin_popcount(a);
+  }
 }
 # else
 #   include <cmath>
@@ -42,6 +46,15 @@ namespace std {
   int countr_zero(T a) {
     return numeric_limits<T>::digits - countl_zero((a - 1) & ~a);
   }
+  template<class T>
+  int popcount(T a) {
+    int result = 0;
+    while(a > 0) {
+      result++;
+      a = a & (a - 1);
+    }
+    return result;
+  }
 }
 # endif
 
@@ -55,6 +68,10 @@ namespace std {
   template<class T>
   int countr_zero(T a) {
     return std::__countr_zero(a);
+  }
+  template<class T>
+  int popcount(T a) {
+    return std::__popcount(a);
   }
 }
 

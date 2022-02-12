@@ -23,10 +23,10 @@
   - [x] chińskie twierdzenie o resztach
   - [x] logarytm dyskretny
   - [x] sito liczb pierwszych - Eratostenes, Euler
-  - [x] test pierwszości - Miller-Rabin
+  - [x] test pierwszości - z sita, Miller-Rabin
+  - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
   - [ ] liczba dzielników
   - [ ] funkcja φ Eulera
-  - [ ] rozkład na czynniki pierwsze
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] dwumian Newtona
   - [ ] FFT/NTT

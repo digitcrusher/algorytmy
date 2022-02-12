@@ -22,7 +22,7 @@ ll norm_mod(ll a, ll mod) {
 }
 
 /*
- * Iteratywne mnożenie i potęgowanie modularne
+ * Iteratywne mnożenie modularne w O(log b)
  */
 ll mod_mul(ll a, ll b, ll mod) {
   ll result = 0;
@@ -39,7 +39,28 @@ ll mod_mul(ll a, ll b, ll mod) {
   }
   return result;
 }
+
+/*
+ * Iteratywne potęgowanie modularne w O(log a * log b)
+ */
 ll mod_pow(ll a, ll b, ll mod) {
+  assert(b >= 0);
+  ll result = 1;
+  while(b > 0) {
+    if(b % 2 == 1) {
+      result = mod_mul(result, a, mod);
+    }
+    a = mod_mul(a, a, mod);
+    b /= 2;
+  }
+  return result;
+}
+
+/*
+ * Iteratywne potęgowanie modularne w O(log b). Wynik może się
+ * przekręcić, jeśli jego kwadrat nie zawiera się w long longu.
+ */
+ll mod_pow_unsafe(ll a, ll b, ll mod) {
   assert(b >= 0);
   ll result = 1;
   while(b > 0) {
