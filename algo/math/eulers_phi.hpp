@@ -18,14 +18,10 @@
  *   Oblicza liczbę liczb w [1, n] wspólnie pierwszych z n na podstawie jego rozkładu
  *   na czynniki pierwsze w O(m), gdzie m to liczba dzielników pierwszych n.
  */
-ll eulers_phi(ll n, vector<ll> const& factors) {
+ll eulers_phi(ll n, vector<pair<ll, int>> const& factors) {
   ll result = n;
-  unordered_set<ll> primes;
-  for(ll i: factors) {
-    if(primes.count(i) == 0) {
-      result -= result / i;
-      primes.insert(i);
-    }
+  for(auto i: factors) {
+    result -= result / i.first;
   }
   return result;
 }

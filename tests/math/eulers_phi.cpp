@@ -7,7 +7,6 @@ int main() {
     ll n;
     cin >> n;
     if(!cin) break;
-    auto factors = factor_pollard_rho(n);
-    cout << eulers_phi(n, factors) << endl;
+    cout << eulers_phi(n, factor_pollard_rho(n)) << endl;
   }
 }

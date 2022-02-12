@@ -17,19 +17,23 @@
 #include "math/sieve.hpp"
 #include <cstdlib>
 #include <stack>
+#include <unordered_map>
 #include <vector>
 
 /*
  * Zwraca czynniki pierwsze liczby w kolejności niemalejącej przy pomocy
  * sita do n w O(k) = O(log n), gdzie k to liczba czynników pierwszych.
  */
-vector<int> factor_sieve_1(int n, Sieve const& sieve) {
+vector<pair<int, int>> factor_sieve_1(int n, Sieve const& sieve) {
   assert(n >= 1);
 
-  vector<int> result;
+  vector<pair<int, int>> result;
   while(n > 1) {
     int prime = sieve.smallest_factor[n];
-    result.push_back(prime);
+    if(result.empty() || result.back().first != prime) {
+      result.push_back({prime, 0});
+    }
+    result.back().second++;
     n /= prime;
   }
   return result;
@@ -39,20 +43,26 @@ vector<int> factor_sieve_1(int n, Sieve const& sieve) {
  * Zwraca czynniki pierwsze liczby w kolejności niemalejącej przy
  * pomocy sita do sqrt(n) w O(π(sqrt(n))) = O(sqrt(n) / log n).
  */
-vector<ll> factor_sieve_2(ll n, Sieve const& sieve) {
-  assert(n >= 1);
-  assert(sieve.is_prime.size() * sieve.is_prime.size() >= n);
+vector<pair<ll, int>> factor_sieve_2(ll n, Sieve const& sieve) {
+  {
+    assert(n >= 1);
+    ll m = sieve.is_prime.size() - 1;
+    assert(m * m >= n);
+  }
 
-  vector<ll> result;
+  vector<pair<ll, int>> result;
   for(int prime: sieve.primes) {
     if(n == 1) break;
+    if(n % prime == 0) {
+      result.push_back({prime, 0});
+    }
     while(n % prime == 0) {
-      result.push_back(prime);
+      result.back().second++;
       n /= prime;
     }
   }
   if(n > 1) {
-    result.push_back(n);
+    result.push_back({n, 1});
   }
   return result;
 }
@@ -60,18 +70,21 @@ vector<ll> factor_sieve_2(ll n, Sieve const& sieve) {
 /*
  * Zwraca czynniki pierwsze liczby w kolejności niemalejącej w O(sqrt(n)).
  */
-vector<ll> factor_trial(ll n) {
+vector<pair<ll, int>> factor_trial(ll n) {
   assert(n >= 1);
 
-  vector<ll> result;
+  vector<pair<ll, int>> result;
   for(int i = 2; i * i <= n; i++) {
+    if(n % i == 0) {
+      result.push_back({i, 0});
+    }
     while(n % i == 0) {
-      result.push_back(i);
+      result.back().second++;
       n /= i;
     }
   }
   if(n > 1) {
-    result.push_back(n);
+    result.push_back({n, 1});
   }
   return result;
 }
@@ -80,16 +93,16 @@ vector<ll> factor_trial(ll n) {
  * Algorytm rho Pollarda -
  *   Rozkłada liczbę na czynniki pierwsze w O(sqrt(sqrt(n)) log n).
  */
-vector<ll> factor_pollard_rho(ll n) {
+vector<pair<ll, int>> factor_pollard_rho(ll n) {
   assert(n >= 1);
 
   if(n == 1) {
     return {};
   } else if(is_prime_miller_rabin(n)) {
-    return {n};
+    return {{n, 1}};
   }
 
-  vector<ll> result;
+  unordered_map<ll, int> result;
 
   stack<ll> factors;
   factors.push(n);
@@ -183,12 +196,12 @@ vector<ll> factor_pollard_rho(ll n) {
                     7817,7823,7829,7841,7853,7867,7873,7877,7879,7883,7901,7907}) {
       if(f == 1) break;
       while(f % prime == 0) {
-        result.push_back(prime);
+        result[prime]++;
         f /= prime;
       }
     }
     if(is_prime_miller_rabin(f)) {
-      result.push_back(f);
+      result[f]++;
       continue;
     } else if(f == 1) continue;
 
@@ -206,18 +219,23 @@ vector<ll> factor_pollard_rho(ll n) {
       }
     } while(a == f);
     if(is_prime_miller_rabin(a)) {
-      result.push_back(a);
+      result[a]++;
     } else {
       factors.push(a);
     }
 
     ll b = f / a;
     if(is_prime_miller_rabin(b)) {
-      result.push_back(b);
+      result[b]++;
     } else {
       factors.push(b);
     }
   }
 
-  return result;
+  vector<pair<ll, int>> result2;
+  result2.reserve(result.size());
+  for(auto it = result.begin(); it != result.end(); it++) {
+    result2.push_back(*it);
+  }
+  return result2;
 }

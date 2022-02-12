@@ -50,3 +50,19 @@ ll ceil_div(ll a, ll b) {
   }
   return a >= 0 ? (a + b - 1) / b : a / b;
 }
+
+/*
+ * Iteratywne potęgowanie w O(log b)
+ */
+ll pow(ll a, ll b) {
+  assert(b >= 0);
+  ll result = 1;
+  while(b > 0) {
+    if(b % 2 == 1) {
+      result = result * a;
+    }
+    a = a * a;
+    b /= 2;
+  }
+  return result;
+}

@@ -7,8 +7,10 @@ int main() {
     cin >> n;
     if(!cin) break;
     auto result = factor_pollard_rho(n);
-    for(ll i: result) {
-      cout << i << " ";
+    for(auto [p, k]: result) {
+      for(int i = 0; i < k; i++) {
+        cout << p << " ";
+      }
     }
     cout << endl;
   }

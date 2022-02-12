@@ -26,7 +26,7 @@
   - [x] test pierwszości - z sita, Miller-Rabin
   - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
   - [x] funkcja φ Eulera
-  - [ ] liczba dzielników
+  - [x] liczba i suma dzielników
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] dwumian Newtona
   - [ ] FFT/NTT
