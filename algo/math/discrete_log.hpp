@@ -40,7 +40,7 @@ optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
     }
     b /= g;
     mod /= g;
-    k = k * (a / g) % mod;
+    k = mod_mul(k, a / g, mod);
     off++;
   }
 
@@ -53,14 +53,14 @@ optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
   ll curr = b;
   for(ll q = 0; q < n; q++) {
     qs[curr] = q;
-    curr = curr * a % mod;
+    curr = mod_mul(curr, a, mod);
   }
 
   curr = k;
   for(ll p = 1; p <= n; p++) {
-    curr = curr * a_pow_n % mod;
+    curr = mod_mul(curr, a_pow_n, mod);
     if(qs.count(curr) != 0) {
-      ll ans = n * p - qs[curr] + off;
+      ll ans = norm_mod(mod_mul(n, p, mod) - qs[curr] + off, mod);
       if(ans != 0) {
         return ans;
       }

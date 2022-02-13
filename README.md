@@ -8,7 +8,7 @@
 
 - Kod ma być czytelny, krótki, bez mikrooptymalizacji.
 
-- Asserty powinny sprawdzać warunki, które są czesto i przypadkowo niespełniane oraz nie mogą być wykryte na inne sposoby (np. przez sygnał naruszenia ochrony pamięci lub tryb debugowania w glibc++).
+- Asserty powinny sprawdzać warunki dotyczące wejścia, które nie mogą być wykryte na inne sposoby (np. przez sygnał naruszenia ochrony pamięci lub tryb debugowania w glibc++).
 
 ## Lista zadań
 
@@ -16,7 +16,7 @@
 
 - [ ] matematyka
   - [x] NWD, NWW
-  - [x] mnożenie i potęgowanie modulo
+  - [x] mnożenie i potęgowanie modularne
   - [x] rozszerzony algorytm Euklidesa
   - [x] odwrotność modularna
   - [x] liniowe równania diofantyczne
@@ -27,12 +27,12 @@
   - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
   - [x] funkcja φ Eulera
   - [x] liczba i suma dzielników
-  - [ ] rozszerzony binarny algorytm Euklidesa
-  - [ ] dwumian Newtona
+  - [x] spamiętywana silnia
+  - [x] symbol Newtona
+  - [x] różne wzorki kombinatoryczne
   - [ ] FFT/NTT
+  - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] funkcje tworzące
-  - [ ] ważne wzory kombinatoryczne np. liczba sposobów na wsadzenie n kulek do m kubełków
-  - [ ] spamiętywana silnia
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
   - [x] przeszukiwanie grafu - BFS, DFS (w tym funkcja low)

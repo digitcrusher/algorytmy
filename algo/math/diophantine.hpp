@@ -15,7 +15,7 @@
 
 /*
  * Znajduje rozwiązanie równania diofantycznego ax + by = c
- * i, co za tym idzie, wszystkie rozwiązania.
+ * w O(log min(a, b)) i, co za tym idzie, wszystkie rozwiązania.
  */
 struct LinDiophantineSoln {
   ll x, y;

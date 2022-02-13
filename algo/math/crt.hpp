@@ -42,7 +42,7 @@ optional<CrtResult> crt(vector<ll> const& rems, vector<ll> const& mods) {
     }
     ll lcm = mod1 / soln->gcd_ab * mod2;
     assert(lcm > 0);
-    rem1 = norm_mod(rem1 + soln->x % (lcm / mod1) * mod1, lcm);
+    rem1 = norm_mod(rem1 + mod_mul(soln->x % (lcm / mod1), mod1, lcm), lcm);
     mod1 = lcm;
   }
   return CrtResult{rem1, mod1};

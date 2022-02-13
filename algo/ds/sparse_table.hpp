@@ -58,7 +58,7 @@ struct SparseTable {
   }
 
   Value get(int l, int r) {
-    assert(l <= r);
+    assert(l <= r && r < elemc);
     if(l == r) {
       return segs[0][l];
     }

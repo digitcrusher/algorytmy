@@ -1,6 +1,6 @@
 #pragma once
 
-// Wyłącza assert'y - funkcje wywołujące błąd, gdy dany warunek jest fałszywy.
+// Wyłącza asserty - funkcje wywołujące błąd, gdy dany warunek jest fałszywy.
 //#define NDEBUG
 #include <cassert>
 

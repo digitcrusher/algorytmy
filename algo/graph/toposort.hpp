@@ -70,25 +70,24 @@ vector<int> toposort_dfs(vector<vector<int>> const& adj) {
   int next_idx = n - 1;
 
   vector<int> is_vis(n, 0);
-  function<bool(int)> dfs = [&](int node) {
-    if(is_vis[node] == 1) return false;
-    if(is_vis[node] == 2) return true;
+  function<void(int)> dfs = [&](int node) {
+    if(is_vis[node] == 2) return;
+    if(is_vis[node] == 1) {
+      throw std::runtime_error("Graf nie jest acykliczny.");
+    }
     is_vis[node] = 1;
 
     for(int child: adj[node]) {
-      if(!dfs(child)) return false;
+      dfs(child);
     }
     result[next_idx] = node;
     next_idx--;
 
     is_vis[node] = 2;
-    return true;
   };
 
   for(int root = 0; root < n; root++) {
-    if(!dfs(root)) {
-      throw std::runtime_error("Graf nie jest acykliczny.");
-    }
+    dfs(root);
   }
 
   return result;

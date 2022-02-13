@@ -52,7 +52,7 @@ vector<pair<ll, int>> factor_sieve_2(ll n, Sieve const& sieve) {
 
   vector<pair<ll, int>> result;
   for(int prime: sieve.primes) {
-    if(n == 1) break;
+    if(n == 1 || (ll) prime * prime > n) break;
     if(n % prime == 0) {
       result.push_back({prime, 0});
     }
@@ -74,7 +74,7 @@ vector<pair<ll, int>> factor_trial(ll n) {
   assert(n >= 1);
 
   vector<pair<ll, int>> result;
-  for(int i = 2; i * i <= n; i++) {
+  for(int i = 2; (ll) i * i <= n; i++) {
     if(n % i == 0) {
       result.push_back({i, 0});
     }

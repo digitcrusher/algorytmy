@@ -22,7 +22,7 @@
  *
  * To get useful run-time diagnostics, pass these options:
  *   -fsanitize=address,leak,undefined,float-divide-by-zero,float-cast-overflow
- *   -fsignaling-nans -fnon-call-exceptions
+ *   -g -fsignaling-nans -fnon-call-exceptions
  *   -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
  * Passing the other -fstack… options listed in GCC's docs is redundant.
  *

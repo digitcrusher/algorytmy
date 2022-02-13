@@ -14,18 +14,13 @@ int main() {
     {4, 6, 2},
     {4, 12, 4},
   };
-
-  cout << "gcd:" << endl;
-
   for(auto [a, b, c]: gcd_tests) {
-    cout << "a = " << a << ", b = " << b << ", c = " << c << endl;
+    cout << "auto gcd " << a << " " << b << " " << c << endl;
     assert(gcd(a, b) == c);
     assert(gcd(-a, b) == c);
     assert(gcd(a, -b) == c);
     assert(gcd(-a, -b) == c);
   }
-
-  cout << endl << "lcm:" << endl;
 
   vector<tuple<int, int, int>> const lcm_tests = {
     {1, 1, 1},
@@ -37,12 +32,23 @@ int main() {
     {3, 4, 12},
     {4, 5, 20},
   };
-
   for(auto [a, b, c]: lcm_tests) {
-    cout << "a = " << a << ", b = " << b << ", c = " << c << endl;
+    cout << "auto lcm " << a << " " << b << " " << c << endl;
     assert(lcm(a, b) == c);
     assert(lcm(-a, b) == c);
     assert(lcm(a, -b) == c);
     assert(lcm(-a, -b) == c);
+  }
+
+  while(true) {
+    string op;
+    ll a, b;
+    cin >> op >> a >> b;
+    if(!cin) break;
+    if(op == "gcd") {
+      cout << gcd(a, b) << endl;
+    } else if(op == "lcm") {
+      cout << lcm(a, b) << endl;
+    }
   }
 }

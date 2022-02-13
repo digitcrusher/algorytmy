@@ -12,12 +12,9 @@
 #include "common.hpp"
 #include <cmath>
 
-// TODO: https://stackoverflow.com/questions/68772236/what-is-the-difference-between-std-gcd-and-stdgcd
-
 #if __cplusplus < 201402L
 # if defined(__GLIBCXX__) || defined(__GLIBCPP__)
-#   include <iterator>
-#   include <bits/stl_algo.h>
+#   include <algorithm>
 namespace std {
   ll gcd(ll a, ll b) {
     return std::__gcd(abs(a), abs(b));
@@ -36,8 +33,9 @@ namespace std {
 
 namespace std {
   ll lcm(ll a, ll b) {
-    assert(a != 0);
-    assert(b != 0);
+    if(a == 0 || b == 0) {
+      return 0;
+    }
     return abs(a) / gcd(a, b) * abs(b);
   }
 }
