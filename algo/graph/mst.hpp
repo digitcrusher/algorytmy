@@ -66,7 +66,7 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
     if(is_vis[root]) continue;
 
     auto cmp = [](Edge a, Edge b) {
-      return a.cost < b.cost;
+      return a.cost > b.cost;
     };
     priority_queue<Edge, vector<Edge>, decltype(cmp)> q(cmp);
 

@@ -54,7 +54,7 @@
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia
-  - [ ] problem komiwojażera - DP, branch-and-bound
+  - [ ] problem komiwojażera - z DP, z branch-and-bound
   - [ ] problem skoczka szachowego
   - [ ] liczba ścieżek prostych w grafie
   - [ ] dwuspójne składowe
