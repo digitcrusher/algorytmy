@@ -81,9 +81,9 @@
   - [ ] fibonacci heap
   - [ ] disjoint sparse table
 - [ ] algorytmy tekstowe i ciągi
+  - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [ ] haszowanie
   - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
-  - [ ] najdłuższy wspólny podciąg
   - [ ] najdłuższy rosnący podciąg
   - [ ] funkcja prefiksowa - KMP
   - [ ] algorytm Manachera
@@ -108,6 +108,7 @@
 - [ ] sztuczki i triki
   - [ ] kompresja wartości i współrzędnych
 - [ ] digit dp
+- [ ] meet in the middle
 - [ ] wszystko
 
 ### Inne
