@@ -11,9 +11,9 @@
  * without any warranty.
  */
 #include "common.hpp"
+#include <climits>
 #include <functional>
 #include <iostream>
-#include <limits>
 #include <set>
 #include <vector>
 
@@ -52,7 +52,7 @@ int main() {
     grips_set.erase(grips_set.find(let_gos[i]));
   }
 
-  int const never = numeric_limits<int>::max();
+  int const never = INT_MAX;
   vector<int> fall_times(n, -1);
   fall_times[0] = never;
 
@@ -74,7 +74,7 @@ int main() {
   };
 
   for(auto grip: grips_set) {
-    auto a = find(grip.first), b = find(grip.second);
+    int a = find(grip.first), b = find(grip.second);
     if(a == b) continue;
     if(fall_times[a] > fall_times[b]) {
       swap(a, b);
@@ -82,7 +82,7 @@ int main() {
     dsu[a] = b;
   }
   for(int i = m - 1; i >= 0; i--) {
-    auto a = find(let_gos[i].first), b = find(let_gos[i].second);
+    int a = find(let_gos[i].first), b = find(let_gos[i].second);
     if(a == b) continue;
     if(fall_times[a] > fall_times[b]) {
       swap(a, b);

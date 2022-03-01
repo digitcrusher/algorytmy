@@ -36,9 +36,10 @@ struct DSU {
       return node;
     } else {
       int repr = find(parent[node]);
-      size[parent[node]] -= size[node];
-      parent[node] = repr;
-      size[parent[node]] += size[node];
+      if(parent[node] != repr) {
+        size[parent[node]] -= size[node];
+        parent[node] = repr;
+      }
       return repr;
     }
   }

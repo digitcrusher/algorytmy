@@ -23,7 +23,7 @@ int main() {
   int w, n;
   cin >> w >> n;
   vector<int> kajaks(n);
-  for(auto &kajak: kajaks) {
+  for(int &kajak: kajaks) {
     cin >> kajak;
   }
 
