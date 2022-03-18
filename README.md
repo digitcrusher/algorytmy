@@ -46,8 +46,8 @@
   - [x] najkrótsze ścieżki
     - [x] dla DAGów, Dijkstra, Dial, Bellman-Ford, SPFA, Floyd-Warshall
     - [ ] A*, Johnson
-  - [ ] jump pointery/binary lifting
-  - [ ] lowest common ancestor
+  - [x] binary lifting
+  - [x] najniższy wspólny przodek - z binary liftingu, z RMQ
   - [ ] heavy-light decomposition
   - [ ] chain decomposition
   - [ ] centroid decomposition

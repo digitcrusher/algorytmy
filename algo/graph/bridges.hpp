@@ -15,7 +15,7 @@
 
 /*
  * Znajduje mosty i punkty artykulacji w grafie
- * nieskierowanym bez krawędzi wielokrotnych.
+ * nieskierowanym bez krawędzi wielokrotnych w O(V + E).
  */
 struct Bridges {
   vector<pair<int, int>> bridges;
