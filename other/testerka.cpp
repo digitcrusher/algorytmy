@@ -20,8 +20,10 @@
 #include "math/sieve.hpp"
 #include <vector>
 
-vector<vector<int>> opt(int n, vector<int> nums) {
+vector<vector<int>> opt(vector<int> nums) {
   // Rozwiązanie wzorcowe
+  int const n = nums.size();
+
   int max_num = nums[0];
   for(int num: nums) {
     max_num = max(max_num, num);
@@ -40,8 +42,10 @@ vector<vector<int>> opt(int n, vector<int> nums) {
   return result;
 }
 
-vector<vector<int>> brute(int n, vector<int> nums) {
+vector<vector<int>> brute(vector<int> nums) {
   // Rozwiązanie brutalne
+  int const n = nums.size();
+
   vector<vector<int>> result(n);
   for(int i = 0; i < n; i++) {
     for(int prime = 2; nums[i] > 1; prime++) {
@@ -79,26 +83,26 @@ int main() {
     gen_test();
 
     auto start = chrono::steady_clock::now();
-    auto opt_ans = opt(n, nums);
+    auto opt_ans = opt(nums);
     auto end = chrono::steady_clock::now();
     float elapsed = chrono::duration_cast<chrono::milliseconds>(end - start).count() / 1000.0;
-    auto brute_ans = brute(n, nums);
+    auto brute_ans = brute(nums);
 
     // Porównanie wyników wzorcówki i bruta
-    bool has_failed = opt_ans != brute_ans;
+    bool is_ok = opt_ans == brute_ans;
     /*
      * Więcej opcji formatowania tekstu w terminalu na Linuxie
      * można znaleźć przy pomocy komendy "man console_codes(4)"
      * w sekcji "ECMA-48 Select Graphic Rendition".
      */
-    if(!has_failed) {
+    if(is_ok) {
       cout << " \e[32mOK\e[0m ";
     } else {
       cout << " \e[31mFAIL\e[0m ";
     }
     cout << fixed << setprecision(2) << elapsed << "s" << endl;
 
-    if(has_failed) {
+    if(!is_ok) {
       // Wypisanie testu z wcięciem dwóch spacji
       cout << "  " << n << "\n";
       cout << "  ";
@@ -142,9 +146,9 @@ int main() {
   }
 
 #ifdef BRUTE
-  auto ans = brute(n, nums);
+  auto ans = brute(nums);
 #else
-  auto ans = opt(n, nums);
+  auto ans = opt(nums);
 #endif
 
   // Wypisanie wyniku wzorcówki

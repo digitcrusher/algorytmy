@@ -30,7 +30,8 @@
   - [x] spamiętywana silnia
   - [x] symbol Newtona
   - [x] różne wzorki kombinatoryczne
-  - [ ] FFT/NTT
+  - [x] FFT
+  - [ ] NTT
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] funkcje tworzące
 - [ ] grafy

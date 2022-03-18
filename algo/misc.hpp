@@ -9,8 +9,11 @@
  * without any warranty.
  */
 #pragma once
+#include <cmath>
+#include <complex>
 #include <iterator>
 #include <type_traits>
+#include <vector>
 
 template<bool cond, class A, class B>
 struct type_if {};
@@ -65,4 +68,50 @@ namespace std {
       return result;
     }
   };
+}
+
+
+
+ld const pi = acosl(-1);
+
+
+
+template<class A>
+ostream& operator<<(ostream &stream, complex<A> const& num) {
+  if(num.real() != 0 || num.imag() == 0) {
+    stream << num.real();
+  }
+  if(num.imag() != 0) {
+    if(num.real() != 0) {
+      stream << (num.imag() > 0 ? "+" : "-");
+      stream << abs(num.imag());
+    } else {
+      stream << num.imag();
+    }
+    stream << "i";
+  }
+  return stream;
+}
+
+template<class A>
+istream& operator>>(istream &stream, complex<A> &num) {
+  A real;
+  stream >> real;
+  if(stream.peek() == 'i') {
+    num.imag(real);
+  } else {
+    num.real(real);
+    if(stream.peek() == '+' || stream.peek() == '-') {
+      char sign;
+      A imag;
+      stream >> sign >> imag;
+      if(sign == '+') {
+        num.imag(imag);
+      } else {
+        num.imag(-imag);
+      }
+      stream >> sign;
+    }
+  }
+  return stream;
 }
