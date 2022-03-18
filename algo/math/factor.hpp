@@ -10,8 +10,8 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/bit.hpp"
 #include "compat/numeric.hpp"
+#include "math/int.hpp"
 #include "math/is_prime.hpp"
 #include "math/mod.hpp"
 #include "math/sieve.hpp"

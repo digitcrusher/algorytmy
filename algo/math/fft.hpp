@@ -10,7 +10,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/bit.hpp"
 #include "math/int.hpp"
 #include "misc.hpp"
 #include <complex>

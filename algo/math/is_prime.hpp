@@ -10,7 +10,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/bit.hpp"
+#include "math/int.hpp"
 #include "math/mod.hpp"
 #include "math/sieve.hpp"
 #include <vector>
