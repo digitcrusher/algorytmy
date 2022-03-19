@@ -10,12 +10,12 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/numeric.hpp"
 #include "math/int.hpp"
 #include "math/is_prime.hpp"
 #include "math/mod.hpp"
 #include "math/sieve.hpp"
 #include <cstdlib>
+#include <numeric>
 #include <stack>
 #include <unordered_map>
 #include <vector>

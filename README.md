@@ -48,7 +48,7 @@
     - [ ] A*, Johnson
   - [x] binary lifting
   - [x] najniższy wspólny przodek - z binary liftingu, z RMQ
-  - [ ] heavy-light decomposition
+  - [x] heavy-light decomposition
   - [ ] chain decomposition
   - [ ] centroid decomposition
   - [ ] 2-SAT

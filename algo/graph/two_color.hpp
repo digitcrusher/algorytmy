@@ -10,8 +10,8 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/optional.hpp"
 #include <functional>
+#include <optional>
 #include <vector>
 
 /*

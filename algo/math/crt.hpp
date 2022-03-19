@@ -10,9 +10,9 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/optional.hpp"
 #include "math/diophantine.hpp"
 #include "math/mod.hpp"
+#include <optional>
 #include <vector>
 
 /*

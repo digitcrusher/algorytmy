@@ -1,6 +1,6 @@
 #include "math/ext_euclid.hpp"
-#include "compat/optional.hpp"
 #include <iostream>
+#include <optional>
 
 int main() {
   optional<ExtEuclidResult> result = nullopt;

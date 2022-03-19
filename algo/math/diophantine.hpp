@@ -10,8 +10,8 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/optional.hpp"
 #include "math/ext_euclid.hpp"
+#include <optional>
 
 /*
  * Znajduje rozwiązanie równania diofantycznego ax + by = c

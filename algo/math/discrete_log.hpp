@@ -10,10 +10,10 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/numeric.hpp"
-#include "compat/optional.hpp"
 #include "math/mod.hpp"
 #include <cmath>
+#include <numeric>
+#include <optional>
 #include <unordered_map>
 
 /*

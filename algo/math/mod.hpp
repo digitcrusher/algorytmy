@@ -10,9 +10,9 @@
  */
 #pragma once
 #include "common.hpp"
-#include "compat/optional.hpp"
 #include "math/ext_euclid.hpp"
 #include <climits>
+#include <optional>
 #include <unordered_map>
 #include <vector>
 
