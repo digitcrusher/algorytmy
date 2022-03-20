@@ -1,5 +1,5 @@
 #include "graph/hld.hpp"
-#include "ds/seg_tree.hpp"
+#include "ds/segment_tree.hpp"
 #include <iostream>
 #include <optional>
 
@@ -8,7 +8,7 @@ int main() {
   auto apply_change = [](int val, int change, int elemc) {
     return val + change * elemc;
   };
-  optional<SegTree<int, plus<int>, int, decltype(apply_change), plus<int>>> tree;
+  optional<SegmentTree<int, plus<int>, int, decltype(apply_change), plus<int>>> tree;
 
   while(true) {
     string op;

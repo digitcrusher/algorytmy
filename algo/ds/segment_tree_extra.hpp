@@ -70,7 +70,7 @@ template<
   class Change = tuple<>,
   class ApplyChange = DefaultApplyChange<Value, Change>,
   class MergeChange = DefaultMergeChange<Change>
-> struct SegTree {
+> struct SegmentTree {
   using value_type = Value;
   using reference = Value&;
   using const_reference = Value const&;
@@ -91,7 +91,7 @@ template<
      * wszystkich metodach jest const_iterator'em żeby umożliwić operacje
      * iterator'a z const_iterator'em.
      */
-    using tree_pointer = type_if_t<is_const, SegTree const*, SegTree*>;
+    using tree_pointer = type_if_t<is_const, SegmentTree const*, SegmentTree*>;
     using const_iterator = Iterator<true>;
 
     Iterator(tree_pointer tree, size_t idx): tree(tree), idx(idx) {}
@@ -180,7 +180,7 @@ template<
     tree_pointer tree;
     size_t idx;
 
-    friend SegTree;
+    friend SegmentTree;
   };
 
   using iterator = Iterator<false>;
@@ -248,35 +248,35 @@ template<
     return nodes[num - 1];
   }
 
-  SegTree(Sum const& sum = Sum(),
-          ApplyChange const& apply_change = ApplyChange(),
-          MergeChange const& merge_change = MergeChange()):
+  SegmentTree(Sum const& sum = Sum(),
+              ApplyChange const& apply_change = ApplyChange(),
+              MergeChange const& merge_change = MergeChange()):
     sum(sum), apply_change(apply_change), merge_change(merge_change) {}
 
-  SegTree(size_t cnt, Value const& val,
-          Sum const& sum = Sum(),
-          ApplyChange const& apply_change = ApplyChange(),
-          MergeChange const& merge_change = MergeChange()):
-    SegTree(sum, apply_change, merge_change)
+  SegmentTree(size_t cnt, Value const& val,
+              Sum const& sum = Sum(),
+              ApplyChange const& apply_change = ApplyChange(),
+              MergeChange const& merge_change = MergeChange()):
+    SegmentTree(sum, apply_change, merge_change)
   {
     assign(cnt, val);
   }
 
   template<class InputIt, class = require_input_iter<InputIt>>
-  SegTree(InputIt first, InputIt end,
-          Sum const& sum = Sum(),
-          ApplyChange const& apply_change = ApplyChange(),
-          MergeChange const& merge_change = MergeChange()):
-    SegTree(sum, apply_change, merge_change)
+  SegmentTree(InputIt first, InputIt end,
+              Sum const& sum = Sum(),
+              ApplyChange const& apply_change = ApplyChange(),
+              MergeChange const& merge_change = MergeChange()):
+    SegmentTree(sum, apply_change, merge_change)
   {
     assign(first, end);
   }
 
-  SegTree(initializer_list<Value> elems,
-          Sum const& sum = Sum(),
-          ApplyChange const& apply_change = ApplyChange(),
-          MergeChange const& merge_change = MergeChange()):
-    SegTree(sum, apply_change, merge_change)
+  SegmentTree(initializer_list<Value> elems,
+              Sum const& sum = Sum(),
+              ApplyChange const& apply_change = ApplyChange(),
+              MergeChange const& merge_change = MergeChange()):
+    SegmentTree(sum, apply_change, merge_change)
   {
     assign(elems);
   }
@@ -296,7 +296,7 @@ template<
   Value& at(size_t idx) {
     if(idx >= elemc) {
       throw std::out_of_range(
-        "SegTree.at(idx): idx (równe " + to_string(idx) + ") >= "
+        "SegmentTree.at(idx): idx (równe " + to_string(idx) + ") >= "
         "elemc (równe " + to_string(elemc) + ")"
       );
     }
@@ -305,7 +305,7 @@ template<
   Value const& at(size_t idx) const {
     if(idx >= elemc) {
       throw std::out_of_range(
-        "SegTree.at(idx): idx (równe " + to_string(idx) + ") >= "
+        "SegmentTree.at(idx): idx (równe " + to_string(idx) + ") >= "
         "elemc (równe " + to_string(elemc) + ")"
       );
     }
@@ -327,7 +327,7 @@ template<
   }
 
   template<class ...A>
-  int compare(SegTree<A...> const& other) const {
+  int compare(SegmentTree<A...> const& other) const {
     require_up_to_date_base(0, elemc - 1);
     other.require_up_to_date_base(0, elemc - 1);
     for(size_t i = 0; i < min(elemc, other.elemc); i++) {
@@ -341,31 +341,31 @@ template<
   }
 
   template<class ...A>
-  bool operator==(SegTree<A...> const& other) const {
+  bool operator==(SegmentTree<A...> const& other) const {
     return compare(other) == 0;
   }
   template<class ...A>
-  bool operator!=(SegTree<A...> const& other) const {
+  bool operator!=(SegmentTree<A...> const& other) const {
     return compare(other) != 0;
   }
   template<class ...A>
-  bool operator<(SegTree<A...> const& other) const {
+  bool operator<(SegmentTree<A...> const& other) const {
     return compare(other) < 0;
   }
   template<class ...A>
-  bool operator<=(SegTree<A...> const& other) const {
+  bool operator<=(SegmentTree<A...> const& other) const {
     return compare(other) <= 0;
   }
   template<class ...A>
-  bool operator>(SegTree<A...> const& other) const {
+  bool operator>(SegmentTree<A...> const& other) const {
     return compare(other) > 0;
   }
   template<class ...A>
-  bool operator>=(SegTree<A...> const& other) const {
+  bool operator>=(SegmentTree<A...> const& other) const {
     return compare(other) >= 0;
   }
 
-  void swap(SegTree &other) {
+  void swap(SegmentTree &other) {
     swap(sum, other.sum);
     swap(apply_change, other.apply_change);
     swap(merge_change, other.merge_change);
@@ -465,7 +465,7 @@ template<
   void assign(initializer_list<Value> elems) {
     assign(elems.begin(), elems.end());
   }
-  SegTree& operator=(initializer_list<Value> elems) {
+  SegmentTree& operator=(initializer_list<Value> elems) {
     assign(elems);
     return *this;
   }
@@ -640,13 +640,13 @@ template<
    */
   struct NodeOps {
     size_t const num;
-    SegTree const& tree;
+    SegmentTree const& tree;
     Node &node;
 
     size_t const level, elemc, l, r;
     bool const has_children;
 
-    NodeOps(size_t num, SegTree const& tree):
+    NodeOps(size_t num, SegmentTree const& tree):
       num(num), tree(tree), node(tree.nodes[num - 1]),
       level(floor_log2(num)),
       elemc(tree.base_nodec() >> level),
@@ -688,7 +688,7 @@ template<
       if(r < tree.elemc) {
         node.val = tree.apply_change(node.val, change, elemc);
       }
-      // SegTree.has_latent_changes zależy od poniższego zachowania.
+      // SegmentTree.has_latent_changes zależy od poniższego zachowania.
       if(has_children) {
         node.latent_change = node.has_change ? tree.merge_change(node.latent_change, change) : change;
         node.has_change = true;

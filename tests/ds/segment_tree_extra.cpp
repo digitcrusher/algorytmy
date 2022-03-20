@@ -1,4 +1,4 @@
-#include "ds/seg_tree_extra.hpp"
+#include "ds/segment_tree_extra.hpp"
 #include <iostream>
 
 template<
@@ -7,17 +7,17 @@ template<
   class Change,
   class ApplyChange,
   class MergeChange
-> struct DummySegTree: vector<Value> {
+> struct DummySegmentTree: vector<Value> {
   Sum sum;
   ApplyChange apply_change;
   MergeChange merge_change;
 
-  DummySegTree(): vector<Value>() {}
-  DummySegTree(int cnt, Value const& val): vector<Value>(cnt, val) {}
-  explicit DummySegTree(int cnt): vector<Value>(cnt) {}
+  DummySegmentTree(): vector<Value>() {}
+  DummySegmentTree(int cnt, Value const& val): vector<Value>(cnt, val) {}
+  explicit DummySegmentTree(int cnt): vector<Value>(cnt) {}
   template<class InputIt, class = require_input_iter<InputIt>>
-  DummySegTree(InputIt first, InputIt end): vector<Value>(first, end) {}
-  DummySegTree(initializer_list<Value> elems): vector<Value>(elems) {}
+  DummySegmentTree(InputIt first, InputIt end): vector<Value>(first, end) {}
+  DummySegmentTree(initializer_list<Value> elems): vector<Value>(elems) {}
 
   Value get(int l, int r) const {
     assert(l <= r);
@@ -45,8 +45,8 @@ int main() {
       return val + change * elemc;
     }
   };
-  using Tree = SegTree<int, plus<int>, int, ApplyChange, plus<int>>;
-  using DummyTree = DummySegTree<int, plus<int>, int, ApplyChange, plus<int>>;
+  using Tree = SegmentTree<int, plus<int>, int, ApplyChange, plus<int>>;
+  using DummyTree = DummySegmentTree<int, plus<int>, int, ApplyChange, plus<int>>;
 
   auto print_nodes = [&](Tree const& tree) {
     for(int i = 1; i <= tree.nodec(); i++) {
@@ -71,7 +71,7 @@ int main() {
         return val + change * elemc;
       }
     };
-    using Tree = SegTree<int, plus<int>, int, Test1ApplyChange, plus<int>>;
+    using Tree = SegmentTree<int, plus<int>, int, Test1ApplyChange, plus<int>>;
 
     cout << "default ctor tree" << endl;
     Tree tree1;

@@ -9,6 +9,7 @@ int main() {
     string op;
     cin >> op;
     if(!cin) break;
+
     if(op == "front") {
       cout << queue.front() << endl;
     } else if(op == "min") {

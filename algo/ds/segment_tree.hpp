@@ -34,7 +34,7 @@ template<
   class Change,
   class ApplyChange,
   class MergeChange
-> struct SegTree {
+> struct SegmentTree {
   Sum sum;
   ApplyChange apply_change;
   MergeChange merge_change;
@@ -52,9 +52,9 @@ template<
   int height, nodec;
   int base_nodec, base_offset;
 
-  SegTree(vector<Value> const& elems, Sum sum = Sum(),
-          ApplyChange apply_change = ApplyChange(),
-          MergeChange merge_change = MergeChange()):
+  SegmentTree(vector<Value> const& elems, Sum sum = Sum(),
+              ApplyChange apply_change = ApplyChange(),
+              MergeChange merge_change = MergeChange()):
     elemc(elems.size()), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
     height = ceil_log2(elemc) + 1;
@@ -98,13 +98,13 @@ template<
    */
   struct NodeOps {
     int num;
-    SegTree &tree;
+    SegmentTree &tree;
     Node &node;
 
     int level, elemc, l, r;
     bool has_children;
 
-    NodeOps(int num, SegTree &tree):
+    NodeOps(int num, SegmentTree &tree):
       num(num), tree(tree), node(tree.nodes[num - 1])
     {
       level = floor_log2(num);

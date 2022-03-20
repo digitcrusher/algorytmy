@@ -83,8 +83,11 @@
   - [ ] disjoint sparse table
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
-  - [ ] haszowanie
-  - [ ] wyszukiwanie ciągow - KMP, Rabin-Karp
+  - [x] haszowanie w okienku
+  - [x] hasze prefiksowe
+  - [ ] wyszukiwanie wzorca w tekście
+    - [x] Rabin-Karp
+    - [ ] KMP
   - [ ] najdłuższy rosnący podciąg
   - [ ] funkcja prefiksowa - KMP
   - [ ] algorytm Manachera

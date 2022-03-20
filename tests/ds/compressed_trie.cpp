@@ -18,6 +18,7 @@ int main() {
     string op;
     cin >> op;
     if(!cin) break;
+
     if(op == "keys") {
       for(string key: trie.keys()) {
         cout << key << endl;
@@ -26,6 +27,7 @@ int main() {
       string key;
       cin >> key;
       if(!cin) break;
+
       if(op == "get") {
         cout << trie.get(key) << endl;
       } else if(op == "has") {

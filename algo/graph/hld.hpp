@@ -24,7 +24,7 @@
  */
 struct HLD {
   int root;
-  vector<int> size, parent, heavy_path, entry;
+  vector<int> size, parent, heavy, entry;
 
   // Preprocessing potrzebny do znajdywania najniższego wspólnego przodka
   vector<vector<int>> lift;
@@ -39,8 +39,7 @@ struct HLD {
     function<void(int)> calc_size = [&](int node) {
       size[node] = 1;
       bool is_first_child = true;
-      for(int i = 0; i < adj[node].size(); i++) {
-        int &child = adj[node][i];
+      for(int &child: adj[node]) {
         if(size[child] != -1) continue;
 
         parent[child] = node;
@@ -59,25 +58,25 @@ struct HLD {
     depth[root] = 0;
     calc_size(root);
 
-    heavy_path.resize(n, -1);
+    heavy.resize(n, -1);
     entry.resize(n);
     int time = 0;
-    function<void(int)> assign_paths = [&](int node) {
+    function<void(int)> decompose = [&](int node) {
       entry[node] = time;
       time++;
 
       if(adj[node].size() > 1) {
-        heavy_path[adj[node][0]] = heavy_path[node];
-        assign_paths(adj[node][0]);
+        heavy[adj[node][0]] = heavy[node];
+        decompose(adj[node][0]);
       }
       for(int child: adj[node]) {
-        if(heavy_path[child] != -1) continue;
-        heavy_path[child] = child;
-        assign_paths(child);
+        if(heavy[child] != -1) continue;
+        heavy[child] = child;
+        decompose(child);
       }
     };
-    heavy_path[root] = root;
-    assign_paths(root);
+    heavy[root] = root;
+    decompose(root);
 
     lift = binary_lift(parent);
   }
@@ -88,16 +87,16 @@ struct HLD {
     int lca = lca_lifting(lift, depth, a, b);
 
     while(true) {
-      int top = heavy_path[a] == heavy_path[lca] ? lca : heavy_path[a];
+      int top = heavy[a] == heavy[lca] ? lca : heavy[a];
       result.push_back({entry[top], entry[a]});
-      if(heavy_path[a] == heavy_path[lca]) break;
-      a = parent[heavy_path[a]];
+      if(heavy[a] == heavy[lca]) break;
+      a = parent[heavy[a]];
     }
     while(b != lca) {
-      int l = heavy_path[b] == heavy_path[lca] ? entry[lca] + 1 : entry[heavy_path[b]];
+      int l = heavy[b] == heavy[lca] ? entry[lca] + 1 : entry[heavy[b]];
       result.push_back({l, entry[b]});
-      if(heavy_path[b] == heavy_path[lca]) break;
-      b = parent[heavy_path[b]];
+      if(heavy[b] == heavy[lca]) break;
+      b = parent[heavy[b]];
     }
 
     return result;

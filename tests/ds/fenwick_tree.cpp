@@ -16,6 +16,7 @@ int main() {
     int a, b;
     cin >> op >> a >> b;
     if(!cin) break;
+
     if(op == "get") {
       a--, b--;
       cout << tree.get(a, b) << endl;

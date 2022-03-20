@@ -11,6 +11,7 @@ int main() {
     string op;
     cin >> op;
     if(!cin) break;
+
     if(op == "setc") {
       cout << dsu.setc << endl;
     } else {
@@ -18,6 +19,7 @@ int main() {
       cin >> a;
       if(!cin) break;
       a--;
+
       if(op == "size") {
         cout << dsu.size[dsu.find(a)] << endl;
       } else if(op == "find") {

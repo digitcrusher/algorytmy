@@ -44,31 +44,29 @@ using require_input_iter =
 
 
 
-namespace std {
-  template<class A, class B>
-  struct hash<pair<A, B>> {
-    size_t operator()(pair<A, B> const& pair) const {
-      size_t a = hash<A>()(pair.first), b = hash<B>()(pair.second);
-      // Formuła zapożyczona z biblioteki Boost
-      return a ^ (b + 0x9e3779b9 + (a << 6) + (a >> 2));
-    }
-  };
+template<class A, class B>
+struct hash<pair<A, B>> {
+  size_t operator()(pair<A, B> const& pair) const {
+    size_t a = hash<A>()(pair.first), b = hash<B>()(pair.second);
+    // Formuła zapożyczona z biblioteki Boost
+    return a ^ (b + 0x9e3779b9 + (a << 6) + (a >> 2));
+  }
+};
 
-  template<class A>
-  struct hash<vector<A>> {
-    size_t operator()(vector<A> const& vec) const {
-      if(vec.empty()) {
-        return 0;
-      }
-      size_t result = vec[0];
-      for(int i = 1; i < vec.size(); i++) {
-        // Formuła zapożyczona z biblioteki Boost
-        result ^= vec[i] + 0x9e3779b9 + (result << 6) + (result >> 2);
-      }
-      return result;
+template<class A>
+struct hash<vector<A>> {
+  size_t operator()(vector<A> const& vec) const {
+    if(vec.empty()) {
+      return 0;
     }
-  };
-}
+    size_t result = vec[0];
+    for(int i = 1; i < vec.size(); i++) {
+      // Formuła zapożyczona z biblioteki Boost
+      result ^= vec[i] + 0x9e3779b9 + (result << 6) + (result >> 2);
+    }
+    return result;
+  }
+};
 
 
 

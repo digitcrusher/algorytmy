@@ -9,6 +9,7 @@ int main() {
     string op;
     cin >> op;
     if(!cin) break;
+
     if(op == "top") {
       cout << stack.top() << endl;
     } else if(op == "min") {

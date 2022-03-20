@@ -86,8 +86,8 @@ string lcs_str(string const& a, string const& b,
 }
 
 /*
- * Znajduje najdłuższy wspólny podciąg a i b w O(a * b) z zużyciem pamięci
- * O(min(a, b)).
+ * Znajduje najdłuższy wspólny podciąg a i b
+ * w O(a * b) z zużyciem pamięci O(min(a, b)).
  */
 string lcs_str(string const& _a, string const& _b) {
   string const& a = _a.size() >= _b.size() ? _a : _b;
