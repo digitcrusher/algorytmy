@@ -87,14 +87,16 @@ struct HLD {
     int lca = lca_lifting(lift, depth, a, b);
 
     while(true) {
-      int top = heavy[a] == heavy[lca] ? lca : heavy[a];
-      result.push_back({entry[top], entry[a]});
+      int l = entry[heavy[a] == heavy[lca] ? lca : heavy[a]];
+      int r = entry[a];
+      result.push_back({l, r});
       if(heavy[a] == heavy[lca]) break;
       a = parent[heavy[a]];
     }
     while(b != lca) {
       int l = heavy[b] == heavy[lca] ? entry[lca] + 1 : entry[heavy[b]];
-      result.push_back({l, entry[b]});
+      int r = entry[b];
+      result.push_back({l, r});
       if(heavy[b] == heavy[lca]) break;
       b = parent[heavy[b]];
     }

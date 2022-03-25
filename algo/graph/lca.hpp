@@ -22,8 +22,6 @@
 int lca_lifting(vector<vector<int>> const& lift,
                 vector<int> const& depth, int a, int b)
 {
-  int const n = lift.size();
-
   if(depth[a] < depth[b]) {
     swap(a, b);
   }
