@@ -24,6 +24,7 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
                               bool has_multi_edges = false, bool is_connected = false,
                               bool is_acyclic = false, int k_colorable = -1)
 {
+  // TODO: zle asserty
   assert(!is_acyclic || !has_self_loops);
   assert(!is_acyclic || is_directed || edgec <= nodec - 1);
   assert(!is_acyclic || !is_directed || (edgec + nodec - 1) / nodec * 2 <= nodec - 1);

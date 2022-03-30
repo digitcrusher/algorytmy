@@ -92,9 +92,9 @@
   - [ ] funkcja prefiksowa - KMP
   - [ ] algorytm Manachera
 - [ ] geometria
+  - [x] convex hull trick
   - [ ] podstawowe konstrukcje - punkt, linia, koło, trójkąt, wielokąt
   - [ ] triangulacja wielokątów
-  - [ ] convex hull trick
   - [ ] otoczka wypukła - Graham's scan
   - [ ] operacje na wektorach - iloczyn wektorowy, skalarny, współliniowość
   - [ ] sortowanie kątowe

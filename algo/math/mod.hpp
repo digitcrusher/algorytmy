@@ -47,7 +47,9 @@ ll mod_mul(ll a, ll b, ll mod) {
     b = -b;
   }
 
-  if((a >= 0 && a <= LLONG_MAX / b) || (a < 0 && a >= LLONG_MIN / b)) {
+  if(b == 0) {
+    return 0;
+  } else if((a >= 0 && a <= LLONG_MAX / b) || (a < 0 && a >= LLONG_MIN / b)) {
     return norm_mod(a * b, mod);
   }
 

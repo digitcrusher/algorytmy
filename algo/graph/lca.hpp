@@ -55,7 +55,8 @@ int lca_lifting(vector<vector<int>> const& lift,
 /*
  * Znajduje najniższego wspólnego przodka dwóch wierzchołków w drzewie przy
  * użyciu dowolnej struktury danych wspierającej operację obliczenia
- * nieznacznie zmodyfikowanego minimum na przedziale z preprocessingiem w O(V).
+ * nieznacznie zmodyfikowanego minimum na przedziale po wstępnym
+ * przetwarzaniu w O(V).
  */
 int lca_rmq(vector<vector<int>> const& adj, int root, int a, int b) {
   int const n = adj.size();
