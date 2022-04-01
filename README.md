@@ -93,11 +93,11 @@
   - [ ] algorytm Manachera
 - [ ] geometria
   - [x] convex hull trick
-  - [ ] podstawowe konstrukcje - punkt, linia, koło, trójkąt, wielokąt
+  - [ ] figury geometryczne
+    - [x] punkt, odcinek
+    - [ ] koło, trójkąt, wielokąt
   - [ ] triangulacja wielokątów
   - [ ] otoczka wypukła - Graham's scan
-  - [ ] operacje na wektorach - iloczyn wektorowy, skalarny, współliniowość
-  - [ ] sortowanie kątowe
   - [ ] przecięcia i różnice prostokątów
   - [ ] euklidesowe minimalne drzewo spinające
 - [ ] inne
