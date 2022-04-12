@@ -110,3 +110,12 @@ ll pow(ll a, ll b) {
   }
   return result;
 }
+
+/*
+ * Oblicza leksykograficznie następną permutacje bitów.
+ */
+ull next_perm(ull a) {
+  // Formuła zapożyczona z https://graphics.stanford.edu/~seander/bithacks.html
+  ull t = a | (a - 1);
+  return (t + 1) | (((~t & -~t) - 1) >> (countr_zero(a) + 1));
+}

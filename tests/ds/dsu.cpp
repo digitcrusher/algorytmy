@@ -29,7 +29,7 @@ int main() {
         cin >> b;
         if(!cin) break;
         b--;
-        dsu.merge(a, b);
+        cout << boolalpha << dsu.merge(a, b) << endl;
       }
     }
   }

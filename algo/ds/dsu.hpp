@@ -44,14 +44,17 @@ struct DSU {
     }
   }
 
-  void merge(int a, int b) {
+  bool merge(int a, int b) {
     a = find(a), b = find(b);
-    if(a == b) return;
+    if(a == b) {
+      return false;
+    }
     setc--;
     if(size[a] > size[b]) {
       swap(a, b);
     }
     parent[a] = b;
     size[b] += size[a];
+    return true;
   }
 };

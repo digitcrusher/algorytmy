@@ -40,10 +40,10 @@ MST mst_kruskal(int nodec, vector<Edge> edges) {
   DSU connected(nodec);
   for(Edge edge: edges) {
     if(connected.setc == 1) break;
-    if(connected.find(edge.a) == connected.find(edge.b)) continue;
-    mst.edges.push_back(edge);
-    mst.cost += edge.cost;
-    connected.merge(edge.a, edge.b);
+    if(connected.merge(edge.a, edge.b)) {
+      mst.edges.push_back(edge);
+      mst.cost += edge.cost;
+    }
   }
 
   mst.edges.shrink_to_fit();

@@ -66,11 +66,11 @@ struct Point {
   }
   bool is_colinear_with(Point other);
 };
-// Oblicza |a| * |b| * cos θ, gdzie θ to kąt od a do b.
+// Oblicza |a| * |b| * cos θ, gdzie θ to kąt pomiędzy a i b.
 ld dot(Point a, Point b) {
   return a.x * b.x + a.y * b.y;
 }
-// Oblicza |a| * |b| * sin θ, gdzie θ to kąt pomiędzy a i b.
+// Oblicza |a| * |b| * sin θ, gdzie θ to kąt od a do b.
 ld cross(Point a, Point b) {
   return a.x * b.y - a.y * b.x;
 }
@@ -81,7 +81,7 @@ bool sweep_cmp(Point a, Point b) {
   return a.x != b.x ? a.x < b.x : a.y < b.y;
 }
 bool angle_cmp(Point a, Point b) {
-  return dot(a, b) > 0;
+  return cross(a, b) > 0;
 }
 bool are_colinear(Point a, Point b, Point c) {
   return (a - c).is_colinear_with(b - c);

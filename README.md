@@ -61,7 +61,7 @@
   - [ ] dwuspójne składowe
   - [ ] ścieżka i cykl Eulera
 - [ ] struktury danych
-  - [x] drzewo przedziałowe
+  - [x] drzewo przedziałowe - rekurencyjne, iteratywne
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
@@ -81,6 +81,8 @@
   - [ ] permutacje
   - [ ] fibonacci heap
   - [ ] disjoint sparse table
+  - [ ] drzewo Li Chao
+  - [ ] drzewo przedziałowe 2D
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku
@@ -88,6 +90,7 @@
   - [ ] wyszukiwanie wzorca w tekście
     - [x] Rabin-Karp
     - [ ] KMP
+  - [x] tablica sufiksowa
   - [ ] najdłuższy rosnący podciąg
   - [ ] funkcja prefiksowa - KMP
   - [ ] algorytm Manachera
