@@ -123,7 +123,7 @@
 - [x] moja templatka do rozwiązań
 - [x] pragmy
 - [x] testerka w kodzie
-- [ ] szybkie i/o
+- [x] szybkie I/O
 
 ### Przykładowe zadania
 

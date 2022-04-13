@@ -14,39 +14,39 @@
 
 #if defined(__GLIBCXX__) || defined(__GLIBCPP__)
 namespace std {
-  template<class T>
-  int countl_zero(T a) {
+  template<class A>
+  int countl_zero(A a) {
     // Wyjaśnienie tego ifa znajduje się w tests/math/int.cpp
-    int digit_diff = numeric_limits<ull>::digits - numeric_limits<T>::digits;
-    return a == 0 ? numeric_limits<T>::digits : __builtin_clzll(a) - digit_diff;
+    int digit_diff = numeric_limits<ull>::digits - numeric_limits<A>::digits;
+    return a == 0 ? numeric_limits<A>::digits : __builtin_clzll(a) - digit_diff;
   }
-  template<class T>
-  int countr_zero(T a) {
-    return a == 0 ? numeric_limits<T>::digits : __builtin_ctzll(a);
+  template<class A>
+  int countr_zero(A a) {
+    return a == 0 ? numeric_limits<A>::digits : __builtin_ctzll(a);
   }
-  template<class T>
-  int popcount(T a) {
+  template<class A>
+  int popcount(A a) {
     return __builtin_popcountll(a);
   }
 }
 #else
 # include <cmath>
 namespace std {
-  template<class T>
-  int countl_zero(T a) {
-    int result = numeric_limits<T>::digits;
+  template<class A>
+  int countl_zero(A a) {
+    int result = numeric_limits<A>::digits;
     while(a > 0) {
       result--;
       a >>= 1;
     }
     return result;
   }
-  template<class T>
-  int countr_zero(T a) {
-    return numeric_limits<T>::digits - countl_zero((a - 1) & ~a);
+  template<class A>
+  int countr_zero(A a) {
+    return numeric_limits<A>::digits - countl_zero((a - 1) & ~a);
   }
-  template<class T>
-  int popcount(T a) {
+  template<class A>
+  int popcount(A a) {
     int result = 0;
     while(a > 0) {
       result++;

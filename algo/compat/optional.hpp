@@ -16,40 +16,40 @@ namespace std {
 
   constexpr nullopt_t nullopt;
 
-  template<class T>
+  template<class A>
   struct optional {
     union {
-      T val;
+      A val;
     };
     bool has = false;
 
     optional() {}
     optional(nullopt_t) {}
-    optional(T const& val): val(val), has(true) {}
+    optional(A const& val): val(val), has(true) {}
 
-    T& operator*() {
+    A& operator*() {
       return val;
     }
-    T* operator->() {
+    A* operator->() {
       return &val;
     }
   };
 
-  template<class T>
-  bool operator==(optional<T> const& a, optional<T> const& b) {
+  template<class A>
+  bool operator==(optional<A> const& a, optional<A> const& b) {
     return (!a.has && !b.has) || (a.bas && b.has && a.val == b.val);
   }
-  template<class T>
-  bool operator==(optional<T> const& opt, nullopt_t) {
+  template<class A>
+  bool operator==(optional<A> const& opt, nullopt_t) {
     return !opt.has;
   }
 
-  template<class T>
-  bool operator!=(optional<T> const& a, optional<T> const& b) {
+  template<class A>
+  bool operator!=(optional<A> const& a, optional<A> const& b) {
     return !(a == b);
   }
-  template<class T>
-  bool operator!=(optional<T> const& a, nullopt_t b) {
+  template<class A>
+  bool operator!=(optional<A> const& a, nullopt_t b) {
     return !(a == b);
   }
 }

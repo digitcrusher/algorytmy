@@ -9,11 +9,7 @@
  * without any warranty.
  */
 #pragma once
-#include <cmath>
-#include <complex>
-#include <iterator>
-#include <type_traits>
-#include <vector>
+#include "common.hpp"
 
 template<bool cond, class A, class B>
 struct type_if {};
@@ -33,6 +29,9 @@ using type_if_t = typename type_if<cond, A, B>::type;
 
 
 
+#include <iterator>
+#include <type_traits>
+
 template<class InputIt>
 using require_input_iter =
   typename std::enable_if<
@@ -44,35 +43,45 @@ using require_input_iter =
 
 
 
-template<class A, class B>
-struct hash<pair<A, B>> {
-  size_t operator()(pair<A, B> const& pair) const {
-    size_t a = hash<A>()(pair.first), b = hash<B>()(pair.second);
-    // Formuła zapożyczona z biblioteki Boost
-    return a ^ (b + 0x9e3779b9 + (a << 6) + (a >> 2));
-  }
-};
+#include <vector>
+#include <utility>
 
-template<class A>
-struct hash<vector<A>> {
-  size_t operator()(vector<A> const& vec) const {
-    if(vec.empty()) {
-      return 0;
-    }
-    size_t result = vec[0];
-    for(int i = 1; i < vec.size(); i++) {
+namespace std {
+  template<class A, class B>
+  struct hash<pair<A, B>> {
+    size_t operator()(pair<A, B> const& pair) const {
+      size_t a = hash<A>()(pair.first), b = hash<B>()(pair.second);
       // Formuła zapożyczona z biblioteki Boost
-      result ^= vec[i] + 0x9e3779b9 + (result << 6) + (result >> 2);
+      return a ^ (b + 0x9e3779b9 + (a << 6) + (a >> 2));
     }
-    return result;
-  }
-};
+  };
+
+  template<class A>
+  struct hash<vector<A>> {
+    size_t operator()(vector<A> const& vec) const {
+      if(vec.empty()) {
+        return 0;
+      }
+      size_t result = vec[0];
+      for(int i = 1; i < vec.size(); i++) {
+        // Formuła zapożyczona z biblioteki Boost
+        result ^= vec[i] + 0x9e3779b9 + (result << 6) + (result >> 2);
+      }
+      return result;
+    }
+  };
+}
 
 
+
+#include <cmath>
 
 ld const pi = acosl(-1);
 
 
+
+#include <complex>
+#include <iostream>
 
 template<class A>
 ostream& operator<<(ostream &stream, complex<A> const& num) {
@@ -112,4 +121,14 @@ istream& operator>>(istream &stream, complex<A> &num) {
     }
   }
   return stream;
+}
+
+
+
+#include <sys/resource.h>
+
+void set_stack_size(ll megabytes) {
+  rlimit rl;
+  rl.rlim_cur = (rlim_t) megabytes * 1000 * 1000;
+  setrlimit(RLIMIT_STACK, &rl);
 }
