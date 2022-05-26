@@ -31,6 +31,7 @@
   - [x] symbol Newtona
   - [x] różne wzorki kombinatoryczne
   - [x] FFT
+  - [x] modularne inty
   - [ ] NTT
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] funkcje tworzące
@@ -70,7 +71,6 @@
   - [x] skompresowane drzewo trie
   - [ ] big inty
   - [ ] ułamki
-  - [ ] modularne inty
   - [ ] modularne ułamki
   - [ ] treap (drzewiec)
   - [ ] ciągi
@@ -94,6 +94,7 @@
   - [ ] najdłuższy rosnący podciąg
   - [ ] funkcja prefiksowa - KMP
   - [ ] algorytm Manachera
+  - [ ] KMR
 - [ ] geometria
   - [x] convex hull trick
   - [ ] figury geometryczne

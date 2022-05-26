@@ -33,6 +33,9 @@ namespace std {
     A* operator->() {
       return &val;
     }
+    operator bool() {
+      return has;
+    }
   };
 
   template<class A>

@@ -62,10 +62,10 @@ namespace std {
       if(vec.empty()) {
         return 0;
       }
-      size_t result = vec[0];
+      size_t result = hash<A>()(vec[0]);
       for(int i = 1; i < vec.size(); i++) {
         // Formuła zapożyczona z biblioteki Boost
-        result ^= vec[i] + 0x9e3779b9 + (result << 6) + (result >> 2);
+        result ^= hash<A>()(vec[i]) + 0x9e3779b9 + (result << 6) + (result >> 2);
       }
       return result;
     }

@@ -19,7 +19,7 @@
 ll choose_fac(ll n, ll k, ll mod) {
   assert(n >= 0 && mod > 0);
   if(k < 0 || k > n) {
-    return 1;
+    return 0;
   }
   ll a = fac(n, mod);
   auto b = mod_inv(fac(n - k, mod), mod);
@@ -35,7 +35,7 @@ ll choose_fac(ll n, ll k, ll mod) {
 ll choose_mul(ll n, ll k, ll mod) {
   assert(n >= 0 && mod > 0);
   if(k < 0 || k > n) {
-    return 1;
+    return 0;
   }
   ll result = 1;
   if(k > n - k) {

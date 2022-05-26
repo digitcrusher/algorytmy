@@ -25,6 +25,7 @@ void read(char &result) {
     result = getchar_unlocked();
   } while(isspace(result));
 }
+
 void read(string &result) {
   while(true) {
     char c = getchar_unlocked();
@@ -33,6 +34,7 @@ void read(string &result) {
     } else if(!result.empty()) break;
   }
 }
+
 template<class A, class = typename std::enable_if<std::is_integral<A>::value>::type>
 void read(A &result) {
   result = 0;
@@ -55,11 +57,13 @@ void read(A &result) {
     result = -result;
   }
 }
+
 template<class A, class B>
 void read(pair<A, B> &result) {
   read(result.first);
   read(result.second);
 }
+
 template<class A>
 void read(vector<A> &result) {
   for(A &elem: result) {
@@ -73,21 +77,25 @@ void read(vector<A> &result) {
 int const fastio_out_size = 1000000;
 int fastio_out_cnt = 0;
 char fastio_out[fastio_out_size];
+
 void fastio_flush() {
   fwrite(fastio_out, sizeof(char), fastio_out_cnt, stdout);
   fastio_out_cnt = 0;
 }
+
 void print(char c) {
   if(fastio_out_cnt >= fastio_out_size) {
     fastio_flush();
   }
   fastio_out[fastio_out_cnt++] = c;
 }
+
 void print(string const& str) {
   for(char c: str) {
     print(c);
   }
 }
+
 template<class A, class = typename std::enable_if<std::is_integral<A>::value>::type>
 void print(A num) {
   if(num == 0) {
@@ -109,12 +117,14 @@ void print(A num) {
     print(rev[i]);
   }
 }
+
 void print(char const* str) {
   while(*str != '\0') {
     print(*str);
     str++;
   }
 }
+
 void print(bool val) {
   print(val ? "true" : "false");
 }

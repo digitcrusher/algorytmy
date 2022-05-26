@@ -20,6 +20,9 @@
  * Normalizuje a do przedziału [0, mod) z zachowaniem a' = a % mod.
  */
 ll norm_mod(ll a, ll mod) {
+  if(0 <= a && a < mod) {
+    return a;
+  }
   assert(mod > 0);
   ll x = a % mod;
   return x + (x < 0 ? mod : 0);
@@ -146,3 +149,47 @@ ll fac(ll a, ll mod) {
     return result;
   }
 }
+
+/*
+ * Struktura ułatwiająca pracę z arytmetyką modularną
+ */
+template<ll mod>
+struct Z {
+  ll val;
+
+  Z(ll val): val(norm_mod(val, mod)) {}
+
+  operator ll() const {
+    return val;
+  }
+
+  Z operator+(Z other) const {
+    return (val + other.val) % mod;
+  }
+  Z operator-(Z other) const {
+    return norm_mod(val - other.val, mod);
+  }
+  Z operator*(Z other) const {
+    return mod_mul(val, other.val, mod);
+  }
+
+  Z& operator+=(Z other) {
+    return *this = *this + other;
+  }
+  Z& operator-=(Z other) {
+    return *this = *this - other;
+  }
+  Z& operator*=(Z other) {
+    return *this = *this * other;
+  }
+
+  Z pow(ll b) const {
+    return mod_pow(val, b, mod);
+  }
+  Z inv() const {
+    return mod_inv(val, mod);
+  }
+  Z inv_prime() const {
+    return mod_inv_prime(val, mod);
+  }
+};
