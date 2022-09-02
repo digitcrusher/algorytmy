@@ -52,7 +52,7 @@ struct DefaultApplyChange {
                    size_t elemc __attribute__((unused))) const
   {
     return val;
-  };
+  }
 };
 
 template<class Change>
@@ -776,33 +776,32 @@ template<
     void resum(size_t l, size_t r) {
       assert(does_intersect(l, r));
       assert(this->l < tree.elemc);
+      if(!has_children) return;
 
-      if(has_children) {
-        /*
-         * Propagujemy zmiany tak, aby wierzchołki
-         * w całości w [l, r] nie zostały zmienione.
-         */
-        if(node.has_change) {
-          node.has_change = false;
+      /*
+       * Propagujemy zmiany tak, aby wierzchołki
+       * w całości w [l, r] nie zostały zmienione.
+       */
+      if(node.has_change) {
+        node.has_change = false;
 
-          if(!left().is_in(l, r)) {
-            left().receive_change(node.latent_change);
-          }
-          if(!right().is_in(l, r) && right().l < tree.elemc) {
-            right().receive_change(node.latent_change);
-          }
+        if(!left().is_in(l, r)) {
+          left().receive_change(node.latent_change);
         }
+        if(!right().is_in(l, r) && right().l < tree.elemc) {
+          right().receive_change(node.latent_change);
+        }
+      }
 
-        if(left().does_intersect(l, r)) {
-          left().resum(l, r);
-        }
-        if(right().does_intersect(l, r)) {
-          assert(right().l < tree.elemc);
-          right().resum(l, r);
-        }
-        if(this->r < tree.elemc) {
-          node.val = tree.sum(left().node.val, right().node.val);
-        }
+      if(left().does_intersect(l, r)) {
+        left().resum(l, r);
+      }
+      if(right().does_intersect(l, r)) {
+        assert(right().l < tree.elemc);
+        right().resum(l, r);
+      }
+      if(this->r < tree.elemc) {
+        node.val = tree.sum(left().node.val, right().node.val);
       }
     }
     void resum(size_t idx) {

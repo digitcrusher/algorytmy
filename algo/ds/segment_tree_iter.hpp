@@ -38,7 +38,7 @@ struct SegmentTree {
     elemc(elems.size()), sum(sum)
   {
     height = ceil_log2(elemc + 2) + 1;
-    nodec = 1u << height;
+    nodec = (1u << height) - 1;
     base_offset = 1u << (height - 1);
     nodes.resize(nodec);
 

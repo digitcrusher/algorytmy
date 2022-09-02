@@ -17,7 +17,7 @@
 
 /*
  * Binary lifting -
- *   Generuję strukturę z drzewa ukorzenionego w O(V log V) pozwalającą na
+ *   Generuje strukturę z drzewa ukorzenionego w O(V log V) pozwalającą na
  *   wyszukiwanie binarne na ścieżce z dowolnego wierzchołka do korzenia
  *   w O(log d), gdzie d to długość ścieżki.
  */
@@ -46,7 +46,7 @@ vector<vector<int>> binary_lift(vector<int> const& parent) {
 
 /*
  * Lżejszy binary lifting -
- *   Generuję strukturę z drzewa ukorzenionego w O(V) pozwalającą na
+ *   Generuje strukturę z drzewa ukorzenionego w O(V) pozwalającą na
  *   wyszukiwanie binarne na ścieżce z dowolnego wierzchołka do korzenia
  *   w O(log d), gdzie d to długość ścieżki, ale z większą stałą niż zwykły
  *   binary lifting.

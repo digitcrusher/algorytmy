@@ -139,14 +139,13 @@ template<
       }
     }
     void propagate_change() {
-      if(node.has_change) {
-        node.has_change = false;
+      if(!node.has_change) return;
+      node.has_change = false;
 
-        if(has_children) {
-          left().receive_change(node.latent_change);
-          if(right().l < tree.elemc) {
-            right().receive_change(node.latent_change);
-          }
+      if(has_children) {
+        left().receive_change(node.latent_change);
+        if(right().l < tree.elemc) {
+          right().receive_change(node.latent_change);
         }
       }
     }
@@ -184,28 +183,28 @@ template<
     }
 
     void resum(int l, int r) {
-      if(has_children) {
-        // Nie propagujemy zmian do wierzchołków w całości w [l, r].
-        if(node.has_change) {
-          node.has_change = false;
+      if(!has_children) return;
 
-          if(!left().is_in(l, r)) {
-            left().receive_change(node.latent_change);
-          }
-          if(!right().is_in(l, r) && right().l < tree.elemc) {
-            right().receive_change(node.latent_change);
-          }
-        }
+      // Nie propagujemy zmian do wierzchołków w całości w [l, r].
+      if(node.has_change) {
+        node.has_change = false;
 
-        if(left().does_intersect(l, r)) {
-          left().resum(l, r);
+        if(!left().is_in(l, r)) {
+          left().receive_change(node.latent_change);
         }
-        if(right().does_intersect(l, r)) {
-          right().resum(l, r);
+        if(!right().is_in(l, r) && right().l < tree.elemc) {
+          right().receive_change(node.latent_change);
         }
-        if(this->r < tree.elemc) {
-          node.val = tree.sum(left().node.val, right().node.val);
-        }
+      }
+
+      if(left().does_intersect(l, r)) {
+        left().resum(l, r);
+      }
+      if(right().does_intersect(l, r)) {
+        right().resum(l, r);
+      }
+      if(this->r < tree.elemc) {
+        node.val = tree.sum(left().node.val, right().node.val);
       }
     }
   };

@@ -61,6 +61,7 @@
   - [ ] liczba ścieżek prostych w grafie
   - [ ] dwuspójne składowe
   - [ ] ścieżka i cykl Eulera
+  - [ ] algorytm Rémy'ego
 - [ ] struktury danych
   - [x] drzewo przedziałowe - rekurencyjne, iteratywne
   - [x] struktura zbiorów rozłącznych
@@ -83,6 +84,7 @@
   - [ ] disjoint sparse table
   - [ ] drzewo Li Chao
   - [ ] drzewo przedziałowe 2D
+  - [ ] sumy prefiksowe 2D
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku
@@ -108,6 +110,9 @@
   - [ ] algorytm Mo
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
   - [ ] znajdź jedną liczbe w ciągu par liczb i podobne problemy
+  - [ ] Quickselect
+  - [ ] algorytm magicznych piątek
+  - [ ] Lazyselect
 - [ ] reszta algorytmów
 
 ### Notatki i materiały
