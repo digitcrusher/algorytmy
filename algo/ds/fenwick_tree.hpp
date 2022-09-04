@@ -15,8 +15,8 @@
 /*
  * Drzewo Fenwicka -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów od lewej do prawej (get) i modyfikacji jednego elementu (modify)
- *   w O(log n). Zużywa O(n) pamięci.
+ *   elementów (get) i modyfikacji jednego elementu (modify) w O(log n). Zużywa
+ *   O(n) pamięci.
  *
  * Add: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów.

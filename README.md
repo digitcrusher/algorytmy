@@ -70,6 +70,7 @@
   - [x] sumy prefiksowe
   - [x] drzewo Fenwicka
   - [x] skompresowane drzewo trie
+  - [x] sumy prefiksowe 2D
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne ułamki
@@ -84,7 +85,8 @@
   - [ ] disjoint sparse table
   - [ ] drzewo Li Chao
   - [ ] drzewo przedziałowe 2D
-  - [ ] sumy prefiksowe 2D
+  - [ ] drzewo Fenwicka 2D
+  - [ ] sparse table 2D
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku
