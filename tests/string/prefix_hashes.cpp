@@ -14,10 +14,10 @@ int main() {
   PrefixHashes<26, AlphaToNum> prefix_hashes(str, mod);
 
   while(true) {
-    int a, b;
-    cin >> a >> b;
+    int l, r;
+    cin >> l >> r;
     if(!cin) break;
-    a--, b--;
-    cout << prefix_hashes.get(a, b) << endl;
+    l--, r--;
+    cout << prefix_hashes.get(l, r) << endl;
   }
 }

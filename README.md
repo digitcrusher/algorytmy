@@ -71,6 +71,7 @@
   - [x] drzewo Fenwicka
   - [x] skompresowane drzewo trie
   - [x] sumy prefiksowe 2D
+  - [x] drzewo Fenwicka 2D
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne ułamki
@@ -85,7 +86,6 @@
   - [ ] disjoint sparse table
   - [ ] drzewo Li Chao
   - [ ] drzewo przedziałowe 2D
-  - [ ] drzewo Fenwicka 2D
   - [ ] sparse table 2D
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
@@ -115,6 +115,7 @@
   - [ ] Quickselect
   - [ ] algorytm magicznych piątek
   - [ ] Lazyselect
+  - [ ] or/subset convolution
 - [ ] reszta algorytmów
 
 ### Notatki i materiały

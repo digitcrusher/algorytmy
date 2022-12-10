@@ -17,14 +17,14 @@
 #include <vector>
 
 /*
- * Normalizuje a do przedziału [0, mod) z zachowaniem a' = a % mod.
+ * Normalizuje x do przedziału [0, mod) z zachowaniem x' = x % mod.
  */
-ll norm_mod(ll a, ll mod) {
-  if(0 <= a && a < mod) {
-    return a;
+ll norm_mod(ll x, ll mod) {
+  if(0 <= x && x < mod) {
+    return x;
   }
   assert(mod > 0);
-  ll x = a % mod;
+  x %= mod;
   return x + (x < 0 ? mod : 0);
 }
 
@@ -88,11 +88,11 @@ ll mod_pow(ll a, ll b, ll mod) {
 }
 
 /*
- * Odwrotność modularna w O(log a) - a * mod_inv(a, mod) % mod = 1
+ * Odwrotność modularna w O(log x) - x * mod_inv(x, mod) % mod = 1
  */
-optional<ll> mod_inv(ll a, ll mod) {
+optional<ll> mod_inv(ll x, ll mod) {
   assert(mod > 0);
-  auto gcd = ext_euclid(a, mod);
+  auto gcd = ext_euclid(x, mod);
   if(gcd.gcd != 1) {
     return nullopt;
   }
@@ -103,51 +103,39 @@ optional<ll> mod_inv(ll a, ll mod) {
  * Odwrotność modularna dla dzielników będących
  * liczbami pierwszymi w O(log prime_mod)
  */
-optional<ll> mod_inv_prime(ll a, ll prime_mod) {
+optional<ll> mod_inv_prime(ll x, ll prime_mod) {
   assert(prime_mod >= 2);
-  if(a % prime_mod == 0) {
+  if(x % prime_mod == 0) {
     return nullopt;
   }
-  return mod_pow(a, prime_mod - 2, prime_mod); // z małego twierdzenia Fermata
+  return mod_pow(x, prime_mod - 2, prime_mod); // z małego twierdzenia Fermata
 }
 
 /*
- * Spamiętywana silnia w O(a)
+ * Spamiętywana silnia w O(x)
  */
 unordered_map<ll, vector<ll>> fac_mem;
 ll const fac_skip = 1;
-ll fac(ll a, ll mod) {
-  assert(mod > 0 && a >= 0);
+ll fac(ll x, ll mod) {
+  assert(mod > 0 && x >= 0);
   if(mod == 1) {
     return 0;
-  } else if(a == 0) {
+  } else if(x == 0) {
     return 1;
   }
 
-  if(a % fac_skip == 0) {
-    int i = a / fac_skip - 1;
-    if(i >= fac_mem[mod].size()) {
-      ll result = fac_mem[mod].empty() ? 1 : fac_mem[mod].back();
-      ll b = fac_mem[mod].size() * fac_skip + 1;
-      fac_mem[mod].resize(i + 1);
-
-      for(; b <= a; b++) {
-        result = mod_mul(result, b, mod);
-        if(b % fac_skip == 0) {
-          fac_mem[mod][b / fac_skip - 1] = result;
-        }
-      }
-    }
-    return fac_mem[mod][i];
-
-  } else {
-    int i = a / fac_skip - 1;
-    ll result = i < 0 ? 1 : fac_mem[mod][i];
-    for(ll b = (i + 1) * fac_skip + 1; b <= a; b++) {
-      result = mod_mul(result, b, mod);
-    }
-    return result;
+  int i = min<int>(x / fac_skip, fac_mem[mod].size());
+  ll result = i == 0 ? 1 : fac_mem[mod][i - 1];
+  if(x / fac_skip - 1 >= fac_mem[mod].size()) {
+    fac_mem[mod].resize(x / fac_skip);
   }
+  for(i = i * fac_skip + 1; i <= x; i++) {
+    result = mod_mul(result, i, mod);
+    if(i % fac_skip == 0) {
+      fac_mem[mod][i / fac_skip - 1] = result;
+    }
+  }
+  return result;
 }
 
 /*
@@ -183,8 +171,8 @@ struct Z {
     return *this = *this * other;
   }
 
-  Z pow(ll b) const {
-    return mod_pow(val, b, mod);
+  Z pow(ll exp) const {
+    return mod_pow(val, exp, mod);
   }
   Z inv() const {
     return mod_inv(val, mod);

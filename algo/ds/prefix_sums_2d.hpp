@@ -16,10 +16,10 @@
  * Sumy prefiksowe 2D -
  *   Struktura danych wspierająca operację obliczenia sum z góry na dół sum
  *   wierszy od lewej do prawej danej podmacierzy elementów (get) w O(1). Zużywa
- *   O(n * m) pamięci.
+ *   O(w * h) pamięci.
  *
  * Add: (Value, Value) -> Value
- *   Łączy dwa sąsiednie przedziały elementów.
+ *   Łączy dwie sąsiednie podmacierze elementów.
  * Sub: (Value, Value) -> Value
  *   Operacja odwrotna do Add.
  *
@@ -27,10 +27,11 @@
  * - Add(Sub(a, a), b) = b
  * - Sub(Add(a, b), c) = Add(Sub(a, c), b)
  * oraz co najmniej jeden z poniższych dwóch zestawów:
+ * - Add(a, b) = Add(b, a) - Add jest przemienne.
  * - Add(Add(a, b), c) = Add(a, Add(b, c)) - Add jest łączne.
  * lub:
- * - Sub(Add(a, b), c) = Add(a, Sub(b, c))
  * - Sub(a, Add(b, a)) = Sub(Sub(a, a), b)
+ * - Sub(Add(a, b), c) = Add(a, Sub(b, c))
  */
 template<class Value, class Add, class Sub>
 struct PrefixSums2D {
@@ -64,7 +65,7 @@ struct PrefixSums2D {
     } else if(y1 == 0) {
       return sub(pref_sum[y2][x2], pref_sum[y2][x1 - 1]);
     } else {
-      return sub(add(sub(pref_sum[y2][x2], pref_sum[y1 - 1][x2]), pref_sum[y1 - 1][x1 - 1]), pref_sum[y2][x1 - 1]);
+      return sub(add(pref_sum[y1 - 1][x1 - 1], sub(pref_sum[y2][x2], pref_sum[y1 - 1][x2])), pref_sum[y2][x1 - 1]);
     }
   }
 };

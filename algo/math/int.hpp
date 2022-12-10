@@ -15,42 +15,42 @@
 #if defined(__GLIBCXX__) || defined(__GLIBCPP__)
 namespace std {
   template<class A>
-  int countl_zero(A a) {
+  int countl_zero(A x) {
     // Wyjaśnienie tego ifa znajduje się w tests/math/int.cpp
     int digit_diff = numeric_limits<ull>::digits - numeric_limits<A>::digits;
-    return a == 0 ? numeric_limits<A>::digits : __builtin_clzll(a) - digit_diff;
+    return x == 0 ? numeric_limits<A>::digits : __builtin_clzll(x) - digit_diff;
   }
   template<class A>
-  int countr_zero(A a) {
-    return a == 0 ? numeric_limits<A>::digits : __builtin_ctzll(a);
+  int countr_zero(A x) {
+    return x == 0 ? numeric_limits<A>::digits : __builtin_ctzll(x);
   }
   template<class A>
-  int popcount(A a) {
-    return __builtin_popcountll(a);
+  int popcount(A x) {
+    return __builtin_popcountll(x);
   }
 }
 #else
 # include <cmath>
 namespace std {
   template<class A>
-  int countl_zero(A a) {
+  int countl_zero(A x) {
     int result = numeric_limits<A>::digits;
-    while(a > 0) {
+    while(x > 0) {
       result--;
-      a >>= 1;
+      x >>= 1;
     }
     return result;
   }
   template<class A>
-  int countr_zero(A a) {
-    return numeric_limits<A>::digits - countl_zero((a - 1) & ~a);
+  int countr_zero(A x) {
+    return numeric_limits<A>::digits - countl_zero((x - 1) & ~x);
   }
   template<class A>
-  int popcount(A a) {
+  int popcount(A x) {
     int result = 0;
-    while(a > 0) {
+    while(x > 0) {
       result++;
-      a = a & (a - 1);
+      x = x & (x - 1);
     }
     return result;
   }
@@ -58,19 +58,19 @@ namespace std {
 #endif
 
 /*
- * Zwraca wykładnik największej potęgi dwójki mniejszej lub równej a.
+ * Zwraca wykładnik największej potęgi dwójki mniejszej lub równej x.
  */
-int floor_log2(ull a) {
-  assert(a != 0);
-  return numeric_limits<ull>::digits - countl_zero(a) - 1;
+int floor_log2(ull x) {
+  assert(x != 0);
+  return numeric_limits<ull>::digits - countl_zero(x) - 1;
 }
 
 /*
- * Zwraca wykładnik najmniejszej potęgi dwójki większej lub równej a.
+ * Zwraca wykładnik najmniejszej potęgi dwójki większej lub równej x.
  */
-int ceil_log2(ull a) {
-  assert(a != 0);
-  return numeric_limits<ull>::digits - countl_zero(a - 1);
+int ceil_log2(ull x) {
+  assert(x != 0);
+  return numeric_limits<ull>::digits - countl_zero(x - 1);
 }
 
 /*
@@ -96,7 +96,7 @@ ll ceil_div(ll a, ll b) {
 }
 
 /*
- * Iteratywne potęgowanie w O(log b)
+ * Iteratywne potęgowanie w O(log b). Uważaj na overloady std::pow.
  */
 ll pow(ll a, ll b) {
   assert(b >= 0);
@@ -114,8 +114,8 @@ ll pow(ll a, ll b) {
 /*
  * Oblicza leksykograficznie następną permutacje bitów.
  */
-ull next_perm(ull a) {
+ull next_perm(ull x) {
   // Formuła zapożyczona z https://graphics.stanford.edu/~seander/bithacks.html
-  ull t = a | (a - 1);
-  return (t + 1) | (((~t & -~t) - 1) >> (countr_zero(a) + 1));
+  ull t = x | (x - 1);
+  return (t + 1) | (((~t & -~t) - 1) >> (countr_zero(x) + 1));
 }

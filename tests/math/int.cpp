@@ -159,38 +159,38 @@ int main() {
     if(!cin) break;
 
     if(op == "countl_zero") {
-      ull a;
-      cin >> a;
+      ull x;
+      cin >> x;
       if(!cin) break;
-      cout << countl_zero(a) << endl;
+      cout << countl_zero(x) << endl;
 
     } else if(op == "countr_zero") {
-      ull a;
-      cin >> a;
+      ull x;
+      cin >> x;
       if(!cin) break;
-      cout << countr_zero(a) << endl;
+      cout << countr_zero(x) << endl;
 
     } else if(op == "popcount") {
-      ull a;
-      cin >> a;
+      ull x;
+      cin >> x;
       if(!cin) break;
-      cout << popcount(a) << endl;
+      cout << popcount(x) << endl;
 
     } else if(op == "floor_log2") {
-      ull a;
-      cin >> a;
+      ull x;
+      cin >> x;
       if(!cin) break;
-      ull result = floor_log2(a);
+      ull result = floor_log2(x);
       cout << result << endl;
-      assert(result == floor(log2(a)));
+      assert(result == floor(log2(x)));
 
     } else if(op == "ceil_log2") {
-      ull a;
-      cin >> a;
+      ull x;
+      cin >> x;
       if(!cin) break;
-      ull result = ceil_log2(a);
+      ull result = ceil_log2(x);
       cout << result << endl;
-      assert(result == ceil(log2(a)));
+      assert(result == ceil(log2(x)));
 
     } else if(op == "floor_div") {
       ll a, b;

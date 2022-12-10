@@ -15,7 +15,7 @@
 
 /*
  * Oblicza liczbę dodatnich dzielników liczby na podstawie jej rozkładu na
- * czynniki pierwsze w O(m), gdzie m to liczba dzielników pierwszych tej
+ * czynniki pierwsze w O(n), gdzie n to liczba dzielników pierwszych tej
  * liczby.
  */
 ll divc(vector<pair<ll, int>> const& factors) {
@@ -28,7 +28,7 @@ ll divc(vector<pair<ll, int>> const& factors) {
 
 /*
  * Oblicza sumę dodatnich dzielników liczby przy pomocy jej rozkładu na czynniki
- * pierwsze w O(m), gdzie m to liczba dzielników pierwszych tej liczby.
+ * pierwsze w O(n), gdzie n to liczba dzielników pierwszych tej liczby.
  */
 ll div_sum(vector<pair<ll, int>> const& factors) {
   ll result = 1;

@@ -4,9 +4,9 @@
 
 int main() {
   while(true) {
-    ll n;
-    cin >> n;
+    ll x;
+    cin >> x;
     if(!cin) break;
-    cout << eulers_phi(n, factor_pollard_rho(n)) << endl;
+    cout << eulers_phi(x, factor_pollard_rho(x)) << endl;
   }
 }

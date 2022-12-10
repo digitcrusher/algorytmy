@@ -5,10 +5,10 @@
 int main() {
   while(true) {
     string op;
-    ll n;
-    cin >> op >> n;
+    ll x;
+    cin >> op >> x;
     if(!cin) break;
-    auto factors = factor_pollard_rho(n);
+    auto factors = factor_pollard_rho(x);
     if(op == "divc") {
       cout << divc(factors) << endl;
     } else if(op == "div_sum") {

@@ -14,11 +14,11 @@
 
 /*
  * Funkcja φ Eulera -
- *   Oblicza liczbę liczb w [1, n] wspólnie pierwszych z n na podstawie jego rozkładu
- *   na czynniki pierwsze w O(m), gdzie m to liczba dzielników pierwszych n.
+ *   Oblicza liczbę liczb w [1, x] wspólnie pierwszych z x na podstawie jego rozkładu
+ *   na czynniki pierwsze w O(n), gdzie n to liczba dzielników pierwszych x.
  */
-ll eulers_phi(ll n, vector<pair<ll, int>> const& factors) {
-  ll result = n;
+ll eulers_phi(ll x, vector<pair<ll, int>> const& factors) {
+  ll result = x;
   for(auto i: factors) {
     result -= result / i.first;
   }

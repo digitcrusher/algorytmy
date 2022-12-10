@@ -18,31 +18,31 @@
 /*
  * Pierwszość liczby można sprawdzać za pomocą sita.
  */
-bool is_prime_sieve(int n, Sieve const& sieve) {
-  return sieve.is_prime[n];
+bool is_prime_sieve(int x, Sieve const& sieve) {
+  return sieve.is_prime[x];
 }
 
 /*
  * Test pierwszości Millera-Rabina -
- *   Sprawdza czy liczba mieszcząca się w 64 bitach jest pierwsza w O(log n).
+ *   Sprawdza czy liczba mieszcząca się w 64 bitach jest pierwsza w O(log x).
  */
-bool is_prime_miller_rabin(ll n) {
-  if(n <= 1) {
+bool is_prime_miller_rabin(ll x) {
+  if(x <= 1) {
     return false;
   }
 
-  ll odd = (n - 1) >> countr_zero(n - 1);
+  ll odd = (x - 1) >> countr_zero(x - 1);
 
   for(ll base: {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
-    if(n == base) {
+    if(x == base) {
       return true;
     }
     bool is_composite = true;
-    if(mod_pow(base, odd, n) == 1) {
+    if(mod_pow(base, odd, x) == 1) {
       is_composite = false;
     }
-    for(ll i = odd; i < n - 1 && is_composite; i *= 2) {
-      if(mod_pow(base, i, n) == n - 1) {
+    for(ll i = odd; i < x - 1 && is_composite; i *= 2) {
+      if(mod_pow(base, i, x) == x - 1) {
         is_composite = false;
       }
     }

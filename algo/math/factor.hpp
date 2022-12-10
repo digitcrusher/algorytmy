@@ -22,92 +22,90 @@
 
 /*
  * Zwraca czynniki pierwsze liczby w kolejności niemalejącej przy pomocy
- * sita do n w O(k) = O(log n), gdzie k to liczba czynników pierwszych.
+ * sita do x w O(n) = O(log x), gdzie n to liczba czynników pierwszych.
  */
-vector<pair<int, int>> factor_sieve_1(int n, Sieve const& sieve) {
-  assert(n >= 1);
+vector<pair<int, int>> factor_sieve_1(int x, Sieve const& sieve) {
+  assert(x >= 1);
 
   vector<pair<int, int>> result;
-  while(n > 1) {
-    int prime = sieve.smallest_factor[n];
+  while(x > 1) {
+    int prime = sieve.smallest_factor[x];
     if(result.empty() || result.back().first != prime) {
       result.push_back({prime, 0});
     }
     result.back().second++;
-    n /= prime;
+    x /= prime;
   }
   return result;
 }
 
 /*
  * Zwraca czynniki pierwsze liczby w kolejności niemalejącej przy
- * pomocy sita do sqrt(n) w O(π(sqrt(n))) = O(sqrt(n) / log n).
+ * pomocy sita do sqrt(x) w O(π(sqrt(x))) = O(sqrt(x) / log x).
  */
-vector<pair<ll, int>> factor_sieve_2(ll n, Sieve const& sieve) {
-  {
-    assert(n >= 1);
-    ll m = sieve.is_prime.size() - 1;
-    assert(m * m >= n);
-  }
+vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
+  assert(x >= 1);
+  ll lim = sieve.is_prime.size() - 1;
+  assert(lim * lim >= x);
 
   vector<pair<ll, int>> result;
   for(int prime: sieve.primes) {
-    if(n == 1 || (ll) prime * prime > n) break;
-    if(n % prime == 0) {
+    if(x == 1 || (ll) prime * prime > x) break;
+    if(x % prime == 0) {
       result.push_back({prime, 0});
     }
-    while(n % prime == 0) {
+    while(x % prime == 0) {
       result.back().second++;
-      n /= prime;
+      x /= prime;
     }
   }
-  if(n > 1) {
-    result.push_back({n, 1});
+  if(x > 1) {
+    result.push_back({x, 1});
   }
   return result;
 }
 
 /*
- * Zwraca czynniki pierwsze liczby w kolejności niemalejącej w O(sqrt(n)).
+ * Zwraca czynniki pierwsze liczby w kolejności niemalejącej w O(sqrt(x)).
  */
-vector<pair<ll, int>> factor_trial(ll n) {
-  assert(n >= 1);
+vector<pair<ll, int>> factor_trial(ll x) {
+  assert(x >= 1);
 
   vector<pair<ll, int>> result;
-  for(int i = 2; (ll) i * i <= n; i++) {
-    if(n % i == 0) {
+  for(int i = 2; (ll) i * i <= x; i++) {
+    if(x % i == 0) {
       result.push_back({i, 0});
     }
-    while(n % i == 0) {
+    while(x % i == 0) {
       result.back().second++;
-      n /= i;
+      x /= i;
     }
   }
-  if(n > 1) {
-    result.push_back({n, 1});
+  if(x > 1) {
+    result.push_back({x, 1});
   }
   return result;
 }
 
 /*
  * Algorytm rho Pollarda -
- *   Rozkłada liczbę na czynniki pierwsze w O(sqrt(sqrt(n)) log n).
+ *   Rozkłada liczbę na czynniki pierwsze w O(sqrt(sqrt(x)) log x).
  */
-vector<pair<ll, int>> factor_pollard_rho(ll n) {
-  assert(n >= 1);
+vector<pair<ll, int>> factor_pollard_rho(ll x) {
+  assert(x >= 1);
 
-  if(n == 1) {
+  if(x == 1) {
     return {};
-  } else if(is_prime_miller_rabin(n)) {
-    return {{n, 1}};
+  } else if(is_prime_miller_rabin(x)) {
+    return {{x, 1}};
   }
 
   unordered_map<ll, int> result;
 
   stack<ll> factors;
-  factors.push(n);
+  factors.push(x);
   while(!factors.empty()) {
-    ll f = factors.top();
+    ll factor = factors.top();
     factors.pop();
 
     /*
@@ -194,16 +192,16 @@ vector<pair<ll, int>> factor_pollard_rho(ll n) {
                     7589,7591,7603,7607,7621,7639,7643,7649,7669,7673,7681,7687,
                     7691,7699,7703,7717,7723,7727,7741,7753,7757,7759,7789,7793,
                     7817,7823,7829,7841,7853,7867,7873,7877,7879,7883,7901,7907}) {
-      if(f == 1) break;
-      while(f % prime == 0) {
+      if(factor == 1) break;
+      while(factor % prime == 0) {
         result[prime]++;
-        f /= prime;
+        factor /= prime;
       }
     }
-    if(is_prime_miller_rabin(f)) {
-      result[f]++;
+    if(is_prime_miller_rabin(factor)) {
+      result[factor]++;
       continue;
-    } else if(f == 1) continue;
+    } else if(factor == 1) continue;
 
     ll a;
     do {
@@ -211,20 +209,20 @@ vector<pair<ll, int>> factor_pollard_rho(ll n) {
       ll x = rand(), c = rand() + 1;
       ll y = x;
       for(int i = 1; a == 1; i++) {
-        x = (mod_mul(x, x, f) + c) % f;
-        a = gcd(abs(x - y), f);
+        x = (mod_mul(x, x, factor) + c) % factor;
+        a = gcd(abs(x - y), factor);
         if(popcount(i) == 1) {
           y = x;
         }
       }
-    } while(a == f);
+    } while(a == factor);
     if(is_prime_miller_rabin(a)) {
       result[a]++;
     } else {
       factors.push(a);
     }
 
-    ll b = f / a;
+    ll b = factor / a;
     if(is_prime_miller_rabin(b)) {
       result[b]++;
     } else {

@@ -59,6 +59,7 @@ struct FenwickTree {
   }
 
   Value get(int l, int r) {
+    assert(l >= 0);
     assert(l <= r);
     if(l != 0) {
       return sub(get(0, r), get(0, l - 1));

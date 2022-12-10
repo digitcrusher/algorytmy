@@ -3,10 +3,10 @@
 
 int main() {
   while(true) {
-    ll n;
-    cin >> n;
+    ll x;
+    cin >> x;
     if(!cin) break;
-    auto result = factor_pollard_rho(n);
+    auto result = factor_pollard_rho(x);
     for(auto [p, k]: result) {
       for(int i = 0; i < k; i++) {
         cout << p << " ";
