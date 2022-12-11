@@ -1,12 +1,11 @@
 /*
  * Szybka transformacja Fouriera - digitcrusher/algorytmy
  *
- * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
+ * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
- * are permitted in any medium without royalty provided the copyright
- * notice and this notice are preserved. This software is offered as-is,
- * without any warranty.
+ * are permitted in any medium without royalty. This software is offered
+ * as-is, without any warranty.
  */
 #pragma once
 #include "common.hpp"

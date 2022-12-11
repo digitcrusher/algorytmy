@@ -1,12 +1,11 @@
 /*
  * Drzewo Fenwicka 2D - digitcrusher/algorytmy
  *
- * Copyright (c) 2021-2022 Karol Łacina aka digitcrusher
+ * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
- * are permitted in any medium without royalty provided the copyright
- * notice and this notice are preserved. This software is offered as-is,
- * without any warranty.
+ * are permitted in any medium without royalty. This software is offered
+ * as-is, without any warranty.
  */
 #pragma once
 #include "common.hpp"
@@ -19,11 +18,11 @@
  *   pamięci.
  *
  * Add: (Value, Value) -> Value
- *   Łaczy dwie sąsiednie podmacierze elementów.
+ *   Łaczy dwa spójne zbiory elementów.
  * Sub: (Value, Value) -> Value
  *   Operacja odwrotna do Add.
  * ApplyChange: (Value, Change) -> Value
- *   Aplikuje zmianę w jednym elemencie na podmacierz elementów.
+ *   Aplikuje zmianę w jednym elemencie na spójny zbiór elementów.
  *
  * Add i Sub muszą spełniać poniższe własności:
  * - Add(Add(a, b), c) = Add(a, Add(b, c)) - Add jest łączne.
