@@ -1,4 +1,4 @@
-#include "ds/segment_tree.hpp"
+#include "ds/segment_tree/range_range.hpp"
 #include <iostream>
 
 int main() {
@@ -15,7 +15,7 @@ int main() {
   SegmentTree<
     int, plus<int>,
     int, decltype(apply_change), plus<int>
-  > tree(init, plus<int>(), apply_change, plus<int>());
+  > tree(init, plus<int>(), apply_change);
 
   while(true) {
     string op;

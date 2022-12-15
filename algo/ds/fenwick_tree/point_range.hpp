@@ -28,6 +28,7 @@
  * - Add(Add(a, b), c) = Add(a, Add(b, c)) - Add jest łączne.
  * - Add(Sub(a, a), b) = b
  * - Sub(Add(a, b), c) = Add(Sub(a, c), b)
+ * - ApplyChange(Add(a, b), c) = Add(ApplyChange(a, c), b) = Add(a, ApplyChange(b, c))
  */
 template<class Value, class Add, class Sub, class Change, class ApplyChange>
 struct FenwickTree {
@@ -58,8 +59,7 @@ struct FenwickTree {
   }
 
   Value get(int l, int r) {
-    assert(l >= 0);
-    assert(l <= r);
+    assert(0 <= l && l <= r);
     if(l != 0) {
       return sub(get(0, r), get(0, l - 1));
     } else {

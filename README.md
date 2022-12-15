@@ -63,29 +63,27 @@
   - [ ] ścieżka i cykl Eulera
   - [ ] algorytm Rémy'ego
 - [ ] struktury danych
-  - [x] drzewo przedziałowe - rekurencyjne, iteratywne
+  - [x] drzewo przedziałowe
+    - [x] przedział-przedział, punkt-przedział
+    - [ ] przedział-punkt, przedział-przedział bez propagacji, równolegle 2D, gnieżdżąco 2D, leniwe przedział-przedział
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
-  - [x] sumy prefiksowe
-  - [x] drzewo Fenwicka
+  - [x] sumy prefiksowe - 1D, 2D
+  - [x] drzewo Fenwicka - punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D, przedział-przedział, przedział-przedział 2D
   - [x] skompresowane drzewo trie
-  - [x] sumy prefiksowe 2D
-  - [x] drzewo Fenwicka 2D
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne ułamki
   - [ ] treap (drzewiec)
   - [ ] ciągi
   - [ ] dynamiczne drzewo AABB
-  - [ ] leniwe drzewo przedziałowe
   - [ ] maski bitowe
   - [ ] glibc pbds
   - [ ] permutacje
   - [ ] fibonacci heap
   - [ ] disjoint sparse table
   - [ ] drzewo Li Chao
-  - [ ] drzewo przedziałowe 2D
   - [ ] sparse table 2D
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj

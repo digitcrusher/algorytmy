@@ -1,4 +1,4 @@
-#include "ds/segment_tree_iter.hpp"
+#include "ds/segment_tree/point_range.hpp"
 #include <iostream>
 
 int main() {
@@ -9,7 +9,7 @@ int main() {
     cin >> num;
   }
 
-  SegmentTree<int, plus<int>> tree(init);
+  SegmentTreePointRange<int, plus<int>> tree(init);
 
   while(true) {
     string op;

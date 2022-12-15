@@ -13,7 +13,7 @@
 #include <vector>
 
 /*
- * Iteratywne drzewo przedziałowe punkt-przedział -
+ * Drzewo przedziałowe punkt-przedział -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
  *   elementów (get) i ustawienia elementu (set) w O(log n). Zużywa O(n)
  *   pamięci. Ta implementacja zakłada, że początkowa tablica nigdy nie
@@ -24,7 +24,7 @@
  *   Sum(Sum(a, b), c) = Sum(a, Sum(b, c)).
  */
 template<class Value, class Sum>
-struct SegmentTree {
+struct SegmentTreePointRange {
   Sum sum;
 
   int elemc;
@@ -33,12 +33,12 @@ struct SegmentTree {
   int height, nodec;
   int base_offset;
 
-  SegmentTree(vector<Value> const& elems, Sum sum = Sum()):
+  SegmentTreePointRange(vector<Value> const& elems, Sum sum = Sum()):
     elemc(elems.size()), sum(sum)
   {
-    height = ceil_log2(elemc + 2) + 1;
+    height = ceil_log2(elemc) + 1;
     nodec = (1u << height) - 1;
-    base_offset = 1u << (height - 1);
+    base_offset = (1u << (height - 1)) - 1;
     nodes.resize(nodec);
 
     for(int i = 0; i < elemc; i++) {
@@ -48,16 +48,18 @@ struct SegmentTree {
   }
 
   Value get(int l, int r) {
-    assert(l <= r && r < elemc);
+    assert(0 <= l && l <= r && r < elemc);
     Value left{}, right{};
-    l += base_offset;
-    r += base_offset + 2;
-    while(l / 2 != r / 2) {
-      if(l % 2 != 1) {
-        left = sum(left, nodes[l]);
+    l += base_offset + 1;
+    r += base_offset + 1;
+    while(l <= r) {
+      if(l % 2 == 1) {
+        left = sum(left, nodes[l - 1]);
+        l++;
       }
-      if(r % 2 != 0) {
-        right = sum(nodes[r - 2], right);
+      if(r % 2 == 0) {
+        right = sum(nodes[r - 1], right);
+        r--;
       }
       l /= 2, r /= 2;
     }
@@ -75,7 +77,7 @@ struct SegmentTree {
   }
 
   void resum(int num = 1) {
-    if(num <= base_offset - 1) {
+    if(num - 1 < base_offset) {
       resum(2 * num);
       resum(2 * num + 1);
       nodes[num - 1] = sum(nodes[2 * num - 1], nodes[2 * num]);

@@ -1,4 +1,4 @@
-#include "ds/fenwick_tree.hpp"
+#include "ds/fenwick_tree/point_range.hpp"
 #include <iostream>
 
 int main() {

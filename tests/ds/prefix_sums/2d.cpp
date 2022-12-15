@@ -1,4 +1,4 @@
-#include "ds/prefix_sums_2d.hpp"
+#include "ds/prefix_sums/2d.hpp"
 #include <iostream>
 
 int main() {

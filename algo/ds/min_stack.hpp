@@ -1,5 +1,5 @@
 /*
- * Stos minimum/monotoniczna - digitcrusher/algorytmy
+ * Stos minimum/monotoniczny - digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
  *

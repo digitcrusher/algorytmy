@@ -14,21 +14,22 @@
 /*
  * Drzewo Fenwicka 2D -
  *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy elementów
- *   (get) i modyfikacji jednego elementu (modify) w O(log w * log h). Zużywa O(w * h)
- *   pamięci.
+ *   (get) i modyfikacji jednego elementu (modify) w O(log w * log h). Zużywa
+ *   O(w * h) pamięci.
  *
  * Add: (Value, Value) -> Value
- *   Łaczy dwa spójne zbiory elementów.
+ *   Łaczy dwie sumy elementów.
  * Sub: (Value, Value) -> Value
  *   Operacja odwrotna do Add.
  * ApplyChange: (Value, Change) -> Value
- *   Aplikuje zmianę w jednym elemencie na spójny zbiór elementów.
+ *   Aplikuje zmianę w jednym elemencie na sumę elementów.
  *
- * Add i Sub muszą spełniać poniższe własności:
+ * Powyższe operacje muszą spełniać poniższe własności:
  * - Add(Add(a, b), c) = Add(a, Add(b, c)) - Add jest łączne.
  * - Add(a, b) = Add(b, a) - Add jest przemienne.
  * - Add(Sub(a, a), b) = b
  * - Sub(Add(a, b), c) = Add(Sub(a, c), b)
+ * - ApplyChange(Add(a, b), c) = Add(ApplyChange(a, c), b)
  */
 template<class Value, class Add, class Sub, class Change, class ApplyChange>
 struct FenwickTree2D {

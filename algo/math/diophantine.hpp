@@ -42,6 +42,6 @@ optional<LinDiophantineSoln> solve_lin_diophantine(ll a, ll b, ll c) {
     c / gcd.gcd * gcd.x,
     c / gcd.gcd * gcd.y,
     a, b,
-    gcd.gcd,
+    gcd.gcd
   };
 }

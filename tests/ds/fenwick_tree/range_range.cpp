@@ -1,4 +1,4 @@
-#include "ds/segment_tree_fast.hpp"
+#include "ds/fenwick_tree/range_range.hpp"
 #include <iostream>
 
 int main() {
@@ -12,10 +12,10 @@ int main() {
   auto apply_change = [](int val, int change, int elemc) {
     return val + change * elemc;
   };
-  SegmentTree<
-    int, plus<int>,
-    int, decltype(apply_change), plus<int>
-  > tree(init, plus<int>(), apply_change, plus<int>());
+  FenwickTreeRangeRange<
+    int, plus<int>, minus<int>,
+    int, decltype(apply_change), plus<int>, negate<int>
+  > tree(init, 0, plus<int>(), minus<int>(), apply_change);
 
   while(true) {
     string op;
