@@ -50,8 +50,8 @@
   - [x] binary lifting
   - [x] najniższy wspólny przodek - z binary liftingu, z RMQ
   - [x] heavy-light decomposition
+  - [x] centroid decomposition
   - [ ] chain decomposition
-  - [ ] centroid decomposition
   - [ ] 2-SAT
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
@@ -65,7 +65,7 @@
 - [ ] struktury danych
   - [x] drzewo przedziałowe
     - [x] przedział-przedział, punkt-przedział
-    - [ ] przedział-punkt, przedział-przedział bez propagacji, równolegle 2D, gnieżdżąco 2D, leniwe przedział-przedział
+    - [ ] przedział-punkt, przedział-przedział bez propagacji, równolegle 2D, punkt-przedział gnieżdżąco 2D, przedział-przedział gnieżdżąco 2D, leniwe przedział-przedział
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
@@ -85,6 +85,7 @@
   - [ ] disjoint sparse table
   - [ ] drzewo Li Chao
   - [ ] sparse table 2D
+  - [ ] quadtree
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku

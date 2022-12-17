@@ -7,6 +7,7 @@ int main() {
     string op;
     cin >> op;
     if(!cin) break;
+
     if(op == "graph") {
       int n, m;
       cin >> n >> m;
@@ -21,12 +22,14 @@ int main() {
         adj[a].push_back(b);
       }
       if(!cin) break;
+
     } else if(!adj.empty()) {
       if(op == "bfs") {
         int root;
         cin >> root;
         if(!cin) break;
         root--;
+
         auto result = bfs(root, adj);
         for(bool i: result.is_vis) {
           cout << i << " ";
@@ -40,11 +43,13 @@ int main() {
           cout << i << " ";
         }
         cout << endl;
+
       } else if(op == "dfs") {
         int root;
         cin >> root;
         if(!cin) break;
         root--;
+
         auto result = dfs(root, adj);
         for(bool i: result.is_vis) {
           cout << i << " ";

@@ -62,7 +62,7 @@ int lca_rmq(vector<vector<int>> const& adj, int root, int a, int b) {
 
   vector<int> entry(n), depth(n);
   vector<int> euler_tour;
-  euler_tour.reserve(2 * n + 1);
+  euler_tour.reserve(2 * n - 1);
 
   function<void(int, int)> dfs = [&](int node, int parent) {
     entry[node] = euler_tour.size();

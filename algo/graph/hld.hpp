@@ -15,7 +15,7 @@
 #include <vector>
 
 /*
- * Heavy-light decompostition (HLD) -
+ * Heavy-light decomposition (HLD) -
  *   Rozkłada ukorzenione drzewo na "ciężkie" ścieżki w O(V) tak, że na każdej
  *   ścieżce z dowolnego wierzchołka do korzenia jest O(log V) ciężkich ścieżek,
  *   oraz przypisuje wierzchołkom numerację preorder tak, że kolejne wierzchołki
