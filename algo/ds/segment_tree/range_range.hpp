@@ -79,15 +79,15 @@ template<
     return NodeOps(1, *this);
   }
   Value get(int l, int r) {
-    assert(l <= r && r < elemc);
+    assert(0 <= l && l <= r && r < elemc);
     return root().get(l, r);
   }
   void modify(int l, int r, Change change) {
-    assert(l <= r && r < elemc);
+    assert(0 <= l && l <= r && r < elemc);
     root().modify(l, r, change);
   }
   void resum(int l, int r) {
-    assert(l <= r && r < elemc);
+    assert(0 <= l && l <= r && r < elemc);
     root().resum(l, r);
   }
 

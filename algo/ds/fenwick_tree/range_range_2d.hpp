@@ -36,7 +36,7 @@
  * - Add(Sub(a, a), b) = b
  * - Sub(Add(a, b), c) = Add(Sub(a, c), b)
  * - ApplyChange(Add(x, y), a, n) = Add(ApplyChange(x, a, n), y)
- * - (i, j > 0 & i + j = n) => ApplyChange(Add(x, y), a, n) = Add(ApplyChange(x, a, i), ApplyChange(x, a, j))
+ * - (i, j > 0 & i + j = n) => ApplyChange(Add(x, y), a, n) = Add(ApplyChange(x, a, i), ApplyChange(y, a, j))
  * - ApplyChange(x, MergeChange(a, b), n) = ApplyChange(ApplyChange(x, a, n), b, n)
  * - ApplyChange(ApplyChange(a, b, n), NegateChange(b), n) = a
  * - ApplyChange(a, MultiplyChange(b, n), m) = ApplyChange(a, b, n * m)

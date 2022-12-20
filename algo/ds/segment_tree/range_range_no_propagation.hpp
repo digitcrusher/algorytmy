@@ -1,6 +1,6 @@
 /*
- * Szybsza implementacja drzewa przedziałowego przedział-przedział
- *                                          digitcrusher/algorytmy
+ * Drzewo przedziałowe przedział-przedział bez propagacji
+ *                                 digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
  *
@@ -15,20 +15,23 @@
 #include <vector>
 
 /*
- * Szybsza implementacja drzewa przedziałowego przedział-przedział -
+ * Drzewo przedziałowe przedział-przedział bez propagacji -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
  *   elementów (get) i modyfikacji (modify) w O(log n). Zużywa O(n) pamięci.
- *   Ta implementacja zakłada, że początkowa tablica nigdy nie jest pusta, oraz
- *   pozbywa się overheadu NodeOps.
+ *   Ta implementacja zakłada, że początkowa tablica nigdy nie jest pusta.
  *
  * Sum: (Value, Value) -> Value
- *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
- *   Sum(Sum(a, b), c) = Sum(a, Sum(b, c)).
+ *   Łaczy dwa sąsiednie przedziały elementów.
  * ApplyChange: (Value, Change, int) -> Value
- *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów o rozmiarze
- *   będącym potęgą dwójki.
+ *   Aplikuje zmianę na wartość sumy spójnego przedziału elementów.
  * MergeChange: (Change, Change) -> Change
  *   Kumuluje dwie zmiany do jednej.
+ *
+ * Powyższe operacje muszą spełniać poniższe własności:
+ * - Sum(Sum(a, b), c) = Sum(a, Sum(b, c)) - Sum jest łączne.
+ * - ApplyChange(Sum(x, y), a, n) = Sum(ApplyChange(x, a, n), y) = Sum(x, ApplyChange(y, a, n))
+ * - (i, j > 0 & i + j = n) => ApplyChange(Sum(x, y), a, n) = Sum(ApplyChange(x, a, i), ApplyChange(y, a, j))
+ * - ApplyChange(x, MergeChange(a, b), n) = ApplyChange(ApplyChange(x, a, n), b, n)
  */
 template<
   class Value,
@@ -36,14 +39,14 @@ template<
   class Change,
   class ApplyChange,
   class MergeChange
-> struct SegmentTree {
+> struct SegmentTreeNoPropagation {
   Sum sum;
   ApplyChange apply_change;
   MergeChange merge_change;
 
   struct Node {
     Value val;
-    Change latent_change;
+    Change change;
     bool has_change = false;
   };
 
@@ -53,9 +56,9 @@ template<
   int height, nodec;
   int base_nodec, base_offset;
 
-  SegmentTree(vector<Value> const& elems, Sum sum = Sum(),
-              ApplyChange apply_change = ApplyChange(),
-              MergeChange merge_change = MergeChange()):
+  SegmentTreeNoPropagation(vector<Value> const& elems, Sum sum = Sum(),
+                           ApplyChange apply_change = ApplyChange(),
+                           MergeChange merge_change = MergeChange()):
     elemc(elems.size()), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
     height = ceil_log2(elemc) + 1;
@@ -73,18 +76,23 @@ template<
   Value get(int l, int r) {
     assert(0 <= l && l <= r && r < elemc);
     function<Value(int, int, int)> descend = [&](int num, int node_l, int node_r) {
+      auto &node = nodes[num - 1];
       if(is_in(node_l, node_r, l, r)) {
-        return nodes[num - 1].val;
+        return node.val;
       } else {
-        propagate_change(num, node_l, node_r);
+        Value result;
         int mid = (node_l + node_r) / 2;
         if(!do_intersect(mid + 1, node_r, l, r)) {
-          return descend(2 * num, node_l, mid);
+          result = descend(2 * num, node_l, mid);
         } else if(!do_intersect(node_l, mid, l, r)) {
-          return descend(2 * num + 1, mid + 1, node_r);
+          result = descend(2 * num + 1, mid + 1, node_r);
         } else {
-          return sum(descend(2 * num, node_l, mid), descend(2 * num + 1, mid + 1, node_r));
+          result = sum(descend(2 * num, node_l, mid), descend(2 * num + 1, mid + 1, node_r));
         }
+        if(node.has_change) {
+          result = apply_change(result, node.change, min(r, node_r) - max(l, node_l) + 1);
+        }
+        return result;
       }
     };
     return descend(1, 0, base_nodec - 1);
@@ -96,7 +104,6 @@ template<
       if(is_in(node_l, node_r, l, r)) {
         receive_change(num, node_l, node_r, change);
       } else {
-        propagate_change(num, node_l, node_r);
         int mid = (node_l + node_r) / 2;
         if(do_intersect(node_l, mid, l, r)) {
           descend(2 * num, node_l, mid);
@@ -105,7 +112,7 @@ template<
           descend(2 * num + 1, mid + 1, node_r);
         }
         if(node_r < elemc) {
-          nodes[num - 1].val = sum(nodes[2 * num - 1].val, nodes[2 * num].val);
+          nodes[num - 1].val = apply_change(nodes[num - 1].val, change, min(r, node_r) - max(l, node_l) + 1);
         }
       }
     };
@@ -124,10 +131,10 @@ template<
         node.has_change = false;
 
         if(!is_in(node_l, mid, l, r)) {
-          receive_change(2 * num, node_l, mid, node.latent_change);
+          receive_change(2 * num, node_l, mid, node.change);
         }
         if(!is_in(mid + 1, node_r, l, r) && mid + 1 < elemc) {
-          receive_change(2 * num + 1, mid + 1, node_r, node.latent_change);
+          receive_change(2 * num + 1, mid + 1, node_r, node.change);
         }
       }
 
@@ -158,22 +165,8 @@ template<
       node.val = apply_change(node.val, change, node_r - node_l + 1);
     }
     if(node_l != node_r) {
-      node.latent_change = node.has_change ? merge_change(node.latent_change, change) : change;
+      node.change = node.has_change ? merge_change(node.change, change) : change;
       node.has_change = true;
-    }
-  }
-
-  void propagate_change(int num, int node_l, int node_r) {
-    auto &node = nodes[num - 1];
-    if(!node.has_change) return;
-    node.has_change = false;
-
-    if(node_l != node_r) {
-      int mid = (node_l + node_r) / 2;
-      receive_change(2 * num, node_l, mid, node.latent_change);
-      if(mid + 1 < elemc) {
-        receive_change(2 * num + 1, mid + 1, node_r, node.latent_change);
-      }
     }
   }
 };

@@ -64,8 +64,8 @@
   - [ ] algorytm Rémy'ego
 - [ ] struktury danych
   - [x] drzewo przedziałowe
-    - [x] przedział-przedział, punkt-przedział
-    - [ ] przedział-punkt, przedział-przedział bez propagacji, równolegle 2D, punkt-przedział gnieżdżąco 2D, przedział-przedział gnieżdżąco 2D, leniwe przedział-przedział
+    - [x] przedział-przedział, przedział-przedział bez propagacji, przedział-przedział 2D, punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D
+    - [ ] leniwe przedział-przedział
   - [x] struktura zbiorów rozłącznych
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
