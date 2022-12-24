@@ -195,12 +195,12 @@ template<
       if(node_x2 >= w) return;
       int overlap_x = overlap_of(x1, x2, node_x1, node_x2),
           overlap_y = overlap_of(y1, y2, node_y1, node_y2);
-      bool is_x_covered = is_in(node_x1, node_x2, x1, x2),
-           is_y_covered = is_in(node_y1, node_y2, y1, y2);
+      bool is_x_covered = is_in(node_x1, node_x2, x1, x2) && node_x1 != node_x2,
+           is_y_covered = is_in(node_y1, node_y2, y1, y2) && node_y1 != node_y2;
       auto &node = nodes[y_num - 1][x_num - 1];
       node.val = apply_change(node.val, change, overlap_x * overlap_y);
 
-      if(node_x1 == node_x2 && node_y1 == node_y2) return;
+      // TODO: a node.has_change to gdzie????
       if(is_x_covered) {
         node.change_x = merge_change(node.change_x, multiply_change(change, overlap_y));
       }
@@ -210,7 +210,9 @@ template<
       if(is_x_covered && is_y_covered) {
         node.change_xy = merge_change(node.change_xy, change);
       }
-      node.has_change = true;
+      if(is_x_covered || is_y_covered) {
+        node.has_change = true;
+      }
     };
 
     function<void(int, int, int)> descend_y = [&](int y_num, int node_y1, int node_y2) {

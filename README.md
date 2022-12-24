@@ -41,7 +41,7 @@
   - [x] sortowanie topologiczne - Kahn, z DFS
   - [x] silnie spójne składowe - Kosaraju
   - [x] dwu-kolorowanie grafu
-  - [x] mosty i punkty artykulacji
+  - [x] mosty, punkty artykulacji i dwuspójne składowe
   - [x] generator grafów losowych
   - [x] minimalne drzewo rozpinające - Kruskal, Prim
   - [x] najkrótsze ścieżki
@@ -59,7 +59,6 @@
   - [ ] problem komiwojażera - z DP, z branch-and-bound
   - [ ] problem skoczka szachowego
   - [ ] liczba ścieżek prostych w grafie
-  - [ ] dwuspójne składowe
   - [ ] ścieżka i cykl Eulera
   - [ ] algorytm Rémy'ego
 - [ ] struktury danych
