@@ -65,7 +65,7 @@
   - [x] drzewo przedziałowe
     - [x] przedział-przedział, przedział-przedział bez propagacji, przedział-przedział 2D, punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D
     - [ ] leniwe przedział-przedział
-  - [x] struktura zbiorów rozłącznych
+  - [x] struktura zbiorów rozłącznych - las zbiorów rozłącznych, z trzymaniem elementów
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
   - [x] sumy prefiksowe - 1D, 2D
