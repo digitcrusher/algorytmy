@@ -32,9 +32,11 @@
   - [x] różne wzorki kombinatoryczne
   - [x] FFT
   - [x] modularne inty
-  - [ ] NTT
+  - [x] NTT
+  - [x] pierwiastek pierwotny
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] funkcje tworzące
+  - [ ] eliminacja Gaussa - rzeczywista, modularna, bitowa
 - [ ] grafy
   - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
   - [x] przeszukiwanie grafu - BFS, DFS (w tym funkcja low)
@@ -61,6 +63,7 @@
   - [ ] liczba ścieżek prostych w grafie
   - [ ] ścieżka i cykl Eulera
   - [ ] algorytm Rémy'ego
+  - [ ] maksymalny przepływ - Edmonds-Karp
 - [ ] struktury danych
   - [x] drzewo przedziałowe
     - [x] przedział-przedział, przedział-przedział bez propagacji, przedział-przedział 2D, punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D
@@ -127,7 +130,7 @@
 
 ### Inne
 
-- [x] moja templatka do rozwiązań
+- [x] templatka do rozwiązań
 - [x] pragmy
 - [x] testerka w kodzie
 - [x] szybkie I/O

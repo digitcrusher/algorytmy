@@ -1,7 +1,7 @@
 /*
  * Heavy-light decomposition - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -64,7 +64,7 @@ struct HLD {
       entry[node] = time;
       time++;
 
-      if(adj[node].size() > 1) {
+      if(!adj[node].empty()) {
         heavy[adj[node][0]] = heavy[node];
         decompose(adj[node][0]);
       }

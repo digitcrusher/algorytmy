@@ -12,8 +12,6 @@ int main() {
     }
     if(!cin) break;
 
-    vector<cld> result;
-
     if(op == "dft") {
       fft(a);
     } else if(op == "idft") {

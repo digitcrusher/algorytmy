@@ -2,7 +2,7 @@
  * Szybsza implementacja drzewa przedziałowego przedział-przedział
  *                                          digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered

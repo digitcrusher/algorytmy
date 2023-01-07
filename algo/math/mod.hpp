@@ -1,7 +1,7 @@
 /*
  * Arytmetyka modularna - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -174,9 +174,9 @@ struct Z {
     return mod_pow(val, exp, mod);
   }
   Z inv() const {
-    return mod_inv(val, mod);
+    return *mod_inv(val, mod);
   }
   Z inv_prime() const {
-    return mod_inv_prime(val, mod);
+    return *mod_inv_prime(val, mod);
   }
 };

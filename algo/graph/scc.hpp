@@ -1,7 +1,7 @@
 /*
  * Silnie spójne składowe - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -26,7 +26,7 @@ SCCs scc_kosaraju(vector<vector<int>> const& adj,
 {
   int const n = adj.size();
 
-  vector<int> is_vis(n, false);
+  vector<bool> is_vis(n, false);
   vector<int> post_order;
   post_order.reserve(n);
 

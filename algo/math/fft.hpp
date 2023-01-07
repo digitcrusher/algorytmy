@@ -1,7 +1,7 @@
 /*
  * Szybka transformacja Fouriera - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2022 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -23,9 +23,7 @@ using cld = complex<long double>;
  */
 void fft(vector<cld> &poly, bool should_invert = false) {
   int const n = poly.size();
-  if(n == 1) {
-    return;
-  }
+  if(n == 1) return;
   assert(popcount(n) == 1);
 
   vector<cld> a(n / 2), b(n / 2);
