@@ -16,11 +16,101 @@
 
 /*
  * Binary lifting -
- *   Generuje strukturę z drzewa ukorzenionego w O(V log V) pozwalającą na
+ *   Generuje strukturę z drzewa ukorzenionego w O(V) pozwalającą na
  *   wyszukiwanie binarne na ścieżce z dowolnego wierzchołka do korzenia
  *   w O(log d), gdzie d to długość ścieżki.
  */
-vector<vector<int>> binary_lift(vector<int> const& parent) {
+vector<int> binary_lift(vector<int> const& parent) {
+  int const n = parent.size();
+
+  vector<int> lift(n, -1);
+
+  vector<int> depth(n);
+  function<void(int)> calc = [&](int node) {
+    if(parent[node] == -1) {
+      lift[node] = node;
+      depth[node] = 0;
+      return;
+    }
+    if(lift[parent[node]] == -1) {
+      calc(parent[node]);
+    }
+    depth[node] = depth[parent[node]] + 1;
+    int p = parent[node];
+    if(depth[p] - depth[lift[p]] == depth[lift[p]] - depth[lift[lift[p]]]) {
+      lift[node] = lift[lift[p]];
+    } else {
+      lift[node] = p;
+    }
+  };
+  for(int i = 0; i < n; i++) {
+    if(lift[i] == -1) {
+      calc(i);
+    }
+  }
+  return lift;
+}
+
+/*
+ * Znajduje ostatni wierzchołek na ścieżce z wierzchołka do korzenia
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * monotoniczny nierosnący (jak wiadomo, true to 1, a false to 0) lub -1,
+ * jeśli taki wierzchołek nie istnieje.
+ */
+template<class Predicate>
+int lifting_find_last(vector<int> const& parent, vector<int> const& lift,
+                      int node, Predicate pred = Predicate())
+{
+  int const n = lift.size();
+
+  if(!pred(node)) {
+    return -1;
+  }
+
+  while(parent[node] != -1 && pred(parent[node])) {
+    if(pred(lift[node])) {
+      node = lift[node];
+    } else {
+      node = parent[node];
+    }
+  }
+  return node;
+}
+
+/*
+ * Znajduje pierwszy wierzchołek na ścieżce z wierzchołka do korzenia
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * monotoniczny niemalejący (jak wiadomo, true to 1, a false to 0) lub -1,
+ * jeśli taki wierzchołek nie istnieje.
+ */
+template<class Predicate>
+int lifting_find_first(vector<int> const& parent, vector<int> const& lift,
+                       int node, Predicate pred = Predicate())
+{
+  int const n = lift.size();
+
+  if(pred(node)) {
+    return node;
+  }
+
+  while(parent[node] != -1 && !pred(parent[node])) {
+    if(!pred(lift[node])) {
+      node = lift[node];
+    } else {
+      node = parent[node];
+    }
+  }
+  return parent[node] == -1 ? -1 : parent[node];
+}
+
+/*
+ * Gorszy binary lifting -
+ *   Generuje strukturę z drzewa ukorzenionego w O(V log V) pozwalającą na
+ *   wyszukiwanie binarne na ścieżce z dowolnego wierzchołka do korzenia
+ *   w O(log d), gdzie d to długość ścieżki. Mimo trzykrotnie mniejszej liczby
+ *   skoków niz zwykły jest wciąż wolniejszy, a mimo to popularniejszy.
+ */
+vector<vector<int>> worse_binary_lift(vector<int> const& parent) {
   int const n = parent.size();
 
   vector<vector<int>> lift(n);
@@ -44,13 +134,13 @@ vector<vector<int>> binary_lift(vector<int> const& parent) {
 }
 
 /*
- * Lżejszy binary lifting -
- *   Generuje strukturę z drzewa ukorzenionego w O(V) pozwalającą na
+ * Lżejszy gorszy binary lifting -
+ *   Generuje strukturę z drzewa ukorzenionego w O(V log V) pozwalającą na
  *   wyszukiwanie binarne na ścieżce z dowolnego wierzchołka do korzenia
- *   w O(log d), gdzie d to długość ścieżki, ale z większą stałą niż zwykły
- *   binary lifting.
+ *   w O(log d), gdzie d to długość ścieżki, ale z mniejszą stała pamięciową
+ *   i większą stałą czasową niż zwykły gorszy binary lifting.
  */
-vector<vector<int>> light_binary_lift(vector<int> const& parent) {
+vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
   int const n = parent.size();
 
   vector<vector<int>> lift(n);
@@ -79,13 +169,13 @@ vector<vector<int>> light_binary_lift(vector<int> const& parent) {
 }
 
 /*
- * Znajduje ostatni wierzchołek na ścieżce z wierzchołka do korzenia w O(log d),
- * gdzie d to długość ścieżki, spełniający dowolny warunek monotoniczny
- * nierosnący (jak wiadomo, true to 1, a false to 0) lub -1, jeśli taki
- * wierzchołek nie istnieje.
+ * Znajduje ostatni wierzchołek na ścieżce z wierzchołka do korzenia
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * monotoniczny nierosnący (jak wiadomo, true to 1, a false to 0) lub -1,
+ * jeśli taki wierzchołek nie istnieje.
  */
 template<class Predicate>
-int lifting_find_last(vector<vector<int>> const& lift,
+int worse_lifting_find_last(vector<vector<int>> const& lift,
                       int node, Predicate pred = Predicate())
 {
   int const n = lift.size();
@@ -113,7 +203,7 @@ int lifting_find_last(vector<vector<int>> const& lift,
  * jeśli taki wierzchołek nie istnieje.
  */
 template<class Predicate>
-int lifting_find_first(vector<vector<int>> const& lift,
+int worse_lifting_find_first(vector<vector<int>> const& lift,
                        int node, Predicate pred = Predicate())
 {
   int const n = lift.size();

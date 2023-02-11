@@ -18,8 +18,38 @@
  * Znajduje najniższego wspólnego przodka dwóch wierzchołków
  * w drzewie na podstawie jego binary liftingu w O(log V).
  */
-int lca_lifting(vector<vector<int>> const& lift,
+int lca_lifting(vector<int> const& parent, vector<int> const& lift,
                 vector<int> const& depth, int a, int b)
+{
+  if(depth[a] < depth[b]) {
+    swap(a, b);
+  }
+  while(depth[a] > depth[b]) {
+    if(depth[lift[a]] >= depth[b]) {
+      a = lift[a];
+    } else {
+      a = parent[a];
+    }
+  }
+
+  while(a != b) {
+    if(lift[a] != lift[b]) {
+      a = lift[a];
+      b = lift[b];
+    } else {
+      a = parent[a];
+      b = parent[b];
+    }
+  }
+  return a;
+}
+
+/*
+ * Znajduje najniższego wspólnego przodka dwóch wierzchołków
+ * w drzewie na podstawie jego gorszego binary liftingu w O(log V).
+ */
+int lca_worse_lifting(vector<vector<int>> const& lift,
+                      vector<int> const& depth, int a, int b)
 {
   if(depth[a] < depth[b]) {
     swap(a, b);

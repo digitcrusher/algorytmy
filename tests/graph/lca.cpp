@@ -33,8 +33,9 @@ int main() {
       if(!cin) break;
       a--, b--;
       auto dfs = ::dfs(root, adj);
-      int result = lca_lifting(binary_lift(dfs.parent), dfs.depth, a, b);
+      int result = lca_lifting(dfs.parent, binary_lift(dfs.parent), dfs.depth, a, b);
       cout << result + 1 << endl;
+      assert(result == lca_worse_lifting(worse_binary_lift(dfs.parent), dfs.depth, a, b));
       assert(result == lca_rmq(adj, root, a, b));
     }
   }
