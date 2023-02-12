@@ -92,12 +92,10 @@
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku
   - [x] hasze prefiksowe
-  - [ ] wyszukiwanie wzorca w tekście
-    - [x] Rabin-Karp
-    - [ ] KMP
+  - [x] wyszukiwanie wzorca w tekście - Rabin-Karp, KMP
   - [x] tablica sufiksowa
+  - [x] funkcja prefiksowa
   - [ ] najdłuższy rosnący podciąg
-  - [ ] funkcja prefiksowa - KMP
   - [ ] algorytm Manachera
   - [ ] KMR
 - [ ] geometria

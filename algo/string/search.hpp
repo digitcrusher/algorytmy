@@ -9,6 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
+#include "string/prefix_function.hpp"
 #include "string/rolling_hash.hpp"
 #include <string>
 #include <vector>
@@ -47,6 +48,33 @@ vector<int> search_rabin_karp(string const& str, string const& pattern,
       }
       if(is_match) {
         result.push_back(start);
+      }
+    }
+  }
+
+  return result;
+}
+
+/*
+ * Algorytm Knutha-Morrisa-Pratta -
+ *   Znajduje pozycje wszystkich wystąpień wzorca w O(n + m).
+ */
+vector<int> search_kmp(string const& str, string const& pattern) {
+  int const n = str.size(), m = pattern.size();
+
+  vector<int> result;
+
+  auto kmp = prefix_function(pattern);
+  int matchedc = 0;
+  for(int i = 0; i < n; i++) {
+    while(matchedc > 0 && str[i] != pattern[matchedc]) {
+      matchedc = kmp[matchedc];
+    }
+    if(str[i] == pattern[matchedc]) {
+      matchedc++;
+      if(matchedc == m) {
+        matchedc = kmp[matchedc];
+        result.push_back(i - m + 1);
       }
     }
   }
