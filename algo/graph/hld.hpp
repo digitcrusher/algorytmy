@@ -26,8 +26,7 @@ struct HLD {
   vector<int> size, parent, heavy, entry;
 
   // Preprocessing potrzebny do znajdywania najniższego wspólnego przodka
-  vector<vector<int>> lift;
-  vector<int> depth;
+  vector<int> lift, depth;
 
   HLD(vector<vector<int>> adj, int root): root(root) {
     int const n = adj.size();
@@ -64,14 +63,12 @@ struct HLD {
       entry[node] = time;
       time++;
 
-      if(!adj[node].empty()) {
-        heavy[adj[node][0]] = heavy[node];
-        decompose(adj[node][0]);
-      }
+      bool is_first_child = true;
       for(int child: adj[node]) {
         if(heavy[child] != -1) continue;
-        heavy[child] = child;
+        heavy[child] = is_first_child ? heavy[node] : child;
         decompose(child);
+        is_first_child = false;
       }
     };
     heavy[root] = root;
@@ -83,7 +80,7 @@ struct HLD {
   vector<pair<int, int>> path(int a, int b) {
     vector<pair<int, int>> result;
 
-    int lca = lca_lifting(lift, depth, a, b);
+    int lca = lca_lifting(parent, lift, depth, a, b);
 
     while(true) {
       int l = entry[heavy[a] == heavy[lca] ? lca : heavy[a]];

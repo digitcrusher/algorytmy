@@ -56,11 +56,8 @@ struct ConvexHullTrick {
 
   ll get(ll x) {
     int left = 0, right = hull.size() - 1;
-    while(true) {
+    while(left < right) {
       int mid = left + (right - left) / 2;
-      if(left >= right) {
-        return hull[mid](x);
-      }
       // < daje maksimum, > - minimum
       if(dot(hull[mid] - hull[mid + 1], {x, 1}) < 0) {
         left = mid + 1;
@@ -68,5 +65,6 @@ struct ConvexHullTrick {
         right = mid;
       }
     }
+    return hull[left](x);
   }
 };

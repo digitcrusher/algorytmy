@@ -74,6 +74,7 @@
   - [x] sumy prefiksowe - 1D, 2D
   - [x] drzewo Fenwicka - punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D, przedział-przedział, przedział-przedział 2D
   - [x] skompresowane drzewo trie
+  - [x] GNU C++ PBDS
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne ułamki
@@ -81,7 +82,6 @@
   - [ ] ciągi
   - [ ] dynamiczne drzewo AABB
   - [ ] maski bitowe
-  - [ ] glibc pbds
   - [ ] permutacje
   - [ ] fibonacci heap
   - [ ] disjoint sparse table
