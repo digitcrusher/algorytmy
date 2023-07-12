@@ -25,6 +25,7 @@
  */
 template<class Value, class Sum>
 struct SegmentTreePointRange {
+  Value zero;
   Sum sum;
 
   int elemc;
@@ -33,8 +34,8 @@ struct SegmentTreePointRange {
   int height, nodec;
   int base_offset;
 
-  SegmentTreePointRange(vector<Value> const& elems, Sum sum = Sum()):
-    elemc(elems.size()), sum(sum)
+  SegmentTreePointRange(vector<Value> const& elems, Value zero, Sum sum = Sum()):
+    elemc(elems.size()), zero(zero), sum(sum)
   {
     height = ceil_log2(elemc) + 1;
     nodec = (1u << height) - 1;
@@ -49,7 +50,7 @@ struct SegmentTreePointRange {
 
   Value get(int l, int r) {
     assert(0 <= l && l <= r && r < elemc);
-    Value left{}, right{};
+    Value left = zero, right = zero;
     l += base_offset + 1;
     r += base_offset + 1;
     while(l <= r) {

@@ -95,7 +95,7 @@
   - [x] wyszukiwanie wzorca w tekście - Rabin-Karp, KMP
   - [x] tablica sufiksowa
   - [x] funkcja prefiksowa
-  - [ ] najdłuższy rosnący podciąg
+  - [x] najdłuższy rosnący podciąg
   - [ ] algorytm Manachera
   - [ ] KMR
 - [ ] geometria

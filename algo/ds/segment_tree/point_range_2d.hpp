@@ -28,6 +28,7 @@
  */
 template<class Value, class Sum>
 struct SegmentTreePointRange2D {
+  Value zero;
   Sum sum;
 
   int w, h;
@@ -38,8 +39,8 @@ struct SegmentTreePointRange2D {
   int x_base_offset;
   int y_base_offset;
 
-  SegmentTreePointRange2D(vector<vector<Value>> const& elems, Sum sum = Sum()):
-    w(elems[0].size()), h(elems.size()), sum(sum)
+  SegmentTreePointRange2D(vector<vector<Value>> const& elems, Value zero, Sum sum = Sum()):
+    w(elems[0].size()), h(elems.size()), zero(zero), sum(sum)
   {
     x_height = ceil_log2(w) + 1;
     y_height = ceil_log2(h) + 1;
@@ -62,7 +63,7 @@ struct SegmentTreePointRange2D {
     assert(0 <= y1 && y1 <= y2 && y2 < h);
 
     auto get_x = [&](int y, int x1, int x2) {
-      Value left{}, right{};
+      Value left = zero, right = zero;
       x1 += x_base_offset + 1;
       x2 += x_base_offset + 1;
       while(x1 <= x2) {
@@ -79,7 +80,7 @@ struct SegmentTreePointRange2D {
       return sum(left, right);
     };
 
-    Value top{}, bottom{};
+    Value top = zero, bottom = zero;
     y1 += y_base_offset + 1;
     y2 += y_base_offset + 1;
     while(y1 <= y2) {
