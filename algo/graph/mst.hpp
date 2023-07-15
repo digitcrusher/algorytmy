@@ -11,6 +11,7 @@
 #include "common.hpp"
 #include "ds/dsu.hpp"
 #include <algorithm>
+#include <climits>
 #include <queue>
 #include <vector>
 
@@ -86,6 +87,46 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
       is_vis[unvisited] = true;
       for(Edge edge: incident[unvisited]) {
         q.push(edge);
+      }
+    }
+  }
+
+  mst.edges.shrink_to_fit();
+  return mst;
+}
+
+MST mst_prim(vector<vector<pair<int, int>>> const& adj) {
+  int const n = adj.size();
+
+  MST mst;
+  mst.edges.reserve(n - 1);
+  mst.cost = 0;
+
+  vector<int> cost(n, INT_MAX), prev(n);
+  for(int root = 0; root < n; root++) {
+    if(cost[root] != INT_MAX) continue;
+
+    using QueueElem = pair<int, int>;
+    priority_queue<QueueElem, vector<QueueElem>, greater<QueueElem>> q;
+    cost[root] = 0;
+    q.push({0, root});
+    while(!q.empty()) {
+      auto [cost_in_q, node] = q.top();
+      q.pop();
+
+      if(cost_in_q != cost[node]) continue;
+      if(node != root) {
+        mst.edges.push_back({prev[node], node, cost[node]});
+        mst.cost += cost[node];
+      }
+      cost[node] = INT_MIN;
+
+      for(auto [neighbor, edge_cost]: adj[node]) {
+        if(cost[neighbor] > edge_cost) {
+          cost[neighbor] = edge_cost;
+          prev[neighbor] = node;
+          q.push({cost[neighbor], neighbor});
+        }
       }
     }
   }

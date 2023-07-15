@@ -47,6 +47,7 @@
 #pragma GCC diagnostic warning "-Wunsafe-loop-optimizations"
 // Detects promotion to doubles which are costly on 32-bit machines
 #pragma GCC diagnostic warning "-Wdouble-promotion"
+#pragma GCC diagnostic warning "-Wsystem-headers"
 
 /*
  * Codeforces' CPU is Intel(R) Core(TM) i5-3470

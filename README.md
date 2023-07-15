@@ -42,7 +42,7 @@
   - [x] przeszukiwanie grafu - BFS, DFS (w tym funkcja low)
   - [x] sortowanie topologiczne - Kahn, z DFS
   - [x] silnie spójne składowe - Kosaraju
-  - [x] dwu-kolorowanie grafu
+  - [x] dwukolorowanie grafu
   - [x] mosty, punkty artykulacji i dwuspójne składowe
   - [x] generator grafów losowych
   - [x] minimalne drzewo rozpinające - Kruskal, Prim
@@ -53,8 +53,8 @@
   - [x] najniższy wspólny przodek - z binary liftingu, z RMQ
   - [x] heavy-light decomposition
   - [x] centroid decomposition
+  - [x] 2-SAT
   - [ ] chain decomposition
-  - [ ] 2-SAT
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia

@@ -14,6 +14,7 @@
 # pragma GCC diagnostic warning "-Wdisabled-optimization"
 # pragma GCC diagnostic warning "-Wunsafe-loop-optimizations"
 # pragma GCC diagnostic warning "-Wdouble-promotion"
+# pragma GCC diagnostic warning "-Wsystem-headers"
 #endif
 #pragma GCC target "arch=ivybridge", "tune=ivybridge" // Codeforces, Solve Turnieje
 //#pragma GCC target "arch=pentium-m", "tune=pentium-m" // Solve 3

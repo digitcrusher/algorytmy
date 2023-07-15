@@ -21,7 +21,7 @@ int main() {
     if(result == nullopt) {
       cout << "nullopt" << endl;
     } else {
-      for(int i: *result) {
+      for(auto i: *result) {
         cout << i << " ";
       }
       cout << endl;

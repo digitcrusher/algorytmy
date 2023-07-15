@@ -70,7 +70,7 @@ SingleSource sssp_dag_toposort(vector<vector<Edge>> const& adj, int src,
   vector<int> dist(n, INT_MAX), prev(n, -1);
 
   dist[src] = 0;
-  for(int node: toposort) {
+  for(auto node: toposort) {
     if(dist[node] == INT_MAX) continue;
     for(auto [child, cost]: adj[node]) {
       if(dist[child] > dist[node] + cost) {
@@ -101,8 +101,7 @@ SingleSource sssp_dijkstra(vector<vector<Edge>> const& adj, int src) {
   dist[src] = 0;
   q.push({0, src});
   while(!q.empty()) {
-    int dist_in_q = q.top().first;
-    int node = q.top().second;
+    auto [dist_in_q, node] = q.top();
     q.pop();
 
     if(dist_in_q != dist[node]) continue;
@@ -134,7 +133,7 @@ SingleSource sssp_dial(vector<vector<Edge>> const& adj, int src) {
   dist[src] = 0;
   layers[0].push_back(src);
   for(int layer_dist = 0; !layers.empty(); layer_dist++) {
-    for(int node: layers.front()) {
+    for(auto node: layers.front()) {
       if(layer_dist != dist[node]) continue;
 
       for(auto [neighbor, cost]: adj[node]) {
@@ -142,7 +141,7 @@ SingleSource sssp_dial(vector<vector<Edge>> const& adj, int src) {
         if(dist[neighbor] > dist[node] + cost) {
           dist[neighbor] = dist[node] + cost;
           prev[neighbor] = node;
-          int i = dist[neighbor] - layer_dist;
+          auto i = dist[neighbor] - layer_dist;
           if(i >= layers.size()) {
             layers.resize(i + 1);
           }
@@ -212,7 +211,7 @@ SingleSource sssp_spfa(vector<vector<Edge>> const& adj, int src) {
   q.push(0);
   is_in_q[src] = true;
   while(!q.empty()) {
-    int node = q.front();
+    auto node = q.front();
     q.pop();
     is_in_q[node] = false;
 

@@ -1,5 +1,5 @@
 /*
- * Dwu-kolorowanie grafu - digitcrusher/algorytmy
+ * Dwukolorowanie grafu - digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
@@ -14,7 +14,7 @@
 #include <vector>
 
 /*
- * Dwu-kolorowanie grafu nieskierowanego -
+ * Dwukolorowanie grafu nieskierowanego -
  *   Przypisuje każdemu wierzchołkowi liczbę 1 albo 2 w O(V + E)
  *   tak, aby dwie takie same liczby nie sąsiadowały ze sobą.
  */
@@ -23,7 +23,7 @@ optional<vector<int>> two_color(vector<vector<int>> const& adj) {
 
   vector<int> color(n, -1);
   function<bool(int)> assign = [&](int node) {
-    for(int neighbor: adj[node]) {
+    for(auto neighbor: adj[node]) {
       if(color[neighbor] == -1) {
         color[neighbor] = color[node] == 1 ? 2 : 1;
         if(!assign(neighbor)) {
