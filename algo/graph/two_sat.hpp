@@ -44,7 +44,7 @@ optional<vector<bool>> two_sat(int n, vector<Clause> const& formula) {
     if(scc[i] == scc[i + n]) {
       return nullopt;
     }
-    // i jest prawdą, gdy i nie implikuje !i.
+    // i może być prawdą, gdy i nie implikuje !i.
     result[i] = !(scc[i] < scc[i + n]);
   }
   return result;

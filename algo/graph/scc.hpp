@@ -62,7 +62,7 @@ SCCs scc_kosaraju(vector<vector<int>> const& adj,
     if(node_scc[node] != -1) continue;
     node_scc[node] = scc_cnt;
     scc_cnt++;
-    scc_adj.push_back({});
+    scc_adj.emplace_back();
     dfs2(node);
   }
 

@@ -31,7 +31,7 @@ int main() {
         adj[b].push_back(a);
       }
       if(!cin) break;
-      hld = HLD(adj, root);
+      hld.emplace(adj, root);
 
       vector<int> elems(n);
       for(int i = 0; i < n; i++) {

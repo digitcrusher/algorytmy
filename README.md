@@ -54,6 +54,7 @@
   - [x] heavy-light decomposition
   - [x] centroid decomposition
   - [x] 2-SAT
+  - [x] grafy funkcyjne
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
