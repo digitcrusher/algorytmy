@@ -55,12 +55,12 @@
   - [x] centroid decomposition
   - [x] 2-SAT
   - [x] grafy funkcyjne
+  - [x] problem skoczka szachowego - Warnsdorff i Pohl
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia
   - [ ] problem komiwojażera - z DP, z branch-and-bound
-  - [ ] problem skoczka szachowego
   - [ ] liczba ścieżek prostych w grafie
   - [ ] ścieżka i cykl Eulera
   - [ ] algorytm Rémy'ego
