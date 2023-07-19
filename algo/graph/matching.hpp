@@ -31,13 +31,15 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
   vector<int> pair(n, -1);
   int pairc = 0;
 
-  vector<int> dist(n, -1);
+  vector<int> dist(n);
   auto bfs = [&]() {
     queue<int> q;
     for(int a: as) {
       if(pair[a] == -1) {
         dist[a] = 0;
         q.push(a);
+      } else {
+        dist[a] = -1;
       }
     }
 
@@ -46,15 +48,14 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
       int a = q.front();
       q.pop();
 
-      if(dist[a] <= max_dist) {
-        for(int b: adj[a]) {
-          if(pair[b] == -1) {
-            max_dist = dist[a];
-          } else {
-            if(dist[pair[b]] != -1) continue;
-            dist[pair[b]] = dist[a] + 1;
-            q.push(pair[b]);
-          }
+      if(dist[a] >= max_dist) continue;
+
+      for(int b: adj[a]) {
+        if(pair[b] == -1) {
+          max_dist = dist[a];
+        } else if(dist[pair[b]] == -1) {
+          dist[pair[b]] = dist[a] + 1;
+          q.push(pair[b]);
         }
       }
     }
@@ -62,15 +63,14 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
   };
 
   function<bool(int)> dfs = [&](int a) {
-    int a_dist = dist[a];
-    dist[a] = -1;
     for(int b: adj[a]) {
-      if(pair[b] == -1 || (dist[pair[b]] == a_dist + 1 && dfs(pair[b]))) {
+      if(pair[b] == -1 || (dist[pair[b]] == dist[a] + 1 && dfs(pair[b]))) {
         pair[a] = b;
         pair[b] = a;
         return true;
       }
     }
+    dist[a] = -1;
     return false;
   };
 

@@ -58,13 +58,15 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
       for(auto [dx, dy]: moves) {
         auto mx = nx + dx, my = ny + dy;
         if(mx < 0 || my < 0 || mx >= w || my >= h) continue;
-        furtherc += result[my][mx] == -1 ? 1 : 0;
+        if(result[my][mx] != -1) continue;
+        furtherc++;
 
-        int my_furtherc = 0;
+        int my_furtherc = -1;
         for(auto [dx, dy]: moves) {
           auto ox = mx + dx, oy = my + dy;
           if(ox < 0 || oy < 0 || ox >= w || oy >= h) continue;
-          my_furtherc += result[oy][ox] == -1 ? 1 : 0;
+          if(result[oy][ox] != -1) continue;
+          my_furtherc++;
         }
         beyondc = min(beyondc, my_furtherc);
       }

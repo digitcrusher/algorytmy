@@ -56,6 +56,7 @@
   - [x] 2-SAT
   - [x] grafy funkcyjne
   - [x] problem skoczka szachowego - Warnsdorff i Pohl
+  - [x] maksymalny przepływ - Edmonds-Karp
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
@@ -64,7 +65,6 @@
   - [ ] liczba ścieżek prostych w grafie
   - [ ] ścieżka i cykl Eulera
   - [ ] algorytm Rémy'ego
-  - [ ] maksymalny przepływ - Edmonds-Karp
 - [ ] struktury danych
   - [x] drzewo przedziałowe
     - [x] przedział-przedział, przedział-przedział bez propagacji, przedział-przedział 2D, punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D
