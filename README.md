@@ -57,13 +57,13 @@
   - [x] grafy funkcyjne
   - [x] problem skoczka szachowego - Warnsdorff i Pohl
   - [x] maksymalny przepływ - Edmonds-Karp
+  - [x] ścieżka Eulera (lub cykl)
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia
   - [ ] problem komiwojażera - z DP, z branch-and-bound
   - [ ] liczba ścieżek prostych w grafie
-  - [ ] ścieżka i cykl Eulera
   - [ ] algorytm Rémy'ego
 - [ ] struktury danych
   - [x] drzewo przedziałowe
