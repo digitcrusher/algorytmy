@@ -58,12 +58,13 @@
   - [x] problem skoczka szachowego - Warnsdorff i Pohl
   - [x] maksymalny przepływ - Edmonds-Karp
   - [x] ścieżka Eulera (lub cykl)
+  - [x] liczba ścieżek w DAGu
+  - [x] najdłuższa ścieżka w DAGu
+  - [x] znajdywanie cykli
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
-  - [ ] znajdywanie cykli w grafie
   - [ ] skojarzenia
   - [ ] problem komiwojażera - z DP, z branch-and-bound
-  - [ ] liczba ścieżek prostych w grafie
   - [ ] algorytm Rémy'ego
 - [ ] struktury danych
   - [x] drzewo przedziałowe
