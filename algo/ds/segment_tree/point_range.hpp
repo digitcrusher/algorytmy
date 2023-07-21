@@ -17,7 +17,7 @@
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
  *   elementów (get) i ustawienia elementu (set) w O(log n). Zużywa O(n)
  *   pamięci. Ta implementacja zakłada, że początkowa tablica nigdy nie
- *   jest pusta, oraz sumuje domyślnie zainicjalizowane wartości.
+ *   jest pusta.
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
@@ -40,7 +40,7 @@ struct SegmentTreePointRange {
     height = ceil_log2(elemc) + 1;
     nodec = (1u << height) - 1;
     base_offset = (1u << (height - 1)) - 1;
-    nodes.resize(nodec);
+    nodes.resize(nodec, zero);
 
     for(int i = 0; i < elemc; i++) {
       nodes[base_offset + i] = elems[i];

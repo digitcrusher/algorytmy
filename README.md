@@ -110,7 +110,7 @@
   - [ ] przecięcia i różnice prostokątów
   - [ ] euklidesowe minimalne drzewo spinające
 - [ ] inne
-  - [ ] algorytm Mo
+  - [x] algorytm Mo
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
   - [ ] znajdź jedną liczbe w ciągu par liczb i podobne problemy
   - [ ] Quickselect

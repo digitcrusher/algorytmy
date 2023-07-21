@@ -18,7 +18,7 @@
  *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy elementów
  *   (get) i ustawienia elementu (set) w O(log w * log h). Zużywa O(w * h)
  *   pamięci. Ta implementacja zakłada, że początkowa tablica nigdy nie
- *   jest pusta, oraz sumuje domyślnie zainicjalizowane wartości.
+ *   jest pusta.
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwie sąsiednie podmacierze elementów. Sum musi być łączne
@@ -48,7 +48,7 @@ struct SegmentTreePointRange2D {
     y_nodec = (1u << y_height) - 1;
     x_base_offset = (1u << (x_height - 1)) - 1;
     y_base_offset = (1u << (y_height - 1)) - 1;
-    nodes.resize(y_nodec, vector(x_nodec));
+    nodes.resize(y_nodec, vector(x_nodec, zero));
 
     for(int y = 0; y < h; y++) {
       for(int x = 0; x < w; x++) {
