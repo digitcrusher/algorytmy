@@ -1,5 +1,5 @@
 /*
- * Rożne wzorki kombinatoryczne - digitcrusher/algorytmy
+ * Kombinatoryka - digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
@@ -10,10 +10,12 @@
 #pragma once
 #include "common.hpp"
 #include "math/mod.hpp"
+#include <numeric>
+#include <vector>
 
 /*
- * Liczba k-elementowych podzbiorów n-elementowego
- * zbioru (symbol Newtona) w O(n + log mod)
+ * Symbol Newtona -
+ *  liczba k-elementowych podzbiorów n-elementowego zbioru w O(n + log mod)
  */
 ll choose_fac(int n, int k, ll mod) {
   assert(n >= 0 && mod > 0);
@@ -28,8 +30,8 @@ ll choose_fac(int n, int k, ll mod) {
 }
 
 /*
- * Liczba k-elementowych podzbiorów n-elementowego zbioru
- * (symbol Newtona) w O(min(k, n - k) log mod)
+ * Symbol Newtona -
+ *   liczba k-elementowych podzbiorów n-elementowego zbioru w O(min(k, n - k) log mod)
  */
 ll choose_mul(int n, int k, ll mod) {
   assert(n >= 0 && mod > 0);
@@ -66,4 +68,41 @@ ll any_in_uniq(int n, int k, ll mod) {
 ll uniq_in_uniq(int n, int k, ll mod) {
   assert(mod > 0);
   return mod_mul(any_in_uniq(n, k, mod), fac(n, mod), mod);
+}
+
+/*
+ * Podsilnia - liczba permutacji bez punktu stałego
+ */
+ll subfac(int n, ll mod) {
+  assert(mod > 0);
+  vector<ll> result(max(n + 1, 2));
+  result[0] = 1;
+  result[1] = 0;
+  for(int i = 2; i <= n; i++) {
+    result[i] = mod_mul(i - 1, result[i - 1] + result[i - 2], mod);
+  }
+  return result[n];
+}
+
+/*
+ * Klasyczne zastosowanie lematu Burnside'a do zliczenia wszystkich
+ * cyklicznych ciągów długości n zawierających k możliwych wartości
+ */
+ll burnside(int n, int k, ll mod) {
+  assert(mod > 0);
+  ll result = 0;
+  for(int shift = 0; shift < n; shift++) {
+    result = norm_mod(result + mod_pow(k, gcd(shift, n), mod), mod);
+  }
+  auto inv_n = mod_inv(n, mod);
+  assert(inv_n);
+  return mod_mul(result, *inv_n, mod);
+}
+
+/*
+ * Liczby Catalana - m.in. liczba poprawnych nawiasowań długości 2n
+ */
+ll catalan(int n, ll mod) {
+  assert(mod > 0);
+  return norm_mod(choose(2 * n, n, mod) - choose(2 * n, n + 1, mod), mod);
 }

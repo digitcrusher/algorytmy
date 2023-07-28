@@ -1,5 +1,5 @@
 /*
- * Liczba i suma dzielników - digitcrusher/algorytmy
+ * Liczba, suma i iloczyn dzielników - digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *
@@ -19,8 +19,8 @@
  */
 ll divc(vector<pair<ll, int>> const& factors) {
   ll result = 1;
-  for(auto i: factors) {
-    result *= i.second + 1;
+  for(auto [_, exp]: factors) {
+    result *= exp + 1;
   }
   return result;
 }
@@ -31,8 +31,22 @@ ll divc(vector<pair<ll, int>> const& factors) {
  */
 ll div_sum(vector<pair<ll, int>> const& factors) {
   ll result = 1;
-  for(auto i: factors) {
-    result *= (pow(i.first, i.second + 1) - 1) / (i.first - 1);
+  for(auto [prime, exp]: factors) {
+    result *= (pow(prime, exp + 1) - 1) / (prime - 1);
+  }
+  return result;
+}
+
+/*
+ * Oblicza iloczyn dodatnich dzielników liczby przy pomocy jej rozkładu na
+ * czynniki pierwsze w O(n), gdzie n to liczba dzielników pierwszych tej
+ * liczby.
+ */
+ll div_product(vector<pair<ll, int>> const& factors) {
+  ll result = 1, divc = 1;
+  for(auto [prime, exp]: factors) {
+    result *= pow(result, exp) * pow(prime, exp * (exp + 1) / 2 * divc);
+    divc *= exp + 1;
   }
   return result;
 }

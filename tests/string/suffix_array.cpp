@@ -7,15 +7,18 @@ int main() {
     cin >> s;
     if(!cin) break;
 
+    auto result = suffix_array(s);
+    for(auto i: result) {
+      for(int j = i; j < s.size(); j++) {
+        cout << s[j];
+      }
+      cout << " " << i + 1 << endl;
+    }
     struct AlphaToNum {
       int operator()(char c) {
         return c - 'a';
       }
     };
-    auto result = suffix_array<26, AlphaToNum>(s);
-    for(int i: result) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
+    assert((result == suffix_array_hash<26, AlphaToNum>(s)));
   }
 }

@@ -26,14 +26,17 @@
   - [x] test pierwszości - z sita, Miller-Rabin
   - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
   - [x] funkcja φ Eulera
-  - [x] liczba i suma dzielników
+  - [x] liczba, suma i iloczyn dzielników
   - [x] spamiętywana silnia
   - [x] symbol Newtona
-  - [x] różne wzorki kombinatoryczne
+  - [x] liczba podziałów elementów do kilku zbiorów
   - [x] FFT
   - [x] modularne inty
   - [x] NTT
   - [x] pierwiastek pierwotny
+  - [x] podsilnia
+  - [x] lemat Burnside'a
+  - [x] liczby Catalana
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] funkcje tworzące
   - [ ] eliminacja Gaussa - rzeczywista, modularna, bitowa
@@ -61,6 +64,7 @@
   - [x] liczba ścieżek w DAGu
   - [x] najdłuższa ścieżka w DAGu
   - [x] znajdywanie cykli
+  - [x] najbardziej oddalony wierzchołek i średnica w drzewie
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] skojarzenia
@@ -90,12 +94,13 @@
   - [ ] drzewo Li Chao
   - [ ] sparse table 2D
   - [ ] quadtree
+  - [ ] macierz i wektor
 - [ ] algorytmy tekstowe i ciągi
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku
   - [x] hasze prefiksowe
   - [x] wyszukiwanie wzorca w tekście - Rabin-Karp, KMP
-  - [x] tablica sufiksowa
+  - [x] tablica sufiksowa - z dziel i zwyciężaj, z haszy
   - [x] funkcja prefiksowa
   - [x] najdłuższy rosnący podciąg
   - [ ] algorytm Manachera

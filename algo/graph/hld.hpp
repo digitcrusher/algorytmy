@@ -77,6 +77,10 @@ struct HLD {
     lift = binary_lift(parent);
   }
 
+  int node(int node) {
+    return entry[node];
+  }
+
   vector<pair<int, int>> path(int a, int b) {
     vector<pair<int, int>> result;
 

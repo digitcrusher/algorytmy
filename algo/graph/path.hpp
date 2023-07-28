@@ -19,32 +19,32 @@
  * Na wejściu przyjmuje graf z odwróconymi krawędziami. Ten problem dla
  * ogólniejszych grafów jest #P-zupełny.
  */
-vector<ll> count_paths(vector<vector<int>> const& rev_adj, int src) {
+vector<ll> count_paths_dag(vector<vector<int>> const& rev_adj, int src) {
   int const n = rev_adj.size();
 
-  vector<ll> cnt(n, -1);
-  cnt[src] = 1;
+  vector<ll> result(n, -1);
+  result[src] = 1;
 
   function<void(int)> dfs = [&](int node) {
-    if(cnt[node] != -1) return;
-    cnt[node] = 0;
+    if(result[node] != -1) return;
+    result[node] = 0;
     for(auto parent: rev_adj[node]) {
       dfs(parent);
-      cnt[node] += cnt[parent];
+      result[node] += result[parent];
     }
   };
   for(int root = 0; root < n; root++) {
     dfs(root);
   }
 
-  return cnt;
+  return result;
 }
 
 /*
  * Znajduje najdłuższą ścieżkę pomiędzy dwoma wierzchołkami w DAGu w O(V + E).
  * Ten problem dla ogólniejszych grafów jest NP-trudny.
  */
-optional<vector<int>> longest_path(vector<vector<int>> const& adj, int from, int to) {
+optional<vector<int>> longest_path_dag(vector<vector<int>> const& adj, int from, int to) {
   int const n = adj.size();
 
   vector<int> dist(n, -1), next(n);
@@ -74,4 +74,33 @@ optional<vector<int>> longest_path(vector<vector<int>> const& adj, int from, int
     }
     return result;
   }
+}
+
+/*
+ * Dla każdego wierzchołka w drzewie oblicza odległość do najbardziej
+ * oddalonego (jednego z punktów średnicy) i znajduje średnicę w O(V).
+ */
+tuple<vector<int>, int, int> max_dist_tree(vector<vector<int>> const& adj) {
+  int const n = adj.size();
+
+  vector<int> max_dist(n, 0);
+
+  function<int(int, int, int)> dfs = [&](int node, int parent, int dist) {
+    max_dist[node] = max(max_dist[node], dist);
+    int farthest = node;
+    for(auto child: adj[node]) {
+      if(child == parent) continue;
+      int sub = dfs(child, node, dist + 1);
+      if(max_dist[sub] >= max_dist[farthest]) {
+        farthest = sub;
+      }
+    }
+    return farthest;
+  };
+
+  int a = dfs(0, -1, 0);
+  int b = dfs(a, -1, 0);
+  dfs(b, -1, 0);
+
+  return {max_dist, a, b};
 }

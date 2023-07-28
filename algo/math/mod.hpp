@@ -19,10 +19,10 @@
  * Normalizuje x do przedziału [0, mod) z zachowaniem x' = x % mod.
  */
 ll norm_mod(ll x, ll mod) {
+  assert(mod > 0);
   if(0 <= x && x < mod) {
     return x;
   }
-  assert(mod > 0);
   x %= mod;
   return x + (x < 0 ? mod : 0);
 }
