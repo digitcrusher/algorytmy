@@ -17,9 +17,63 @@
 
 /*
  * Oblicza tablicę sufiksową, czyli tablicę początków posortowanych
- * leksykograficznie sufiksów, przy użyciu dziel i zwyciężaj w O(n log^2 n).
+ * leksykograficznie sufiksów, przy użyciu podwajania w O(n log n).
  */
 vector<int> suffix_array(string const& str) {
+  int const n = str.size();
+
+  vector<int> result(n);
+
+  int uniquec = 128;
+  vector<int> order(n), cnt(uniquec, 0);
+  for(int i = 0; i < n; i++) {
+    order[i] = str[i];
+    cnt[order[i]]++;
+  }
+  partial_sum(cnt.begin(), cnt.end(), cnt.begin());
+  for(int i = 0; i < n; i++) {
+    result[--cnt[order[i]]] = i;
+  }
+
+  vector<int> temp(n);
+  for(int size = 1; size < n; size *= 2) {
+    for(int i = 0, a = n, b = n - size; i < n; i++) {
+      if(result[i] - size < 0) {
+        a--;
+        temp[a] = result[i] - size + n;
+      } else {
+        b--;
+        temp[b] = result[i] - size;
+      }
+    }
+    cnt.assign(uniquec, 0);
+    for(auto i: order) {
+      cnt[i]++;
+    }
+    partial_sum(cnt.begin(), cnt.end(), cnt.begin());
+    for(auto i: temp) {
+      result[--cnt[order[i]]] = i;
+    }
+
+    uniquec = 0;
+    auto prev_key = pair(-1, -1);
+    for(auto i: result) {
+      auto key = pair(order[i], i + size < n ? order[i + size] : -1);
+      temp[i] = uniquec - (prev_key == key ? 1 : 0);
+      uniquec = temp[i] + 1;
+      prev_key = key;
+    }
+    order.swap(temp);
+  }
+
+  return result;
+}
+
+/*
+ * Oblicza tablicę sufiksową, czyli tablicę początków posortowanych
+ * leksykograficznie sufiksów, przy użyciu podwajania w O(n log^2 n).
+ */
+vector<int> suffix_array_slower(string const& str) {
   int const n = str.size();
 
   vector<int> result(n);

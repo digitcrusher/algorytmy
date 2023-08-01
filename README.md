@@ -100,7 +100,7 @@
   - [x] haszowanie w okienku
   - [x] hasze prefiksowe
   - [x] wyszukiwanie wzorca w tekście - Rabin-Karp, KMP
-  - [x] tablica sufiksowa - z dziel i zwyciężaj, z haszy
+  - [x] tablica sufiksowa - w O(n log n), z haszy
   - [x] funkcja prefiksowa
   - [x] najdłuższy rosnący podciąg
   - [ ] algorytm Manachera
