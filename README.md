@@ -103,6 +103,7 @@
   - [x] tablica sufiksowa - w O(n log n), z haszy
   - [x] funkcja prefiksowa
   - [x] najdłuższy rosnący podciąg
+  - [x] najmniejsze przesunięcie cykliczne - Booth
   - [ ] algorytm Manachera
   - [ ] KMR
 - [ ] geometria
