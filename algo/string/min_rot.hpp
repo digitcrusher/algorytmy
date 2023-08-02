@@ -22,10 +22,10 @@ int min_rot(string str) {
   int result = 0;
 
   str += str;
-  vector<int> kmp(2 * n - 2);
+  vector<int> kmp(2 * n);
   kmp[0] = kmp[1] = 0;
   int matchedc = 0;
-  for(int i = 1; i - matchedc < result + n && matchedc + 1 < n; i++) {
+  for(int i = 1; i - matchedc < n && matchedc + 1 < n; i++) {
     while(matchedc > 0 && str[i] != str[result + matchedc]) {
       if(str[i] < str[result + matchedc]) {
         result = i - matchedc;

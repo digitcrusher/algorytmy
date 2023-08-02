@@ -104,7 +104,7 @@
   - [x] funkcja prefiksowa
   - [x] najdłuższy rosnący podciąg
   - [x] najmniejsze przesunięcie cykliczne - Booth
-  - [ ] algorytm Manachera
+  - [x] algorytm Manachera
   - [ ] KMR
 - [ ] geometria
   - [x] convex hull trick
