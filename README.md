@@ -106,6 +106,7 @@
   - [x] najmniejsze przesunięcie cykliczne - Booth
   - [x] algorytm Manachera
   - [x] algorytm Aho-Corasick
+  - [x] tablica LCP - Kasai
   - [ ] KMR
 - [ ] geometria
   - [x] convex hull trick

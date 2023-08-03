@@ -70,6 +70,39 @@ vector<int> suffix_array(string const& str) {
 }
 
 /*
+ * Algorytm Kasaia -
+ *   Oblicza długość najdłuższego wspólnego prefiksu kazdej
+ *   sąsiednej pary sufiksów z tablicy sufiksowej w O(n).
+ */
+vector<int> lcp(string const& str, vector<int> const& suffix_array) {
+  int const n = str.size();
+
+  vector<int> result(n - 1);
+
+  vector<int> order(n);
+  for(int i = 0; i < n; i++) {
+    order[suffix_array[i]] = i;
+  }
+  int curr = 0;
+  for(int i = 0; i < n; i++) {
+    if(order[i] == n - 1) {
+      curr = 0;
+      continue;
+    }
+    auto j = suffix_array[order[i] + 1];
+    while(i + curr < n && j + curr < n && str[i + curr] == str[j + curr]) {
+      curr++;
+    }
+    result[order[i]] = curr;
+    if(curr > 0) {
+      curr--;
+    }
+  }
+
+  return result;
+}
+
+/*
  * Oblicza tablicę sufiksową, czyli tablicę początków posortowanych
  * leksykograficznie sufiksów, przy użyciu podwajania w O(n log^2 n).
  */
