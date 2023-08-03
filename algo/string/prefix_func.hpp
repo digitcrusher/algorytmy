@@ -17,7 +17,7 @@
  *   Oblicza dla każdego prefiksu długość jego
  *   najdłuższego prefikso-sufiksu w O(n).
  */
-vector<int> prefix_function(string const& str) {
+vector<int> prefix_func(string const& str) {
   int const n = str.size();
 
   vector<int> result(n + 1);

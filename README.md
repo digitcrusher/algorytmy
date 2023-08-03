@@ -107,6 +107,7 @@
   - [x] algorytm Manachera
   - [x] algorytm Aho-Corasick
   - [x] tablica LCP - Kasai
+  - [x] funkcja Z
   - [ ] KMR
 - [ ] geometria
   - [x] convex hull trick

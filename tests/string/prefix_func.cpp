@@ -1,4 +1,4 @@
-#include "string/prefix_function.hpp"
+#include "string/prefix_func.hpp"
 #include <iostream>
 
 int main() {
@@ -7,7 +7,7 @@ int main() {
     cin >> s;
     if(!cin) break;
 
-    auto result = prefix_function(s);
+    auto result = prefix_func(s);
     for(int i: result) {
       cout << i << " ";
     }

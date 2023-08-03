@@ -37,7 +37,7 @@ Manacher manacher(string const& str) {
 
   vector<int> even(n - 1);
   for(int i = 0, l = 0, r = 0; i < n - 1; i++) {
-    even[i] = i + 1 > r ? 0 : min(r - i - 1, even[l + r - i - 1]);
+    even[i] = i + 1 > r ? 0 : min(r - i, even[l + r - i - 1]);
     while(0 <= i - even[i] && i + 1 + even[i] < n && str[i - even[i]] == str[i + 1 + even[i]]) {
       even[i]++;
     }
