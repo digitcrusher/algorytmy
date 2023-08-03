@@ -50,16 +50,14 @@ struct CompressedTrie {
     alpha_to_num(alpha_to_num), num_to_alpha(num_to_alpha) {}
 
   ~CompressedTrie() {
-    function<void(Node*)> dfs = [&](Node *node) {
-      for(int i = 0; i < alpha_size; i++) {
-        Node *child = node->children[i];
-        if(child != nullptr) {
-          dfs(child);
-          delete child;
-        }
+    function<void(Node*)> purge = [&](Node *node) {
+      for(auto child: node->children) {
+        if(child == nullptr) continue;
+        purge(child);
+        delete child;
       }
     };
-    dfs(&root);
+    purge(&root);
   }
 
   Node* find(string key) {
@@ -229,7 +227,7 @@ struct CompressedTrie {
     vector<string> result;
 
     string key;
-    function<void(Node*)> dfs = [&](Node *node) {
+    function<void(Node*)> collect = [&](Node *node) {
       if(node->has_val) {
         result.push_back(key);
       }
@@ -237,12 +235,12 @@ struct CompressedTrie {
         if(node->children[i] != nullptr) {
           key.push_back(num_to_alpha(i));
           key += node->labels[i];
-          dfs(node->children[i]);
+          collect(node->children[i]);
           key.resize(key.size() - 1 - node->labels[i].size());
         }
       }
     };
-    dfs(&root);
+    collect(&root);
 
     return result;
   }

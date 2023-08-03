@@ -105,6 +105,7 @@
   - [x] najdłuższy rosnący podciąg
   - [x] najmniejsze przesunięcie cykliczne - Booth
   - [x] algorytm Manachera
+  - [x] algorytm Aho-Corasick
   - [ ] KMR
 - [ ] geometria
   - [x] convex hull trick
