@@ -111,9 +111,7 @@
   - [ ] KMR
 - [ ] geometria
   - [x] convex hull trick
-  - [ ] figury geometryczne
-    - [x] punkt, odcinek
-    - [ ] koło, trójkąt, wielokąt
+  - [x] figury geometryczne - punkt, odcinek, wielokąt, koło
   - [ ] triangulacja wielokątów
   - [ ] otoczka wypukła - Graham's scan
   - [ ] przecięcia i różnice prostokątów

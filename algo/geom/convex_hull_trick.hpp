@@ -12,6 +12,12 @@
 #include <algorithm>
 #include <vector>
 
+/*
+ * Convex hull trick -
+ *   Struktura wspierająca operację obliczenia maksimum albo minimum z wartości
+ *   funkcji liniowych dla danego argumentu (get) w O(log n) po wstępnym
+ *   przetwarzaniu w O(n log n).
+ */
 struct LinFunc {
   ll a, b;
 
@@ -28,13 +34,6 @@ ll dot(LinFunc a, LinFunc b) {
 ll cross(LinFunc a, LinFunc b) {
   return a.a * b.b - a.b * b.a;
 }
-
-/*
- * Convex hull trick -
- *   Struktura wspierająca operację obliczenia maksimum albo minimum z wartości
- *   funkcji liniowych dla danego argumentu (get) w O(log n) po wstępnym
- *   przetwarzaniu w O(n log n).
- */
 struct ConvexHullTrick {
   vector<LinFunc> hull;
 
