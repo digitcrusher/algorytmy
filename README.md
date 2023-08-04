@@ -112,6 +112,7 @@
 - [ ] geometria
   - [x] convex hull trick
   - [x] figury geometryczne - punkt, odcinek, wielokąt, koło
+  - [x] twierdzenie Picka
   - [ ] triangulacja wielokątów
   - [ ] otoczka wypukła - Graham's scan
   - [ ] przecięcia i różnice prostokątów
