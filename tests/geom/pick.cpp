@@ -6,7 +6,7 @@ int main() {
     int n;
     cin >> n;
     if(!cin) break;
-    Polygon poly;
+    Polygon<ll> poly;
     poly.pts.resize(n);
     for(auto &[x, y]: poly.pts) {
       cin >> x >> y;

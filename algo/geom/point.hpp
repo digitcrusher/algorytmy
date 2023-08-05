@@ -11,11 +11,14 @@
 #include "common.hpp"
 #include <cmath>
 
+template<class T>
 struct Point {
-  ld x, y;
+  T x, y;
 
   Point() {}
-  Point(ld x, ld y): x(x), y(y) {}
+  Point(T x, T y): x(x), y(y) {}
+  template<class U>
+  Point(Point<U> other): x(other.x), y(other.y) {}
 
   bool operator==(Point other) {
     return x == other.x && y == other.y;
@@ -23,51 +26,68 @@ struct Point {
   bool operator!=(Point other) {
     return !(*this == other);
   }
-
   Point operator+(Point other) {
     return {x + other.x, y + other.y};
   }
   Point operator-(Point other) {
     return {x - other.x, y - other.y};
   }
-  Point operator*(ld scalar) {
+  Point operator*(T scalar) {
     return {x * scalar, y * scalar};
   }
-  Point operator/(ld scalar) {
+  Point operator/(T scalar) {
     return {x / scalar, y / scalar};
   }
 
-  ld mag_sqr() {
+  T mag_sqr() {
     return x * x + y * y;
   }
   ld mag() {
-    return hypot(y, x);
+    return hypotl(y, x);
   }
   ld angle() {
-    return atan2(y, x);
+    return atan2l(y, x);
   }
 
   bool is_colinear_with(Point other);
 };
+
 // Oblicza |a| * |b| * cos θ, gdzie θ to kąt pomiędzy a i b.
-ld dot(Point a, Point b) {
+template<class T>
+T dot(Point<T> a, Point<T> b) {
   return a.x * b.x + a.y * b.y;
 }
 // Oblicza |a| * |b| * sin θ, gdzie θ to kąt od a do b.
-ld cross(Point a, Point b) {
+template<class T>
+T cross(Point<T> a, Point<T> b) {
   return a.x * b.y - a.y * b.x;
 }
 
-bool Point::is_colinear_with(Point other) {
+template<class T>
+bool Point<T>::is_colinear_with(Point other) {
   return cross(*this, other) == 0;
 }
-bool are_colinear(Point a, Point b, Point c) {
+template<class T>
+bool are_colinear(Point<T> a, Point<T> b, Point<T> c) {
   return (a - c).is_colinear_with(b - c);
 }
 
-bool sweep_cmp(Point a, Point b) {
-  return a.x != b.x ? a.x < b.x : a.y < b.y;
-}
-bool angle_cmp(Point a, Point b) {
-  return cross(a, b) > 0;
-}
+struct SweepX {
+  template<class T>
+  bool operator()(Point<T> a, Point<T> b) const {
+    return a.x != b.x ? a.x < b.x : a.y < b.y;
+  }
+};
+struct SweepY {
+  template<class T>
+  bool operator()(Point<T> a, Point<T> b) const {
+    return a.y != b.y ? a.y < b.y : a.x < b.x;
+  }
+};
+
+struct AngleCmp {
+  template<class T>
+  bool operator()(Point<T> a, Point<T> b) const {
+    return cross(a, b) > 0;
+  }
+};

@@ -12,21 +12,21 @@
 #include "geom/point.hpp"
 #include <vector>
 
+template<class T>
 struct Polygon {
-  vector<Point> pts;
+  vector<Point<T>> pts;
 
   Polygon() {}
-  Polygon(vector<Point> &&pts): pts(pts) {}
+  Polygon(vector<Point<T>> &&pts): pts(pts) {}
 
   ld signed_area() {
-    ld result = 0;
+    T result = 0;
     auto a = pts.back();
     for(auto b: pts) {
       result += cross(a, b);
       a = b;
     }
-    result /= 2;
-    return result;
+    return (ld) result / 2;
   }
   ld area() {
     return abs(signed_area());
@@ -38,7 +38,7 @@ struct Polygon {
   enum Side {
     inside, edge, outside
   };
-  Side which_side(Point pt) {
+  Side which_side(Point<T> pt) {
     bool is_in = false;
     auto prev = pts.back();
     for(auto curr: pts) {

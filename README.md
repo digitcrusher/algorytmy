@@ -113,6 +113,7 @@
   - [x] convex hull trick
   - [x] figury geometryczne - punkt, odcinek, wielokąt, koło
   - [x] twierdzenie Picka
+  - [x] najbliższa para punktów - z zamiatania, z dziel i zwyciężaj
   - [ ] triangulacja wielokątów
   - [ ] otoczka wypukła - Graham's scan
   - [ ] przecięcia i różnice prostokątów

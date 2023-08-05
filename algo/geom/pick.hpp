@@ -16,11 +16,11 @@
  * Na podstawie tw. Picka oblicza liczbę punktów kratowych zawartych
  * w wielokącie, którego wierzchołki leżą na punktach kratowych.
  */
-pair<ll, ll> pick(Polygon const& poly, ll doubled_area) {
+pair<ll, ll> pick(Polygon<ll> const& poly, ll doubled_area) {
   ll on_edgec = 0;
   auto a = poly.pts.back();
   for(auto b: poly.pts) {
-    on_edgec += gcd((ll) (a.x - b.x), (ll) (a.y - b.y));
+    on_edgec += gcd(a.x - b.x, a.y - b.y);
     a = b;
   }
   auto insidec = (doubled_area - on_edgec) / 2 + 1;

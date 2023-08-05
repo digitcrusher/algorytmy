@@ -56,9 +56,9 @@ vector<int> suffix_array(string const& str) {
     }
 
     uniquec = 0;
-    auto prev_key = pair(-1, -1);
+    pair prev_key = {-1, -1};
     for(auto i: result) {
-      auto key = pair(order[i], i + size < n ? order[i + size] : -1);
+      pair key = {order[i], i + size < n ? order[i + size] : -1};
       temp[i] = uniquec - (prev_key == key ? 1 : 0);
       uniquec = temp[i] + 1;
       prev_key = key;
