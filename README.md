@@ -114,8 +114,8 @@
   - [x] figury geometryczne - punkt, odcinek, wielokąt, koło
   - [x] twierdzenie Picka
   - [x] najbliższa para punktów - z zamiatania, z dziel i zwyciężaj
+  - [x] otoczka wypukła - Graham
   - [ ] triangulacja wielokątów
-  - [ ] otoczka wypukła - Graham's scan
   - [ ] przecięcia i różnice prostokątów
   - [ ] euklidesowe minimalne drzewo spinające
 - [ ] inne

@@ -88,6 +88,7 @@ struct SweepY {
 struct AngleCmp {
   template<class T>
   bool operator()(Point<T> a, Point<T> b) const {
-    return cross(a, b) > 0;
+    auto x = cross(a, b);
+    return x != 0 ? x > 0 : a.mag_sqr() < b.mag_sqr();
   }
 };
