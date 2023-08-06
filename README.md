@@ -81,6 +81,7 @@
   - [x] drzewo Fenwicka - punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D, przedział-przedział, przedział-przedział 2D
   - [x] skompresowane drzewo trie
   - [x] GNU C++ PBDS
+  - [x] implicit treap
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne ułamki
