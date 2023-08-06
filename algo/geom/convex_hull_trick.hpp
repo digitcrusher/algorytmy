@@ -9,6 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
+#include "geom/point.hpp"
 #include <algorithm>
 #include <vector>
 
@@ -18,30 +19,12 @@
  *   funkcji liniowych dla danego argumentu (get) w O(log n) po wstępnym
  *   przetwarzaniu w O(n log n).
  */
-struct LinFunc {
-  ll a, b;
-
-  ll operator()(ll x) {
-    return a * x + b;
-  }
-};
-LinFunc operator-(LinFunc a, LinFunc b) {
-  return {a.a - b.a, a.b - b.b};
-}
-ll dot(LinFunc a, LinFunc b) {
-  return a.a * b.a + a.b * b.b;
-}
-ll cross(LinFunc a, LinFunc b) {
-  return a.a * b.b - a.b * b.a;
-}
+template<class T>
 struct ConvexHullTrick {
-  vector<LinFunc> hull;
+  vector<Point<T>> hull;
 
-  ConvexHullTrick(vector<LinFunc> funcs) {
-    sort(funcs.begin(), funcs.end(), [](LinFunc a, LinFunc b) {
-      return a.a != b.a ? a.a < b.a : a.b < b.b;
-    });
-
+  ConvexHullTrick(vector<Point<T>> funcs) {
+    sort(funcs.begin(), funcs.end(), SweepX());
     hull.reserve(funcs.size());
     for(auto func: funcs) {
       // >= daje maksimum, <= - minimum
@@ -53,17 +36,17 @@ struct ConvexHullTrick {
     }
   }
 
-  ll get(ll x) {
+  T get(T x) {
     int left = 0, right = hull.size() - 1;
     while(left < right) {
       int mid = left + (right - left) / 2;
-      // < daje maksimum, > - minimum
-      if(dot(hull[mid] - hull[mid + 1], {x, 1}) < 0) {
+      // >= daje maksimum, <= - minimum
+      if(dot(hull[mid + 1] - hull[mid], {x, 1}) >= 0) {
         left = mid + 1;
       } else {
         right = mid;
       }
     }
-    return hull[left](x);
+    return dot(hull[left], {x, 1});
   }
 };

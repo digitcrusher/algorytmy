@@ -120,12 +120,14 @@
   - [ ] euklidesowe minimalne drzewo spinające
 - [ ] inne
   - [x] algorytm Mo
+  - [x] meet in the middle
   - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
   - [ ] znajdź jedną liczbe w ciągu par liczb i podobne problemy
   - [ ] Quickselect
   - [ ] algorytm magicznych piątek
   - [ ] Lazyselect
   - [ ] or/subset convolution
+  - [ ] algorytm sympleksowy
 - [ ] reszta algorytmów
 
 ### Notatki i materiały
@@ -134,7 +136,6 @@
 - [ ] sztuczki i triki
   - [ ] kompresja wartości i współrzędnych
 - [ ] digit dp
-- [ ] meet in the middle
 - [ ] wszystko
 
 ### Inne

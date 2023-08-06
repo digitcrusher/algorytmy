@@ -71,7 +71,7 @@ pair<Point<T>, Point<T>> closest_pair_conquer(vector<Point<T>> pts) {
   function<void(int, int)> conquer = [&](int l, int r) {
     if(l >= r) return;
 
-    auto mid = (l + r) / 2;
+    int mid = (l + r) / 2;
     auto mid_x = pts[mid].x;
     conquer(l, mid);
     conquer(mid + 1, r);

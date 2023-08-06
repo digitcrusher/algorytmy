@@ -4,7 +4,7 @@
 int main() {
   int n;
   cin >> n;
-  vector<LinFunc> funcs(n);
+  vector<Point<ll>> funcs(n);
   for(auto &[a, b]: funcs) {
     cin >> a >> b;
   }
@@ -15,6 +15,7 @@ int main() {
     ll x;
     cin >> x;
     if(!cin) break;
+
     cout << trick.get(x) << endl;
   }
 }
