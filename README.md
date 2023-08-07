@@ -82,6 +82,7 @@
   - [x] skompresowane drzewo trie
   - [x] GNU C++ PBDS
   - [x] implicit treap
+  - [x] drzewo Li Chao
   - [ ] big inty
   - [ ] ułamki
   - [ ] modularne ułamki
@@ -92,7 +93,6 @@
   - [ ] permutacje
   - [ ] fibonacci heap
   - [ ] disjoint sparse table
-  - [ ] drzewo Li Chao
   - [ ] sparse table 2D
   - [ ] quadtree
   - [ ] macierz i wektor
