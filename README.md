@@ -65,6 +65,7 @@
   - [x] najdłuższa ścieżka w DAGu
   - [x] znajdywanie cykli
   - [x] najbardziej oddalony wierzchołek i średnica w drzewie
+  - [x] offline dynamic connectivity
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] skojarzenia
@@ -74,7 +75,7 @@
   - [x] drzewo przedziałowe
     - [x] przedział-przedział, przedział-przedział bez propagacji, przedział-przedział 2D, punkt-przedział, punkt-przedział 2D, przedział-punkt, przedział-punkt 2D
     - [ ] leniwe przedział-przedział
-  - [x] struktura zbiorów rozłącznych - las zbiorów rozłącznych, z trzymaniem elementów
+  - [x] struktura zbiorów rozłącznych - las zbiorów rozłącznych, z trzymaniem elementów, z cofaniem
   - [x] sparse table
   - [x] stos i kolejka minimum/monotoniczna
   - [x] sumy prefiksowe - 1D, 2D
