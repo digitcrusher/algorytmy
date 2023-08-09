@@ -11,14 +11,22 @@ int main() {
       string op;
       cin >> op >> a >> b;
       if(!cin) break;
-      type = op == "add" ? Query::add : Query::remove;
+      if(op == "add") {
+        type = Query::add;
+      } else if(op == "remove") {
+        type = Query::remove;
+      } else if(op == "are_connected") {
+        type = Query::are_connected;
+      } else {
+        assert(false);
+      }
       a--, b--;
     }
     if(!cin) break;
 
     auto results = offline_dynamic_connectivity(n, queries);
     for(auto i: results) {
-      cout << i << " ";
+      cout << boolalpha << i << " ";
     }
     cout << "\n";
   }

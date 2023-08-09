@@ -1,5 +1,5 @@
 /*
- * Przepływy - digitcrusher/algorytmy
+ * Maksymalny przeplyw - digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *

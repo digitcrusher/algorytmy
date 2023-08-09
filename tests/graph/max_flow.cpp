@@ -1,4 +1,4 @@
-#include "graph/flow.hpp"
+#include "graph/max_flow.hpp"
 #include <iostream>
 
 int main() {

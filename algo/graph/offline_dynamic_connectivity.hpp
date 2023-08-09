@@ -19,15 +19,15 @@
 /*
  * Offline dynamic connectivity -
  *   Sztuczka pozwalająca na analizowanie spójności grafu po każdej operacji
- *   dodania lub usunięcia krawędzi offline w O(q * (log q + log n)).
+ *   dodania lub usunięcia krawędzi offline w O(q log q log n).
  */
 struct Query {
   enum {
-    add, remove
+    add, remove, are_connected
   } type;
   int a, b;
 };
-vector<int> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
+vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
   int const q = queries.size();
 
   int height = ceil_log2(q) + 1;
@@ -66,7 +66,8 @@ vector<int> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
     add(add_time, q - 1, edge);
   }
 
-  vector<int> results(q);
+  vector<bool> results;
+  results.reserve(q);
 
   UndoableDSU dsu(n);
   function<void(int, int, int)> calc = [&](int num, int node_l, int node_r) {
@@ -75,7 +76,10 @@ vector<int> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
       dsu.merge(a, b);
     }
     if(num - 1 >= base_offset) {
-      results[num - 1 - base_offset] = dsu.setc;
+      auto [type, a, b] = queries[num - 1 - base_offset];
+      if(type == Query::are_connected) {
+        results.push_back(dsu.find(a) == dsu.find(b));
+      }
     } else {
       int mid = (node_l + node_r) / 2;
       calc(2 * num, node_l, mid);

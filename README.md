@@ -66,6 +66,7 @@
   - [x] znajdywanie cykli
   - [x] najbardziej oddalony wierzchołek i średnica w drzewie
   - [x] offline dynamic connectivity
+  - [x] przepływ minimalnego kosztu - Ford-Fulkerson i SPFA
   - [ ] chain decomposition
   - [ ] transformacje drzew binarnych
   - [ ] skojarzenia
