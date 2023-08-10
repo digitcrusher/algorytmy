@@ -1,4 +1,4 @@
-#include "string/lis.hpp"
+#include "other/lis.hpp"
 #include <iostream>
 
 int main() {

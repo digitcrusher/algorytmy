@@ -48,6 +48,7 @@ struct LiChao {
     ll result = nodes[num - 1](x);
     num /= 2;
     while(num >= 1) {
+      // max daje maksimum, min - minimum
       result = max(result, nodes[num - 1](x));
       num /= 2;
     }
@@ -57,6 +58,7 @@ struct LiChao {
   void insert(LinFunc func) {
     function<void(int, int, int)> descend = [&](int num, int node_l, int node_r) {
       int x1 = min_x + node_l, x2 = min_x + node_r;
+      // > daje maksimum, < - minimum
       bool a = func(x1) > nodes[num - 1](x1),
            b = func(x2) > nodes[num - 1](x2);
       if(a && b) {

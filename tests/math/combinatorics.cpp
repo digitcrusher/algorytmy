@@ -1,5 +1,6 @@
 #include "math/combinatorics.hpp"
 #include <iostream>
+#include <sstream>
 
 int main() {
   while(true) {
@@ -7,7 +8,40 @@ int main() {
     cin >> op;
     if(!cin) break;
 
-    if(op == "choose") {
+    if(op == "fac") {
+      ll x, mod;
+      cin >> x >> mod;
+      if(!cin) break;
+      cout << fac(x, mod) << endl;
+
+    } else if(op == "fac_mem") {
+      cout << "unordered_map<ll, vector<ll>> fac_mem = {" << endl;
+
+      for(auto &[mod, vals]: fac_mem) {
+        int line_width = printf("  {%lli, {", mod);
+        for(ll val: vals) {
+          string str = to_string(val);
+
+          stringstream alt;
+          alt << "0x" << hex << val;
+          if(alt.tellp() < str.size()) {
+            str = alt.str();
+          }
+
+          str += ",";
+          if(line_width + str.size() > 80) {
+            cout << endl;
+            line_width = printf("  ");
+          }
+          line_width += printf("%s", str.c_str());
+        }
+        cout << "}}," << endl;
+      }
+
+      cout << "};" << endl;
+      cout << "ll const fac_skip = " << fac_skip << ";" << endl;
+
+    } else if(op == "choose") {
       int n, k;
       ll mod;
       cin >> n >> k >> mod;

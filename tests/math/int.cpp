@@ -1,28 +1,8 @@
 #include "math/int.hpp"
 #include <cmath>
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 
 int main() {
-  assert(countl_zero(0ull) == 64);
-  assert(countl_zero(1ull) == 63);
-  assert(countl_zero(2ull) == 62);
-  assert(countl_zero(3ull) == 62);
-  assert(countl_zero(4ull) == 61);
-  assert(countl_zero(5ull) == 61);
-  assert(countl_zero(6ull) == 61);
-  assert(countl_zero(7ull) == 61);
-  assert(countl_zero(8ull) == 60);
-  assert(countl_zero(9ull) == 60);
-  assert(countl_zero(~0u) == 0);
-  assert(countl_zero(~0ull) == 0);
-  assert(countl_zero(1u) == 31);
-  assert(countl_zero(1u << 31) == 0);
-  assert(countl_zero(1ull << 63) == 0);
-  assert(countl_zero(~0ull >> 1) == 1);
-  assert(countl_zero(~0ull << 1) == 0);
-
   cout << "__builtin_clzll(0) = " << __builtin_clzll(0) << endl;
   ull a = 1;
   cout << "__builtin_clzll(" << (a - 1) << ") = " << __builtin_clzll(a - 1) << endl;
@@ -49,42 +29,6 @@ int main() {
    * dla każdego z dwóch przypadków. Tę wiedzę zawdzięczam "wreien" z serwera
    * Discord Together C & C++.
    */
-
-  assert(countr_zero(0ull) == 64);
-  assert(countr_zero(1ull) == 0);
-  assert(countr_zero(2ull) == 1);
-  assert(countr_zero(3ull) == 0);
-  assert(countr_zero(4ull) == 2);
-  assert(countr_zero(5ull) == 0);
-  assert(countr_zero(6ull) == 1);
-  assert(countr_zero(7ull) == 0);
-  assert(countr_zero(8ull) == 3);
-  assert(countr_zero(9ull) == 0);
-  assert(countr_zero(~0u) == 0);
-  assert(countr_zero(~0ull) == 0);
-  assert(countr_zero(1u) == 0);
-  assert(countr_zero(1u << 31) == 31);
-  assert(countr_zero(1ull << 63) == 63);
-  assert(countr_zero(~0ull >> 1) == 0);
-  assert(countr_zero(~0ull << 1) == 1);
-
-  assert(popcount(0ull) == 0);
-  assert(popcount(1ull) == 1);
-  assert(popcount(2ull) == 1);
-  assert(popcount(3ull) == 2);
-  assert(popcount(4ull) == 1);
-  assert(popcount(5ull) == 2);
-  assert(popcount(6ull) == 2);
-  assert(popcount(7ull) == 3);
-  assert(popcount(8ull) == 1);
-  assert(popcount(9ull) == 2);
-  assert(popcount(~0u) == 32);
-  assert(popcount(~0ull) == 64);
-  assert(popcount(1u) == 1);
-  assert(popcount(1u << 31) == 1);
-  assert(popcount(1ull << 63) == 1);
-  assert(popcount(~0ull >> 1) == 63);
-  assert(popcount(~0ull << 1) == 63);
 
   assert(floor_log2(1) == 0);
   assert(floor_log2(2) == 1);
@@ -134,49 +78,12 @@ int main() {
   assert(ceil_div(1, -2) == 0);
   assert(ceil_div(2, -2) == -1);
 
-  srand(time(nullptr));
-
-  for(int i = 0; i < 100; i++) {
-    ll a = rand() % 201 - 100;
-    ll b = rand() % 201 - 100;
-
-    cout << "auto " << a << " " << b << endl;
-
-    if(a > 0) {
-      assert(floor_log2(a) == floor(log2(a)));
-      assert(ceil_log2(a) == ceil(log2(a)));
-    }
-
-    if(b != 0) {
-      assert(floor_div(a, b) == floor((ld) a / b));
-      assert(ceil_div(a, b) == ceil((ld) a / b));
-    }
-  }
-
   while(true) {
     string op;
     cin >> op;
     if(!cin) break;
 
-    if(op == "countl_zero") {
-      ull x;
-      cin >> x;
-      if(!cin) break;
-      cout << countl_zero(x) << endl;
-
-    } else if(op == "countr_zero") {
-      ull x;
-      cin >> x;
-      if(!cin) break;
-      cout << countr_zero(x) << endl;
-
-    } else if(op == "popcount") {
-      ull x;
-      cin >> x;
-      if(!cin) break;
-      cout << popcount(x) << endl;
-
-    } else if(op == "floor_log2") {
+    if(op == "floor_log2") {
       ull x;
       cin >> x;
       if(!cin) break;
@@ -207,6 +114,20 @@ int main() {
       ll result = ceil_div(a, b);
       cout << result << endl;
       assert(result == ceil((ld) a / b));
+
+    } else if(op == "fast_pow") {
+      ll a, b;
+      cin >> a >> b;
+      if(!cin) break;
+
+      cout << fast_pow(a, b) << endl;
+
+    } else if(op == "next_perm") {
+      ull x;
+      cin >> x;
+      if(!cin) break;
+
+      cout << next_perm(x) << endl;
     }
   }
 }

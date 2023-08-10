@@ -9,7 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include "misc.hpp"
+#include "hash.hpp"
 #include <functional>
 #include <optional>
 #include <unordered_set>

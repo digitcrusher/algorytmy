@@ -1,5 +1,5 @@
 /*
- * Grafy funkcyjne - digitcrusher/algorytmy
+ * Graf funkcyjny - digitcrusher/algorytmy
  *
  * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
  *

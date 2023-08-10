@@ -10,8 +10,8 @@
 #pragma once
 #include "common.hpp"
 #include "ds/dsu/undoable.hpp"
+#include "hash.hpp"
 #include "math/int.hpp"
-#include "misc.hpp"
 #include <functional>
 #include <unordered_map>
 #include <vector>

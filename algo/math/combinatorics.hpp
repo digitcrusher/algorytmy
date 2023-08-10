@@ -11,7 +11,35 @@
 #include "common.hpp"
 #include "math/mod.hpp"
 #include <numeric>
+#include <unordered_map>
 #include <vector>
+
+/*
+ * Spamiętywana silnia w O(x)
+ */
+unordered_map<ll, vector<ll>> fac_mem;
+ll const fac_skip = 1;
+ll fac(ll x, ll mod) {
+  assert(mod > 0 && x >= 0);
+  if(mod == 1) {
+    return 0;
+  } else if(x == 0) {
+    return 1;
+  }
+
+  int i = min<int>(x / fac_skip, fac_mem[mod].size());
+  ll result = i == 0 ? 1 : fac_mem[mod][i - 1];
+  if(x / fac_skip - 1 >= fac_mem[mod].size()) {
+    fac_mem[mod].resize(x / fac_skip);
+  }
+  for(i = i * fac_skip + 1; i <= x; i++) {
+    result = mod_mul(result, i, mod);
+    if(i % fac_skip == 0) {
+      fac_mem[mod][i / fac_skip - 1] = result;
+    }
+  }
+  return result;
+}
 
 /*
  * Symbol Newtona -

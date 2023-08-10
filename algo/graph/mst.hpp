@@ -9,7 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include "ds/dsu.hpp"
+#include "ds/dsu/standard.hpp"
 #include <algorithm>
 #include <climits>
 #include <queue>

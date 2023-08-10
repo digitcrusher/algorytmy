@@ -9,8 +9,8 @@
  */
 #pragma once
 #include "common.hpp"
-#include "ds/dsu.hpp"
-#include "misc.hpp"
+#include "ds/dsu/standard.hpp"
+#include "hash.hpp"
 #include <cstdlib>
 #include <unordered_set>
 #include <vector>

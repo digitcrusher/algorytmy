@@ -11,17 +11,15 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include "misc.hpp"
 #include <algorithm>
 #include <initializer_list>
 #include <iterator>
 #include <stdexcept>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
-
-// TODO: https://en.cppreference.com/w/cpp/container/node_handle
 
 /*
  * Wyczerpująca implementacja drzewa przedziałowego przedział-przedział -
@@ -62,6 +60,31 @@ struct DefaultMergeChange {
     return b;
   }
 };
+
+template<bool cond, class A, class B>
+struct type_if {};
+
+template<class A, class B>
+struct type_if<true, A, B> {
+  using type = A;
+};
+
+template<class A, class B>
+struct type_if<false, A, B> {
+  using type = B;
+};
+
+template<bool cond, class A, class B>
+using type_if_t = typename type_if<cond, A, B>::type;
+
+template<class InputIt>
+using require_input_iter =
+  typename std::enable_if<
+    std::is_convertible<
+      typename std::iterator_traits<InputIt>::iterator_category,
+      std::input_iterator_tag
+    >::value
+  >::type;
 
 template<
   class Value,

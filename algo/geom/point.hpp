@@ -20,36 +20,48 @@ struct Point {
   template<class U>
   Point(Point<U> other): x(other.x), y(other.y) {}
 
-  bool operator==(Point other) {
+  bool operator==(Point other) const {
     return x == other.x && y == other.y;
   }
-  bool operator!=(Point other) {
+  bool operator!=(Point other) const {
     return !(*this == other);
   }
-  Point operator+(Point other) {
+  Point operator+(Point other) const {
     return {x + other.x, y + other.y};
   }
-  Point operator-(Point other) {
+  Point operator-(Point other) const {
     return {x - other.x, y - other.y};
   }
-  Point operator*(T scalar) {
+  Point operator*(T scalar) const {
     return {x * scalar, y * scalar};
   }
-  Point operator/(T scalar) {
+  Point operator/(T scalar) const {
     return {x / scalar, y / scalar};
   }
+  Point& operator+=(Point other) {
+    return *this = *this + other;
+  }
+  Point& operator-=(Point other) {
+    return *this = *this - other;
+  }
+  Point& operator*=(T scalar) {
+    return *this = *this * scalar;
+  }
+  Point& operator/=(T scalar) {
+    return *this = *this / scalar;
+  }
 
-  T mag_sqr() {
+  T mag_sqr() const {
     return x * x + y * y;
   }
-  ld mag() {
+  ld mag() const {
     return hypotl(y, x);
   }
-  ld angle() {
+  ld angle() const {
     return atan2l(y, x);
   }
 
-  bool is_colinear_with(Point other);
+  bool is_colinear_with(Point other) const;
 };
 
 // Oblicza |a| * |b| * cos θ, gdzie θ to kąt pomiędzy a i b.

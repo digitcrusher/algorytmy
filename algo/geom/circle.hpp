@@ -10,7 +10,7 @@
 #pragma once
 #include "common.hpp"
 #include "geom/point.hpp"
-#include "misc.hpp"
+#include <numbers>
 
 template<class T>
 struct Circle {
@@ -21,7 +21,7 @@ struct Circle {
   Circle(Point<T> center, T radius): center(center), radius(radius) {}
 
   ld area() {
-    return pi * radius * radius;
+    return numbers::pi * radius * radius;
   }
 
   bool does_intersect(Circle other) {

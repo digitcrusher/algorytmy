@@ -12,8 +12,6 @@
 #include "math/ext_euclid.hpp"
 #include <climits>
 #include <optional>
-#include <unordered_map>
-#include <vector>
 
 /*
  * Normalizuje x do przedziału [0, mod) z zachowaniem x' = x % mod.
@@ -42,29 +40,28 @@ ll mod_mul(ll a, ll b, ll mod) {
 #else
 ll mod_mul(ll a, ll b, ll mod) {
   assert(mod > 0);
-  a %= mod;
-  b %= mod;
-  if(b < 0) {
-    a = -a;
-    b = -b;
-  }
+  a = norm_mod(a, mod);
+  b = norm_mod(b, mod);
 
   if(b == 0) {
     return 0;
-  } else if((a >= 0 && a <= LLONG_MAX / b) || (a < 0 && a >= LLONG_MIN / b)) {
+  } else if(a <= LLONG_MAX / b) {
     return norm_mod(a * b, mod);
   }
 
   ll result = 0;
   while(b > 0) {
     if(b % 2 == 1) {
-      result = (result + a) % mod;
+      result += a;
+      if(result >= mod) {
+        result -= mod;
+      }
     }
-    a = a * 2 % mod;
+    a *= 2;
+    if(a >= mod) {
+      a -= mod;
+    }
     b /= 2;
-  }
-  if(result < 0) {
-    result += mod;
   }
   return result;
 }
@@ -111,39 +108,10 @@ optional<ll> mod_inv_prime(ll x, ll prime_mod) {
 }
 
 /*
- * Spamiętywana silnia w O(x)
- */
-unordered_map<ll, vector<ll>> fac_mem;
-ll const fac_skip = 1;
-ll fac(ll x, ll mod) {
-  assert(mod > 0 && x >= 0);
-  if(mod == 1) {
-    return 0;
-  } else if(x == 0) {
-    return 1;
-  }
-
-  int i = min<int>(x / fac_skip, fac_mem[mod].size());
-  ll result = i == 0 ? 1 : fac_mem[mod][i - 1];
-  if(x / fac_skip - 1 >= fac_mem[mod].size()) {
-    fac_mem[mod].resize(x / fac_skip);
-  }
-  for(i = i * fac_skip + 1; i <= x; i++) {
-    result = mod_mul(result, i, mod);
-    if(i % fac_skip == 0) {
-      fac_mem[mod][i / fac_skip - 1] = result;
-    }
-  }
-  return result;
-}
-
-/*
  * Struktura ułatwiająca pracę z arytmetyką modularną
  */
 template<ll mod>
 struct Z {
-  ll val;
-
   Z(ll val): val(norm_mod(val, mod)) {}
 
   operator ll() const {
@@ -151,15 +119,22 @@ struct Z {
   }
 
   Z operator+(Z other) const {
-    return (val + other.val) % mod;
+    auto result = val + other.val;
+    if(result >= mod) {
+      result -= mod;
+    }
+    return result;
   }
   Z operator-(Z other) const {
-    return norm_mod(val - other.val, mod);
+    auto result = val - other.val;
+    if(result < 0) {
+      result += mod;
+    }
+    return result;
   }
   Z operator*(Z other) const {
     return mod_mul(val, other.val, mod);
   }
-
   Z& operator+=(Z other) {
     return *this = *this + other;
   }
@@ -179,4 +154,7 @@ struct Z {
   Z inv_prime() const {
     return *mod_inv_prime(val, mod);
   }
+
+private:
+  ll val;
 };

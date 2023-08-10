@@ -10,7 +10,7 @@
 
 - Asserty powinny sprawdzać warunki dotyczące wejścia, które nie mogą być wykryte na inne sposoby (np. przez sygnał naruszenia ochrony pamięci lub tryb debugowania w glibc++).
 
-## Lista zadań
+## Zawartość
 
 ### Algorytmy
 
@@ -31,17 +31,16 @@
   - [x] symbol Newtona
   - [x] liczba podziałów elementów do kilku zbiorów
   - [x] FFT
-  - [x] modularne inty
+  - [x] modularny int
   - [x] NTT
   - [x] pierwiastek pierwotny
   - [x] podsilnia
   - [x] lemat Burnside'a
   - [x] liczby Catalana
   - [ ] rozszerzony binarny algorytm Euklidesa
-  - [ ] funkcje tworzące
   - [ ] eliminacja Gaussa - rzeczywista, modularna, bitowa
 - [ ] grafy
-  - [x] skojarzenia w grafie dwudzielnym - Hopcroft-Karp
+  - [x] skojarzenie w grafie dwudzielnym - Hopcroft-Karp
   - [x] przeszukiwanie grafu - BFS, DFS (w tym funkcja low)
   - [x] sortowanie topologiczne - Kahn, z DFS
   - [x] silnie spójne składowe - Kosaraju
@@ -57,19 +56,17 @@
   - [x] heavy-light decomposition
   - [x] centroid decomposition
   - [x] 2-SAT
-  - [x] grafy funkcyjne
+  - [x] graf funkcyjny
   - [x] problem skoczka szachowego - Warnsdorff i Pohl
   - [x] maksymalny przepływ - Edmonds-Karp
   - [x] ścieżka Eulera (lub cykl)
-  - [x] liczba ścieżek w DAGu
-  - [x] najdłuższa ścieżka w DAGu
+  - [x] liczba ścieżek i najdłuższa ścieżka w DAGu
   - [x] znajdywanie cykli
   - [x] najbardziej oddalony wierzchołek i średnica w drzewie
   - [x] offline dynamic connectivity
   - [x] przepływ minimalnego kosztu - Ford-Fulkerson i SPFA
   - [ ] chain decomposition
-  - [ ] transformacje drzew binarnych
-  - [ ] skojarzenia
+  - [ ] skojarzenie w ogólnym grafie
   - [ ] problem komiwojażera - z DP, z branch-and-bound
   - [ ] algorytm Rémy'ego
 - [ ] struktury danych
@@ -85,27 +82,22 @@
   - [x] GNU C++ PBDS
   - [x] implicit treap
   - [x] drzewo Li Chao
-  - [ ] big inty
-  - [ ] ułamki
-  - [ ] modularne ułamki
-  - [ ] treap (drzewiec)
-  - [ ] ciągi
+  - [ ] big int
+  - [ ] ułamek
+  - [ ] treap
+  - [ ] wielomian
   - [ ] dynamiczne drzewo AABB
-  - [ ] maski bitowe
-  - [ ] permutacje
   - [ ] fibonacci heap
   - [ ] disjoint sparse table
   - [ ] sparse table 2D
-  - [ ] quadtree
   - [ ] macierz i wektor
-- [ ] algorytmy tekstowe i ciągi
+- [ ] tekstówki
   - [x] najdłuższy wspólny podciąg - z DP, z dziel i zwyciężaj
   - [x] haszowanie w okienku
   - [x] hasze prefiksowe
   - [x] wyszukiwanie wzorca w tekście - Rabin-Karp, KMP
   - [x] tablica sufiksowa - w O(n log n), z haszy
   - [x] funkcja prefiksowa
-  - [x] najdłuższy rosnący podciąg
   - [x] najmniejsze przesunięcie cykliczne - Booth
   - [x] algorytm Manachera
   - [x] algorytm Aho-Corasick
@@ -119,13 +111,12 @@
   - [x] najbliższa para punktów - z zamiatania, z dziel i zwyciężaj
   - [x] otoczka wypukła - Graham
   - [ ] triangulacja wielokątów
-  - [ ] przecięcia i różnice prostokątów
+  - [ ] przecięcie i różnica prostokątów
   - [ ] euklidesowe minimalne drzewo spinające
 - [ ] inne
+  - [x] najdłuższy rosnący podciąg
   - [x] algorytm Mo
   - [x] meet in the middle
-  - [ ] liczba unikatowych elementów na przedziałach przy użyciu drzewa przedziałowego
-  - [ ] znajdź jedną liczbe w ciągu par liczb i podobne problemy
   - [ ] Quickselect
   - [ ] algorytm magicznych piątek
   - [ ] Lazyselect
@@ -133,31 +124,20 @@
   - [ ] algorytm sympleksowy
 - [ ] reszta algorytmów
 
-### Notatki i materiały
-
-- [ ] kwadraty łacińskie
-- [ ] sztuczki i triki
-  - [ ] kompresja wartości i współrzędnych
-- [ ] digit dp
-- [ ] wszystko
-
 ### Inne
 
 - [x] templatka do rozwiązań
 - [x] pragmy
 - [x] testerka w kodzie
 - [x] szybkie I/O
+- [x] rozmiar stosu
 
 ### Przykładowe zadania
 
 - [x] "Kajaki" z IV OI
 - [x] "Małpki" z Solve
-- [ ] zadania z przedziałami
-  - [ ] "Dyżury" z Solve
-  - [ ] "Szpilki i zdjęcia" z Solve
-  - [ ] "Too Many Segments" z Codeforces
-- [ ] reszta zadań
 
 ## Podziękowania
 
 - https://cp-algorithms.com/
+- https://cses.fi/problemset/

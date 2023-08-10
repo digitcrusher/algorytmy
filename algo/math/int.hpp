@@ -9,52 +9,8 @@
  */
 #pragma once
 #include "common.hpp"
+#include <bit>
 #include <limits>
-
-#if defined(__GLIBCXX__) || defined(__GLIBCPP__)
-namespace std {
-  template<class A>
-  int countl_zero(A x) {
-    // Wyjaśnienie tego ifa znajduje się w tests/math/int.cpp
-    int digit_diff = numeric_limits<ull>::digits - numeric_limits<A>::digits;
-    return x == 0 ? numeric_limits<A>::digits : __builtin_clzll(x) - digit_diff;
-  }
-  template<class A>
-  int countr_zero(A x) {
-    return x == 0 ? numeric_limits<A>::digits : __builtin_ctzll(x);
-  }
-  template<class A>
-  int popcount(A x) {
-    return __builtin_popcountll(x);
-  }
-}
-#else
-# include <cmath>
-namespace std {
-  template<class A>
-  int countl_zero(A x) {
-    int result = numeric_limits<A>::digits;
-    while(x > 0) {
-      result--;
-      x >>= 1;
-    }
-    return result;
-  }
-  template<class A>
-  int countr_zero(A x) {
-    return numeric_limits<A>::digits - countl_zero((x - 1) & ~x);
-  }
-  template<class A>
-  int popcount(A x) {
-    int result = 0;
-    while(x > 0) {
-      result++;
-      x = x & (x - 1);
-    }
-    return result;
-  }
-}
-#endif
 
 /*
  * Zwraca wykładnik największej potęgi dwójki mniejszej lub równej x.
@@ -95,9 +51,9 @@ ll ceil_div(ll a, ll b) {
 }
 
 /*
- * Iteratywne potęgowanie w O(log b). Uważaj na overloady std::pow.
+ * Iteratywne potęgowanie w O(log b).
  */
-ll pow(ll a, ll b) {
+ll fast_pow(ll a, ll b) {
   assert(b >= 0);
   ll result = 1;
   while(b > 0) {
