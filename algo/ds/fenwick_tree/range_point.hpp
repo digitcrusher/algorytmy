@@ -13,9 +13,8 @@
 
 /*
  * Drzewo Fenwicka przedział-punkt -
- *   Struktura danych wspierająca operacje obliczenia wartości jednego elementu
- *   (get) i modyfikacji przedziału elementów (modify) w O(log n). Zużywa O(n)
- *   pamięci.
+ *   Struktura danych wspierająca operacje obliczenia wartości jednego
+ *   elementu (get) i modyfikacji przedziału elementów (modify) w O(log n).
  *
  * ApplyChange: (Value, Change) -> Value
  *   Aplikuje zmianę na jeden element.
@@ -52,7 +51,7 @@ struct FenwickTreeRangePoint {
   }
 
   Value get(int idx) {
-    Value result = values[idx];
+    auto result = values[idx];
     while(idx < elemc) {
       result = apply_change(result, changes[idx]);
       idx |= idx + 1;

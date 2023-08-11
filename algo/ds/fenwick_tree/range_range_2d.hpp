@@ -14,13 +14,13 @@
 
 /*
  * Drzewo Fenwicka przedział-przedział 2D -
- *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy elementów
- *   (get) i modyfikacji (modify) w O(log w * log h). Zużywa O(w * h) pamięci.
+ *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy
+ *   elementów (get) i modyfikacji (modify) w O(log w * log h).
  *
  * Add: (Value, Value) -> Value
  *   Łaczy dwie sumy elementów.
  * Sub: (Value, Value) -> Value
- *   Operacja odwrotna do Add.
+ *   Operacja odwrotna do Add
  * ApplyChange: (Value, Change, int) -> Value
  *   Wielokrotnie aplikuje zmianę jednego elementu na sumę elementów.
  * MergeChange: (Change, Change) -> Change
@@ -95,7 +95,7 @@ template<
     } else if(y1 != 0) {
       return sub(get(0, 0, x2, y2), get(0, 0, x2, y1 - 1));
     } else {
-      Value result = values.get(0, 0, x2, y2);
+      auto result = values.get(0, 0, x2, y2);
       if(x2 != w - 1) {
         result = apply_change(result, changes_x.get(0, 0, w - 1 - (x2 + 1), y2), x2 + 1);
       }

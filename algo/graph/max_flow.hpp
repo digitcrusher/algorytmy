@@ -43,8 +43,10 @@ MaxFlow max_flow(vector<vector<pair<int, ll>>> const& adj, int src, int sink) {
     vector<ll> path_cap(n, 0);
     vector<int> prev(n, -1);
     queue<int> q;
+
     path_cap[src] = LLONG_MAX;
     q.push(src);
+
     while(!q.empty()) {
       auto node = q.front();
       q.pop();
@@ -65,7 +67,7 @@ MaxFlow max_flow(vector<vector<pair<int, ll>>> const& adj, int src, int sink) {
     if(new_flow == 0) break;
     global_flow += new_flow;
 
-    for(int node = sink; node != src; node = prev[node]) {
+    for(auto node = sink; node != src; node = prev[node]) {
       cap[prev[node]][node] -= new_flow;
       cap[node][prev[node]] += new_flow;
       flow[prev[node]][node] += new_flow;

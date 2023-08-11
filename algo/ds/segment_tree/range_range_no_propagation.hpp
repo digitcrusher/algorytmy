@@ -16,9 +16,8 @@
 
 /*
  * Drzewo przedziałowe przedział-przedział bez propagacji -
- *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w O(log n). Zużywa O(n) pamięci.
- *   Ta implementacja zakłada, że początkowa tablica nigdy nie jest pusta.
+ *   Struktura danych wspierająca operacje obliczenia sumy spójnego
+ *   przedziału elementów (get) i modyfikacji (modify) w O(log n).
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów.
@@ -81,7 +80,7 @@ template<
         return node.val;
       } else {
         Value result;
-        int mid = (node_l + node_r) / 2;
+        auto mid = (node_l + node_r) / 2;
         if(!do_intersect(mid + 1, node_r, l, r)) {
           result = descend(2 * num, node_l, mid);
         } else if(!do_intersect(node_l, mid, l, r)) {
@@ -104,7 +103,7 @@ template<
       if(is_in(node_l, node_r, l, r)) {
         receive_change(num, node_l, node_r, change);
       } else {
-        int mid = (node_l + node_r) / 2;
+        auto mid = (node_l + node_r) / 2;
         if(do_intersect(node_l, mid, l, r)) {
           descend(2 * num, node_l, mid);
         }
@@ -124,7 +123,7 @@ template<
     function<void(int, int, int)> descend = [&](int num, int node_l, int node_r) {
       if(node_l == node_r) return;
       auto &node = nodes[num - 1];
-      int mid = (node_l + node_r) / 2;
+      auto mid = (node_l + node_r) / 2;
 
       // Nie propagujemy zmian do wierzchołków w całości w [l, r].
       if(node.has_change) {
@@ -149,13 +148,6 @@ template<
       }
     };
     descend(1, 0, base_nodec - 1);
-  }
-
-  bool is_in(int a1, int a2, int b1, int b2) {
-    return b1 <= a1 && a2 <= b2;
-  }
-  bool do_intersect(int a1, int a2, int b1, int b2) {
-    return !(a2 < b1 || b2 < a1);
   }
 
   void receive_change(int num, int node_l, int node_r, Change change) {

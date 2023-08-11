@@ -14,9 +14,8 @@
 
 /*
  * Drzewo przedziałowe przedział-przedział -
- *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w O(log n). Zużywa O(n) pamięci.
- *   Ta implementacja zakłada, że początkowa tablica nigdy nie jest pusta.
+ *   Struktura danych wspierająca operacje obliczenia sumy spójnego
+ *   przedziału elementów (get) i modyfikacji (modify) w O(log n).
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli

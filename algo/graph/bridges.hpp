@@ -21,7 +21,7 @@ struct Bridges {
   vector<int> cut_vertices;
 };
 struct BCCs {
-  vector<int> parent; // Struktura zbiorów rozłącznych
+  vector<int> parent;
   /*
    * Tylko reprezentanci (najniższe wierzchołki)
    * dwuspójnych składowych trzymają krawędzie między nimi.
@@ -29,13 +29,7 @@ struct BCCs {
   vector<vector<int>> adj;
 
   int find_bcc(int node) {
-    if(parent[node] == node) {
-      return node;
-    } else {
-      int repr = find_bcc(parent[node]);
-      parent[node] = repr;
-      return repr;
-    }
+    return parent[node] == node ? node : parent[node] = find_bcc(parent[node]);
   }
 };
 pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
@@ -50,13 +44,13 @@ pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
 
   vector<int> entry(n, -1), low(n);
   function<int(int, int)> dfs = [&](int node, int parent) {
-    bool is_cut = false;
+    auto is_cut = false;
     bccs.parent[node] = node;
 
     low[node] = entry[node];
-    int exit = entry[node];
-    bool is_first_child = true;
-    for(int child: adj[node]) {
+    auto exit = entry[node];
+    auto is_first_child = true;
+    for(auto child: adj[node]) {
       if(child == parent) continue;
       if(entry[child] == -1) {
         entry[child] = exit + 1;
@@ -91,13 +85,13 @@ pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
     return exit;
   };
 
-  vector<bool> is_vis(n, false);
+  vector is_vis(n, false);
   function<int(int)> connect_bccs = [&](int node) {
     is_vis[node] = true;
-    int a = bccs.find_bcc(node);
-    for(int child: adj[node]) {
+    auto a = bccs.find_bcc(node);
+    for(auto child: adj[node]) {
       if(is_vis[child]) continue;
-      int b = connect_bccs(child);
+      auto b = connect_bccs(child);
       if(a == b) continue;
       bccs.adj[a].push_back(b);
       bccs.adj[b].push_back(a);

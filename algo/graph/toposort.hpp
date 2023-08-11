@@ -39,12 +39,12 @@ vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
     }
   }
   while(!q.empty()) {
-    int node = q.front();
+    auto node = q.front();
     q.pop();
 
     result.push_back(node);
 
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       in_deg[child]--;
       if(in_deg[child] == 0) {
         q.push(child);
@@ -76,7 +76,7 @@ vector<int> toposort_dfs(vector<vector<int>> const& adj) {
     }
     is_vis[node] = 1;
 
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       dfs(child);
     }
     result[next_idx] = node;
@@ -84,7 +84,6 @@ vector<int> toposort_dfs(vector<vector<int>> const& adj) {
 
     is_vis[node] = 2;
   };
-
   for(int root = 0; root < n; root++) {
     dfs(root);
   }

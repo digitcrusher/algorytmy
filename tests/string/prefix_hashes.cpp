@@ -1,5 +1,5 @@
 #include "string/prefix_hashes.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   string str;
@@ -11,13 +11,13 @@ int main() {
       return c - 'a';
     }
   };
-  PrefixHashes<26, AlphaToNum> prefix_hashes(str, mod);
+  PrefixHashes<'z' - 'a' + 1, AlphaToNum> prefix_hashes(str, mod);
 
-  while(true) {
-    int l, r;
-    cin >> l >> r;
-    if(!cin) break;
-    l--, r--;
-    cout << prefix_hashes.get(l, r) << endl;
+  while(cin) {
+    int a, b;
+    cin >> a >> b;
+    a--, b--;
+
+    cout << prefix_hashes.get(a, b) << endl;
   }
 }

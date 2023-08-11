@@ -9,13 +9,14 @@
  */
 #pragma once
 #include "common.hpp"
-#include <vector>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 template<class A, class... B>
 struct hash_many {
   size_t operator()(A const& a, B const&... b) const {
-    size_t x = hash<A>()(a), y = hash_many<B...>()(b...);
+    auto x = hash<A>()(a), y = hash_many<B...>()(b...);
     // Formuła zapożyczona z biblioteki Boost
     return x ^ (y + 0x9e3779b9 + (x << 6) + (x >> 2));
   }
@@ -30,14 +31,14 @@ struct hash_many<A> {
 template<class A, class B>
 struct std::hash<pair<A, B>> {
   size_t operator()(pair<A, B> const& pair) const {
-    return apply(hash_many<A, B>(), pair);
+    return std::apply(hash_many<A, B>(), pair);
   }
 };
 
 template<class... A>
 struct std::hash<tuple<A...>> {
   size_t operator()(tuple<A...> const& tuple) const {
-    return apply(hash_many<A...>(), tuple);
+    return std::apply(hash_many<A...>(), tuple);
   }
 };
 
@@ -47,7 +48,7 @@ struct std::hash<vector<A>> {
     if(vec.empty()) {
       return 0;
     }
-    size_t result = hash<A>()(vec[0]);
+    auto result = hash<A>()(vec[0]);
     for(int i = 1; i < vec.size(); i++) {
       result = hash_many<size_t, A>()(result, vec[i]);
     }

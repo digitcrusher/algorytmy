@@ -24,7 +24,7 @@ struct LinDiophantineSoln {
   /*
    * Zwraca kolejne rozwiązanie równania diofantycznego.
    */
-  LinDiophantineSoln shift_soln(int step) {
+  LinDiophantineSoln shift(int step) {
     return {
       x + b / gcd_ab * step,
       y - a / gcd_ab * step,

@@ -9,32 +9,29 @@
  */
 #pragma once
 #include "common.hpp"
+#include <numeric>
 #include <vector>
 
 /*
- * Las zbiorów rozłącznych -
+ * Las zbiorów rozłącznych (tzw. "Union-Find") -
  *   Struktura pozwalająca na operacje znajdywania zbioru, do którego należy
  *   dany element, (find) i łączenia dwóch zbiorów (merge) w zamortyzowanym
- *   czasie O(α(n)), czyli praktycznie stałym. Zużywa O(n) pamięci.
- *
- * Wariant bez podpinania mniejszego poddrzewa do większego działa w czasie
- * logarytmicznym.
+ *   czasie O(α(n)), czyli praktycznie stałym. Wariant bez podpinania mniejszego
+ *   poddrzewa do większego działa w czasie logarytmicznym.
  */
 struct DSU {
   int elemc, setc;
   vector<int> parent, size;
 
   DSU(int cnt): elemc(cnt), setc(cnt), parent(cnt), size(cnt, 1) {
-    for(int i = 0; i < elemc; i++) {
-      parent[i] = i;
-    }
+    iota(parent.begin(), parent.end(), 0);
   }
 
   int find(int node) {
     if(parent[node] == node) {
       return node;
     } else {
-      int repr = find(parent[node]);
+      auto repr = find(parent[node]);
       if(parent[node] != repr) {
         size[parent[node]] -= size[node];
         parent[node] = repr;

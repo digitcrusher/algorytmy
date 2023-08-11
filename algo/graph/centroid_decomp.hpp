@@ -31,7 +31,7 @@ CentroidDecomp centroid_decomp(vector<vector<int>> const& adj) {
   vector<int> size(n);
   function<void(int, int)> calc_size = [&](int node, int parent) {
     size[node] = 1;
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       if(child == parent || decomp.parent[child] != -2) continue;
       calc_size(child, node);
       size[node] += size[child];
@@ -39,7 +39,7 @@ CentroidDecomp centroid_decomp(vector<vector<int>> const& adj) {
   };
 
   function<int(int, int, int)> find_centroid = [&](int node, int parent, int subgraph_size) {
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       if(child == parent || decomp.parent[child] != -2) continue;
       if(size[child] <= subgraph_size / 2) continue;
       return find_centroid(child, node, subgraph_size);
@@ -49,21 +49,21 @@ CentroidDecomp centroid_decomp(vector<vector<int>> const& adj) {
 
   function<void(int, int)> decompose = [&](int node, int parent) {
     calc_size(node, -1);
-    int centroid = find_centroid(node, -1, size[node]);
+    auto centroid = find_centroid(node, -1, size[node]);
     decomp.parent[centroid] = parent;
     if(parent != -1) {
       decomp.children[parent].push_back(centroid);
     }
 
-    for(int child: adj[centroid]) {
+    for(auto child: adj[centroid]) {
       if(decomp.parent[child] != -2) continue;
       decompose(child, centroid);
     }
   };
 
-  for(int i = 0; i < n; i++) {
-    if(decomp.parent[i] != -2) continue;
-    decompose(i, -1);
+  for(int root = 0; root < n; root++) {
+    if(decomp.parent[root] != -2) continue;
+    decompose(root, -1);
   }
 
   return decomp;

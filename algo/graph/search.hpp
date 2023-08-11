@@ -20,14 +20,14 @@
  *   ukorzenione w wierzchołku root. Ta implementacja jest tylko w celach
  *   demonstracyjnych.
  */
-struct BfsResult {
+struct BFS {
   vector<bool> is_vis;
   vector<int> parent, dist;
 };
-BfsResult bfs(int root, vector<vector<int>> const& adj) {
+BFS bfs(vector<vector<int>> const& adj, int root) {
   int const n = adj.size();
 
-  vector<bool> is_vis(n, false);
+  vector is_vis(n, false);
   vector<int> parent(n), dist(n);
 
   queue<int> q;
@@ -36,10 +36,10 @@ BfsResult bfs(int root, vector<vector<int>> const& adj) {
   dist[root] = 0;
   q.push(root);
   while(!q.empty()) {
-    int node = q.front();
+    auto node = q.front();
     q.pop();
 
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       if(is_vis[child]) continue;
       is_vis[child] = true;
       parent[child] = node;
@@ -48,10 +48,7 @@ BfsResult bfs(int root, vector<vector<int>> const& adj) {
     }
   }
 
-  return {
-    is_vis,
-    parent, dist
-  };
+  return {is_vis, parent, dist};
 }
 
 /*
@@ -62,16 +59,16 @@ BfsResult bfs(int root, vector<vector<int>> const& adj) {
  *   ma krawędzi poprzecznych. Ta implementacja jest tylko w celach
  *   demonstracyjnych.
  */
-struct DfsResult {
+struct DFS {
   vector<bool> is_vis;
   vector<int> parent, depth, size;
   vector<int> entry, exit, low;
   vector<int> pre_order, post_order;
 };
-DfsResult dfs(int root, vector<vector<int>> const& adj) {
+DFS dfs(vector<vector<int>> const& adj, int root) {
   int const n = adj.size();
 
-  vector<bool> is_vis(n, false);
+  vector is_vis(n, false);
   vector<int> parent(n), depth(n), size(n);
   vector<int> entry(n), exit(n), low(n);
   vector<int> pre_order, post_order;
@@ -84,7 +81,7 @@ DfsResult dfs(int root, vector<vector<int>> const& adj) {
     low[node] = entry[node];
     pre_order.push_back(node);
 
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       if(child == parent[node]) continue;
       if(is_vis[child]) {
         low[node] = min(low[node], entry[child]);

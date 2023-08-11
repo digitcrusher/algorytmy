@@ -10,15 +10,16 @@
 #pragma once
 #include "common.hpp"
 #include <cmath>
+#include <iostream>
 
-template<class T>
+template<class A>
 struct Point {
-  T x, y;
+  A x, y;
 
   Point() {}
-  Point(T x, T y): x(x), y(y) {}
-  template<class U>
-  Point(Point<U> other): x(other.x), y(other.y) {}
+  Point(A x, A y): x(x), y(y) {}
+  template<class B>
+  Point(Point<B> other): x(other.x), y(other.y) {}
 
   bool operator==(Point other) const {
     return x == other.x && y == other.y;
@@ -32,10 +33,10 @@ struct Point {
   Point operator-(Point other) const {
     return {x - other.x, y - other.y};
   }
-  Point operator*(T scalar) const {
+  Point operator*(A scalar) const {
     return {x * scalar, y * scalar};
   }
-  Point operator/(T scalar) const {
+  Point operator/(A scalar) const {
     return {x / scalar, y / scalar};
   }
   Point& operator+=(Point other) {
@@ -44,14 +45,14 @@ struct Point {
   Point& operator-=(Point other) {
     return *this = *this - other;
   }
-  Point& operator*=(T scalar) {
+  Point& operator*=(A scalar) {
     return *this = *this * scalar;
   }
-  Point& operator/=(T scalar) {
+  Point& operator/=(A scalar) {
     return *this = *this / scalar;
   }
 
-  T mag_sqr() const {
+  A mag_sqr() const {
     return x * x + y * y;
   }
   ld mag() const {
@@ -65,42 +66,51 @@ struct Point {
 };
 
 // Oblicza |a| * |b| * cos θ, gdzie θ to kąt pomiędzy a i b.
-template<class T>
-T dot(Point<T> a, Point<T> b) {
+template<class A>
+A dot(Point<A> a, Point<A> b) {
   return a.x * b.x + a.y * b.y;
 }
 // Oblicza |a| * |b| * sin θ, gdzie θ to kąt od a do b.
-template<class T>
-T cross(Point<T> a, Point<T> b) {
+template<class A>
+A cross(Point<A> a, Point<A> b) {
   return a.x * b.y - a.y * b.x;
 }
 
-template<class T>
-bool Point<T>::is_colinear_with(Point other) {
+template<class A>
+bool Point<A>::is_colinear_with(Point other) const {
   return cross(*this, other) == 0;
 }
-template<class T>
-bool are_colinear(Point<T> a, Point<T> b, Point<T> c) {
+template<class A>
+bool are_colinear(Point<A> a, Point<A> b, Point<A> c) {
   return (a - c).is_colinear_with(b - c);
 }
 
 struct SweepX {
-  template<class T>
-  bool operator()(Point<T> a, Point<T> b) const {
+  template<class A>
+  bool operator()(Point<A> a, Point<A> b) const {
     return a.x != b.x ? a.x < b.x : a.y < b.y;
   }
 };
 struct SweepY {
-  template<class T>
-  bool operator()(Point<T> a, Point<T> b) const {
+  template<class A>
+  bool operator()(Point<A> a, Point<A> b) const {
     return a.y != b.y ? a.y < b.y : a.x < b.x;
   }
 };
 
 struct AngleCmp {
-  template<class T>
-  bool operator()(Point<T> a, Point<T> b) const {
+  template<class A>
+  bool operator()(Point<A> a, Point<A> b) const {
     auto x = cross(a, b);
     return x != 0 ? x > 0 : a.mag_sqr() < b.mag_sqr();
   }
 };
+
+template<class A>
+ostream& operator<<(ostream &stream, Point<A> pt) {
+  return stream << pt.x << " " << pt.y;
+}
+template<class A>
+istream& operator>>(istream &stream, Point<A> &pt) {
+  return stream >> pt.x >> pt.y;
+}

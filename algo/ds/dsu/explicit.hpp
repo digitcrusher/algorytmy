@@ -15,7 +15,7 @@
  * Struktura zbiorów rozłącznych z trzymaniem elementów -
  *   Struktura pozwalająca na operacje znajdywania zbioru, do którego należy
  *   dany element (find) w O(1), łączenia dwóch zbiorów (merge) w zamortyzowanym
- *   czasie O(log n) i przeglądanie elementów zbiorów. Zużywa O(n) pamięci.
+ *   czasie O(log n) i przeglądanie elementów zbiorów.
  */
 struct ExplicitDSU {
   int elemc, setc;
@@ -43,9 +43,9 @@ struct ExplicitDSU {
       swap(a, b);
     }
     sets[a].reserve(sets[a].size() + sets[b].size());
-    for(int elem: sets[b]) {
-      parent[elem] = a;
-      sets[a].push_back(elem);
+    for(auto i: sets[b]) {
+      parent[i] = a;
+      sets[a].push_back(i);
     }
     sets[b].clear();
     sets[b].shrink_to_fit();

@@ -51,7 +51,7 @@ ll mod_mul(ll a, ll b, ll mod) {
 
   ll result = 0;
   while(b > 0) {
-    if(b % 2 == 1) {
+    if(b % 2 != 0) {
       result += a;
       if(result >= mod) {
         result -= mod;
@@ -74,7 +74,7 @@ ll mod_pow(ll a, ll b, ll mod) {
   assert(mod > 0 && b >= 0);
   ll result = 1;
   while(b > 0) {
-    if(b % 2 == 1) {
+    if(b % 2 != 0) {
       result = mod_mul(result, a, mod);
     }
     a = mod_mul(a, a, mod);

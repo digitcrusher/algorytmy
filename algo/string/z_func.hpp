@@ -22,7 +22,8 @@ vector<int> z_func(string const& str) {
 
   vector<int> result(n);
   result[0] = n;
-  for(int i = 1, l = 0, r = 0; i < n; i++) {
+  int l = 0, r = 0;
+  for(int i = 1; i < n; i++) {
     result[i] = i < r ? min(r - i, result[i - l]) : 0;
     while(i + result[i] < n && str[i + result[i]] == str[result[i]]) {
       result[i]++;

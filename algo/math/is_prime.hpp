@@ -30,17 +30,17 @@ bool is_prime_miller_rabin(ll x) {
     return false;
   }
 
-  ll odd = (x - 1) >> countr_zero(x - 1);
+  auto odd = (x - 1) >> countr_zero(x - 1ull);
 
-  for(ll base: {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+  for(auto base: {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
     if(x == base) {
       return true;
     }
-    bool is_composite = true;
+    auto is_composite = true;
     if(mod_pow(base, odd, x) == 1) {
       is_composite = false;
     }
-    for(ll i = odd; i < x - 1 && is_composite; i *= 2) {
+    for(auto i = odd; i < x - 1 && is_composite; i *= 2) {
       if(mod_pow(base, i, x) == x - 1) {
         is_composite = false;
       }

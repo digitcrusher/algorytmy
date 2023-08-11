@@ -51,7 +51,7 @@ struct ImplicitTreap {
         return nullptr;
       }
 
-      int mid = l;
+      auto mid = l;
       for(int i = l; i <= r; i++) {
         if(nodes[mid]->prio < nodes[i]->prio) {
           mid = i;
@@ -119,7 +119,7 @@ struct ImplicitTreap {
     }
 
     hello();
-    int mid = left != nullptr ? left->elemc : 0;
+    auto mid = left != nullptr ? left->elemc : 0;
     if(r < mid) {
       return left->get(l, r);
     } else if(mid < l) {
@@ -162,8 +162,8 @@ struct ImplicitTreap {
   }
 };
 
-template<class... T>
-ImplicitTreap<T...>* merge(ImplicitTreap<T...> *a, ImplicitTreap<T...> *b) {
+template<class... A>
+ImplicitTreap<A...>* merge(ImplicitTreap<A...> *a, ImplicitTreap<A...> *b) {
   if(a == nullptr) {
     return b;
   } else if(b == nullptr) {
@@ -183,15 +183,15 @@ ImplicitTreap<T...>* merge(ImplicitTreap<T...> *a, ImplicitTreap<T...> *b) {
   }
 }
 
-template<class... T>
-void rotate(ImplicitTreap<T...> *&treap, int mid) {
+template<class... A>
+void rotate(ImplicitTreap<A...> *&treap, int mid) {
   assert(0 <= mid && mid < treap->elemc);
   auto [a, b] = treap->split(mid);
   treap = merge(b, a);
 }
 
-template<class... T>
-void reverse(ImplicitTreap<T...> *&treap, int l, int r) {
+template<class... A>
+void reverse(ImplicitTreap<A...> *&treap, int l, int r) {
   assert(0 <= l && l <= r && r < treap->elemc);
   auto [ab, c] = treap->split(r + 1);
   auto [a, b] = ab->split(l);
@@ -199,8 +199,8 @@ void reverse(ImplicitTreap<T...> *&treap, int l, int r) {
   treap = merge(merge(a, b), c);
 }
 
-template<class... T>
-ostream& operator<<(ostream &str, ImplicitTreap<T...> *treap) {
+template<class... A>
+ostream& operator<<(ostream &str, ImplicitTreap<A...> *treap) {
   treap->hello();
   if(treap->left != nullptr) {
     str << treap->left << " ";

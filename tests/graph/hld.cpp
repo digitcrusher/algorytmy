@@ -1,89 +1,92 @@
 #include "graph/hld.hpp"
-#include "ds/segment_tree/range_range.hpp"
-#include <iostream>
-#include <optional>
+#include "ds/fenwick_tree/range_range.hpp"
+#include "iostream.hpp"
 
 int main() {
-  optional<HLD> hld;
-  auto apply_change = [](int val, int change, int elemc) {
-    return val + change * elemc;
-  };
-  optional<SegmentTree<int, plus<int>, int, decltype(apply_change), plus<int>>> tree;
+  int n, root;
+  cin >> n >> root;
+  root--;
+  vector<vector<int>> adj(n);
+  for(int i = 0; i < n - 1; i++) {
+    int a, b;
+    cin >> a >> b;
+    a--, b--;
+    adj[a].push_back(b);
+    adj[b].push_back(a);
+  }
 
-  while(true) {
+  HLD hld(adj, root);
+
+  vector<ll> init(n);
+  for(int i = 0; i < n; i++) {
+    cin >> init[hld.node(i)];
+  }
+
+  struct ApplyChange {
+    ll operator()(ll val, ll change, int elemc) {
+      return val + change * elemc;
+    }
+  };
+  FenwickTreeRangeRange<ll, plus<ll>, minus<ll>, ll, ApplyChange, plus<ll>, negate<ll>> tree(init, 0);
+
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
-    if(op == "graph") {
-      int n, root;
-      cin >> n >> root;
-      if(!cin) break;
-      root--;
+    if(op == "get_node") {
+      int node;
+      cin >> node;
+      node--;
 
-      vector<vector<int>> adj(n);
-      for(int i = 0; i < n - 1; i++) {
-        int a, b;
-        cin >> a >> b;
-        if(!cin) break;
-        a--, b--;
-        adj[a].push_back(b);
-        adj[b].push_back(a);
-      }
-      if(!cin) break;
-      hld.emplace(adj, root);
+      auto idx = hld.node(node);
+      cout << tree.get(idx, idx) << endl;
 
-      vector<int> elems(n);
-      for(int i = 0; i < n; i++) {
-        int num;
-        cin >> num;
-        if(!cin) break;
-        elems[hld->entry[i]] = num;
-      }
-      if(!cin) break;
-      tree.emplace(elems, plus<int>(), apply_change);
+    } else if(op == "modify_node") {
+      int node;
+      ll change;
+      cin >> node >> change;
+      node--;
+
+      auto idx = hld.node(node);
+      tree.modify(idx, idx, change);
 
     } else if(op == "get_path") {
       int a, b;
       cin >> a >> b;
-      if(!cin) break;
       a--, b--;
 
-      int result = 0;
-      auto segs = hld->path(a, b);
-      for(auto [l, r]: segs) {
-        result = tree->sum(result, tree->get(l, r));
+      ll result = 0;
+      for(auto [a, b]: hld.path(a, b)) {
+        result = tree.values.add(result, tree.get(a, b));
       }
       cout << result << endl;
 
     } else if(op == "modify_path") {
-      int a, b, change;
+      int a, b;
+      ll change;
       cin >> a >> b >> change;
-      if(!cin) break;
       a--, b--;
 
-      auto segs = hld->path(a, b);
-      for(auto [l, r]: segs) {
-        tree->modify(l, r, change);
+      for(auto [a, b]: hld.path(a, b)) {
+        tree.modify(a, b, change);
       }
 
     } else if(op == "get_subtree") {
       int node;
       cin >> node;
-      if(!cin) break;
       node--;
 
-      auto seg = hld->subtree(node);
-      cout << tree->get(seg.first, seg.second) << endl;
+      auto [a, b] = hld.subtree(node);
+      cout << tree.get(a, b) << endl;
 
     } else if(op == "modify_subtree") {
-      int node, change;
+      int node;
+      ll change;
       cin >> node >> change;
-      if(!cin) break;
       node--;
 
-      auto seg = hld->subtree(node);
-      tree->modify(seg.first, seg.second, change);
+      auto [a, b] = hld.subtree(node);
+      tree.modify(a, b, change);
     }
   }
 }

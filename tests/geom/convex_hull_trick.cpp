@@ -1,5 +1,5 @@
 #include "geom/convex_hull_trick.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
@@ -11,10 +11,9 @@ int main() {
 
   ConvexHullTrick trick(funcs);
 
-  while(true) {
+  while(cin) {
     ll x;
     cin >> x;
-    if(!cin) break;
 
     cout << trick.get(x) << endl;
   }

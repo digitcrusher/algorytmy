@@ -1,24 +1,20 @@
 #include "ds/sparse_table.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
   cin >> n;
-  vector<int> nums(n);
-  for(auto &num: nums) {
-    cin >> num;
-  }
+  vector<ll> nums(n);
+  cin >> nums;
 
-  auto min = [](int a, int b) {
-    return ::min(a, b);
-  };
-  SparseTable<int, decltype(min)> rmq(nums, min);
+  auto sum = (ll const&(*)(ll const&, ll const&)) min;
+  SparseTable<ll, decltype(sum)> rmq(nums, sum);
 
-  while(true) {
+  while(cin) {
     int a, b;
     cin >> a >> b;
-    if(!cin) break;
     a--, b--;
+
     cout << rmq.get(a, b) << endl;
   }
 }

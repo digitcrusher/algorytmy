@@ -19,11 +19,11 @@
  *   funkcji liniowych dla danego argumentu (get) w O(log n) po wstępnym
  *   przetwarzaniu w O(n log n).
  */
-template<class T>
+template<class A>
 struct ConvexHullTrick {
-  vector<Point<T>> hull;
+  vector<Point<A>> hull;
 
-  ConvexHullTrick(vector<Point<T>> funcs) {
+  ConvexHullTrick(vector<Point<A>> funcs) {
     sort(funcs.begin(), funcs.end(), SweepX());
     hull.reserve(funcs.size());
     for(auto func: funcs) {
@@ -36,10 +36,10 @@ struct ConvexHullTrick {
     }
   }
 
-  T get(T x) {
+  A get(A x) {
     int left = 0, right = hull.size() - 1;
     while(left < right) {
-      int mid = left + (right - left) / 2;
+      auto mid = left + (right - left) / 2;
       // >= daje maksimum, <= - minimum
       if(dot(hull[mid + 1] - hull[mid], {x, 1}) >= 0) {
         left = mid + 1;

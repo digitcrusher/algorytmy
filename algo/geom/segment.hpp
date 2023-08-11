@@ -10,15 +10,17 @@
 #pragma once
 #include "common.hpp"
 #include "geom/point.hpp"
+#include "math/int.hpp"
+#include <iostream>
 #include <optional>
 #include <utility>
 
-template<class T>
+template<class A>
 struct Segment {
-  Point<T> a, b;
+  Point<A> a, b;
 
   Segment() {}
-  Segment(Point<T> a, Point<T> b): a(a), b(b) {}
+  Segment(Point<A> a, Point<A> b): a(a), b(b) {}
 
   ld slope() {
     return (ld) (a.y - b.y) / (a.x - b.x);
@@ -30,7 +32,7 @@ struct Segment {
   enum Side {
     left, colinear, right
   };
-  Side which_side(Point<T> pt) {
+  Side which_side(Point<A> pt) {
     auto x = cross(b - a, pt - a);
     if(x > 0) return left;
     if(x == 0) return colinear;
@@ -45,24 +47,6 @@ struct Segment {
     return is_parallel_to(other) && are_colinear(a, b, other.a);
   }
 
-  template<class U>
-  bool do_intersect(U a1, U a2, U b1, U b2) {
-    if(a1 > a2) {
-      swap(a1, a2);
-    }
-    if(b1 > b2) {
-      swap(b1, b2);
-    }
-    return !(a2 < b1 || b2 < a1);
-  }
-  template<class U>
-  bool do_intersect(U a1, U a2, U b) {
-    if(a1 > a2) {
-      swap(a1, a2);
-    }
-    return a1 <= b && b <= a2;
-  }
-
   bool does_intersect(Segment other) {
     if(is_colinear_with(other)) {
       return do_intersect(a.x, b.x, other.a.x, other.b.x) &&
@@ -72,7 +56,7 @@ struct Segment {
              other.which_side(a) != other.which_side(b);
     }
   }
-  bool does_intersect(Point<T> pt) {
+  bool does_intersect(Point<A> pt) {
     return which_side(pt) == colinear &&
            do_intersect(a.x, b.x, pt.x) &&
            do_intersect(a.y, b.y, pt.y);
@@ -91,3 +75,12 @@ struct Segment {
     }
   }
 };
+
+template<class A>
+ostream& operator<<(ostream &stream, Segment<A> seg) {
+  return stream << seg.a << " " << seg.b;
+}
+template<class A>
+istream& operator>>(istream &stream, Segment<A> &seg) {
+  return stream >> seg.a >> seg.b;
+}

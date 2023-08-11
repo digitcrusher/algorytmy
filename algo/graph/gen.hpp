@@ -33,7 +33,7 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
   vector<vector<int>> adj(nodec);
 
   if(k_colorable == 1) {
-    assert(edgec == 1);
+    assert(edgec == 0);
     return adj;
   }
   vector<vector<int>> color_groups(max(0, k_colorable));
@@ -47,12 +47,12 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
   DSU connected(nodec);
   vector<int> dag_order(nodec);
   if(is_directed && is_acyclic) {
-    vector<bool> is_used(nodec, false);
-    for(int &label: dag_order) {
+    vector is_used(nodec, false);
+    for(auto &i: dag_order) {
       do {
-        label = rand() % nodec;
-      } while(is_used[label]);
-      is_used[label] = true;
+        i = rand() % nodec;
+      } while(is_used[i]);
+      is_used[i] = true;
     }
   }
 
@@ -74,12 +74,7 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
     }
 
     if(!has_self_loops && a == b) continue;
-    pair<int, int> edge;
-    if(is_directed) {
-      edge = {a, b};
-    } else {
-      edge = {min(a, b), max(a, b)};
-    }
+    auto edge = is_directed ? pair(a, b) : pair(min(a, b), max(a, b));
     if(!has_multi_edges && edge_set.count(edge) != 0) continue;
     if(is_connected && connected.setc > 1 && connected.find(a) == connected.find(b)) continue;
     if(is_acyclic && is_directed && dag_order[a] > dag_order[b]) continue;

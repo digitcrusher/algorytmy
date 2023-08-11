@@ -14,10 +14,8 @@
 
 /*
  * Drzewo przedziałowe przedział-punkt -
- *   Struktura danych wspierająca operacje obliczenia wartości jednego elementu
- *   (get) i modyfikacji przedziału elementów (modify) w O(log n). Zużywa O(n)
- *   pamięci. Ta implementacja zakłada, że początkowa tablica nigdy nie
- *   jest pusta.
+ *   Struktura danych wspierająca operacje obliczenia wartości jednego
+ *   elementu (get) i modyfikacji przedziału elementów (modify) w O(log n).
  *
  * ApplyChange: (Value, Change) -> Value
  *   Aplikuje zmianę na jeden element.
@@ -53,7 +51,7 @@ struct SegmentTreeRangePoint {
   }
 
   Value get(int idx) {
-    Value result = values[idx];
+    auto result = values[idx];
     idx = (base_offset + idx + 1) / 2;
     while(idx >= 1) {
       result = apply_change(result, changes[idx - 1]);
@@ -74,7 +72,7 @@ struct SegmentTreeRangePoint {
     l += base_offset + 1;
     r += base_offset + 1;
     while(l <= r) {
-      if(l % 2 == 1) {
+      if(l % 2 != 0) {
         touch(l);
         l++;
       }

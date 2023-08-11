@@ -15,9 +15,8 @@
 
 /*
  * Drzewo przedziałowe przedział-przedział 2D -
- *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy elementów
- *   (get) i modyfikacji (modify) w O(log w * log h). Zużywa O(w * h) pamięci.
- *   Ta implementacja zakłada, że początkowa tablica nigdy nie jest pusta.
+ *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy
+ *   elementów (get) i modyfikacji (modify) w O(log w * log h).
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwie sąsiednie podmacierze elementów.
@@ -87,6 +86,10 @@ template<
     resum();
   }
 
+  int overlap_of(int a1, int a2, int b1, int b2) {
+    return max(0, min(a2, b2) - max(a1, b1) + 1);
+  }
+
   Value get(int x1, int y1, int x2, int y2) {
     assert(0 <= x1 && x1 <= x2 && x2 < w);
     assert(0 <= y1 && y1 <= y2 && y2 < h);
@@ -99,7 +102,7 @@ template<
         return node.val;
       } else {
         Value result;
-        int mid = (node_x1 + node_x2) / 2;
+        auto mid = (node_x1 + node_x2) / 2;
         if(!do_intersect(mid + 1, node_x2, x1, x2)) {
           result = descend_x_for_val(2 * x_num, y_num, node_x1, mid);
         } else if(!do_intersect(node_x1, mid, x1, x2)) {
@@ -128,7 +131,7 @@ template<
         pair<Change, bool> result;
         result.second = false;
 
-        int mid = (node_x1 + node_x2) / 2;
+        auto mid = (node_x1 + node_x2) / 2;
         if(do_intersect(node_x1, mid, x1, x2)) {
           result = descend_x_for_change(2 * x_num, y_num, node_x1, mid);
         }
@@ -155,7 +158,7 @@ template<
         return descend_x_for_val(1, y_num, 0, x_base_nodec - 1);
       } else {
         Value result;
-        int mid = (node_y1 + node_y2) / 2;
+        auto mid = (node_y1 + node_y2) / 2;
         if(!do_intersect(mid + 1, node_y2, y1, y2)) {
           result = descend_y(2 * y_num, node_y1, mid);
         } else if(!do_intersect(node_y1, mid, y1, y2)) {
@@ -183,7 +186,7 @@ template<
       [&](int x_num, int y_num, int node_x1, int node_y1, int node_x2, int node_y2)
     {
       if(!is_in(node_x1, node_x2, x1, x2)) {
-        int mid = (node_x1 + node_x2) / 2;
+        auto mid = (node_x1 + node_x2) / 2;
         if(do_intersect(node_x1, mid, x1, x2)) {
           descend_x(2 * x_num, y_num, node_x1, node_y1, mid, node_y2);
         }
@@ -193,9 +196,9 @@ template<
       }
 
       if(node_x2 >= w) return;
-      int overlap_x = overlap_of(x1, x2, node_x1, node_x2),
-          overlap_y = overlap_of(y1, y2, node_y1, node_y2);
-      bool is_x_covered = is_in(node_x1, node_x2, x1, x2) && node_x1 != node_x2,
+      auto overlap_x = overlap_of(x1, x2, node_x1, node_x2),
+           overlap_y = overlap_of(y1, y2, node_y1, node_y2);
+      auto is_x_covered = is_in(node_x1, node_x2, x1, x2) && node_x1 != node_x2,
            is_y_covered = is_in(node_y1, node_y2, y1, y2) && node_y1 != node_y2;
       auto &node = nodes[y_num - 1][x_num - 1];
       node.val = apply_change(node.val, change, overlap_x * overlap_y);
@@ -217,7 +220,7 @@ template<
 
     function<void(int, int, int)> descend_y = [&](int y_num, int node_y1, int node_y2) {
       if(!is_in(node_y1, node_y2, y1, y2)) {
-        int mid = (node_y1 + node_y2) / 2;
+        auto mid = (node_y1 + node_y2) / 2;
         if(do_intersect(node_y1, mid, y1, y2)) {
           descend_y(2 * y_num, node_y1, mid);
         }
@@ -238,7 +241,7 @@ template<
       [&](int x_num, int y_num, int node_x1, int node_x2)
     {
       if(node_x1 != node_x2) {
-        int mid = (node_x1 + node_x2) / 2;
+        auto mid = (node_x1 + node_x2) / 2;
         descend_x(2 * x_num, y_num, node_x1, mid);
         descend_x(2 * x_num + 1, y_num, mid + 1, node_x2);
       }
@@ -255,7 +258,7 @@ template<
 
     function<void(int, int, int)> descend_y = [&](int y_num, int node_y1, int node_y2) {
       if(node_y1 != node_y2) {
-        int mid = (node_y1 + node_y2) / 2;
+        auto mid = (node_y1 + node_y2) / 2;
         descend_y(2 * y_num, node_y1, mid);
         descend_y(2 * y_num + 1, mid + 1, node_y2);
       }
@@ -265,15 +268,5 @@ template<
     };
 
     descend_y(1, 0, y_base_nodec - 1);
-  }
-
-  bool is_in(int a1, int a2, int b1, int b2) {
-    return b1 <= a1 && a2 <= b2;
-  }
-  bool do_intersect(int a1, int a2, int b1, int b2) {
-    return !(a2 < b1 || b2 < a1);
-  }
-  int overlap_of(int a1, int a2, int b1, int b2) {
-    return max(0, min(a2, b2) - max(a1, b1) + 1);
   }
 };

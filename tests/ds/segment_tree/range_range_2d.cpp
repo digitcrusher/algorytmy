@@ -1,37 +1,36 @@
 #include "ds/segment_tree/range_range_2d.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int w, h;
   cin >> w >> h;
-  vector init(h, vector<int>(w));
-  for(auto &row: init) {
-    for(auto &num: row) {
-      cin >> num;
+  vector init(h, vector<ll>(w));
+  cin >> init;
+
+  struct ApplyChange {
+    ll operator()(ll val, ll change, int elemc) {
+      return val + change * elemc;
     }
-  }
-
-  auto apply_change = [](int val, int change, int elemc) {
-    return val + change * elemc;
   };
-  SegmentTree2D<
-    int, plus<int>,
-    int, decltype(apply_change), plus<int>, multiplies<int>
-  > tree(init, plus<int>(), apply_change);
+  SegmentTree2D<ll, plus<ll>, ll, ApplyChange, plus<ll>, multiplies<ll>> tree(init);
 
-  while(true) {
+  while(cin) {
     string op;
-    int x1, y1, x2, y2;
-    cin >> op >> x1 >> y1 >> x2 >> y2;
-    if(!cin) break;
-    x1--, y1--, x2--, y2--;
+    cin >> op;
 
     if(op == "get") {
+      int x1, y1, x2, y2;
+      cin >> x1 >> y1 >> x2 >> y2;
+      x1--, y1--, x2--, y2--;
+
       cout << tree.get(x1, y1, x2, y2) << endl;
+
     } else if(op == "modify") {
-      int change;
-      cin >> change;
-      if(!cin) break;
+      int x1, y1, x2, y2;
+      ll change;
+      cin >> x1 >> y1 >> x2 >> y2 >> change;
+      x1--, y1--, x2--, y2--;
+
       tree.modify(x1, y1, x2, y2, change);
     }
   }

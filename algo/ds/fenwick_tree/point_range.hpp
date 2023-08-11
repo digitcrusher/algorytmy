@@ -9,18 +9,18 @@
  */
 #pragma once
 #include "common.hpp"
+#include <numeric>
 #include <vector>
 
 /*
  * Drzewo Fenwicka -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji jednego elementu (modify) w O(log n). Zużywa
- *   O(n) pamięci.
+ *   elementów (get) i modyfikacji jednego elementu (modify) w O(log n).
  *
  * Add: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów.
  * Sub: (Value, Value) -> Value
- *   Operacja odwrotna do Add.
+ *   Operacja odwrotna do Add
  * ApplyChange: (Value, Change) -> Value
  *   Aplikuje zmianę w jednym elemencie na spójny przedział elementów.
  *
@@ -45,9 +45,7 @@ struct FenwickTree {
     elemc(elems.size()), sums(elems),
     add(add), sub(sub), apply_change(apply_change)
   {
-    for(int i = 1; i < elemc; i++) {
-      sums[i] = add(sums[i - 1], sums[i]);
-    }
+    partial_sum(sums.begin(), sums.end(), sums.begin(), add);
     for(int i = elemc - 1; i >= 0; i--) {
       if(sum_l(i) == 0) continue;
       sums[i] = sub(sums[i], sums[sum_l(i) - 1]);
@@ -63,7 +61,7 @@ struct FenwickTree {
     if(l != 0) {
       return sub(get(0, r), get(0, l - 1));
     } else {
-      Value result = sums[r];
+      auto result = sums[r];
       r = sum_l(r) - 1;
       while(r >= 0) {
         result = add(sums[r], result);

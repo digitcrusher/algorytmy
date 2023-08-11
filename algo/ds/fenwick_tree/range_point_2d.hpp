@@ -15,7 +15,6 @@
  * Drzewo Fenwicka przedział-punkt 2D -
  *   Struktura danych wspierająca operacje obliczenia wartości jednego elementu
  *   (get) i modyfikacji podmacierzy elementów (modify) w O(log w * log h).
- *   Zużywa O(w * h) pamięci.
  *
  * ApplyChange: (Value, Change) -> Value
  *   Aplikuje zmianę na jeden element.
@@ -52,7 +51,7 @@ struct FenwickTreeRangePoint2D {
   }
 
   Value get(int x, int y) {
-    Value result = values[y][x];
+    auto result = values[y][x];
     for(int j = y; j < h; j |= j + 1) {
       for(int i = x; i < w; i |= i + 1) {
         result = apply_change(result, changes[j][i]);

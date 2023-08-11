@@ -6,6 +6,6 @@
  */
 void set_stack_size(int megabytes) {
   rlimit rl;
-  rl.rlim_cur = (rlim_t) megabytes * 1000 * 1000;
+  rl.rlim_cur = (rlim_t) megabytes * 1'000'000;
   setrlimit(RLIMIT_STACK, &rl);
 }

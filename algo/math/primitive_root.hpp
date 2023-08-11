@@ -30,26 +30,26 @@ optional<ll> primitive_root(ll mod) {
   }
 
   auto mod_factors = factor_pollard_rho(mod);
-  pair<ll, int> const two = {2, 1};
+  pair const two = {2ll, 1};
   if(mod_factors.size() > 2 ||
      (mod_factors.size() == 1 && mod_factors[0].first == 2) ||
      (mod_factors.size() == 2 && mod_factors[0] != two && mod_factors[1] != two)) {
     return nullopt;
   }
 
-  ll totient = eulers_phi(mod, mod_factors);
+  auto totient = eulers_phi(mod, mod_factors);
   auto totient_factors = factor_pollard_rho(totient);
   for(ll root = 2; root < mod; root++) {
-    bool is_good = true;
-    for(auto factor: mod_factors) {
-      if(root % factor.first == 0) {
+    auto is_good = true;
+    for(auto [prime, _]: mod_factors) {
+      if(root % prime == 0) {
         is_good = false;
         break;
       }
     }
     if(!is_good) continue;
-    for(auto factor: totient_factors) {
-      if(mod_pow(root, totient / factor.first, mod) == 1) {
+    for(auto [prime, _]: totient_factors) {
+      if(mod_pow(root, totient / prime, mod) == 1) {
         is_good = false;
         break;
       }

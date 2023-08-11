@@ -1,21 +1,19 @@
 #include "ds/prefix_sums/1d.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
   cin >> n;
-  vector<int> nums(n);
-  for(auto &num: nums) {
-    cin >> num;
-  }
+  vector<ll> nums(n);
+  cin >> nums;
 
-  PrefixSums<int, plus<int>, minus<int>> prefix_sums(nums);
+  PrefixSums<ll, plus<ll>, minus<ll>> prefix_sums(nums);
 
-  while(true) {
+  while(cin) {
     int a, b;
     cin >> a >> b;
-    if(!cin) break;
     a--, b--;
+
     cout << prefix_sums.get(a, b) << endl;
   }
 }

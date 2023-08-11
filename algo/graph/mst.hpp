@@ -17,11 +17,11 @@
 
 struct Edge {
   int a, b;
-  int cost;
+  ll cost;
 };
 struct MST {
   vector<Edge> edges;
-  int cost;
+  ll cost;
 };
 
 /*
@@ -38,7 +38,7 @@ MST mst_kruskal(int nodec, vector<Edge> edges) {
   });
 
   DSU connected(nodec);
-  for(Edge edge: edges) {
+  for(auto edge: edges) {
     if(connected.setc == 1) break;
     if(connected.merge(edge.a, edge.b)) {
       mst.edges.push_back(edge);
@@ -61,7 +61,7 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
   mst.edges.reserve(n - 1);
   mst.cost = 0;
 
-  vector<bool> is_vis(n, false);
+  vector is_vis(n, false);
   for(int root = 0; root < n; root++) {
     if(is_vis[root]) continue;
 
@@ -71,21 +71,21 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
     priority_queue<Edge, vector<Edge>, decltype(cmp)> q(cmp);
 
     is_vis[root] = true;
-    for(Edge edge: incident[root]) {
+    for(auto edge: incident[root]) {
       q.push(edge);
     }
 
     while(!q.empty()) {
-      Edge edge = q.top();
+      auto edge = q.top();
       q.pop();
 
       if(is_vis[edge.a] && is_vis[edge.b]) continue;
       mst.edges.push_back(edge);
       mst.cost += edge.cost;
 
-      int unvisited = is_vis[edge.a] ? edge.b : edge.a;
+      auto unvisited = is_vis[edge.a] ? edge.b : edge.a;
       is_vis[unvisited] = true;
-      for(Edge edge: incident[unvisited]) {
+      for(auto edge: incident[unvisited]) {
         q.push(edge);
       }
     }
@@ -95,21 +95,24 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
   return mst;
 }
 
-MST mst_prim(vector<vector<pair<int, int>>> const& adj) {
+MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
   int const n = adj.size();
 
   MST mst;
   mst.edges.reserve(n - 1);
   mst.cost = 0;
 
-  vector<int> cost(n, INT_MAX), prev(n);
+  vector<ll> cost(n, LLONG_MAX);
+  vector<int> prev(n);
   for(int root = 0; root < n; root++) {
-    if(cost[root] != INT_MAX) continue;
+    if(cost[root] != LLONG_MAX) continue;
 
-    using QueueElem = pair<int, int>;
+    using QueueElem = pair<ll, int>;
     priority_queue<QueueElem, vector<QueueElem>, greater<QueueElem>> q;
+
     cost[root] = 0;
     q.push({0, root});
+
     while(!q.empty()) {
       auto [cost_in_q, node] = q.top();
       q.pop();
@@ -119,7 +122,7 @@ MST mst_prim(vector<vector<pair<int, int>>> const& adj) {
         mst.edges.push_back({prev[node], node, cost[node]});
         mst.cost += cost[node];
       }
-      cost[node] = INT_MIN;
+      cost[node] = LLONG_MIN;
 
       for(auto [neighbor, edge_cost]: adj[node]) {
         if(cost[neighbor] > edge_cost) {

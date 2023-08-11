@@ -19,12 +19,12 @@
  *   Znaduje otoczkę wypukłą w kolejności przeciwnej
  *   do ruchu wskazówek zegara zbioru punktów w O(n log n).
  */
-template<class T>
-Polygon<T> convex_hull(vector<Point<T>> pts, bool should_include_colinear = false) {
-  vector<Point<T>> result;
+template<class A>
+Polygon<A> convex_hull(vector<Point<A>> pts, bool should_include_colinear = false) {
+  vector<Point<A>> result;
 
   auto pivot = *min_element(pts.begin(), pts.end(), SweepX());
-  sort(pts.begin(), pts.end(), [&](Point<T> a, Point<T> b) {
+  sort(pts.begin(), pts.end(), [&](Point<A> a, Point<A> b) {
     return AngleCmp()(a - pivot, b - pivot);
   });
   if(should_include_colinear) {

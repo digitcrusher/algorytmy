@@ -24,19 +24,14 @@
  *
  * Init: (int, int) -> void
  *   Inicjalizuje odpowiedź na dany przedział.
- *
  * ExpandLeft: void -> void
  *   Rozszerza lewą granicę odpowiedzi o jeden.
- *
  * ExpandRight: void -> void
  *   Rozszerza prawą granicę odpowiedzi o jeden.
- *
  * ShrinkLeft: void -> void
  *   Kurczy lewą granicę odpowiedzi o jeden.
- *
  * ShrinkRight: void -> void
  *   Kurczy prawą granicę odpowiedzi o jeden.
- *
  * Answer: int -> void
  *   Informuje, że odpowiedź jest gotowa dla danego zapytania.
  */
@@ -56,10 +51,10 @@ template<
 
   vector<int> order(q);
   iota(order.begin(), order.end(), 0);
-  int sqrt_n = max<int>(1, sqrt(n));
+  auto sqrt_n = max<int>(1, sqrt(n));
   auto key = [&](pair<int, int> query) {
     auto [l, r] = query;
-    int block = l / sqrt_n + (l < 0 ? -1 : 0);
+    auto block = l / sqrt_n + (l < 0 ? -1 : 0);
     return tuple(block, block % 2 == 0 ? r : -r, l);
   };
   sort(order.begin(), order.end(), [&](int a, int b) {

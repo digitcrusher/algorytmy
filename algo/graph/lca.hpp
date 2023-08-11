@@ -57,7 +57,7 @@ int lca_worse_lifting(vector<vector<int>> const& lift,
 
   int max_jump = INT_MAX;
   while(depth[a] > depth[b]) {
-    int jump = min(max_jump, (int) lift[a].size() - 1);
+    auto jump = min<int>(max_jump, lift[a].size() - 1);
     while(depth[lift[a][jump]] < depth[b]) {
       jump--;
       max_jump = jump;
@@ -70,7 +70,7 @@ int lca_worse_lifting(vector<vector<int>> const& lift,
 
   max_jump = INT_MAX;
   while(lift[a][0] != lift[b][0]) {
-    int jump = min(max_jump, (int) min(lift[a].size(), lift[b].size()) - 1);
+    auto jump = min(max_jump, (int) min(lift[a].size(), lift[b].size()) - 1);
     while(lift[a][jump] == lift[b][jump]) {
       jump--;
       max_jump = jump;
@@ -97,7 +97,7 @@ int lca_rmq(vector<vector<int>> const& adj, int root, int a, int b) {
   function<void(int, int)> dfs = [&](int node, int parent) {
     entry[node] = euler_tour.size();
     euler_tour.push_back(node);
-    for(int child: adj[node]) {
+    for(auto child: adj[node]) {
       if(child == parent) continue;
       depth[child] = depth[node] + 1;
       dfs(child, node);

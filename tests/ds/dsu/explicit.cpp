@@ -1,5 +1,5 @@
 #include "ds/dsu/explicit.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
@@ -7,10 +7,9 @@ int main() {
 
   ExplicitDSU dsu(n);
 
-  while(true) {
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
     if(op == "setc") {
       cout << dsu.setc << endl;
@@ -18,7 +17,6 @@ int main() {
     } else if(op == "size") {
       int node;
       cin >> node;
-      if(!cin) break;
       node--;
 
       cout << dsu.sets[dsu.find(node)].size() << endl;
@@ -26,7 +24,6 @@ int main() {
     } else if(op == "find") {
       int node;
       cin >> node;
-      if(!cin) break;
       node--;
 
       cout << dsu.find(node) + 1 << endl;
@@ -34,7 +31,6 @@ int main() {
     } else if(op == "merge") {
       int a, b;
       cin >> a >> b;
-      if(!cin) break;
       a--, b--;
 
       cout << boolalpha << dsu.merge(a, b) << endl;
@@ -42,7 +38,6 @@ int main() {
     } else if(op == "set") {
       int node;
       cin >> node;
-      if(!cin) break;
       node--;
 
       for(auto i: dsu.sets[dsu.find(node)]) {

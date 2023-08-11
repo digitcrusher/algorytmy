@@ -1,18 +1,17 @@
 #include "string/manacher.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     string s;
     cin >> s;
-    if(!cin) break;
 
-    auto [odd, even] = manacher(s);
-    for(auto i: odd) {
+    auto result = manacher(s);
+    for(auto i: result.odd) {
       cout << 2 * i + 1 << " ";
     }
     cout << endl;
-    for(auto i: even) {
+    for(auto i: result.even) {
       cout << " " << 2 * i;
     }
     cout << endl;

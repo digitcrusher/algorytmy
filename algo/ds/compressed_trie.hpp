@@ -25,7 +25,7 @@
  * AlphaToNum: char -> int
  *   Przypisuje każdemu znakowi z alfabetu unikalną liczbę w [0, alpha_size).
  * NumToAlpha: int -> char
- *   Funkcja odwrotna do AlphaToNum.
+ *   Funkcja odwrotna do AlphaToNum
  */
 template<class Value, int alpha_size, class AlphaToNum, class NumToAlpha>
 struct CompressedTrie {
@@ -61,13 +61,13 @@ struct CompressedTrie {
   }
 
   Node* find(string key) {
-    Node *node = &root;
+    auto node = &root;
     int i = 0;
     while(i < key.size()) {
-      int first = alpha_to_num(key[i]);
+      auto first = alpha_to_num(key[i]);
       i++;
-      Node *&child = node->children[first];
-      string &label = node->labels[first];
+      auto &child = node->children[first];
+      auto &label = node->labels[first];
 
       if(child == nullptr) {
         return nullptr;
@@ -86,27 +86,29 @@ struct CompressedTrie {
     }
     return node;
   }
+
   Value get(string key) {
-    Node *node = find(key);
+    auto node = find(key);
     if(node != nullptr && node->has_val) {
       return node->val;
     } else {
       throw std::runtime_error("Nie odnaleziono klucza w drzewie.");
     }
   }
+
   bool has(string key) {
-    Node *node = find(key);
+    auto node = find(key);
     return node != nullptr && node->has_val;
   }
 
   void set(string key, Value val) {
-    Node *node = &root;
+    auto node = &root;
     int i = 0;
     while(i < key.size()) {
-      int first = alpha_to_num(key[i]);
+      auto first = alpha_to_num(key[i]);
       i++;
-      Node *&child = node->children[first];
-      string &label = node->labels[first];
+      auto &child = node->children[first];
+      auto &label = node->labels[first];
 
       if(child == nullptr) {
         node->childc++;
@@ -122,7 +124,7 @@ struct CompressedTrie {
         if(j == label.size()) {
           node = child;
         } else {
-          Node *fork = new Node;
+          auto fork = new Node;
 
           if(i == key.size()) {
             fork->val = val;
@@ -146,14 +148,15 @@ struct CompressedTrie {
     node->val = val;
     node->has_val = true;
   }
+
   bool erase(string key) {
     Node *node = &root, *parent = nullptr, *grandparent = nullptr;
     int i = 0;
     while(i < key.size()) {
-      int first = alpha_to_num(key[i]);
+      auto first = alpha_to_num(key[i]);
       i++;
-      Node *&child = node->children[first];
-      string &label = node->labels[first];
+      auto &child = node->children[first];
+      auto &label = node->labels[first];
 
       if(child == nullptr) {
         return false;
@@ -199,7 +202,7 @@ struct CompressedTrie {
           while(parent->children[sibling_first] == nullptr) {
             sibling_first++;
           }
-          Node *sibling = parent->children[sibling_first];
+          auto sibling = parent->children[sibling_first];
 
           grandparent->children[parent_first] = sibling;
           grandparent->labels[parent_first].push_back(num_to_alpha(sibling_first));
@@ -212,7 +215,7 @@ struct CompressedTrie {
         while(node->children[child_first] == nullptr) {
           child_first++;
         }
-        Node *child = node->children[child_first];
+        auto child = node->children[child_first];
 
         parent->children[node_first] = child;
         parent->labels[node_first].push_back(num_to_alpha(child_first));

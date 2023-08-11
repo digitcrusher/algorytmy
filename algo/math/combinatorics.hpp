@@ -27,8 +27,8 @@ ll fac(ll x, ll mod) {
     return 1;
   }
 
-  int i = min<int>(x / fac_skip, fac_mem[mod].size());
-  ll result = i == 0 ? 1 : fac_mem[mod][i - 1];
+  auto i = min<int>(x / fac_skip, fac_mem[mod].size());
+  auto result = i == 0 ? 1 : fac_mem[mod][i - 1];
   if(x / fac_skip - 1 >= fac_mem[mod].size()) {
     fac_mem[mod].resize(x / fac_skip);
   }
@@ -43,14 +43,14 @@ ll fac(ll x, ll mod) {
 
 /*
  * Symbol Newtona -
- *  liczba k-elementowych podzbiorów n-elementowego zbioru w O(n + log mod)
+ *  Liczba k-elementowych podzbiorów n-elementowego zbioru w O(n + log mod)
  */
 ll choose_fac(int n, int k, ll mod) {
   assert(n >= 0 && mod > 0);
   if(k < 0 || k > n) {
     return 0;
   }
-  ll a = fac(n, mod);
+  auto a = fac(n, mod);
   auto b = mod_inv(fac(n - k, mod), mod);
   auto c = mod_inv(fac(k, mod), mod);
   assert(b && c);
@@ -59,7 +59,7 @@ ll choose_fac(int n, int k, ll mod) {
 
 /*
  * Symbol Newtona -
- *   liczba k-elementowych podzbiorów n-elementowego zbioru w O(min(k, n - k) log mod)
+ *   Liczba k-elementowych podzbiorów n-elementowego zbioru w O(min(k, n - k) log mod)
  */
 ll choose_mul(int n, int k, ll mod) {
   assert(n >= 0 && mod > 0);
@@ -120,7 +120,10 @@ ll burnside(int n, int k, ll mod) {
   assert(mod > 0);
   ll result = 0;
   for(int shift = 0; shift < n; shift++) {
-    result = norm_mod(result + mod_pow(k, gcd(shift, n), mod), mod);
+    result += mod_pow(k, gcd(shift, n), mod);
+    if(result >= mod) {
+      result -= mod;
+    }
   }
   auto inv_n = mod_inv(n, mod);
   assert(inv_n);
@@ -132,5 +135,9 @@ ll burnside(int n, int k, ll mod) {
  */
 ll catalan(int n, ll mod) {
   assert(mod > 0);
-  return norm_mod(choose(2 * n, n, mod) - choose(2 * n, n + 1, mod), mod);
+  auto result = choose(2 * n, n, mod) - choose(2 * n, n + 1, mod);
+  if(result < 0) {
+    result += mod;
+  }
+  return result;
 }

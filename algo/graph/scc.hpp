@@ -26,20 +26,21 @@ SCCs scc_kosaraju(vector<vector<int>> const& adj,
 {
   int const n = adj.size();
 
-  vector<bool> is_vis(n, false);
+  vector is_vis(n, false);
   vector<int> post_order;
   post_order.reserve(n);
 
   function<void(int)> dfs1 = [&](int node) {
     if(is_vis[node]) return;
     is_vis[node] = true;
-    for(int child: adj[node]) {
+
+    for(auto child: adj[node]) {
       dfs1(child);
     }
     post_order.push_back(node);
   };
-  for(int i = 0; i < n; i++) {
-    dfs1(i);
+  for(int node = 0; node < n; node++) {
+    dfs1(node);
   }
 
   int scc_cnt = 0;
@@ -48,7 +49,7 @@ SCCs scc_kosaraju(vector<vector<int>> const& adj,
   scc_adj.reserve(n);
 
   function<void(int)> dfs2 = [&](int node) {
-    for(int parent: rev_adj[node]) {
+    for(auto parent: rev_adj[node]) {
       if(node_scc[parent] == -1) {
         node_scc[parent] = node_scc[node];
         dfs2(parent);
@@ -58,7 +59,7 @@ SCCs scc_kosaraju(vector<vector<int>> const& adj,
     }
   };
   for(int i = n - 1; i >= 0; i--) {
-    int node = post_order[i];
+    auto node = post_order[i];
     if(node_scc[node] != -1) continue;
     node_scc[node] = scc_cnt;
     scc_cnt++;

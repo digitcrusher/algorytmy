@@ -1,37 +1,39 @@
 #include "ds/fenwick_tree/range_range_2d.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int w, h;
   cin >> w >> h;
-  vector init(h, vector<int>(w));
-  for(auto &row: init) {
-    for(auto &num: row) {
-      cin >> num;
-    }
-  }
+  vector init(h, vector<ll>(w));
+  cin >> init;
 
-  auto apply_change = [](int val, int change, int elemc) {
-    return val + change * elemc;
+  struct ApplyChange {
+    ll operator()(ll val, ll change, int elemc) {
+      return val + change * elemc;
+    }
   };
   FenwickTreeRangeRange2D<
-    int, plus<int>, minus<int>,
-    int, decltype(apply_change), plus<int>, negate<int>, multiplies<int>
-  > tree(init, 0, plus<int>(), minus<int>(), apply_change);
+    ll, plus<ll>, minus<ll>,
+    ll, ApplyChange, plus<ll>, negate<ll>, multiplies<ll>
+  > tree(init, 0);
 
-  while(true) {
+  while(cin) {
     string op;
-    int x1, y1, x2, y2;
-    cin >> op >> x1 >> y1 >> x2 >> y2;
-    if(!cin) break;
-    x1--, y1--, x2--, y2--;
+    cin >> op;
 
     if(op == "get") {
+      int x1, y1, x2, y2;
+      cin >> x1 >> y1 >> x2 >> y2;
+      x1--, y1--, x2--, y2--;
+
       cout << tree.get(x1, y1, x2, y2) << endl;
+
     } else if(op == "modify") {
-      int change;
-      cin >> change;
-      if(!cin) break;
+      int x1, y1, x2, y2;
+      ll change;
+      cin >> x1 >> y1 >> x2 >> y2 >> change;
+      x1--, y1--, x2--, y2--;
+
       tree.modify(x1, y1, x2, y2, change);
     }
   }

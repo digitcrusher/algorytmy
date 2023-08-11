@@ -1,16 +1,15 @@
 #include "graph/offline_dynamic_connectivity.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     int n, q;
     cin >> n >> q;
-    if(!cin) break;
     vector<Query> queries(q);
     for(auto &[type, a, b]: queries) {
       string op;
       cin >> op >> a >> b;
-      if(!cin) break;
+      a--, b--;
       if(op == "add") {
         type = Query::add;
       } else if(op == "remove") {
@@ -20,14 +19,8 @@ int main() {
       } else {
         assert(false);
       }
-      a--, b--;
     }
-    if(!cin) break;
 
-    auto results = offline_dynamic_connectivity(n, queries);
-    for(auto i: results) {
-      cout << boolalpha << i << " ";
-    }
-    cout << "\n";
+    cout << boolalpha << offline_dynamic_connectivity(n, queries) << endl;
   }
 }

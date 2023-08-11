@@ -18,8 +18,8 @@
 /*
  * Znajduje najbliższą parę punktów przy użyciu zamiatania w O(n log n).
  */
-template<class T>
-pair<Point<T>, Point<T>> closest_pair_sweep(vector<Point<T>> pts) {
+template<class A>
+pair<Point<A>, Point<A>> closest_pair_sweep(vector<Point<A>> pts) {
   int const n = pts.size();
   assert(n >= 2);
 
@@ -27,7 +27,7 @@ pair<Point<T>, Point<T>> closest_pair_sweep(vector<Point<T>> pts) {
   pair result = {pts[0], pts[1]};
   auto score = (result.first - result.second).mag_sqr();
 
-  auto consider = [&](Point<T> a, Point<T> b) {
+  auto consider = [&](Point<A> a, Point<A> b) {
     auto new_score = (a - b).mag_sqr();
     if(score > new_score) {
       result = {a, b};
@@ -35,7 +35,7 @@ pair<Point<T>, Point<T>> closest_pair_sweep(vector<Point<T>> pts) {
     }
   };
 
-  set<Point<T>, SweepY> window;
+  set<Point<A>, SweepY> window;
   auto tail = pts.begin();
   for(auto a: pts) {
     if(score == 0) break;
@@ -59,8 +59,8 @@ pair<Point<T>, Point<T>> closest_pair_sweep(vector<Point<T>> pts) {
 /*
  * Znajduje najbliższą parę punktów przy użyciu dziel i zwyciężaj w O(n log n).
  */
-template<class T>
-pair<Point<T>, Point<T>> closest_pair_conquer(vector<Point<T>> pts) {
+template<class A>
+pair<Point<A>, Point<A>> closest_pair_conquer(vector<Point<A>> pts) {
   int const n = pts.size();
   assert(n >= 2);
 
@@ -71,7 +71,7 @@ pair<Point<T>, Point<T>> closest_pair_conquer(vector<Point<T>> pts) {
   function<void(int, int)> conquer = [&](int l, int r) {
     if(l >= r) return;
 
-    int mid = (l + r) / 2;
+    auto mid = (l + r) / 2;
     auto mid_x = pts[mid].x;
     conquer(l, mid);
     conquer(mid + 1, r);

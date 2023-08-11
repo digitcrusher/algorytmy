@@ -1,20 +1,15 @@
 #include "geom/pick.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     int n;
     cin >> n;
-    if(!cin) break;
     Polygon<ll> poly;
     poly.pts.resize(n);
-    for(auto &[x, y]: poly.pts) {
-      cin >> x >> y;
-      if(!cin) break;
-    }
-    if(!cin) break;
+    cin >> poly.pts;
 
-    auto [insidec, on_edgec] = pick(poly, poly.area() * 2);
-    cout << insidec << " " << on_edgec << endl;
+    auto result = pick(poly, poly.area() * 2);
+    cout << result.insidec << " " << result.on_edgec << endl;
   }
 }

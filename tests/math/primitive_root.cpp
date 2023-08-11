@@ -1,17 +1,16 @@
 #include "math/primitive_root.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     ll mod;
     cin >> mod;
-    if(!cin) break;
 
     auto result = primitive_root(mod);
-    if(result == nullopt) {
-      cout << "nullopt" << endl;
-    } else {
+    if(result) {
       cout << *result << endl;
+    } else {
+      cout << "nullopt" << endl;
     }
   }
 }

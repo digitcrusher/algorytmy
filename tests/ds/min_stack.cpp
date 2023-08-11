@@ -1,30 +1,34 @@
 #include "ds/min_stack.hpp"
-#include <iomanip>
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  MinStack<int, less<int>> stack;
+  MinStack<ll, less<ll>> stack;
 
-  while(true) {
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
     if(op == "top") {
       cout << stack.top() << endl;
+
     } else if(op == "min") {
       cout << stack.min() << endl;
+
     } else if(op == "push") {
-      int a;
-      cin >> a;
-      if(!cin) break;
-      stack.push(a);
+      ll num;
+      cin >> num;
+
+      stack.push(num);
+
     } else if(op == "pop") {
       stack.pop();
+
     } else if(op == "clear") {
       stack.clear();
+
     } else if(op == "empty") {
       cout << boolalpha << stack.empty() << endl;
+
     } else if(op == "size") {
       cout << stack.size() << endl;
     }

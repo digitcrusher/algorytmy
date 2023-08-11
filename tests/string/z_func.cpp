@@ -1,16 +1,11 @@
 #include "string/z_func.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     string s;
     cin >> s;
-    if(!cin) break;
 
-    auto result = z_func(s);
-    for(auto i: result) {
-      cout << i << " ";
-    }
-    cout << endl;
+    cout << z_func(s) << endl;
   }
 }

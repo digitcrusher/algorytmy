@@ -15,38 +15,37 @@
 
 /*
  * Hasze prefiksowe -
- *   Struktura danych wspierająca operację obliczenia haszu
- *   spójnego podciągu znaków (get) w O(1). Zużywa O(n) pamięci.
+ *   Struktura danych wspierająca operację obliczenia
+ *   haszu spójnego podciągu znaków (get) w O(1).
  *
  * AlphaToNum: char -> int
  *   Przypisuje każdemu znakowi z alfabetu unikalną liczbę w [0, alpha_size).
  * NumToAlpha: int -> char
- *   Funkcja odwrotna do AlphaToNum.
+ *   Funkcja odwrotna do AlphaToNum
  */
 template<int alpha_size, class AlphaToNum>
 struct PrefixHashes {
   AlphaToNum alpha_to_num;
 
   ll mod;
-  vector<ll> pref_hash;
+  vector<ll> hashes;
 
   PrefixHashes(string const& str, ll mod, AlphaToNum alpha_to_num = AlphaToNum()):
-    mod(mod), pref_hash(str.size()), alpha_to_num(alpha_to_num)
+    mod(mod), hashes(str.size() + 1), alpha_to_num(alpha_to_num)
   {
     if(str.empty()) return;
-    pref_hash[0] = (alpha_to_num(str[0]) + 1) % mod;
-    for(int i = 1; i < str.size(); i++) {
-      pref_hash[i] = mod_mul(pref_hash[i - 1], alpha_size + 1, mod) + alpha_to_num(str[i]) + 1;
-      pref_hash[i] %= mod;
+    hashes[0] = 0;
+    for(int i = 1; i <= str.size(); i++) {
+      hashes[i] = norm_mod(mod_mul(hashes[i - 1], alpha_size + 1, mod) + alpha_to_num(str[i - 1]) + 1, mod);
     }
   }
 
   ll get(int l, int r) {
     assert(l <= r);
-    if(l == 0) {
-      return pref_hash[r];
-    } else {
-      return norm_mod(pref_hash[r] - mod_mul(pref_hash[l - 1], mod_pow(alpha_size + 1, r - l + 1, mod), mod), mod);
+    auto result = hashes[r + 1] - mod_mul(hashes[l], mod_pow(alpha_size + 1, r - l + 1, mod), mod);
+    if(result < 0) {
+      result += mod;
     }
+    return result;
   }
 };

@@ -1,45 +1,50 @@
 #include "ds/compressed_trie.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  auto alpha_to_num = [](char c) -> int {
-    return c - 'a';
+  struct AlphaToNum {
+    int operator()(char c) {
+      return c - 'a';
+    }
   };
-  auto num_to_alpha = [](int i) -> char {
-    return i + 'a';
+  struct NumToAlpha {
+    char operator()(int i) {
+      return i + 'a';
+    }
   };
-  CompressedTrie<
-    int, 'z' - 'a' + 1,
-    decltype(alpha_to_num),
-    decltype(num_to_alpha)
-  > trie(alpha_to_num, num_to_alpha);
+  CompressedTrie<ll, 'z' - 'a' + 1, AlphaToNum, NumToAlpha> trie;
 
-  while(true) {
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
     if(op == "keys") {
-      for(string key: trie.keys()) {
-        cout << key << endl;
-      }
-    } else {
+      cout << trie.keys();
+
+    } else if(op == "get") {
       string key;
       cin >> key;
-      if(!cin) break;
 
-      if(op == "get") {
-        cout << trie.get(key) << endl;
-      } else if(op == "has") {
-        cout << boolalpha << trie.has(key) << endl;
-      } else if(op == "set") {
-        int val;
-        cin >> val;
-        if(!cin) break;
-        trie.set(key, val);
-      } else if(op == "erase") {
-        cout << boolalpha << trie.erase(key) << endl;
-      }
+      cout << trie.get(key) << endl;
+
+    } else if(op == "has") {
+      string key;
+      cin >> key;
+
+      cout << boolalpha << trie.has(key) << endl;
+
+    } else if(op == "set") {
+      string key;
+      ll val;
+      cin >> key >> val;
+
+      trie.set(key, val);
+
+    } else if(op == "erase") {
+      string key;
+      cin >> key;
+
+      cout << boolalpha << trie.erase(key) << endl;
     }
   }
 }

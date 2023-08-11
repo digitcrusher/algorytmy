@@ -15,34 +15,38 @@
 #include <vector>
 
 /*
- * Chińskie twierdzenie o resztach - Rozwiązuje układy równań modularnych:
- *   x % mods[0] = rems[0]
- *   x % mods[1] = rems[1]
- *   …
- *   x % mods[n - 1] = rems[n - 1]
+ * Chińskie twierdzenie o resztach -
+ *   Rozwiązuje układy równań modularnych w O(n):
+ *     x % mods[0] = rems[0]
+ *     x % mods[1] = rems[1]
+ *     …
+ *     x % mods[n - 1] = rems[n - 1]
  */
-struct CrtResult {
+struct CRT {
   ll soln, mod;
 };
-optional<CrtResult> crt(vector<ll> const& rems, vector<ll> const& mods) {
+optional<CRT> crt(vector<ll> const& rems, vector<ll> const& mods) {
   assert(rems.size() == mods.size());
 
-  ll mod1 = mods[0];
+  auto mod1 = mods[0];
   assert(mod1 > 0);
-  ll rem1 = norm_mod(rems[0], mod1);
+  auto rem1 = norm_mod(rems[0], mod1);
   for(int i = 1; i < rems.size(); i++) {
-    ll mod2 = mods[i];
+    auto mod2 = mods[i];
     assert(mod2 > 0);
-    ll rem2 = norm_mod(rems[i], mod2);
+    auto rem2 = norm_mod(rems[i], mod2);
 
     auto soln = solve_lin_diophantine(mod1, mod2, rem2 - rem1);
-    if(soln == nullopt) {
+    if(!soln) {
       return nullopt;
     }
-    ll lcm = mod1 / soln->gcd_ab * mod2;
+    auto lcm = mod1 / soln->gcd_ab * mod2;
     assert(lcm > 0);
-    rem1 = norm_mod(rem1 + mod_mul(soln->x % (lcm / mod1), mod1, lcm), lcm);
+    rem1 += mod_mul(soln->x % (lcm / mod1), mod1, lcm);
+    if(rem1 >= lcm) {
+      rem1 -= lcm;
+    }
     mod1 = lcm;
   }
-  return CrtResult{rem1, mod1};
+  return CRT{rem1, mod1};
 }

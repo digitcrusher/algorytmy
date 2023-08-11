@@ -22,7 +22,7 @@ optional<vector<int>> find_cycle_undir(vector<vector<int>> const& adj) {
   vector<int> result;
   result.reserve(n);
 
-  vector<bool> is_vis(n, false);
+  vector is_vis(n, false);
   function<bool(int, int)> dfs = [&](int node, int parent) {
     if(is_vis[node]) {
       return false;

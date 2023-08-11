@@ -1,5 +1,5 @@
 #include "other/mo.hpp"
-#include <iostream>
+#include "iostream.hpp"
 #include <unordered_map>
 
 // Zapytania są o liczbę różnych elementów na przedziale.
@@ -7,21 +7,19 @@
 int main() {
   int n;
   cin >> n;
-  vector<int> nums(n);
-  for(auto &i: nums) {
-    cin >> i;
-  }
+  vector<ll> nums(n);
+  cin >> nums;
   int q;
   cin >> q;
   vector<pair<int, int>> queries(q);
-  for(auto &[l, r]: queries) {
-    cin >> l >> r;
-    l--, r--;
+  for(auto &[a, b]: queries) {
+    cin >> a >> b;
+    a--, b--;
   }
 
   vector<int> results(q);
 
-  unordered_map<int, int> cnt;
+  unordered_map<ll, int> cnt;
   auto add = [&](int idx) {
     cnt[nums[idx]]++;
   };
@@ -60,7 +58,5 @@ int main() {
     shrink_left, shrink_right, answer
   );
 
-  for(auto i: results) {
-    cout << i << endl;
-  }
+  cout << results << endl;
 }

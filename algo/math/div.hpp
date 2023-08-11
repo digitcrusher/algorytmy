@@ -9,7 +9,10 @@
  */
 #pragma once
 #include "common.hpp"
+#include "math/eulers_phi.hpp"
+#include "math/factor.hpp"
 #include "math/int.hpp"
+#include "math/mod.hpp"
 #include <vector>
 
 /*
@@ -32,7 +35,7 @@ ll divc(vector<pair<ll, int>> const& factors) {
 ll div_sum(vector<pair<ll, int>> const& factors) {
   ll result = 1;
   for(auto [prime, exp]: factors) {
-    result *= (pow(prime, exp + 1) - 1) / (prime - 1);
+    result *= (fast_pow(prime, exp + 1) - 1) / (prime - 1);
   }
   return result;
 }
@@ -42,11 +45,12 @@ ll div_sum(vector<pair<ll, int>> const& factors) {
  * czynniki pierwsze w O(n), gdzie n to liczba dzielników pierwszych tej
  * liczby.
  */
-ll div_product(vector<pair<ll, int>> const& factors) {
+ll div_product(vector<pair<ll, int>> const& factors, ll mod) {
   ll result = 1, divc = 1;
+  auto totient = eulers_phi(mod, factor_pollard_rho(mod));
   for(auto [prime, exp]: factors) {
-    result *= pow(result, exp) * pow(prime, exp * (exp + 1) / 2 * divc);
-    divc *= exp + 1;
+    result = mod_mul(mod_pow(result, exp + 1, mod), mod_pow(prime, mod_mul(exp * (exp + 1) / 2, divc, totient), mod), mod);
+    divc = mod_mul(divc, exp + 1, totient);
   }
   return result;
 }

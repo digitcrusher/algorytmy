@@ -26,7 +26,7 @@ struct Sieve {
 Sieve sieve_euler(int lim) {
   assert(lim > 0);
 
-  vector<bool> is_prime(lim + 1, false);
+  vector is_prime(lim + 1, false);
   vector<int> primes;
   vector<int> smallest_factor(lim + 1, -1);
 
@@ -36,7 +36,7 @@ Sieve sieve_euler(int lim) {
       primes.push_back(i);
       is_prime[i] = true;
     }
-    for(int prime: primes) {
+    for(auto prime: primes) {
       if(prime > smallest_factor[i] || prime * i > lim) break;
       smallest_factor[prime * i] = prime;
     }
@@ -53,9 +53,8 @@ Sieve sieve_euler(int lim) {
 Sieve sieve_eratosthenes(int lim) {
   assert(lim > 0);
 
-  vector<bool> is_prime(lim + 1, true);
-  is_prime[0] = false;
-  is_prime[1] = false;
+  vector is_prime(lim + 1, true);
+  is_prime[0] = is_prime[1] = false;
   vector<int> primes;
   vector<int> smallest_factor(lim + 1, -1);
 
@@ -63,7 +62,7 @@ Sieve sieve_eratosthenes(int lim) {
    * Jeśli potrzebujemy tylko is_prime, to możemy pozbyć się
    * is_under_lim i zastąpić warunek poniższej pętli takim: i * i <= lim
    */
-  bool is_under_lim = true;
+  auto is_under_lim = true;
   for(int i = 2; i <= lim; i += 2) {
     is_under_lim &= i * i <= lim;
     if(is_prime[i]) {

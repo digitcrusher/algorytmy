@@ -1,6 +1,5 @@
 #include "math/int.hpp"
-#include <cmath>
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   cout << "__builtin_clzll(0) = " << __builtin_clzll(0) << endl;
@@ -78,54 +77,51 @@ int main() {
   assert(ceil_div(1, -2) == 0);
   assert(ceil_div(2, -2) == -1);
 
-  while(true) {
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
     if(op == "floor_log2") {
       ull x;
       cin >> x;
-      if(!cin) break;
-      ull result = floor_log2(x);
+
+      auto result = floor_log2(x);
       cout << result << endl;
       assert(result == floor(log2(x)));
 
     } else if(op == "ceil_log2") {
       ull x;
       cin >> x;
-      if(!cin) break;
-      ull result = ceil_log2(x);
+
+      auto result = ceil_log2(x);
       cout << result << endl;
       assert(result == ceil(log2(x)));
 
     } else if(op == "floor_div") {
       ll a, b;
       cin >> a >> b;
-      if(!cin) break;
-      ll result = floor_div(a, b);
+
+      auto result = floor_div(a, b);
       cout << result << endl;
       assert(result == floor((ld) a / b));
 
     } else if(op == "ceil_div") {
       ll a, b;
       cin >> a >> b;
-      if(!cin) break;
-      ll result = ceil_div(a, b);
+
+      auto result = ceil_div(a, b);
       cout << result << endl;
       assert(result == ceil((ld) a / b));
 
     } else if(op == "fast_pow") {
       ll a, b;
       cin >> a >> b;
-      if(!cin) break;
 
       cout << fast_pow(a, b) << endl;
 
     } else if(op == "next_perm") {
       ull x;
       cin >> x;
-      if(!cin) break;
 
       cout << next_perm(x) << endl;
     }

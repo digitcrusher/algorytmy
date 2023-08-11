@@ -1,15 +1,15 @@
 #include "math/factor.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     ll x;
     cin >> x;
-    if(!cin) break;
+
     auto result = factor_pollard_rho(x);
-    for(auto [p, k]: result) {
-      for(int i = 0; i < k; i++) {
-        cout << p << " ";
+    for(auto [prime, exp]: result) {
+      for(int i = 0; i < exp; i++) {
+        cout << prime << " ";
       }
     }
     cout << endl;

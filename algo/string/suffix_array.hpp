@@ -151,7 +151,7 @@ vector<int> suffix_array_hash(string const& str, AlphaToNum alpha_to_num = Alpha
     int max_common_prefix = min(n - a, n - b);
     int left = 0, right = max_common_prefix;
     while(left < right) {
-      int mid = left + (right - left + 1) / 2;
+      auto mid = left + (right - left + 1) / 2;
       if(hash.get(a, a + mid - 1) == hash.get(b, b + mid - 1)) {
         left = mid;
       } else {

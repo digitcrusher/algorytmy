@@ -53,7 +53,7 @@ MinCostFlow min_cost_flow(vector<vector<Edge>> adj, int src, int sink, int desir
     };
     vector<Prev> prev(n);
     queue<int> q;
-    vector<bool> is_in_q(n, false);
+    vector is_in_q(n, false);
 
     path_cost[src] = 0;
     path_cap[src] = INT_MAX;
@@ -63,7 +63,6 @@ MinCostFlow min_cost_flow(vector<vector<Edge>> adj, int src, int sink, int desir
     while(!q.empty()) {
       auto node = q.front();
       q.pop();
-
       is_in_q[node] = false;
 
       auto relax = [&](int neighbor, int cap, ll cost, Edge &edge, bool is_rev) {
@@ -94,7 +93,7 @@ MinCostFlow min_cost_flow(vector<vector<Edge>> adj, int src, int sink, int desir
     global_flow += new_flow;
     global_cost += new_flow * path_cost[sink];
 
-    for(int node = sink; node != src; node = prev[node].node) {
+    for(auto node = sink; node != src; node = prev[node].node) {
       prev[node].edge->flow += new_flow * (prev[node].is_rev ? -1 : 1);
       flow[prev[node].node][node] += new_flow;
       flow[node][prev[node].node] -= new_flow;

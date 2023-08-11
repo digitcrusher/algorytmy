@@ -69,7 +69,7 @@ optional<vector<int>> longest_path_dag(vector<vector<int>> const& adj, int from,
   } else {
     vector<int> result;
     result.reserve(dist[from] + 1);
-    for(int node = from; node != -1; node = next[node]) {
+    for(auto node = from; node != -1; node = next[node]) {
       result.push_back(node);
     }
     return result;
@@ -80,17 +80,21 @@ optional<vector<int>> longest_path_dag(vector<vector<int>> const& adj, int from,
  * Dla każdego wierzchołka w drzewie oblicza odległość do najbardziej
  * oddalonego (jednego z punktów średnicy) i znajduje średnicę w O(V).
  */
-tuple<vector<int>, int, int> max_dist_tree(vector<vector<int>> const& adj) {
+struct MaxDistTree {
+  vector<int> max_dist;
+  int a, b;
+};
+MaxDistTree max_dist_tree(vector<vector<int>> const& adj) {
   int const n = adj.size();
 
   vector<int> max_dist(n, 0);
 
   function<int(int, int, int)> dfs = [&](int node, int parent, int dist) {
     max_dist[node] = max(max_dist[node], dist);
-    int farthest = node;
+    auto farthest = node;
     for(auto child: adj[node]) {
       if(child == parent) continue;
-      int sub = dfs(child, node, dist + 1);
+      auto sub = dfs(child, node, dist + 1);
       if(max_dist[sub] >= max_dist[farthest]) {
         farthest = sub;
       }
@@ -98,8 +102,8 @@ tuple<vector<int>, int, int> max_dist_tree(vector<vector<int>> const& adj) {
     return farthest;
   };
 
-  int a = dfs(0, -1, 0);
-  int b = dfs(a, -1, 0);
+  auto a = dfs(0, -1, 0);
+  auto b = dfs(a, -1, 0);
   dfs(b, -1, 0);
 
   return {max_dist, a, b};

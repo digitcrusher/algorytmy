@@ -9,18 +9,18 @@
  */
 #pragma once
 #include "common.hpp"
+#include <numeric>
 #include <vector>
 
 /*
  * Drzewo Fenwicka 2D -
  *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy elementów
- *   (get) i modyfikacji jednego elementu (modify) w O(log w * log h). Zużywa
- *   O(w * h) pamięci.
+ *   (get) i modyfikacji jednego elementu (modify) w O(log w * log h).
  *
  * Add: (Value, Value) -> Value
  *   Łaczy dwie sumy elementów.
  * Sub: (Value, Value) -> Value
- *   Operacja odwrotna do Add.
+ *   Operacja odwrotna do Add
  * ApplyChange: (Value, Change) -> Value
  *   Aplikuje zmianę w jednym elemencie na sumę elementów.
  *
@@ -46,22 +46,18 @@ struct FenwickTree2D {
     w(elems[0].size()), h(elems.size()), sums(elems),
     add(add), sub(sub), apply_change(apply_change)
   {
-    for(int x = 1; x < w; x++) {
-      sums[0][x] = add(sums[0][x - 1], sums[0][x]);
-    }
+    partial_sum(sums[0].begin(), sums[0].end(), sums[0].begin(), add);
     for(int y = 1; y < h; y++) {
-      Value row = sums[y][0];
-      sums[y][0] = add(sums[y - 1][0], row);
-      for(int x = 1; x < w; x++) {
-        row = add(row, sums[y][x]);
-        sums[y][x] = add(sums[y - 1][x], row);
+      partial_sum(sums[y].begin(), sums[y].end(), sums[y].begin(), add);
+      for(int x = 0; x < w; x++) {
+        sums[y][x] = add(sums[y - 1][x], sums[y][x]);
       }
     }
 
     for(int y = h - 1; y >= 0; y--) {
-      int j = sum_l(y);
+      auto j = sum_l(y);
       for(int x = w - 1; x >= 0; x--) {
-        int i = sum_l(x);
+        auto i = sum_l(x);
         if(i != 0 && j != 0) {
           sums[y][x] = sub(add(sums[j - 1][i - 1], sub(sums[y][x], sums[j - 1][x])), sums[y][i - 1]);
         } else if(i != 0) {
@@ -87,7 +83,7 @@ struct FenwickTree2D {
     } else if(y1 != 0) {
       return sub(get(0, 0, x2, y2), get(0, 0, x2, y1 - 1));
     } else {
-      Value result = sums[y2][x2];
+      auto result = sums[y2][x2];
       for(int x = sum_l(x2) - 1; x >= 0; x = sum_l(x) - 1) {
         result = add(sums[y2][x], result);
       }

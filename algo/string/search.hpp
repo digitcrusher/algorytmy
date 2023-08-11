@@ -9,7 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include "string/prefix_function.hpp"
+#include "string/prefix_func.hpp"
 #include "string/rolling_hash.hpp"
 #include <string>
 #include <vector>
@@ -27,9 +27,8 @@ vector<int> search_rabin_karp(string const& str, string const& pattern,
   ll const mod = 4611686018427387847;
 
   ll pattern_hash = 0;
-  for(char c: pattern) {
-    pattern_hash = mod_mul(pattern_hash, alpha_size + 1, mod) + alpha_to_num(c) + 1;
-    pattern_hash %= mod;
+  for(auto i: pattern) {
+    pattern_hash = norm_mod(mod_mul(pattern_hash, alpha_size + 1, mod) + alpha_to_num(i) + 1, mod);
   }
 
   vector<int> result;
@@ -41,8 +40,8 @@ vector<int> search_rabin_karp(string const& str, string const& pattern,
       window.pop();
     }
     if(window.size() == pattern.size() && window.hash == pattern_hash) {
-      bool is_match = true;
-      int start = i - m + 1;
+      auto is_match = true;
+      auto start = i - m + 1;
       for(int j = 0; j < m && is_match; j++) {
         is_match &= str[start + j] == pattern[j];
       }
@@ -64,7 +63,7 @@ vector<int> search_kmp(string const& str, string const& pattern) {
 
   vector<int> result;
 
-  auto kmp = prefix_function(pattern);
+  auto kmp = prefix_func(pattern);
   int matchedc = 0;
   for(int i = 0; i < n; i++) {
     while(matchedc > 0 && str[i] != pattern[matchedc]) {

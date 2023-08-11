@@ -1,23 +1,19 @@
 #include "ds/prefix_sums/2d.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int w, h;
   cin >> w >> h;
-  vector nums(h, vector<int>(w));
-  for(auto &row: nums) {
-    for(auto &num: row) {
-      cin >> num;
-    }
-  }
+  vector nums(h, vector<ll>(w));
+  cin >> nums;
 
-  PrefixSums2D<int, plus<int>, minus<int>> prefix_sums(nums);
+  PrefixSums2D<ll, plus<ll>, minus<ll>> prefix_sums(nums);
 
-  while(true) {
+  while(cin) {
     int x1, y1, x2, y2;
     cin >> x1 >> y1 >> x2 >> y2;
-    if(!cin) break;
     x1--, y1--, x2--, y2--;
+
     cout << prefix_sums.get(x1, y1, x2, y2) << endl;
   }
 }

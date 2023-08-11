@@ -15,10 +15,8 @@
 
 /*
  * Drzewo przedziałowe punkt-przedział 2D -
- *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy elementów
- *   (get) i ustawienia elementu (set) w O(log w * log h). Zużywa O(w * h)
- *   pamięci. Ta implementacja zakłada, że początkowa tablica nigdy nie
- *   jest pusta.
+ *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy
+ *   elementów (get) i ustawienia elementu (set) w O(log w * log h).
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwie sąsiednie podmacierze elementów. Sum musi być łączne
@@ -63,11 +61,11 @@ struct SegmentTreePointRange2D {
     assert(0 <= y1 && y1 <= y2 && y2 < h);
 
     auto get_x = [&](int y, int x1, int x2) {
-      Value left = zero, right = zero;
+      auto left = zero, right = zero;
       x1 += x_base_offset + 1;
       x2 += x_base_offset + 1;
       while(x1 <= x2) {
-        if(x1 % 2 == 1) {
+        if(x1 % 2 != 0) {
           left = sum(left, nodes[y - 1][x1 - 1]);
           x1++;
         }
@@ -80,11 +78,11 @@ struct SegmentTreePointRange2D {
       return sum(left, right);
     };
 
-    Value top = zero, bottom = zero;
+    auto top = zero, bottom = zero;
     y1 += y_base_offset + 1;
     y2 += y_base_offset + 1;
     while(y1 <= y2) {
-      if(y1 % 2 == 1) {
+      if(y1 % 2 != 0) {
         top = sum(top, get_x(y1, x1, x2));
         y1++;
       }

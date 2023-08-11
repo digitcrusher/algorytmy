@@ -17,9 +17,9 @@
  *   na czynniki pierwsze w O(n), gdzie n to liczba dzielników pierwszych x.
  */
 ll eulers_phi(ll x, vector<pair<ll, int>> const& factors) {
-  ll result = x;
-  for(auto i: factors) {
-    result -= result / i.first;
+  auto result = x;
+  for(auto [prime, _]: factors) {
+    result -= result / prime;
   }
   return result;
 }

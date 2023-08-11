@@ -39,12 +39,12 @@ struct FuncGraph {
     depth(n), jump(n),
     prev(n), entry(n), exit(n)
   {
-    vector<bool> is_vis(n, false);
+    vector is_vis(n, false);
     for(int root = 0; root < n; root++) {
       if(is_vis[root]) continue;
 
       vector<int> path;
-      int node = root;
+      auto node = root;
       while(!is_vis[node]) {
         is_vis[node] = true;
         path.push_back(node);
@@ -58,7 +58,7 @@ struct FuncGraph {
         auto &cycle = cycles.back();
         for(int i = 0; i < cycle.size(); i++) {
           auto node = cycle[i];
-          subtree[node] = {cycles.size() - 1, i};
+          subtree[node] = {(int) cycles.size() - 1, i};
 
           depth[node] = 0;
           jump[node] = node;

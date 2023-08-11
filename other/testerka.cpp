@@ -17,23 +17,19 @@
 // Przykładowe zadanie: Rozłóż każdą liczbę z ciągu na liczby pierwsze.
 
 #include "math/sieve.hpp"
+#include <algorithm>
 #include <vector>
 
 vector<vector<int>> opt(vector<int> nums) {
   // Rozwiązanie wzorcowe
   int const n = nums.size();
 
-  int max_num = nums[0];
-  for(int num: nums) {
-    max_num = max(max_num, num);
-  }
-
-  auto smallest_factor = sieve_euler(max_num).smallest_factor;
+  auto smallest_factor = sieve_euler(*max_element(nums.begin(), nums.end())).smallest_factor;
 
   vector<vector<int>> result(n);
   for(int i = 0; i < n; i++) {
     while(nums[i] > 1) {
-      int prime = smallest_factor[nums[i]];
+      auto prime = smallest_factor[nums[i]];
       result[i].push_back(prime);
       nums[i] /= prime;
     }
@@ -71,8 +67,8 @@ int main() {
     // Generowanie testu
     n = rand() % 10 + 1;
     nums.resize(n);
-    for(int &num: nums) {
-      num = rand() % 200000 + 1;
+    for(auto &i: nums) {
+      i = rand() % 200'000 + 1;
     }
   };
 
@@ -84,11 +80,11 @@ int main() {
     auto start = chrono::steady_clock::now();
     auto opt_ans = opt(nums);
     auto end = chrono::steady_clock::now();
-    float elapsed = chrono::duration_cast<chrono::milliseconds>(end - start).count() / 1000.0;
+    auto elapsed = chrono::duration_cast<chrono::milliseconds>(end - start).count() / 1000.0;
     auto brute_ans = brute(nums);
 
     // Porównanie wyników wzorcówki i bruta
-    bool is_ok = opt_ans == brute_ans;
+    auto is_ok = opt_ans == brute_ans;
     /*
      * Więcej opcji formatowania tekstu w terminalu na Linuxie
      * można znaleźć przy pomocy komendy "man console_codes(4)"
@@ -105,27 +101,27 @@ int main() {
       // Wypisanie testu z wcięciem dwóch spacji
       cout << "  " << n << "\n";
       cout << "  ";
-      for(int num: nums) {
-        cout << num << " ";
+      for(auto i: nums) {
+        cout << i << " ";
       }
       cout << "\n";
 
       cout << "opt ans:\n";
       // Wypisanie wyniku algorytmu wzorcowego
-      for(auto const& primes: opt_ans) {
+      for(auto &primes: opt_ans) {
         cout << "  ";
-        for(int prime: primes) {
-          cout << prime << " ";
+        for(auto i: primes) {
+          cout << i << " ";
         }
         cout << "\n";
       }
 
       cout << "brute ans:\n";
       // Wypisanie wyniku algorytmu brutalnego
-      for(auto const& primes: brute_ans) {
+      for(auto &primes: brute_ans) {
         cout << "  ";
-        for(int prime: primes) {
-          cout << prime << " ";
+        for(auto i: primes) {
+          cout << i << " ";
         }
         cout << "\n";
       }
@@ -140,8 +136,8 @@ int main() {
   int n;
   cin >> n;
   vector<int> nums(n);
-  for(int &num: nums) {
-    cin >> num;
+  for(auto &i: nums) {
+    cin >> i;
   }
 
 #ifdef BRUTE
@@ -152,8 +148,8 @@ int main() {
 
   // Wypisanie wyniku wzorcówki
   for(auto const& primes: ans) {
-    for(int prime: primes) {
-      cout << prime << " ";
+    for(auto i: primes) {
+      cout << i << " ";
     }
     cout << "\n";
   }

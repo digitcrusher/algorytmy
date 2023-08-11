@@ -14,10 +14,8 @@
 
 /*
  * Drzewo przedziałowe punkt-przedział -
- *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i ustawienia elementu (set) w O(log n). Zużywa O(n)
- *   pamięci. Ta implementacja zakłada, że początkowa tablica nigdy nie
- *   jest pusta.
+ *   Struktura danych wspierająca operacje obliczenia sumy spójnego
+ *   przedziału elementów (get) i ustawienia elementu (set) w O(log n).
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
@@ -50,11 +48,11 @@ struct SegmentTreePointRange {
 
   Value get(int l, int r) {
     assert(0 <= l && l <= r && r < elemc);
-    Value left = zero, right = zero;
+    auto left = zero, right = zero;
     l += base_offset + 1;
     r += base_offset + 1;
     while(l <= r) {
-      if(l % 2 == 1) {
+      if(l % 2 != 0) {
         left = sum(left, nodes[l - 1]);
         l++;
       }

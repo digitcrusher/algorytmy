@@ -24,10 +24,10 @@
 void ntt(vector<ll> &poly, ll mod, bool should_invert = false, ll omega = -1, ll two_inv = -1) {
   int const n = poly.size();
   if(n == 1) return;
-  assert(popcount(n) == 1);
+  assert(popcount((uint) n) == 1);
 
   if(omega == -1) {
-    ll totient = eulers_phi(mod, factor_pollard_rho(mod));
+    auto totient = eulers_phi(mod, factor_pollard_rho(mod));
     assert(totient % n == 0);
     omega = mod_pow(*primitive_root(mod), totient / n, mod);
     if(should_invert) {
@@ -48,8 +48,14 @@ void ntt(vector<ll> &poly, ll mod, bool should_invert = false, ll omega = -1, ll
 
   ll x = 1;
   for(int i = 0; i < n / 2; i++) {
-    poly[i] = norm_mod(a[i] + mod_mul(x, b[i], mod), mod);
-    poly[i + n / 2] = norm_mod(a[i] - mod_mul(x, b[i], mod), mod);
+    poly[i] = a[i] + mod_mul(x, b[i], mod);
+    if(poly[i] >= mod) {
+      poly[i] -= mod;
+    }
+    poly[i + n / 2] = a[i] - mod_mul(x, b[i], mod);
+    if(poly[i + n / 2] < 0) {
+      poly[i + n / 2] += mod;
+    }
     if(should_invert) {
       poly[i] = mod_mul(poly[i], two_inv, mod);
       poly[i + n / 2] = mod_mul(poly[i + n / 2], two_inv, mod);
@@ -59,8 +65,7 @@ void ntt(vector<ll> &poly, ll mod, bool should_invert = false, ll omega = -1, ll
 }
 
 /*
- * Mnoży dwa wielomiany z użyciem NTT w O(n log n),
- * gdzie n to długość wielomianu wynikowego.
+ * Mnoży dwa wielomiany z użyciem NTT w O((a + b) log (a + b)).
  */
 void mul(vector<ll> &a, vector<ll> b, ll mod) {
   int const n = a.size() + b.size() - 1;

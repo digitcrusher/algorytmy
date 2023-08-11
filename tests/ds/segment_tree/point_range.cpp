@@ -1,28 +1,32 @@
 #include "ds/segment_tree/point_range.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
   cin >> n;
-  vector<int> init(n);
-  for(auto &num: init) {
-    cin >> num;
-  }
+  vector<ll> init(n);
+  cin >> init;
 
-  SegmentTreePointRange<int, plus<int>> tree(init);
+  SegmentTreePointRange<ll, plus<ll>> tree(init, 0);
 
-  while(true) {
+  while(cin) {
     string op;
-    int a, b;
-    cin >> op >> a >> b;
-    if(!cin) break;
-    a--;
+    cin >> op;
 
     if(op == "get") {
-      b--;
+      int a, b;
+      cin >> a >> b;
+      a--, b--;
+
       cout << tree.get(a, b) << endl;
+
     } else if(op == "set") {
-      tree.set(a, b);
+      int idx;
+      ll val;
+      cin >> idx >> val;
+      idx--;
+
+      tree.set(idx, val);
     }
   }
 }

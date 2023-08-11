@@ -1,12 +1,11 @@
 #include "string/min_rot.hpp"
+#include "iostream.hpp"
 #include <algorithm>
-#include <iostream>
 
 int main() {
-  while(true) {
+  while(cin) {
     string s;
     cin >> s;
-    if(!cin) break;
 
     auto result = min_rot(s);
     rotate(s.begin(), s.begin() + result, s.end());

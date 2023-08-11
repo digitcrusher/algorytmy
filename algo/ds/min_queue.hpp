@@ -15,8 +15,7 @@
 /*
  * Leniwa kolejka minimum/monotoniczna -
  *   Kolejka obsługująca operację obliczenia najmniejszego ze wszystkich
- *   elementów (min) w O(1), ale bez operacji zwrócenia pierwszego elementu
- *   (front). Zużywa O(n) pamięci.
+ *   elementów (min) w O(1), ale bez operacji zwrócenia pierwszego elementu.
  *
  * Cmp: (Value, Value) -> Value
  *   Zwraca true, gdy pierwszy argument jest mniejszy od drugiego.
@@ -61,8 +60,8 @@ struct LazyMinQueue {
 
 /*
  * Kolejka minimum/monotoniczna -
- *   Kolejka obsługująca operację obliczenia najmniejszego ze
- *   wszystkich elementów (min) w O(1). Zużywa O(n) pamięci.
+ *   Kolejka obsługująca operację obliczenia najmniejszego
+ *   ze wszystkich elementów (min) w O(1).
  *
  * Cmp: (Value, Value) -> Value
  *   Zwraca true, gdy pierwszy argument jest mniejszy od drugiego.

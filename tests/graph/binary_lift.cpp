@@ -1,42 +1,39 @@
 #include "graph/binary_lift.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     int n;
     cin >> n;
-    if(!cin) break;
     vector<int> parent(n);
-    for(int &num: parent) {
-      cin >> num;
-      if(!cin) break;
-      if(num != -1) {
-        num--;
+    for(auto &i: parent) {
+      cin >> i;
+      if(i != -1) {
+        i--;
       }
     }
-    if(!cin) break;
 
-    auto result1 = binary_lift(parent);
-    cout << "normal: ";
-    for(int i: result1) {
+    auto lift = binary_lift(parent);
+    cout << "normal:" << endl;
+    for(auto i: lift) {
       cout << i + 1 << " ";
     }
     cout << endl;
 
-    auto result2 = worse_binary_lift(parent);
+    auto worse_lift = worse_binary_lift(parent);
     cout << "worse:" << endl;
-    for(int i = 0; i < n; i++) {
-      for(int j: result2[i]) {
-        cout << j + 1 << " ";
+    for(auto &a: worse_lift) {
+      for(auto b: a) {
+        cout << b + 1 << " ";
       }
       cout << endl;
     }
 
-    result2 = worse_binary_lift_light(parent);
+    worse_lift = worse_binary_lift_light(parent);
     cout << "worse light:" << endl;
-    for(int i = 0; i < n; i++) {
-      for(int j: result2[i]) {
-        cout << j + 1 << " ";
+    for(auto &a: worse_lift) {
+      for(auto b: a) {
+        cout << b + 1 << " ";
       }
       cout << endl;
     }

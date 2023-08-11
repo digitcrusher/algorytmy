@@ -16,7 +16,7 @@
 
 /*
  * Algorytm Hopcroft-Karp (tzw. "Turbo Matching") -
- *   Znajduje największe skojarzenie w grafie dwudzielnym w O(sqrt(V) * E)
+ *   Znajduje największe skojarzenie w grafie dwudzielnym w O(sqrt(V) * E).
  */
 struct Matching {
   vector<int> pair; // -1 jeśli dany wierzchołek nie ma pary
@@ -34,7 +34,7 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
   vector<int> dist(n);
   auto bfs = [&]() {
     queue<int> q;
-    for(int a: as) {
+    for(auto a: as) {
       if(pair[a] == -1) {
         dist[a] = 0;
         q.push(a);
@@ -45,12 +45,12 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
 
     int max_dist = INT_MAX;
     while(!q.empty()) {
-      int a = q.front();
+      auto a = q.front();
       q.pop();
 
       if(dist[a] >= max_dist) continue;
 
-      for(int b: adj[a]) {
+      for(auto b: adj[a]) {
         if(pair[b] == -1) {
           max_dist = dist[a];
         } else if(dist[pair[b]] == -1) {
@@ -63,7 +63,7 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
   };
 
   function<bool(int)> dfs = [&](int a) {
-    for(int b: adj[a]) {
+    for(auto b: adj[a]) {
       if(pair[b] == -1 || (dist[pair[b]] == dist[a] + 1 && dfs(pair[b]))) {
         pair[a] = b;
         pair[b] = a;
@@ -75,7 +75,7 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
   };
 
   while(bfs()) {
-    for(int a: as) {
+    for(auto a: as) {
       if(pair[a] == -1 && dfs(a)) {
         pairc++;
       }

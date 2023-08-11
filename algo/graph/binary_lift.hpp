@@ -36,18 +36,19 @@ vector<int> binary_lift(vector<int> const& parent) {
       calc(parent[node]);
     }
     depth[node] = depth[parent[node]] + 1;
-    int p = parent[node];
+    auto p = parent[node];
     if(depth[p] - depth[lift[p]] == depth[lift[p]] - depth[lift[lift[p]]]) {
       lift[node] = lift[lift[p]];
     } else {
       lift[node] = p;
     }
   };
-  for(int i = 0; i < n; i++) {
-    if(lift[i] == -1) {
-      calc(i);
+  for(int node = 0; node < n; node++) {
+    if(lift[node] == -1) {
+      calc(node);
     }
   }
+
   return lift;
 }
 
@@ -125,11 +126,12 @@ vector<vector<int>> worse_binary_lift(vector<int> const& parent) {
       lift[node].push_back(lift[lift[node][i]][i]);
     }
   };
-  for(int i = 0; i < n; i++) {
-    if(lift[i].empty()) {
-      calc(i);
+  for(int node = 0; node < n; node++) {
+    if(lift[node].empty()) {
+      calc(node);
     }
   }
+
   return lift;
 }
 
@@ -156,15 +158,16 @@ vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
     }
     depth[node] = depth[parent[node]] + 1;
     lift[node].push_back(parent[node]);
-    for(int i = 0; i < countr_zero(depth[node]) && i < lift[lift[node][i]].size(); i++) {
+    for(int i = 0; i < countr_zero((uint) depth[node]) && i < lift[lift[node][i]].size(); i++) {
       lift[node].push_back(lift[lift[node][i]][i]);
     }
   };
-  for(int i = 0; i < n; i++) {
-    if(lift[i].empty()) {
-      calc(i);
+  for(int node = 0; node < n; node++) {
+    if(lift[node].empty()) {
+      calc(node);
     }
   }
+
   return lift;
 }
 
@@ -186,7 +189,7 @@ int worse_lifting_find_last(vector<vector<int>> const& lift,
 
   int max_jump = INT_MAX;
   while(!lift[node].empty() && pred(lift[node][0])) {
-    int jump = min(max_jump, (int) lift[node].size() - 1);
+    auto jump = min<int>(max_jump, lift[node].size() - 1);
     while(!pred(lift[node][jump])) {
       jump--;
       max_jump = jump;
@@ -214,7 +217,7 @@ int worse_lifting_find_first(vector<vector<int>> const& lift,
 
   int max_jump = INT_MAX;
   while(!lift[node].empty() && !pred(lift[node][0])) {
-    int jump = min(max_jump, (int) lift[node].size() - 1);
+    auto jump = min<int>(max_jump, lift[node].size() - 1);
     while(pred(lift[node][jump])) {
       jump--;
       max_jump = jump;

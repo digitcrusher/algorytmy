@@ -1,21 +1,13 @@
 #include "geom/convex_hull.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     int n;
     cin >> n;
-    if(!cin) break;
     vector<Point<ll>> pts(n);
-    for(auto &[x, y]: pts) {
-      cin >> x >> y;
-      if(!cin) break;
-    }
-    if(!cin) break;
+    cin >> pts;
 
-    auto result = convex_hull(pts);
-    for(auto [x, y]: result.pts) {
-      cout << x << " " << y << endl;
-    }
+    cout << convex_hull(pts).pts;
   }
 }

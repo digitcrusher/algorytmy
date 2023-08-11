@@ -19,7 +19,7 @@
  *   czyli jedno z rozwiązań dla równania diofantycznego ax + by = NWD(a, b)
  *   i, co za tym idzie, wszystkie rozwiązania.
  */
-struct ExtEuclidResult {
+struct ExtEuclid {
   ll gcd;
   ll x, y;
   ll a, b;
@@ -27,7 +27,7 @@ struct ExtEuclidResult {
   /*
    * Zwraca kolejne współczynniki Bézouta dla a i b.
    */
-  ExtEuclidResult shift_coefs(int step) {
+  ExtEuclid shift(int step) {
     if(gcd == 0) {
       throw std::runtime_error(
         "Dla NWD równego zero istnieje nieskończenie wiele współczynników."
@@ -41,8 +41,8 @@ struct ExtEuclidResult {
     };
   }
 };
-ExtEuclidResult ext_euclid(ll a, ll b) {
-  function<ExtEuclidResult(ll, ll)> internal = [&](ll a, ll b) -> ExtEuclidResult {
+ExtEuclid ext_euclid(ll a, ll b) {
+  function<ExtEuclid(ll, ll)> internal = [&](ll a, ll b) -> ExtEuclid {
     if(b == 0) {
       return {a, 1, 0, a, b};
     }

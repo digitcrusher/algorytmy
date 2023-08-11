@@ -16,7 +16,7 @@
 /*
  * Znajduje najdłuższy rosnący podciąg w O(n log n).
  */
-vector<int> lis(vector<int> const& nums) {
+vector<int> lis(vector<ll> const& nums) {
   int const n = nums.size();
 
   vector<int> dp;
@@ -50,7 +50,7 @@ vector<int> lis(vector<int> const& nums) {
  * Znajduje najdłuższy rosnący podciąg przy użyciu
  * drzewa przedziałowego punkt-przedział w O(n log n).
  */
-vector<int> lis_segtree(vector<int> const& nums) {
+vector<int> lis_segtree(vector<ll> const& nums) {
   int const n = nums.size();
 
   auto sorted = nums;

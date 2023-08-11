@@ -16,8 +16,7 @@
  * Sparse table -
  *   Struktura danych wspierająca operację obliczenia sumy spójnego przedziału
  *   elementów (get) w O(1) po wstępnym przetwarzaniu w O(n log n). Zużywa
- *   O(n log n) pamięci. Ta implementacja zakłada, że początkowa tablica nigdy
- *   nie jest pusta.
+ *   O(n log n) pamięci.
  *
  * Sum: (Value, Value) -> Value
  *   Łączy dwa nachodzące na siebie lub nie przedziały elementów. Sum musi być
@@ -31,22 +30,20 @@ struct SparseTable {
   Sum sum;
 
   int elemc, height;
-  vector<vector<Value>> segs;
+  vector<vector<Value>> sums;
 
   SparseTable(vector<Value> const& elems, Sum sum = Sum()):
     elemc(elems.size()), sum(sum)
   {
     height = elemc == 1 ? 1 : ceil_log2(elemc);
 
-    segs.resize(height, vector<Value>(elemc));
-    for(int i = 0; i < elemc; i++) {
-      segs[0][i] = elems[i];
-    }
+    sums.resize(height, vector<Value>(elemc));
+    sums[0] = elems;
     for(int j = 1; j < height; j++) {
       for(int i = 0; i < elemc; i++) {
-        segs[j][i] = sum(
-          segs[j - 1][i],
-          segs[j - 1][min(i + level_elemc(j - 1), elemc - 1)]
+        sums[j][i] = sum(
+          sums[j - 1][i],
+          sums[j - 1][min(i + level_elemc(j - 1), elemc - 1)]
         );
       }
     }
@@ -59,9 +56,9 @@ struct SparseTable {
   Value get(int l, int r) {
     assert(l <= r && r < elemc);
     if(l == r) {
-      return segs[0][l];
+      return sums[0][l];
     }
-    int level = ceil_log2(r - l + 1) - 1;
-    return sum(segs[level][l], segs[level][r - level_elemc(level) + 1]);
+    auto level = ceil_log2(r - l + 1) - 1;
+    return sum(sums[level][l], sums[level][r - level_elemc(level) + 1]);
   }
 };

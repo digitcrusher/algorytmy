@@ -1,36 +1,40 @@
 #include "ds/fenwick_tree/range_range.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
   cin >> n;
-  vector<int> init(n);
-  for(auto &num: init) {
-    cin >> num;
-  }
+  vector<ll> init(n);
+  cin >> init;
 
-  auto apply_change = [](int val, int change, int elemc) {
-    return val + change * elemc;
+  struct ApplyChange {
+    ll operator()(ll val, ll change, int elemc) {
+      return val + change * elemc;
+    }
   };
   FenwickTreeRangeRange<
-    int, plus<int>, minus<int>,
-    int, decltype(apply_change), plus<int>, negate<int>
-  > tree(init, 0, plus<int>(), minus<int>(), apply_change);
+    ll, plus<ll>, minus<ll>,
+    ll, ApplyChange, plus<ll>, negate<ll>
+  > tree(init, 0);
 
-  while(true) {
+  while(cin) {
     string op;
-    int a, b;
-    cin >> op >> a >> b;
-    if(!cin) break;
-    a--, b--;
+    cin >> op;
 
     if(op == "get") {
+      int a, b;
+      cin >> a >> b;
+      a--, b--;
+
       cout << tree.get(a, b) << endl;
+
     } else if(op == "modify") {
-      int c;
-      cin >> c;
-      if(!cin) break;
-      tree.modify(a, b, c);
+      int a, b;
+      ll change;
+      cin >> a >> b >> change;
+      a--, b--;
+
+      tree.modify(a, b, change);
     }
   }
 }

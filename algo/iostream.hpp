@@ -12,6 +12,9 @@
 #include "common.hpp"
 #include <complex>
 #include <iostream>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 template<class A>
 ostream& operator<<(ostream &stream, complex<A> const& num) {
@@ -20,8 +23,7 @@ ostream& operator<<(ostream &stream, complex<A> const& num) {
   }
   if(num.imag() != 0) {
     if(num.real() != 0) {
-      stream << (num.imag() > 0 ? "+" : "-");
-      stream << abs(num.imag());
+      stream << (num.imag() >= 0 ? "+" : "-") << abs(num.imag());
     } else {
       stream << num.imag();
     }
@@ -41,11 +43,7 @@ istream& operator>>(istream &stream, complex<A> &num) {
       char sign;
       A imag;
       stream >> sign >> imag;
-      if(sign == '+') {
-        num.imag(imag);
-      } else {
-        num.imag(-imag);
-      }
+      num.imag(sign == '+' ? imag : -imag);
       stream >> sign;
     }
   }
@@ -63,7 +61,7 @@ istream& operator>>(istream &stream, pair<A, B> &pair) {
 
 template<class... A>
 ostream& operator<<(ostream &stream, tuple<A...> const& tuple) {
-  apply([&](A const&... elems) {
+  std::apply([&](A const&... elems) {
     int i = 0;
     ((stream << (i++ > 0 ? " " : "") << elems), ...);
   }, tuple);
@@ -71,14 +69,31 @@ ostream& operator<<(ostream &stream, tuple<A...> const& tuple) {
 }
 template<class... A>
 istream& operator>>(istream &stream, tuple<A...> &tuple) {
-  apply([&](A &...elems) {
+  std::apply([&](A &...elems) {
     (stream >> ... >> elems);
   }, tuple);
   return stream;
 }
 
-template<class A>
+template<class A, std::enable_if_t<std::is_arithmetic_v<A>, int> = 123>
 ostream& operator<<(ostream &stream, vector<A> const& vec) {
+  if(!vec.empty()) {
+    stream << vec[0];
+    for(int i = 1; i < vec.size(); i++) {
+      stream << " " << vec[i];
+    }
+  }
+  return stream;
+}
+template<class A, std::enable_if_t<!std::is_arithmetic_v<A>, int> = 123>
+ostream& operator<<(ostream &stream, vector<A> const& vec) {
+  for(auto const& i: vec) {
+    stream << i << "\n";
+  }
+  return stream;
+}
+template<class A>
+ostream& operator<<(ostream &stream, vector<complex<A>> const& vec) {
   if(!vec.empty()) {
     stream << vec[0];
     for(int i = 1; i < vec.size(); i++) {

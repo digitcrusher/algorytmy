@@ -10,7 +10,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 #include <algorithm>
 #include <initializer_list>
 #include <iterator>
@@ -24,14 +23,14 @@
 /*
  * Wyczerpująca implementacja drzewa przedziałowego przedział-przedział -
  *   Kontener wspierający operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w O(log n). Zużywa O(n) pamięci.
+ *   elementów (get) i modyfikacji (modify) w O(log n).
  *
- * Ta implementacja jest zgodna z C++11 oraz spełnia Container, ReversibleContainer
- * i SequenceContainer.
+ *   Ta implementacja jest zgodna z C++11 oraz spełnia Container,
+ *   ReversibleContainer i SequenceContainer.
  *
- * Iteratory nigdy nie są unieważnione, jeśli adres drzewa w pamięci się nie
- * zmieni. Referencja do drzewa w iteratorach pozostaje taka sama po swap'ie,
- * więc drzewa na które wskazują iteratory też są wymieniane podczas swap'u.
+ *   Iteratory nigdy nie są unieważnione, jeśli adres drzewa w pamięci się nie
+ *   zmieni. Referencja do drzewa w iteratorach pozostaje taka sama po swap'ie,
+ *   więc drzewa na które wskazują iteratory też są wymieniane podczas swap'u.
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
@@ -85,6 +84,14 @@ using require_input_iter =
       std::input_iterator_tag
     >::value
   >::type;
+
+int floor_log2(ull x) {
+  return 64 - __builtin_clzll(x) - 1;
+}
+
+int ceil_log2(ull x) {
+  return x == 1 ? 0 : 64 - __builtin_clzll(x - 1);
+}
 
 template<
   class Value,

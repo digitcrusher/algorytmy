@@ -18,8 +18,8 @@
 
 /*
  * Offline dynamic connectivity -
- *   Sztuczka pozwalająca na analizowanie spójności grafu po każdej operacji
- *   dodania lub usunięcia krawędzi offline w O(q log q log n).
+ *   Sztuczka pozwalająca na analizowanie spójności grafu po każdej
+ *   operacji dodania lub usunięcia krawędzi offline w O(q log q log n).
  */
 struct Query {
   enum {
@@ -41,7 +41,7 @@ vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
       if(l <= node_l && node_r <= r) {
         tree[num - 1].push_back(edge);
       } else if(!(node_r < l || r < node_l)) {
-        int mid = (node_l + node_r) / 2;
+        auto mid = (node_l + node_r) / 2;
         descend(2 * num, node_l, mid);
         descend(2 * num + 1, mid + 1, node_r);
       }
@@ -81,7 +81,7 @@ vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
         results.push_back(dsu.find(a) == dsu.find(b));
       }
     } else {
-      int mid = (node_l + node_r) / 2;
+      auto mid = (node_l + node_r) / 2;
       calc(2 * num, node_l, mid);
       calc(2 * num + 1, mid + 1, node_r);
     }

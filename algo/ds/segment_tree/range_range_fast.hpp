@@ -17,9 +17,8 @@
 /*
  * Szybsza implementacja drzewa przedziałowego przedział-przedział -
  *   Struktura danych wspierająca operacje obliczenia sumy spójnego przedziału
- *   elementów (get) i modyfikacji (modify) w O(log n). Zużywa O(n) pamięci.
- *   Ta implementacja zakłada, że początkowa tablica nigdy nie jest pusta, oraz
- *   pozbywa się overheadu NodeOps.
+ *   elementów (get) i modyfikacji (modify) w O(log n). Ta implementacja pozbywa
+ *   się overheadu NodeOps.
  *
  * Sum: (Value, Value) -> Value
  *   Łaczy dwa sąsiednie przedziały elementów. Sum musi być łączne, czyli
@@ -77,7 +76,7 @@ template<
         return nodes[num - 1].val;
       } else {
         propagate_change(num, node_l, node_r);
-        int mid = (node_l + node_r) / 2;
+        auto mid = (node_l + node_r) / 2;
         if(!do_intersect(mid + 1, node_r, l, r)) {
           return descend(2 * num, node_l, mid);
         } else if(!do_intersect(node_l, mid, l, r)) {
@@ -97,7 +96,7 @@ template<
         receive_change(num, node_l, node_r, change);
       } else {
         propagate_change(num, node_l, node_r);
-        int mid = (node_l + node_r) / 2;
+        auto mid = (node_l + node_r) / 2;
         if(do_intersect(node_l, mid, l, r)) {
           descend(2 * num, node_l, mid);
         }
@@ -117,7 +116,7 @@ template<
     function<void(int, int, int)> descend = [&](int num, int node_l, int node_r) {
       if(node_l == node_r) return;
       auto &node = nodes[num - 1];
-      int mid = (node_l + node_r) / 2;
+      auto mid = (node_l + node_r) / 2;
 
       // Nie propagujemy zmian do wierzchołków w całości w [l, r].
       if(node.has_change) {
@@ -144,13 +143,6 @@ template<
     descend(1, 0, base_nodec - 1);
   }
 
-  bool is_in(int a1, int a2, int b1, int b2) {
-    return b1 <= a1 && a2 <= b2;
-  }
-  bool do_intersect(int a1, int a2, int b1, int b2) {
-    return !(a2 < b1 || b2 < a1);
-  }
-
   void receive_change(int num, int node_l, int node_r, Change change) {
     auto &node = nodes[num - 1];
     // Nie aktualizujemy wierzchołków z elementami spoza tablicy.
@@ -169,7 +161,7 @@ template<
     node.has_change = false;
 
     if(node_l != node_r) {
-      int mid = (node_l + node_r) / 2;
+      auto mid = (node_l + node_r) / 2;
       receive_change(2 * num, node_l, mid, node.latent_change);
       if(mid + 1 < elemc) {
         receive_change(2 * num + 1, mid + 1, node_r, node.latent_change);

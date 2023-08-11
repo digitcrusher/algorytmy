@@ -1,16 +1,11 @@
 #include "string/prefix_func.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     string s;
     cin >> s;
-    if(!cin) break;
 
-    auto result = prefix_func(s);
-    for(int i: result) {
-      cout << i << " ";
-    }
-    cout << endl;
+    cout << prefix_func(s) << endl;
   }
 }

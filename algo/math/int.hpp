@@ -51,13 +51,13 @@ ll ceil_div(ll a, ll b) {
 }
 
 /*
- * Iteratywne potęgowanie w O(log b).
+ * Iteratywne potęgowanie w O(log b)
  */
 ll fast_pow(ll a, ll b) {
   assert(b >= 0);
   ll result = 1;
   while(b > 0) {
-    if(b % 2 == 1) {
+    if(b % 2 != 0) {
       result = result * a;
     }
     a = a * a;
@@ -67,10 +67,49 @@ ll fast_pow(ll a, ll b) {
 }
 
 /*
- * Oblicza leksykograficznie następną permutacje bitów.
+ * Leksykograficznie następna permutacja bitów
  */
 ull next_perm(ull x) {
   // Formuła zapożyczona z https://graphics.stanford.edu/~seander/bithacks.html
-  ull t = x | (x - 1);
+  auto t = x | (x - 1);
   return (t + 1) | (((~t & -~t) - 1) >> (countr_zero(x) + 1));
+}
+
+/*
+ * Czy dwa przedziały się przecinają?
+ */
+template<class A>
+bool do_intersect(A a1, A a2, A b1, A b2) {
+  if(a1 > a2) {
+    swap(a1, a2);
+  }
+  if(b1 > b2) {
+    swap(b1, b2);
+  }
+  return !(a2 < b1 || b2 < a1);
+}
+
+/*
+ * Czy punkt zawiera się w przedziale?
+ */
+template<class A>
+bool do_intersect(A a1, A a2, A b) {
+  if(a1 > a2) {
+    swap(a1, a2);
+  }
+  return a1 <= b && b <= a2;
+}
+
+/*
+ * Czy przedział a zawiera się w przedziale b?
+ */
+template<class A>
+bool is_in(A a1, A a2, A b1, A b2) {
+  if(a1 > a2) {
+    swap(a1, a2);
+  }
+  if(b1 > b2) {
+    swap(b1, b2);
+  }
+  return b1 <= a1 && a2 <= b2;
 }

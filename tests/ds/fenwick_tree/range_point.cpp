@@ -1,31 +1,32 @@
 #include "ds/fenwick_tree/range_point.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int n;
   cin >> n;
-  vector<int> init(n);
-  for(auto &num: init) {
-    cin >> num;
-  }
+  vector<ll> init(n);
+  cin >> init;
 
-  FenwickTreeRangePoint<int, int, plus<int>, plus<int>, negate<int>> tree(init, 0);
+  FenwickTreeRangePoint<ll, ll, plus<ll>, plus<ll>, negate<ll>> tree(init, 0);
 
-  while(true) {
+  while(cin) {
     string op;
-    int a;
-    cin >> op >> a;
-    if(!cin) break;
-    a--;
+    cin >> op;
 
     if(op == "get") {
-      cout << tree.get(a) << endl;
+      int idx;
+      cin >> idx;
+      idx--;
+
+      cout << tree.get(idx) << endl;
+
     } else if(op == "modify") {
-      int b, c;
-      cin >> b >> c;
-      if(!cin) break;
-      b--;
-      tree.modify(a, b, c);
+      int a, b;
+      ll change;
+      cin >> a >> b >> change;
+      a--, b--;
+
+      tree.modify(a, b, change);
     }
   }
 }

@@ -14,13 +14,13 @@
 #include <vector>
 
 /*
- * Znajduje ścieżkę skoczka szachowego przechodzącą po każdym polu planszy przy
- * pomocy heurystyki Warnsdorffa z modyfikacją Pohla w prawie zawsze O(w * h).
- * Tę heurystykę można też zastosować do ogólniejszego problemu ścieżki
- * Hamiltona.
+ * Heurystyka Warnsdorffa z modyfikacją Pohla -
+ *   Znajduje ścieżkę skoczka szachowego przechodzącą po każdym polu planszy
+ *   w prawie zawsze O(w * h). Tę heurystykę można też zastosować do
+ *   ogólniejszego problemu ścieżki Hamiltona.
  */
 optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
-  if(w % 2 == 1 && h % 2 == 1 && (x + y) % 2 == 1) {
+  if(w % 2 != 0 && h % 2 != 0 && (x + y) % 2 != 0) {
     return nullopt;
   }
 
@@ -87,9 +87,5 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
     return false;
   };
 
-  if(backtrack(x, y, 0)) {
-    return result;
-  } else {
-    return nullopt;
-  }
+  return backtrack(x, y, 0) ? optional(result) : nullopt;
 }

@@ -1,34 +1,31 @@
 #include "ds/fenwick_tree/point_range_2d.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int w, h;
   cin >> w >> h;
-  vector init(h, vector<int>(w));
-  for(auto &row: init) {
-    for(auto &num: row) {
-      cin >> num;
-    }
-  }
+  vector init(h, vector<ll>(w));
+  cin >> init;
 
-  FenwickTree2D<int, plus<int>, minus<int>, int, plus<int>> tree(init);
+  FenwickTree2D<ll, plus<ll>, minus<ll>, ll, plus<ll>> tree(init);
 
-  while(true) {
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
     if(op == "get") {
       int x1, y1, x2, y2;
       cin >> x1 >> y1 >> x2 >> y2;
-      if(!cin) break;
       x1--, y1--, x2--, y2--;
+
       cout << tree.get(x1, y1, x2, y2) << endl;
+
     } else if(op == "modify") {
-      int x, y, change;
+      int x, y;
+      ll change;
       cin >> x >> y >> change;
-      if(!cin) break;
       x--, y--;
+
       tree.modify(x, y, change);
     }
   }

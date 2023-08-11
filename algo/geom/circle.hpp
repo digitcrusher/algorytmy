@@ -12,13 +12,13 @@
 #include "geom/point.hpp"
 #include <numbers>
 
-template<class T>
+template<class A>
 struct Circle {
-  Point<T> center;
-  T radius;
+  Point<A> center;
+  A radius;
 
   Circle() {}
-  Circle(Point<T> center, T radius): center(center), radius(radius) {}
+  Circle(Point<A> center, A radius): center(center), radius(radius) {}
 
   ld area() {
     return numbers::pi * radius * radius;

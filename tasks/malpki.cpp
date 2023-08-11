@@ -13,6 +13,7 @@
 #include <climits>
 #include <functional>
 #include <iostream>
+#include <numeric>
 #include <set>
 #include <vector>
 
@@ -56,14 +57,12 @@ int main() {
   fall_times[0] = never;
 
   vector<int> dsu(n);
-  for(int i = 0; i < n; i++) {
-    dsu[i] = i;
-  }
+  iota(dsu.begin(), dsu.end(), 0);
   function<int(int)> find = [&](int malpka) {
     if(dsu[malpka] == malpka) {
       return malpka;
     } else {
-      int repr = find(dsu[malpka]);
+      auto repr = find(dsu[malpka]);
       if(fall_times[malpka] == -1) {
         fall_times[malpka] = fall_times[dsu[malpka]];
       }
@@ -73,7 +72,7 @@ int main() {
   };
 
   for(auto grip: grips_set) {
-    int a = find(grip.first), b = find(grip.second);
+    auto a = find(grip.first), b = find(grip.second);
     if(a == b) continue;
     if(fall_times[a] > fall_times[b]) {
       swap(a, b);
@@ -81,7 +80,7 @@ int main() {
     dsu[a] = b;
   }
   for(int i = m - 1; i >= 0; i--) {
-    int a = find(let_gos[i].first), b = find(let_gos[i].second);
+    auto a = find(let_gos[i].first), b = find(let_gos[i].second);
     if(a == b) continue;
     if(fall_times[a] > fall_times[b]) {
       swap(a, b);

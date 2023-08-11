@@ -36,8 +36,8 @@ struct HLD {
     depth.resize(n);
     function<void(int)> calc_size = [&](int node) {
       size[node] = 1;
-      bool is_first_child = true;
-      for(int &child: adj[node]) {
+      auto is_first_child = true;
+      for(auto &child: adj[node]) {
         if(size[child] != -1) continue;
 
         parent[child] = node;
@@ -63,8 +63,8 @@ struct HLD {
       entry[node] = time;
       time++;
 
-      bool is_first_child = true;
-      for(int child: adj[node]) {
+      auto is_first_child = true;
+      for(auto child: adj[node]) {
         if(heavy[child] != -1) continue;
         heavy[child] = is_first_child ? heavy[node] : child;
         decompose(child);
@@ -84,18 +84,18 @@ struct HLD {
   vector<pair<int, int>> path(int a, int b) {
     vector<pair<int, int>> result;
 
-    int lca = lca_lifting(parent, lift, depth, a, b);
+    auto lca = lca_lifting(parent, lift, depth, a, b);
 
     while(true) {
-      int l = entry[heavy[a] == heavy[lca] ? lca : heavy[a]];
-      int r = entry[a];
+      auto l = entry[heavy[a] == heavy[lca] ? lca : heavy[a]];
+      auto r = entry[a];
       result.push_back({l, r});
       if(heavy[a] == heavy[lca]) break;
       a = parent[heavy[a]];
     }
     while(b != lca) {
-      int l = heavy[b] == heavy[lca] ? entry[lca] + 1 : entry[heavy[b]];
-      int r = entry[b];
+      auto l = heavy[b] == heavy[lca] ? entry[lca] + 1 : entry[heavy[b]];
+      auto r = entry[b];
       result.push_back({l, r});
       if(heavy[b] == heavy[lca]) break;
       b = parent[heavy[b]];

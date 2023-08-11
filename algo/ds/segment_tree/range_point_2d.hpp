@@ -16,8 +16,6 @@
  * Drzewo przedziałowe przedział-punkt 2D -
  *   Struktura danych wspierająca operacje obliczenia wartości jednego elementu
  *   (get) i modyfikacji podmacierzy elementów (modify) w O(log w * log h).
- *   Zużywa O(w * h) pamięci. Ta implementacja zakłada, że początkowa tablica
- *   nigdy nie jest pusta.
  *
  * ApplyChange: (Value, Change) -> Value
  *   Aplikuje zmianę na jeden element.
@@ -59,7 +57,7 @@ struct SegmentTreeRangePoint2D {
   }
 
   Value get(int x, int y) {
-    Value result = values[y][x];
+    auto result = values[y][x];
     x += x_base_offset + 1;
     y += y_base_offset + 1;
     while(y >= 1) {
@@ -79,7 +77,7 @@ struct SegmentTreeRangePoint2D {
       x1 += x_base_offset + 1;
       x2 += x_base_offset + 1;
       while(x1 <= x2) {
-        if(x1 % 2 == 1) {
+        if(x1 % 2 != 0) {
           changes[y - 1][x1 - 1] = merge_change(changes[y - 1][x1 - 1], change);
           x1++;
         }
@@ -94,7 +92,7 @@ struct SegmentTreeRangePoint2D {
     y1 += y_base_offset + 1;
     y2 += y_base_offset + 1;
     while(y1 <= y2) {
-      if(y1 % 2 == 1) {
+      if(y1 % 2 != 0) {
         modify_x(y1, x1, x2);
         y1++;
       }

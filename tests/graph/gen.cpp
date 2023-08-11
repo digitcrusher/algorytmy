@@ -1,19 +1,18 @@
 #include "graph/gen.hpp"
+#include "iostream.hpp"
 #include <ctime>
-#include <iostream>
 
 int main() {
-  bool is_directed = false;
-  bool has_self_loops = false;
-  bool has_multi_edges = false;
-  bool is_connected = false;
-  bool is_acyclic = false;
+  auto is_directed = false;
+  auto has_self_loops = false;
+  auto has_multi_edges = false;
+  auto is_connected = false;
+  auto is_acyclic = false;
   int k_colorable = -1;
 
-  while(true) {
+  while(cin) {
     int n, m;
     cin >> n >> m;
-    if(!cin) break;
     srand(time(nullptr));
     auto adj = gen_graph(
       n, m,
@@ -23,7 +22,7 @@ int main() {
     );
 
     for(int a = 0; a < n; a++) {
-      for(int b: adj[a]) {
+      for(auto b: adj[a]) {
         if(!is_directed && a > b) continue;
         cout << a + 1 << " " << b + 1 << endl;
       }
@@ -35,7 +34,7 @@ int main() {
       cout << "  " << i + 1 << ";\n";
     }
     for(int a = 0; a < n; a++) {
-      for(int b: adj[a]) {
+      for(auto b: adj[a]) {
         if(!is_directed && a > b) continue;
         cout << "  " << a + 1 << (is_directed ? " -> " : " -- ") << b + 1 << ";\n";
       }

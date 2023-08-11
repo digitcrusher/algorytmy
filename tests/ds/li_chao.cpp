@@ -1,5 +1,5 @@
 #include "ds/li_chao.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
   int min_x, max_x;
@@ -8,22 +8,19 @@ int main() {
 
   LiChao tree(min_x, max_x, first);
 
-  while(true) {
+  while(cin) {
     string op;
     cin >> op;
-    if(!cin) break;
 
     if(op == "get") {
       int x;
       cin >> x;
-      if(!cin) break;
 
       cout << tree.get(x) << endl;
 
     } else if(op == "insert") {
       LinFunc func;
       cin >> func.a >> func.b;
-      if(!cin) break;
 
       tree.insert(func);
     }

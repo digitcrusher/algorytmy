@@ -9,14 +9,15 @@
  */
 #pragma once
 #include "common.hpp"
+#include <numeric>
 #include <stack>
 #include <vector>
 
 /*
  * Las zbiorów rozłącznych z cofaniem -
  *   Struktura pozwalająca na operacje znajdywania zbioru, do którego należy
- *   dany element, (find), łączenia dwóch zbiorów (merge) w O(log n) i cofnięcia
- *   ostatniej operacji (undo) w O(1). Zużywa O(n) pamięci.
+ *   dany element, (find); łączenia dwóch zbiorów (merge) w O(log n) i cofnięcia
+ *   ostatniej operacji (undo) w O(1).
  */
 struct UndoableDSU {
   int elemc, setc;
@@ -24,9 +25,7 @@ struct UndoableDSU {
   stack<pair<int, int>> merges;
 
   UndoableDSU(int cnt): elemc(cnt), setc(cnt), parent(cnt), size(cnt, 1) {
-    for(int i = 0; i < elemc; i++) {
-      parent[i] = i;
-    }
+    iota(parent.begin(), parent.end(), 0);
   }
 
   int find(int node) {

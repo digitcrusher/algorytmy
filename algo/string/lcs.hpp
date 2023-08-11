@@ -44,7 +44,7 @@ int lcs_len(string const& _a, string const& _b) {
 vector<vector<int>> lcs_dp(string const& a, string const& b) {
   int const n = a.size(), m = b.size();
 
-  vector<vector<int>> dp(n + 1, vector<int>(m + 1, 0));
+  vector dp(n + 1, vector<int>(m + 1, 0));
   for(int i = 1; i <= n; i++) {
     for(int j = 1; j <= m; j++) {
       dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
@@ -91,7 +91,7 @@ string lcs_str(string const& a, string const& b,
 string lcs_str(string const& _a, string const& _b) {
   string const& a = _a.size() >= _b.size() ? _a : _b;
   string const& b = _b.size() <= _a.size() ? _b : _a;
-  bool are_swapped = _a.size() < _b.size();
+  auto are_swapped = _a.size() < _b.size();
 
   string result;
   int path_i = 0, path_j = 0;
@@ -106,7 +106,7 @@ string lcs_str(string const& _a, string const& _b) {
     int const n = a2 - a1 + 1, m = b2 - b1 + 1;
 
     if(n <= 2) {
-      bool did_match = false;
+      auto did_match = false;
       for(int j = b1 + 1; j <= b2; j++) {
         did_match |= a2 > 0 && a[a2 - 1] == b[j - 1];
         move(did_match ? a2 : a1, j);
@@ -114,7 +114,7 @@ string lcs_str(string const& _a, string const& _b) {
       return;
     }
     if(m <= 2) {
-      bool did_match = false;
+      auto did_match = false;
       for(int i = a1 + 1; i <= a2; i++) {
         did_match |= b2 > 0 && a[i - 1] == b[b2 - 1];
         move(i, did_match ? b2 : b1);
@@ -122,7 +122,7 @@ string lcs_str(string const& _a, string const& _b) {
       return;
     }
 
-    int mid_i = a1 + n / 2;
+    auto mid_i = a1 + n / 2;
     vector<int> mid_j(m), prev_mid_j(m);
     vector<int> dp(m, 0), prev_dp(m);
     for(int j = b1; j <= b2; j++) {
@@ -138,7 +138,7 @@ string lcs_str(string const& _a, string const& _b) {
       }
 
       for(int j = b1 + 1; j <= b2; j++) {
-        int k = j - b1;
+        auto k = j - b1;
 
         dp[k] = max(prev_dp[k], dp[k - 1]);
         if(a[i - 1] == b[j - 1]) {

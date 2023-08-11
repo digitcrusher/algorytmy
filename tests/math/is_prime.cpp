@@ -1,11 +1,11 @@
 #include "math/is_prime.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     ll x;
     cin >> x;
-    if(!cin) break;
+
     cout << boolalpha << is_prime_miller_rabin(x) << endl;
   }
 }

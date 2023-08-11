@@ -1,15 +1,12 @@
 #include "other/lis.hpp"
-#include <iostream>
+#include "iostream.hpp"
 
 int main() {
-  while(true) {
+  while(cin) {
     int n;
     cin >> n;
-    vector<int> nums(n);
-    for(auto &i: nums) {
-      cin >> i;
-    }
-    if(!cin) break;
+    vector<ll> nums(n);
+    cin >> nums;
 
     auto result = lis(nums);
     for(auto i: result) {

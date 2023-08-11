@@ -24,7 +24,7 @@ using cld = complex<long double>;
 void fft(vector<cld> &poly, bool should_invert = false) {
   int const n = poly.size();
   if(n == 1) return;
-  assert(popcount((unsigned int) n) == 1);
+  assert(popcount((uint) n) == 1);
 
   vector<cld> a(n / 2), b(n / 2);
   for(int i = 0; i < n / 2; i++) {
@@ -48,8 +48,7 @@ void fft(vector<cld> &poly, bool should_invert = false) {
 }
 
 /*
- * Mnoży dwa wielomiany z użyciem FFT w O(n log n),
- * gdzie n to długość wielomianu wynikowego.
+ * Mnoży dwa wielomiany z użyciem FFT w O((a + b) log (a + b)).
  */
 void mul(vector<cld> &a, vector<cld> b) {
   int const n = a.size() + b.size() - 1;

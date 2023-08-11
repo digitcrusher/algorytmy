@@ -22,10 +22,9 @@ int main() {
   int w, n;
   cin >> w >> n;
   vector<int> kajaks(n);
-  for(auto &kajak: kajaks) {
-    cin >> kajak;
+  for(auto &i: kajaks) {
+    cin >> i;
   }
-
   sort(kajaks.begin(), kajaks.end());
 
   vector<vector<int>> adj(n);
@@ -33,7 +32,6 @@ int main() {
   for(int i = 0; i < n; i++) {
     if(kajaks[i] <= w / 2) {
       smalls.push_back(i);
-
       for(int j = n - 1; j >= 0; j--) {
         if(kajaks[j] <= w / 2) break;
         if(kajaks[i] + kajaks[j] > w) continue;
@@ -47,13 +45,12 @@ int main() {
   auto matching = match_hopcroft_karp(adj, smalls, bigs);
 
   int result = n - matching.pairc;
-  int c = 0;
-  for(int i = 0; i < n; i++) {
-    if(kajaks[i] > w / 2) break;
+  int unpaired_smallc = 0;
+  for(auto i: smalls) {
     if(matching.pair[i] == -1) {
-      c++;
+      unpaired_smallc++;
     }
   }
-  result -= c / 2;
+  result -= unpaired_smallc / 2;
   cout << result << "\n";
 }
