@@ -57,7 +57,7 @@ struct SegmentTreeRangePoint2D {
   }
 
   Value get(int x, int y) {
-    auto result = values[y][x];
+    Value result = values[y][x];
     x += x_base_offset + 1;
     y += y_base_offset + 1;
     while(y >= 1) {

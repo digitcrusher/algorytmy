@@ -13,8 +13,8 @@ int main() {
     }
   };
   FenwickTreeRangeRange2D<
-    ll, plus<ll>, minus<ll>,
-    ll, ApplyChange, plus<ll>, negate<ll>, multiplies<ll>
+    ll, plus<>, minus<>,
+    ll, ApplyChange, plus<>, negate<>, multiplies<>
   > tree(init, 0);
 
   while(cin) {

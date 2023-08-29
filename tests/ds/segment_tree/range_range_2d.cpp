@@ -12,7 +12,7 @@ int main() {
       return val + change * elemc;
     }
   };
-  SegmentTree2D<ll, plus<ll>, ll, ApplyChange, plus<ll>, multiplies<ll>> tree(init);
+  SegmentTree2D<ll, plus<>, ll, ApplyChange, plus<>, multiplies<>> tree(init);
 
   while(cin) {
     string op;

@@ -108,7 +108,7 @@ MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
     if(cost[root] != LLONG_MAX) continue;
 
     using QueueElem = pair<ll, int>;
-    priority_queue<QueueElem, vector<QueueElem>, greater<QueueElem>> q;
+    priority_queue<QueueElem, vector<QueueElem>, greater<>> q;
 
     cost[root] = 0;
     q.push({0, root});

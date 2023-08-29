@@ -7,7 +7,7 @@ int main() {
   vector<ll> init(n);
   cin >> init;
 
-  SegmentTreeRangePoint<ll, ll, plus<ll>, plus<ll>> tree(init, 0);
+  SegmentTreeRangePoint<ll, ll, plus<>, plus<>> tree(init, 0);
 
   while(cin) {
     string op;

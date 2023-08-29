@@ -61,7 +61,7 @@ struct FenwickTree {
     if(l != 0) {
       return sub(get(0, r), get(0, l - 1));
     } else {
-      auto result = sums[r];
+      Value result = sums[r];
       r = sum_l(r) - 1;
       while(r >= 0) {
         result = add(sums[r], result);

@@ -63,7 +63,7 @@ struct LiChao {
            b = func(x2) > nodes[num - 1](x2);
       if(a && b) {
         nodes[num - 1] = func;
-      } else if((a || b) && node_l < node_r) {
+      } else if(a || b) {
         auto mid = (node_l + node_r) / 2;
         descend(2 * num, node_l, mid);
         descend(2 * num + 1, mid + 1, node_r);

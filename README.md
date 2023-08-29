@@ -27,7 +27,7 @@
   - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
   - [x] funkcja φ Eulera
   - [x] liczba, suma i iloczyn dzielników
-  - [x] spamiętywana silnia
+  - [x] silnia - spamiętywana, zwyklejsza
   - [x] symbol Newtona
   - [x] liczba podziałów elementów do kilku zbiorów
   - [x] FFT

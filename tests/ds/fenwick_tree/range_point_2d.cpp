@@ -7,7 +7,7 @@ int main() {
   vector init(h, vector<ll>(w));
   cin >> init;
 
-  FenwickTreeRangePoint2D<ll, ll, plus<ll>, plus<ll>, negate<ll>> tree(init, 0);
+  FenwickTreeRangePoint2D<ll, ll, plus<>, plus<>, negate<>> tree(init, 0);
 
   while(cin) {
     string op;

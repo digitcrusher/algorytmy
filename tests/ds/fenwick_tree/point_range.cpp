@@ -7,7 +7,7 @@ int main() {
   vector<ll> init(n);
   cin >> init;
 
-  FenwickTree<ll, plus<ll>, minus<ll>, ll, plus<ll>> tree(init);
+  FenwickTree<ll, plus<>, minus<>, ll, plus<>> tree(init);
 
   while(cin) {
     string op;

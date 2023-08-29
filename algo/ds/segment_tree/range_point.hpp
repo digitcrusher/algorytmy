@@ -51,7 +51,7 @@ struct SegmentTreeRangePoint {
   }
 
   Value get(int idx) {
-    auto result = values[idx];
+    Value result = values[idx];
     idx = (base_offset + idx + 1) / 2;
     while(idx >= 1) {
       result = apply_change(result, changes[idx - 1]);

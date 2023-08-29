@@ -12,7 +12,7 @@ int main() {
       return val + change * elemc;
     };
   };
-  SegmentTree<ll, plus<ll>, ll, ApplyChange, plus<ll>> tree(init);
+  SegmentTree<ll, plus<>, ll, ApplyChange, plus<>> tree(init);
 
   while(cin) {
     string op;

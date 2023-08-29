@@ -22,8 +22,8 @@
 
 using namespace __gnu_pbds;
 
-template<class Key, class T, class Compare = less<Key>>
+template<class Key, class T, class Compare = less<>>
 using pbds_map = tree<Key, T, Compare, rb_tree_tag, tree_order_statistics_node_update>;
 
-template<class Key, class Compare = less<Key>>
+template<class Key, class Compare = less<>>
 using pbds_set = pbds_map<Key, null_type, Compare>;

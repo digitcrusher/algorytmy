@@ -7,7 +7,7 @@ int main() {
   vector<ll> init(n);
   cin >> init;
 
-  auto treap = ImplicitTreap<ll, plus<ll>>::from(init);
+  auto treap = ImplicitTreap<ll, plus<>>::from(init);
 
   while(cin) {
     string op;

@@ -51,7 +51,7 @@ struct FenwickTreeRangePoint {
   }
 
   Value get(int idx) {
-    auto result = values[idx];
+    Value result = values[idx];
     while(idx < elemc) {
       result = apply_change(result, changes[idx]);
       idx |= idx + 1;

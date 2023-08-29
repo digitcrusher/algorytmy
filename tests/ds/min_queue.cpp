@@ -2,8 +2,8 @@
 #include "iostream.hpp"
 
 int main() {
-  MinQueue<ll, less<ll>> queue;
-  LazyMinQueue<ll, less<ll>> lazy;
+  MinQueue<ll, less<>> queue;
+  LazyMinQueue<ll, less<>> lazy;
 
   while(cin) {
     string op;

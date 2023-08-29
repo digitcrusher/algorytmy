@@ -42,6 +42,33 @@ ll fac(ll x, ll mod) {
 }
 
 /*
+ * Zwyklejsza silnia w O(n)
+ */
+struct Fac {
+  vector<ll> fac, inv_fac;
+
+  Fac(int n, ll mod): fac(n + 1), inv_fac(n + 1) {
+    fac[0] = 1;
+    for(int i = 1; i <= n; i++) {
+      fac[i] = mod_mul(fac[i - 1], i, mod);
+    }
+    auto inv = mod_inv(fac[n], mod);
+    assert(inv);
+    inv_fac[n] = *inv;
+    for(int i = n - 1; i >= 0; i--) {
+      inv_fac[i] = mod_mul(inv_fac[i + 1], i + 1, mod);
+    }
+  }
+
+  ll operator()(int x) const {
+    return fac[x];
+  }
+  ll inv(int x) const {
+    return inv_fac[x];
+  }
+};
+
+/*
  * Symbol Newtona -
  *  Liczba k-elementowych podzbiorów n-elementowego zbioru w O(n + log mod)
  */

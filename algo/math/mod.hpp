@@ -114,7 +114,7 @@ template<ll mod>
 struct Z {
   Z(ll val): val(norm_mod(val, mod)) {}
 
-  operator ll() const {
+  explicit operator ll() const {
     return val;
   }
 

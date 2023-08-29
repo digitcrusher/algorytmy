@@ -2,7 +2,7 @@
 #include "iostream.hpp"
 
 int main() {
-  MinStack<ll, less<ll>> stack;
+  MinStack<ll, less<>> stack;
 
   while(cin) {
     string op;

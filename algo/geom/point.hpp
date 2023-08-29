@@ -56,10 +56,13 @@ struct Point {
     return x * x + y * y;
   }
   ld mag() const {
-    return hypotl(y, x);
+    return hypotl(x, y);
   }
   ld angle() const {
     return atan2l(y, x);
+  }
+  A gcd() const {
+    return ::gcd(x, y);
   }
 
   bool is_colinear_with(Point other) const;

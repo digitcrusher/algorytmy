@@ -83,7 +83,7 @@ struct FenwickTree2D {
     } else if(y1 != 0) {
       return sub(get(0, 0, x2, y2), get(0, 0, x2, y1 - 1));
     } else {
-      auto result = sums[y2][x2];
+      Value result = sums[y2][x2];
       for(int x = sum_l(x2) - 1; x >= 0; x = sum_l(x) - 1) {
         result = add(sums[y2][x], result);
       }

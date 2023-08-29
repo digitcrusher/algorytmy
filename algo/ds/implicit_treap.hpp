@@ -20,6 +20,12 @@
  *   miejscu (split), złączenia dwóch tablic (merge), odwrócenia kolejności
  *   elementów (reverse) i obliczenia sumy przedziału elementów (get)
  *   w O(log n) po wstępnym przetwarzaniu w O(n log n).
+ *
+ * Sum: (Value, Value) -> Value
+ *   Łączy dwa sąsiednie przedziały elementów. Jeśli operacja reverse jest
+ *   wykorzystywana, kolejność argumentów jest dowolna i Sum musi byc
+ *   przemienne, czyli Sum(a, b) = Sum(b, a). Sum zawsze musi być łączne, czyli
+ *   Sum(Sum(a, b), c) = Sum(a, Sum(b, c)).
  */
 template<class Value, class Sum>
 struct ImplicitTreap {
@@ -200,14 +206,14 @@ void reverse(ImplicitTreap<A...> *&treap, int l, int r) {
 }
 
 template<class... A>
-ostream& operator<<(ostream &str, ImplicitTreap<A...> *treap) {
+ostream& operator<<(ostream &stream, ImplicitTreap<A...> *treap) {
   treap->hello();
   if(treap->left != nullptr) {
-    str << treap->left << " ";
+    stream << treap->left << " ";
   }
-  str << treap->val;
+  stream << treap->val;
   if(treap->right != nullptr) {
-    str << " " << treap->right;
+    stream << " " << treap->right;
   }
-  return str;
+  return stream;
 }

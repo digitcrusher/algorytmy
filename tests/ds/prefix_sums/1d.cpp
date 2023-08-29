@@ -7,7 +7,7 @@ int main() {
   vector<ll> nums(n);
   cin >> nums;
 
-  PrefixSums<ll, plus<ll>, minus<ll>> prefix_sums(nums);
+  PrefixSums<ll, plus<>, minus<>> prefix_sums(nums);
 
   while(cin) {
     int a, b;

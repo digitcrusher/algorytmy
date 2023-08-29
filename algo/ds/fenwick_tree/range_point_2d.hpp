@@ -51,7 +51,7 @@ struct FenwickTreeRangePoint2D {
   }
 
   Value get(int x, int y) {
-    auto result = values[y][x];
+    Value result = values[y][x];
     for(int j = y; j < h; j |= j + 1) {
       for(int i = x; i < w; i |= i + 1) {
         result = apply_change(result, changes[j][i]);

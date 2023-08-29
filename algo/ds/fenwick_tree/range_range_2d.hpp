@@ -95,7 +95,7 @@ template<
     } else if(y1 != 0) {
       return sub(get(0, 0, x2, y2), get(0, 0, x2, y1 - 1));
     } else {
-      auto result = values.get(0, 0, x2, y2);
+      Value result = values.get(0, 0, x2, y2);
       if(x2 != w - 1) {
         result = apply_change(result, changes_x.get(0, 0, w - 1 - (x2 + 1), y2), x2 + 1);
       }

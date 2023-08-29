@@ -28,7 +28,7 @@ vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
   /*
    * Poniższy BFS może być równie dobrze zastąpiony DFSem.
    *
-   * Po zamianie queue na priority_queue z komparatorem greater<int>,
+   * Po zamianie queue na priority_queue z komparatorem greater<>,
    * ten algorytm zwracałby najmniejsze leksykograficznie sortowanie
    * topologiczne w czasie O(V log V + E).
    */

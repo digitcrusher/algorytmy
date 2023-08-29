@@ -7,7 +7,7 @@ int main() {
   vector nums(h, vector<ll>(w));
   cin >> nums;
 
-  PrefixSums2D<ll, plus<ll>, minus<ll>> prefix_sums(nums);
+  PrefixSums2D<ll, plus<>, minus<>> prefix_sums(nums);
 
   while(cin) {
     int x1, y1, x2, y2;

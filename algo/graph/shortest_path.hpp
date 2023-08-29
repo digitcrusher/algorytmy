@@ -96,7 +96,7 @@ SingleSource sssp_dijkstra(vector<vector<pair<int, ll>>> const& adj, int src) {
   vector<int> prev(n, -1);
 
   using QueueElem = pair<ll, int>;
-  priority_queue<QueueElem, vector<QueueElem>, greater<QueueElem>> q;
+  priority_queue<QueueElem, vector<QueueElem>, greater<>> q;
 
   dist[src] = 0;
   q.push({0, src});

@@ -27,7 +27,7 @@ int main() {
       return val + change * elemc;
     }
   };
-  FenwickTreeRangeRange<ll, plus<ll>, minus<ll>, ll, ApplyChange, plus<ll>, negate<ll>> tree(init, 0);
+  FenwickTreeRangeRange<ll, plus<>, minus<>, ll, ApplyChange, plus<>, negate<>> tree(init, 0);
 
   while(cin) {
     string op;
