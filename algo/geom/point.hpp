@@ -11,6 +11,7 @@
 #include "common.hpp"
 #include <cmath>
 #include <iostream>
+#include <numeric>
 
 template<class A>
 struct Point {

@@ -8,6 +8,12 @@
  * as-is, without any warranty.
  */
 
+// This is what you want
+#pragma GCC target "arch=ivybridge", "tune=ivybridge", "inline-all-stringops"
+#pragma GCC optimize "Ofast", "inline", "unroll-loops", "ipa-pta", "no-rtti", \
+  "no-exceptions", "nothrow-opt", "strict-enums", "stdarg-opt", "tracer", \
+  "reg-struct-return"
+
 /*
  * This is a collection of GCC pragmas that may be useful for squeezing more
  * out of your code/compiler in competitive programming especially Codeforces.

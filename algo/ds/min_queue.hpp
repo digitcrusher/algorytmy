@@ -36,7 +36,7 @@ struct LazyMinQueue {
     while(!q.empty() && !cmp(q.back().first, elem)) {
       q.pop_back();
     }
-    q.push_back({elem, pushc});
+    q.emplace_back(elem, pushc);
     pushc++;
   }
   void pop() {

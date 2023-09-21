@@ -119,7 +119,7 @@ MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
 
       if(cost_in_q != cost[node]) continue;
       if(node != root) {
-        mst.edges.push_back({prev[node], node, cost[node]});
+        mst.edges.emplace_back(prev[node], node, cost[node]);
         mst.cost += cost[node];
       }
       cost[node] = LLONG_MIN;

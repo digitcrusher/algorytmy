@@ -19,7 +19,7 @@ int main() {
         ll cost;
         cin >> a >> b >> cost;
         a--, b--;
-        adj[a].push_back({b, cost});
+        adj[a].emplace_back(b, cost);
       }
 
     } else if(op.substr(0, 5) == "sssp_") {
@@ -33,7 +33,7 @@ int main() {
         vector<vector<pair<int, ll>>> rev_adj(adj.size());
         for(int a = 0; a < n; a++) {
           for(auto [b, cost]: adj[a]) {
-            rev_adj[b].push_back({a, cost});
+            rev_adj[b].emplace_back(a, cost);
           }
         }
         result = sssp_dag_dfs(rev_adj, src);

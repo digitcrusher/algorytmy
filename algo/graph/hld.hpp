@@ -89,14 +89,14 @@ struct HLD {
     while(true) {
       auto l = entry[heavy[a] == heavy[lca] ? lca : heavy[a]];
       auto r = entry[a];
-      result.push_back({l, r});
+      result.emplace_back(l, r);
       if(heavy[a] == heavy[lca]) break;
       a = parent[heavy[a]];
     }
     while(b != lca) {
       auto l = heavy[b] == heavy[lca] ? entry[lca] + 1 : entry[heavy[b]];
       auto r = entry[b];
-      result.push_back({l, r});
+      result.emplace_back(l, r);
       if(heavy[b] == heavy[lca]) break;
       b = parent[heavy[b]];
     }

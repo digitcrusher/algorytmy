@@ -71,7 +71,7 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
         beyondc = min(beyondc, my_furtherc);
       }
 
-      nexts.push_back({furtherc, beyondc, nx, ny});
+      nexts.emplace_back(furtherc, beyondc, nx, ny);
     }
     sort(nexts.begin(), nexts.end(), [](Next const& a, Next const& b) {
       return a.furtherc != b.furtherc ? a.furtherc < b.furtherc : a.beyondc < b.beyondc;

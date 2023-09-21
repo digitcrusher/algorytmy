@@ -12,7 +12,7 @@ int main() {
       ll cost;
       cin >> a >> b >> cap >> cost;
       a--, b--;
-      adj[a].push_back({b, cap, cost});
+      adj[a].emplace_back(b, cap, cost);
     }
 
     auto result = min_cost_flow(adj, src, sink, desired_flow);

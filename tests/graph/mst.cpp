@@ -11,10 +11,10 @@ int main() {
     for(auto &[a, b, cost]: edges) {
       cin >> a >> b >> cost;
       a--, b--;
-      incident[a].push_back({a, b, cost});
-      incident[b].push_back({a, b, cost});
-      adj[a].push_back({b, cost});
-      adj[b].push_back({a, cost});
+      incident[a].emplace_back(a, b, cost);
+      incident[b].emplace_back(a, b, cost);
+      adj[a].emplace_back(b, cost);
+      adj[b].emplace_back(a, cost);
     }
 
     auto kruskal = mst_kruskal(n, edges);

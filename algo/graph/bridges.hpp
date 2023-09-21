@@ -58,7 +58,7 @@ pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
         low[node] = min(low[node], low[child]);
 
         if(entry[node] < low[child]) {
-          bridges.push_back({node, child});
+          bridges.emplace_back(node, child);
         }
         if(parent == -1) {
           is_cut |= !is_first_child;

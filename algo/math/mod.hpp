@@ -11,6 +11,7 @@
 #include "common.hpp"
 #include "math/ext_euclid.hpp"
 #include <climits>
+#include <iostream>
 #include <optional>
 
 /*
@@ -84,18 +85,6 @@ ll mod_pow(ll a, ll b, ll mod) {
 }
 
 /*
- * Odwrotność modularna w O(log x) - x * mod_inv(x, mod) % mod = 1
- */
-optional<ll> mod_inv(ll x, ll mod) {
-  assert(mod > 0);
-  auto gcd = ext_euclid(x, mod);
-  if(gcd.gcd != 1) {
-    return nullopt;
-  }
-  return norm_mod(gcd.x, mod);
-}
-
-/*
  * Odwrotność modularna dla dzielników będących
  * liczbami pierwszymi w O(log prime_mod)
  */
@@ -108,10 +97,29 @@ optional<ll> mod_inv_prime(ll x, ll prime_mod) {
 }
 
 /*
+ * Odwrotność modularna w O(log x) - x * mod_inv(x, mod) % mod = 1
+ */
+#ifdef ext_euclid
+optional<ll> mod_inv(ll x, ll mod) {
+  assert(mod > 0);
+  auto gcd = ext_euclid(x, mod);
+  if(gcd.gcd != 1) {
+    return nullopt;
+  }
+  return norm_mod(gcd.x, mod);
+}
+#else
+optional<ll> mod_inv(ll x, ll mod) {
+  assert(false);
+}
+#endif
+
+/*
  * Struktura ułatwiająca pracę z arytmetyką modularną
  */
-template<ll mod>
+template<ll mod, bool is_mod_prime = false>
 struct Z {
+  Z() {}
   Z(ll val): val(norm_mod(val, mod)) {}
 
   explicit operator ll() const {
@@ -149,12 +157,21 @@ struct Z {
     return mod_pow(val, exp, mod);
   }
   Z inv() const {
-    return *mod_inv(val, mod);
-  }
-  Z inv_prime() const {
-    return *mod_inv_prime(val, mod);
+    return is_mod_prime ? *mod_inv_prime(val, mod) : *mod_inv(val, mod);
   }
 
 private:
   ll val;
 };
+
+template<ll a, bool b>
+ostream& operator<<(ostream &stream, Z<a, b> num) {
+  return stream << (ll) num;
+}
+template<ll a, bool b>
+istream& operator>>(istream &stream, Z<a, b> &num) {
+  ll val;
+  stream >> val;
+  num = val;
+  return stream;
+}

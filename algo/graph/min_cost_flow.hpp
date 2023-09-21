@@ -39,7 +39,7 @@ MinCostFlow min_cost_flow(vector<vector<Edge>> adj, int src, int sink, int desir
   for(int a = 0; a < n; a++) {
     for(int i = 0; i < adj[a].size(); i++) {
       auto b = adj[a][i].other;
-      rev_adj[b].push_back({a, i});
+      rev_adj[b].emplace_back(a, i);
     }
   }
 

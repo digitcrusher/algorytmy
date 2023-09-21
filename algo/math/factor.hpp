@@ -30,7 +30,7 @@ vector<pair<int, int>> factor_sieve_1(int x, Sieve const& sieve) {
   while(x > 1) {
     auto prime = sieve.smallest_factor[x];
     if(result.empty() || result.back().first != prime) {
-      result.push_back({prime, 0});
+      result.emplace_back(prime, 0);
     }
     result.back().second++;
     x /= prime;
@@ -51,7 +51,7 @@ vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
   for(auto prime: sieve.primes) {
     if(x == 1 || (ll) prime * prime > x) break;
     if(x % prime == 0) {
-      result.push_back({prime, 0});
+      result.emplace_back(prime, 0);
     }
     while(x % prime == 0) {
       result.back().second++;
@@ -59,7 +59,7 @@ vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
     }
   }
   if(x > 1) {
-    result.push_back({x, 1});
+    result.emplace_back(x, 1);
   }
   return result;
 }
@@ -73,7 +73,7 @@ vector<pair<ll, int>> factor_trial(ll x) {
   vector<pair<ll, int>> result;
   for(int i = 2; (ll) i * i <= x; i++) {
     if(x % i == 0) {
-      result.push_back({i, 0});
+      result.emplace_back(i, 0);
     }
     while(x % i == 0) {
       result.back().second++;
@@ -81,7 +81,7 @@ vector<pair<ll, int>> factor_trial(ll x) {
     }
   }
   if(x > 1) {
-    result.push_back({x, 1});
+    result.emplace_back(x, 1);
   }
   return result;
 }

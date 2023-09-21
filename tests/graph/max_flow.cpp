@@ -12,7 +12,7 @@ int main() {
       ll cap;
       cin >> a >> b >> cap;
       a--, b--;
-      adj[a].push_back({b, cap});
+      adj[a].emplace_back(b, cap);
     }
 
     auto result = max_flow(adj, src, sink);
