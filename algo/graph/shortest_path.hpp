@@ -99,7 +99,7 @@ SingleSource sssp_dijkstra(vector<vector<pair<int, ll>>> const& adj, int src) {
   priority_queue<QueueElem, vector<QueueElem>, greater<>> q;
 
   dist[src] = 0;
-  q.push({0, src});
+  q.emplace(0, src);
 
   while(!q.empty()) {
     auto [dist_in_q, node] = q.top();
@@ -111,7 +111,7 @@ SingleSource sssp_dijkstra(vector<vector<pair<int, ll>>> const& adj, int src) {
       if(dist[neighbor] > dist[node] + cost) {
         dist[neighbor] = dist[node] + cost;
         prev[neighbor] = node;
-        q.push({dist[neighbor], neighbor});
+        q.emplace(dist[neighbor], neighbor);
       }
     }
   }

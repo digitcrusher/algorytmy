@@ -111,7 +111,7 @@ MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
     priority_queue<QueueElem, vector<QueueElem>, greater<>> q;
 
     cost[root] = 0;
-    q.push({0, root});
+    q.emplace(0, root);
 
     while(!q.empty()) {
       auto [cost_in_q, node] = q.top();
@@ -128,7 +128,7 @@ MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
         if(cost[neighbor] > edge_cost) {
           cost[neighbor] = edge_cost;
           prev[neighbor] = node;
-          q.push({cost[neighbor], neighbor});
+          q.emplace(cost[neighbor], neighbor);
         }
       }
     }

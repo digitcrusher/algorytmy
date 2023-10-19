@@ -82,6 +82,7 @@
   - [x] GNU C++ PBDS
   - [x] implicit treap
   - [x] drzewo Li Chao
+  - [x] sumy pierwiastkowe
   - [ ] big int
   - [ ] ułamek
   - [ ] treap

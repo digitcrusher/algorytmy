@@ -11,6 +11,7 @@
 #include "common.hpp"
 #include "ds/dsu/standard.hpp"
 #include "hash.hpp"
+#include "math/int.hpp"
 #include <cstdlib>
 #include <unordered_set>
 #include <vector>
@@ -25,10 +26,10 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
 {
   assert(!is_acyclic || !has_self_loops);
   assert(!is_acyclic || is_directed || edgec <= nodec - 1);
-  assert(!is_acyclic || !is_directed || (edgec * 2 + nodec - 1) / nodec <= nodec - 1);
+  assert(!is_acyclic || !is_directed || ceil_div(edgec * 2, nodec) <= nodec - 1);
   assert(!is_connected || edgec >= nodec - 1);
-  assert(has_multi_edges || is_directed || (edgec * 2 + nodec - 1) / nodec <= nodec - 1);
-  assert(has_multi_edges || !is_directed || (edgec + nodec - 1) / nodec <= nodec - 1);
+  assert(has_multi_edges || is_directed || ceil_div(edgec * 2, nodec) <= nodec - 1);
+  assert(has_multi_edges || !is_directed || ceil_div(edgec, nodec) <= nodec - 1);
 
   vector<vector<int>> adj(nodec);
 

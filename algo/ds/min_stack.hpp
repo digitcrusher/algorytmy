@@ -34,7 +34,7 @@ struct MinStack {
     return s.top().second;
   }
   void push(Value elem) {
-    s.push({elem, s.empty() || cmp(elem, s.top().second) ? elem : s.top().second});
+    s.emplace(elem, s.empty() || cmp(elem, s.top().second) ? elem : s.top().second);
   }
   void pop() {
     s.pop();

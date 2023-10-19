@@ -35,7 +35,7 @@ struct UndoableDSU {
   bool merge(int a, int b) {
     a = find(a), b = find(b);
     if(a == b) {
-      merges.push({-1, -1});
+      merges.emplace(-1, -1);
       return false;
     }
     setc--;
@@ -44,7 +44,7 @@ struct UndoableDSU {
     }
     parent[b] = a;
     size[a] += size[b];
-    merges.push({a, b});
+    merges.emplace(a, b);
     return true;
   }
 
