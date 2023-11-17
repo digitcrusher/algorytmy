@@ -6,8 +6,8 @@ int main() {
     int n, m;
     cin >> n >> m;
     vector<vector<int>> adj(n);
-    vector<int> in_deg(n, 0);
-    for(int i = 0; i < m; i++) {
+    vector in_deg(n, 0);
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;
@@ -16,15 +16,9 @@ int main() {
     }
 
     auto kahn = toposort_kahn(adj, in_deg);
-    for(auto i: kahn) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
+    cout << (kahn | v::transform(λ(_ + 1))) << endl;
 
     auto dfs = toposort_dfs(adj);
-    for(auto i: dfs) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
+    cout << (dfs | v::transform(λ(_ + 1))) << endl;
   }
 }

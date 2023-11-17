@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <cmath>
-#include <functional>
 #include <stdexcept>
 
 /*
@@ -42,18 +41,18 @@ struct ExtEuclid {
   }
 };
 ExtEuclid ext_euclid(ll a, ll b) {
-  function<ExtEuclid(ll, ll)> internal = [&](ll a, ll b) -> ExtEuclid {
+  auto internal = Y([&](auto &self, ll a, ll b) -> ExtEuclid {
     if(b == 0) {
       return {a, 1, 0, a, b};
     }
-    auto sub = internal(b, a % b);
+    auto sub = self(b, a % b);
     return {
       sub.gcd,
       sub.y,
       sub.x - a / b * sub.y,
       a, b
     };
-  };
+  });
   auto result = internal(abs(a), abs(b));
   if(a < 0) {
     result.x = -result.x;

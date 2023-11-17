@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <queue>
 #include <stdexcept>
 #include <vector>
@@ -33,10 +32,8 @@ vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
    * topologiczne w czasie O(V log V + E).
    */
   queue<int> q;
-  for(int root = 0; root < n; root++) {
-    if(in_deg[root] == 0) {
-      q.push(root);
-    }
+  for(auto root: v::iota(0, n) | v::filter(λ(in_deg[_] == 0))) {
+    q.push(root);
   }
   while(!q.empty()) {
     auto node = q.front();
@@ -66,10 +63,10 @@ vector<int> toposort_dfs(vector<vector<int>> const& adj) {
   int const n = adj.size();
 
   vector<int> result(n);
-  int next_idx = n - 1;
+  auto next_idx = n - 1;
 
-  vector<int> is_vis(n, 0);
-  function<void(int)> dfs = [&](int node) {
+  vector is_vis(n, 0);
+  auto dfs = Y([&](auto &self, int node) -> void {
     if(is_vis[node] == 2) return;
     if(is_vis[node] == 1) {
       throw std::runtime_error("Graf nie jest acykliczny.");
@@ -77,14 +74,14 @@ vector<int> toposort_dfs(vector<vector<int>> const& adj) {
     is_vis[node] = 1;
 
     for(auto child: adj[node]) {
-      dfs(child);
+      self(child);
     }
     result[next_idx] = node;
     next_idx--;
 
     is_vis[node] = 2;
-  };
-  for(int root = 0; root < n; root++) {
+  });
+  for(auto root: v::iota(0, n)) {
     dfs(root);
   }
 

@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <vector>
 
 /*
@@ -30,37 +29,35 @@ SCCs scc_kosaraju(vector<vector<int>> const& adj,
   vector<int> post_order;
   post_order.reserve(n);
 
-  function<void(int)> dfs1 = [&](int node) {
+  auto dfs1 = Y([&](auto &self, int node) -> void {
     if(is_vis[node]) return;
     is_vis[node] = true;
 
     for(auto child: adj[node]) {
-      dfs1(child);
+      self(child);
     }
     post_order.push_back(node);
-  };
-  for(int node = 0; node < n; node++) {
+  });
+  for(auto node: v::iota(0, n)) {
     dfs1(node);
   }
 
-  int scc_cnt = 0;
-  vector<int> node_scc(n, -1);
+  auto scc_cnt = 0;
+  vector node_scc(n, -1);
   vector<vector<int>> scc_adj;
   scc_adj.reserve(n);
 
-  function<void(int)> dfs2 = [&](int node) {
+  auto dfs2 = Y([&](auto &self, int node) -> void {
     for(auto parent: rev_adj[node]) {
       if(node_scc[parent] == -1) {
         node_scc[parent] = node_scc[node];
-        dfs2(parent);
+        self(parent);
       } else if(node_scc[parent] != node_scc[node]) {
         scc_adj[node_scc[parent]].push_back(node_scc[node]);
       }
     }
-  };
-  for(int i = n - 1; i >= 0; i--) {
-    auto node = post_order[i];
-    if(node_scc[node] != -1) continue;
+  });
+  for(auto node: post_order | v::reverse | v::filter(λ(node_scc[_] == -1))) {
     node_scc[node] = scc_cnt;
     scc_cnt++;
     scc_adj.emplace_back();

@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <functional>
 #include <vector>
 
 /*
@@ -56,7 +55,7 @@ struct LiChao {
   }
 
   void insert(LinFunc func) {
-    function<void(int, int, int)> descend = [&](int num, int node_l, int node_r) {
+    auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> void {
       auto x1 = min_x + node_l, x2 = min_x + node_r;
       // > daje maksimum, < - minimum
       auto a = func(x1) > nodes[num - 1](x1),
@@ -65,10 +64,10 @@ struct LiChao {
         nodes[num - 1] = func;
       } else if(a || b) {
         auto mid = (node_l + node_r) / 2;
-        descend(2 * num, node_l, mid);
-        descend(2 * num + 1, mid + 1, node_r);
+        self(2 * num, node_l, mid);
+        self(2 * num + 1, mid + 1, node_r);
       }
-    };
+    });
     descend(1, 0, base_nodec - 1);
   }
 };

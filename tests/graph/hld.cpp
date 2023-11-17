@@ -7,7 +7,7 @@ int main() {
   cin >> n >> root;
   root--;
   vector<vector<int>> adj(n);
-  for(int i = 0; i < n - 1; i++) {
+  for(auto i: v::iota(0, n - 1)) {
     int a, b;
     cin >> a >> b;
     a--, b--;
@@ -18,7 +18,7 @@ int main() {
   HLD hld(adj, root);
 
   vector<ll> init(n);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     cin >> init[hld.node(i)];
   }
 

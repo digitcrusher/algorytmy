@@ -19,13 +19,13 @@
 int min_rot(string str) {
   int const n = str.size();
 
-  int result = 0;
+  auto result = 0;
 
   str += str;
   vector<int> kmp(2 * n);
   kmp[0] = kmp[1] = 0;
-  int matchedc = 0;
-  for(int i = 1; i - matchedc < n && matchedc + 1 < n; i++) {
+  auto matchedc = 0;
+  for(auto i: v::iota(1) | v::take_while(λ(_ - matchedc < n && matchedc + 1 < n))) {
     while(matchedc > 0 && str[i] != str[result + matchedc]) {
       if(str[i] < str[result + matchedc]) {
         result = i - matchedc;

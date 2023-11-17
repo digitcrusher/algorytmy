@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <functional>
 #include <vector>
 
 /*
@@ -48,8 +47,8 @@ struct SegmentTreePointRange2D {
     y_base_offset = (1u << (y_height - 1)) - 1;
     nodes.resize(y_nodec, vector(x_nodec, zero));
 
-    for(int y = 0; y < h; y++) {
-      for(int x = 0; x < w; x++) {
+    for(auto y: v::iota(0, h)) {
+      for(auto x: v::iota(0, w)) {
         nodes[y_base_offset + y][x_base_offset + x] = elems[y][x];
       }
     }
@@ -101,12 +100,12 @@ struct SegmentTreePointRange2D {
     x += x_base_offset + 1;
     y += y_base_offset + 1;
     nodes[y - 1][x - 1] = val;
-    for(int i = x / 2; i >= 1; i /= 2) {
+    for(auto i = x / 2; i >= 1; i /= 2) {
       nodes[y - 1][i - 1] = sum(nodes[y - 1][2 * i - 1], nodes[y - 1][2 * i]);
     }
     y /= 2;
     while(y >= 1) {
-      for(int i = x; i >= 1; i /= 2) {
+      for(auto i = x; i >= 1; i /= 2) {
         nodes[y - 1][i - 1] = sum(nodes[2 * y - 1][i - 1], nodes[2 * y][i - 1]);
       }
       y /= 2;
@@ -118,17 +117,17 @@ struct SegmentTreePointRange2D {
       resum(2 * y_num);
       resum(2 * y_num + 1);
     }
-    function<void(int)> resum_x = [&](int x_num) {
+    auto resum_x = Y([&](auto &self, int x_num) -> void {
       if(x_num - 1 < x_base_offset) {
-        resum_x(2 * x_num);
-        resum_x(2 * x_num + 1);
+        self(2 * x_num);
+        self(2 * x_num + 1);
       }
       if(y_num - 1 < y_base_offset) {
         nodes[y_num - 1][x_num - 1] = sum(nodes[2 * y_num - 1][x_num - 1], nodes[2 * y_num][x_num - 1]);
       } else if(x_num - 1 < x_base_offset) {
         nodes[y_num - 1][x_num - 1] = sum(nodes[y_num - 1][2 * x_num - 1], nodes[y_num - 1][2 * x_num]);
       }
-    };
+    });
     resum_x(1);
   }
 };

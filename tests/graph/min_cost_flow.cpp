@@ -7,7 +7,7 @@ int main() {
     cin >> n >> m >> src >> sink >> desired_flow;
     src--, sink--;
     vector<vector<Edge>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b, cap;
       ll cost;
       cin >> a >> b >> cap >> cost;

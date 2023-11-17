@@ -28,16 +28,15 @@ Sieve sieve_euler(int lim) {
 
   vector is_prime(lim + 1, false);
   vector<int> primes;
-  vector<int> smallest_factor(lim + 1, -1);
+  vector smallest_factor(lim + 1, -1);
 
-  for(int i = 2; i <= lim; i++) {
+  for(auto i: v::iota(2, lim + 1)) {
     if(smallest_factor[i] == -1) {
       smallest_factor[i] = i;
       primes.push_back(i);
       is_prime[i] = true;
     }
-    for(auto prime: primes) {
-      if(prime > smallest_factor[i] || prime * i > lim) break;
+    for(auto prime: primes | v::take_while(λ(_ <= smallest_factor[i] && _ * i <= lim))) {
       smallest_factor[prime * i] = prime;
     }
   }
@@ -56,18 +55,18 @@ Sieve sieve_eratosthenes(int lim) {
   vector is_prime(lim + 1, true);
   is_prime[0] = is_prime[1] = false;
   vector<int> primes;
-  vector<int> smallest_factor(lim + 1, -1);
+  vector smallest_factor(lim + 1, -1);
 
   /*
    * Jeśli potrzebujemy tylko is_prime, to możemy pozbyć się
    * is_under_lim i zastąpić warunek poniższej pętli takim: i * i <= lim
    */
   auto is_under_lim = true;
-  for(int i = 2; i <= lim; i += 2) {
+  for(auto i = 2; i <= lim; i += 2) {
     is_under_lim &= i * i <= lim;
     if(is_prime[i]) {
       if(is_under_lim) {
-        for(int j = i * i; j <= lim; j += i) {
+        for(auto j = i * i; j <= lim; j += i) {
           is_prime[j] = false;
           if(smallest_factor[j] == -1) {
             smallest_factor[j] = i;

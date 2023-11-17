@@ -15,7 +15,7 @@ int main() {
       adj.resize(n);
       rev_adj.clear();
       rev_adj.resize(n);
-      for(int i = 0; i < m; i++) {
+      for(auto i: v::iota(0, m)) {
         int a, b;
         cin >> a >> b;
         a--, b--;
@@ -28,7 +28,7 @@ int main() {
       cin >> n;
       adj.clear();
       adj.resize(n);
-      for(int i = 0; i < n - 1; i++) {
+      for(auto i: v::iota(0, n - 1)) {
         int a, b;
         cin >> a >> b;
         a--, b--;
@@ -50,10 +50,7 @@ int main() {
 
       auto result = longest_path_dag(adj, from, to);
       if(result) {
-        for(auto i: *result) {
-          cout << i + 1 << " ";
-        }
-        cout << endl;
+        cout << (*result | v::transform(λ(_ + 1))) << endl;
       } else {
         cout << "nullopt" << endl;
       }

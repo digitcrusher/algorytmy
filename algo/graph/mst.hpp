@@ -33,13 +33,10 @@ MST mst_kruskal(int nodec, vector<Edge> edges) {
   mst.edges.reserve(nodec - 1);
   mst.cost = 0;
 
-  sort(edges.begin(), edges.end(), [](Edge a, Edge b) {
-    return a.cost < b.cost;
-  });
+  r::sort(edges, {}, &Edge::cost);
 
   DSU connected(nodec);
-  for(auto edge: edges) {
-    if(connected.setc == 1) break;
+  for(auto edge: edges | v::take_while(λ(connected.setc > 1))) {
     if(connected.merge(edge.a, edge.b)) {
       mst.edges.push_back(edge);
       mst.cost += edge.cost;
@@ -62,12 +59,8 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
   mst.cost = 0;
 
   vector is_vis(n, false);
-  for(int root = 0; root < n; root++) {
-    if(is_vis[root]) continue;
-
-    auto cmp = [](Edge a, Edge b) {
-      return a.cost > b.cost;
-    };
+  for(auto root: v::iota(0, n) | v::filter(λ(!is_vis[_]))) {
+    auto cmp = λ2(_1.cost > _2.cost);
     priority_queue<Edge, vector<Edge>, decltype(cmp)> q(cmp);
 
     is_vis[root] = true;
@@ -104,9 +97,7 @@ MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
 
   vector<ll> cost(n, LLONG_MAX);
   vector<int> prev(n);
-  for(int root = 0; root < n; root++) {
-    if(cost[root] != LLONG_MAX) continue;
-
+  for(auto root: v::iota(0, n) | v::filter(λ(cost[_] == LLONG_MAX))) {
     using QueueElem = pair<ll, int>;
     priority_queue<QueueElem, vector<QueueElem>, greater<>> q;
 

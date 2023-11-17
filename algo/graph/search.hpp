@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <queue>
 #include <vector>
 
@@ -39,8 +38,7 @@ BFS bfs(vector<vector<int>> const& adj, int root) {
     auto node = q.front();
     q.pop();
 
-    for(auto child: adj[node]) {
-      if(is_vis[child]) continue;
+    for(auto child: adj[node] | v::filter(λ(!is_vis[_]))) {
       is_vis[child] = true;
       parent[child] = node;
       dist[child] = dist[node] + 1;
@@ -75,14 +73,13 @@ DFS dfs(vector<vector<int>> const& adj, int root) {
   pre_order.reserve(n);
   post_order.reserve(n);
 
-  function<void(int)> walk = [&](int node) {
+  auto walk = Y([&](auto &self, int node) -> void {
     size[node] = 1;
     exit[node] = entry[node] + 1;
     low[node] = entry[node];
     pre_order.push_back(node);
 
-    for(auto child: adj[node]) {
-      if(child == parent[node]) continue;
+    for(auto child: adj[node] | v::filter(λ(_ != parent[node]))) {
       if(is_vis[child]) {
         low[node] = min(low[node], entry[child]);
       } else {
@@ -91,7 +88,7 @@ DFS dfs(vector<vector<int>> const& adj, int root) {
         depth[child] = depth[node] + 1;
         entry[child] = exit[node];
 
-        walk(child);
+        self(child);
 
         size[node] += size[child];
         exit[node] = exit[child] + 1;
@@ -100,7 +97,7 @@ DFS dfs(vector<vector<int>> const& adj, int root) {
     }
 
     post_order.push_back(node);
-  };
+  });
   is_vis[root] = true;
   parent[root] = -1;
   depth[root] = 0;

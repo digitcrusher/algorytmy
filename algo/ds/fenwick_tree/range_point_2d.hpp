@@ -52,8 +52,8 @@ struct FenwickTreeRangePoint2D {
 
   Value get(int x, int y) {
     Value result = values[y][x];
-    for(int j = y; j < h; j |= j + 1) {
-      for(int i = x; i < w; i |= i + 1) {
+    for(auto j = y; j < h; j |= j + 1) {
+      for(auto i = x; i < w; i |= i + 1) {
         result = apply_change(result, changes[j][i]);
       }
     }
@@ -69,8 +69,8 @@ struct FenwickTreeRangePoint2D {
       modify(x1, 0, x2, y2, change);
       modify(x1, 0, x2, y1 - 1, negate_change(change));
     } else {
-      for(int y = y2; y >= 0; y = sum_l(y) - 1) {
-        for(int x = x2; x >= 0; x = sum_l(x) - 1) {
+      for(auto y = y2; y >= 0; y = sum_l(y) - 1) {
+        for(auto x = x2; x >= 0; x = sum_l(x) - 1) {
           changes[y][x] = merge_change(changes[y][x], change);
         }
       }

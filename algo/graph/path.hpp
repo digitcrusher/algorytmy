@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <climits>
-#include <functional>
 #include <optional>
 #include <vector>
 
@@ -22,18 +21,18 @@
 vector<ll> count_paths_dag(vector<vector<int>> const& rev_adj, int src) {
   int const n = rev_adj.size();
 
-  vector<ll> result(n, -1);
+  vector result(n, -1ll);
   result[src] = 1;
 
-  function<void(int)> dfs = [&](int node) {
+  auto dfs = Y([&](auto &self, int node) -> void {
     if(result[node] != -1) return;
     result[node] = 0;
     for(auto parent: rev_adj[node]) {
-      dfs(parent);
+      self(parent);
       result[node] += result[parent];
     }
-  };
-  for(int root = 0; root < n; root++) {
+  });
+  for(auto root: v::iota(0, n)) {
     dfs(root);
   }
 
@@ -51,17 +50,17 @@ optional<vector<int>> longest_path_dag(vector<vector<int>> const& adj, int from,
   dist[to] = 0;
   next[to] = -1;
 
-  function<void(int)> calc = [&](int node) {
+  auto calc = Y([&](auto &self, int node) -> void {
     if(dist[node] != -1) return;
     dist[node] = INT_MIN;
     for(auto child: adj[node]) {
-      calc(child);
+      self(child);
       if(dist[node] < dist[child] + 1) {
         dist[node] = dist[child] + 1;
         next[node] = child;
       }
     }
-  };
+  });
   calc(from);
 
   if(dist[from] < 0) {
@@ -87,20 +86,19 @@ struct MaxDistTree {
 MaxDistTree max_dist_tree(vector<vector<int>> const& adj) {
   int const n = adj.size();
 
-  vector<int> max_dist(n, 0);
+  vector max_dist(n, 0);
 
-  function<int(int, int, int)> dfs = [&](int node, int parent, int dist) {
+  auto dfs = Y([&](auto &self, int node, int parent, int dist) -> int {
     max_dist[node] = max(max_dist[node], dist);
     auto farthest = node;
-    for(auto child: adj[node]) {
-      if(child == parent) continue;
-      auto sub = dfs(child, node, dist + 1);
+    for(auto child: adj[node] | v::filter(λ(_ != parent))) {
+      auto sub = self(child, node, dist + 1);
       if(max_dist[sub] >= max_dist[farthest]) {
         farthest = sub;
       }
     }
     return farthest;
-  };
+  });
 
   auto a = dfs(0, -1, 0);
   auto b = dfs(a, -1, 0);

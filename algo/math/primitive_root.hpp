@@ -12,6 +12,7 @@
 #include "math/eulers_phi.hpp"
 #include "math/factor.hpp"
 #include "math/mod.hpp"
+#include <algorithm>
 #include <optional>
 
 /*
@@ -39,24 +40,8 @@ optional<ll> primitive_root(ll mod) {
 
   auto totient = eulers_phi(mod, mod_factors);
   auto totient_factors = factor_pollard_rho(totient);
-  for(ll root = 2; root < mod; root++) {
-    auto is_good = true;
-    for(auto [prime, _]: mod_factors) {
-      if(root % prime == 0) {
-        is_good = false;
-        break;
-      }
-    }
-    if(!is_good) continue;
-    for(auto [prime, _]: totient_factors) {
-      if(mod_pow(root, totient / prime, mod) == 1) {
-        is_good = false;
-        break;
-      }
-    }
-    if(is_good) {
-      return root;
-    }
-  }
-  assert(false);
+  return *r::find_if(v::iota(2ll, mod), [&](ll root) {
+    return r::none_of(mod_factors, λ(root % _.first == 0)) &&
+           r::none_of(totient_factors, λ(mod_pow(root, totient / _.first, mod) == 1));
+  });
 }

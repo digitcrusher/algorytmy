@@ -27,7 +27,7 @@ void fft(vector<cld> &poly, bool should_invert = false) {
   assert(popcount((uint) n) == 1);
 
   vector<cld> a(n / 2), b(n / 2);
-  for(int i = 0; i < n / 2; i++) {
+  for(auto i: v::iota(0, n / 2)) {
     a[i] = poly[2 * i];
     b[i] = poly[2 * i + 1];
   }
@@ -36,7 +36,7 @@ void fft(vector<cld> &poly, bool should_invert = false) {
 
   cld omega(cos(2 * numbers::pi / n), sin(2 * numbers::pi / n) * (should_invert ? -1 : 1));
   cld x = 1;
-  for(int i = 0; i < n / 2; i++) {
+  for(auto i: v::iota(0, n / 2)) {
     poly[i] = a[i] + x * b[i];
     poly[i + n / 2] = a[i] - x * b[i];
     if(should_invert) {
@@ -58,7 +58,7 @@ void mul(vector<cld> &a, vector<cld> b) {
 
   fft(a);
   fft(b);
-  for(int i = 0; i < m; i++) {
+  for(auto i: v::iota(0, m)) {
     a[i] *= b[i];
   }
   fft(a, true);

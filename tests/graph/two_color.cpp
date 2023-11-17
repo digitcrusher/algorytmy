@@ -6,7 +6,7 @@ int main() {
     int n, m;
     cin >> n >> m;
     vector<vector<int>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;

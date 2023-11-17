@@ -15,27 +15,18 @@ int main() {
 
     auto lift = binary_lift(parent);
     cout << "normal:" << endl;
-    for(auto i: lift) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
+    cout << (lift | v::transform(λ(_ + 1))) << endl;
 
     auto worse_lift = worse_binary_lift(parent);
     cout << "worse:" << endl;
-    for(auto &a: worse_lift) {
-      for(auto b: a) {
-        cout << b + 1 << " ";
-      }
-      cout << endl;
+    for(auto &i: worse_lift) {
+      cout << (i | v::transform(λ(_ + 1))) << endl;
     }
 
     worse_lift = worse_binary_lift_light(parent);
     cout << "worse light:" << endl;
-    for(auto &a: worse_lift) {
-      for(auto b: a) {
-        cout << b + 1 << " ";
-      }
-      cout << endl;
+    for(auto &i: worse_lift) {
+      cout << (i | v::transform(λ(_ + 1))) << endl;
     }
   }
 }

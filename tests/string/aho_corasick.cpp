@@ -23,10 +23,7 @@ int main() {
       cin >> s;
 
       auto result = dict.find_in(s);
-      for(auto i: result) {
-        cout << (i == -1 ? -1 : i + 1) << " ";
-      }
-      cout << endl;
+      cout << (result | v::transform(λ(_ == -1 ? -1 : _ + 1))) << endl;
 
     } else if(op == "count_in") {
       string s;

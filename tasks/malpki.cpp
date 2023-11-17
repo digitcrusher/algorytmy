@@ -11,7 +11,6 @@
  */
 #include "common.hpp"
 #include <climits>
-#include <functional>
 #include <iostream>
 #include <numeric>
 #include <set>
@@ -26,7 +25,7 @@ int main() {
 
   vector<pair<int, int>> malpka_paws(n);
   multiset<pair<int, int>> grips_set;
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     auto &[l, r] = malpka_paws[i];
     cin >> l >> r;
     if(l != -1) {
@@ -40,7 +39,7 @@ int main() {
   }
 
   vector<pair<int, int>> let_gos(m);
-  for(int i = 0; i < m; i++) {
+  for(auto i: v::iota(0, m)) {
     auto &[a, b] = let_gos[i];
     cin >> a >> b;
     a--;
@@ -53,23 +52,23 @@ int main() {
   }
 
   int const never = INT_MAX;
-  vector<int> fall_times(n, -1);
+  vector fall_times(n, -1);
   fall_times[0] = never;
 
   vector<int> dsu(n);
   iota(dsu.begin(), dsu.end(), 0);
-  function<int(int)> find = [&](int malpka) {
+  auto find = Y([&](auto &self, int malpka) -> int {
     if(dsu[malpka] == malpka) {
       return malpka;
     } else {
-      auto repr = find(dsu[malpka]);
+      auto repr = self(dsu[malpka]);
       if(fall_times[malpka] == -1) {
         fall_times[malpka] = fall_times[dsu[malpka]];
       }
       dsu[malpka] = repr;
       return repr;
     }
-  };
+  });
 
   for(auto grip: grips_set) {
     auto a = find(grip.first), b = find(grip.second);
@@ -79,7 +78,7 @@ int main() {
     }
     dsu[a] = b;
   }
-  for(int i = m - 1; i >= 0; i--) {
+  for(auto i: v::iota(0, m) | v::reverse) {
     auto a = find(let_gos[i].first), b = find(let_gos[i].second);
     if(a == b) continue;
     if(fall_times[a] > fall_times[b]) {
@@ -91,7 +90,7 @@ int main() {
     dsu[a] = b;
   }
 
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     find(i);
     if(fall_times[i] == never) {
       cout << "-1\n";

@@ -40,10 +40,7 @@ int main() {
       cin >> node;
       node--;
 
-      for(auto i: dsu.sets[dsu.find(node)]) {
-        cout << i + 1 << " ";
-      }
-      cout << endl;
+      cout << (dsu.sets[dsu.find(node)] | v::transform(λ(_ + 1))) << endl;
     }
   }
 }

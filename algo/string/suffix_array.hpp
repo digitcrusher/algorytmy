@@ -24,20 +24,21 @@ vector<int> suffix_array(string const& str) {
 
   vector<int> result(n);
 
-  int uniquec = 128;
+  auto uniquec = 128;
   vector<int> order(n), cnt(uniquec, 0);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     order[i] = str[i];
     cnt[order[i]]++;
   }
   partial_sum(cnt.begin(), cnt.end(), cnt.begin());
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     result[--cnt[order[i]]] = i;
   }
 
   vector<int> temp(n);
-  for(int size = 1; size < n; size *= 2) {
-    for(int i = 0, a = n, b = n - size; i < n; i++) {
+  for(auto size = 1; size < n; size *= 2) {
+    auto a = n, b = n - size;
+    for(auto i: v::iota(0, n)) {
       if(result[i] - size < 0) {
         a--;
         temp[a] = result[i] - size + n;
@@ -80,11 +81,11 @@ vector<int> lcp(string const& str, vector<int> const& suffix_array) {
   vector<int> result(n - 1);
 
   vector<int> order(n);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     order[suffix_array[i]] = i;
   }
-  int curr = 0;
-  for(int i = 0; i < n; i++) {
+  auto curr = 0;
+  for(auto i: v::iota(0, n)) {
     if(order[i] == n - 1) {
       curr = 0;
       continue;
@@ -113,20 +114,18 @@ vector<int> suffix_array_slower(string const& str) {
   iota(result.begin(), result.end(), 0);
 
   vector<int> order(n + 1);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     order[i] = str[i];
   }
   order[n] = -1;
   vector<pair<int, int>> keys(n);
-  for(int size = 1; size < n; size *= 2) {
-    for(int i = 0; i < n; i++) {
+  for(auto size = 1; size < n; size *= 2) {
+    for(auto i: v::iota(0, n)) {
       keys[i] = {order[i], order[min(i + size, n)]};
     }
-    sort(result.begin(), result.end(), [&](int a, int b) {
-      return keys[a] < keys[b];
-    });
+    r::sort(result, {}, λ(keys[_]));
     order[result[0]] = 0;
-    for(int i = 1; i < n; i++) {
+    for(auto i: v::iota(1, n)) {
       order[result[i]] = keys[result[i - 1]] == keys[result[i]] ? order[result[i - 1]] : i;
     }
   }
@@ -147,9 +146,9 @@ vector<int> suffix_array_hash(string const& str, AlphaToNum alpha_to_num = Alpha
   iota(result.begin(), result.end(), 0);
 
   PrefixHashes<alpha_size, AlphaToNum> hash(str, 4611686018427387847, alpha_to_num);
-  sort(result.begin(), result.end(), [&](int a, int b) {
-    int max_common_prefix = min(n - a, n - b);
-    int left = 0, right = max_common_prefix;
+  r::sort(result, [&](int a, int b) {
+    auto max_common_prefix = min(n - a, n - b);
+    auto left = 0, right = max_common_prefix;
     while(left < right) {
       auto mid = left + (right - left + 1) / 2;
       if(hash.get(a, a + mid - 1) == hash.get(b, b + mid - 1)) {

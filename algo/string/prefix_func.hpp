@@ -22,7 +22,7 @@ vector<int> prefix_func(string const& str) {
 
   vector<int> result(n + 1);
   result[0] = result[1] = 0;
-  for(int i = 2; i <= n; i++) {
+  for(auto i: v::iota(2, n + 1)) {
     result[i] = result[i - 1];
     while(result[i] > 0 && str[i - 1] != str[result[i]]) {
       result[i] = result[result[i]];

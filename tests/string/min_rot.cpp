@@ -8,7 +8,7 @@ int main() {
     cin >> s;
 
     auto result = min_rot(s);
-    rotate(s.begin(), s.begin() + result, s.end());
+    r::rotate(s, s.begin() + result);
     cout << result + 1 << endl;
     cout << s << endl;
   }

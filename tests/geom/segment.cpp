@@ -8,9 +8,10 @@ int main() {
     vector<Segment<ll>> segs(n);
     cin >> segs;
 
-    for(int i = 0; i < n; i++) {
-      for(int j = i + 1; j < n; j++) {
-        auto result = segs[i].intersection(segs[j]);
+    for(auto i: v::iota(0, n)) {
+      auto a = segs[i];
+      for(auto b: segs | v::drop(i + 1)) {
+        auto result = a.intersection(b);
         if(result) {
           cout << *result << endl;
         }

@@ -9,8 +9,8 @@
  */
 #pragma once
 #include "common.hpp"
+#include <algorithm>
 #include <cstdlib>
-#include <functional>
 #include <ostream>
 #include <vector>
 
@@ -48,27 +48,22 @@ struct ImplicitTreap {
     int const n = elems.size();
 
     vector<ImplicitTreap*> nodes(n);
-    for(int i = 0; i < n; i++) {
+    for(auto i: v::iota(0, n)) {
       nodes[i] = new ImplicitTreap(elems[i], sum);
     }
 
-    function<ImplicitTreap*(int, int)> build = [&](int l, int r) -> ImplicitTreap* {
+    auto build = Y([&](auto &self, int l, int r) -> ImplicitTreap* {
       if(l > r) {
         return nullptr;
       }
 
-      auto mid = l;
-      for(int i = l; i <= r; i++) {
-        if(nodes[mid]->prio < nodes[i]->prio) {
-          mid = i;
-        }
-      }
+      auto mid = r::max(v::iota(l, r + 1), {}, λ(nodes[_]->prio));
       auto root = nodes[mid];
-      root->left = build(l, mid - 1);
-      root->right = build(mid + 1, r);
+      root->left = self(l, mid - 1);
+      root->right = self(mid + 1, r);
       root->children_changed();
       return root;
-    };
+    });
     return build(0, n - 1);
   }
 

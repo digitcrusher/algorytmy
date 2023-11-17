@@ -26,6 +26,6 @@ Pick pick(Polygon<ll> const& poly, ll doubled_area) {
     on_edgec += gcd(a.x - b.x, a.y - b.y);
     a = b;
   }
-  ll insidec = (doubled_area - on_edgec) / 2 + 1;
+  auto insidec = (doubled_area - on_edgec) / 2 + 1;
   return {insidec, on_edgec};
 }

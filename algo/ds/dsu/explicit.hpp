@@ -23,7 +23,7 @@ struct ExplicitDSU {
   vector<vector<int>> sets;
 
   ExplicitDSU(int cnt): elemc(cnt), setc(cnt), parent(cnt), sets(cnt) {
-    for(int i = 0; i < elemc; i++) {
+    for(auto i: v::iota(0, elemc)) {
       parent[i] = i;
       sets[i].push_back(i);
     }

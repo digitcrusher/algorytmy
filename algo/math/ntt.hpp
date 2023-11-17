@@ -39,7 +39,7 @@ void ntt(vector<ll> &poly, ll mod, bool should_invert = false, ll omega = -1, ll
   }
 
   vector<ll> a(n / 2), b(n / 2);
-  for(int i = 0; i < n / 2; i++) {
+  for(auto i: v::iota(0, n / 2)) {
     a[i] = poly[2 * i];
     b[i] = poly[2 * i + 1];
   }
@@ -47,7 +47,7 @@ void ntt(vector<ll> &poly, ll mod, bool should_invert = false, ll omega = -1, ll
   ntt(b, mod, should_invert, mod_mul(omega, omega, mod), two_inv);
 
   ll x = 1;
-  for(int i = 0; i < n / 2; i++) {
+  for(auto i: v::iota(0, n / 2)) {
     poly[i] = a[i] + mod_mul(x, b[i], mod);
     if(poly[i] >= mod) {
       poly[i] -= mod;
@@ -75,7 +75,7 @@ void mul(vector<ll> &a, vector<ll> b, ll mod) {
 
   ntt(a, mod);
   ntt(b, mod);
-  for(int i = 0; i < m; i++) {
+  for(auto i: v::iota(0, m)) {
     a[i] = mod_mul(a[i], b[i], mod);
   }
   ntt(a, mod, true);

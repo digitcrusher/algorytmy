@@ -14,7 +14,7 @@ int main() {
       cin >> n >> m;
       adj.clear();
       adj.resize(n);
-      for(int i = 0; i < m; i++) {
+      for(auto i: v::iota(0, m)) {
         int a, b;
         ll cost;
         cin >> a >> b >> cost;
@@ -31,7 +31,7 @@ int main() {
 
       if(op == "sssp_dag_dfs") {
         vector<vector<pair<int, ll>>> rev_adj(adj.size());
-        for(int a = 0; a < n; a++) {
+        for(auto a: v::iota(0, n)) {
           for(auto [b, cost]: adj[a]) {
             rev_adj[b].emplace_back(a, cost);
           }
@@ -40,7 +40,7 @@ int main() {
 
       } else if(op == "sssp_dag_toposort") {
         vector<vector<int>> costless_adj(n);
-        for(int a = 0; a < n; a++) {
+        for(auto a: v::iota(0, n)) {
           for(auto [b, _]: adj[a]) {
             costless_adj[a].push_back(b);
           }
@@ -68,10 +68,7 @@ int main() {
         }
       }
       cout << endl;
-      for(auto i: result.prev) {
-        cout << (i == -1 ? -1 : i + 1) << " ";
-      }
-      cout << endl;
+      cout << (result.prev | v::transform(λ(_ == -1 ? -1 : _ + 1))) << endl;
 
     } else if(op == "apsp_floyd_warshall") {
       auto result = apsp_floyd_warshall(adj);
@@ -88,11 +85,8 @@ int main() {
         }
         cout << endl;
       }
-      for(auto &row: result.next) {
-        for(auto cell: row) {
-          cout << (cell == -1 ? -1 : cell + 1) << " ";
-        }
-        cout << endl;
+      for(auto &i: result.next) {
+        cout << (i | v::transform(λ(_ == -1 ? -1 : _ + 1))) << endl;
       }
     }
   }

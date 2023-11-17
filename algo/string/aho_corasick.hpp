@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <string>
 #include <vector>
 
@@ -82,9 +81,9 @@ struct AhoCorasick {
     root(*this), keyc(keys.size()), key_repr(keyc), alpha_to_num(alpha_to_num)
   {
     root._fail = &root;
-    for(int i = 0; i < keyc; i++) {
+    for(auto i: v::iota(0, keyc)) {
       auto node = &root;
-      for(char c: keys[i]) {
+      for(auto c: keys[i]) {
         auto &child = node->child(c);
         if(child == nullptr) {
           child = new Node(*this, node, c);
@@ -97,20 +96,19 @@ struct AhoCorasick {
   }
 
   ~AhoCorasick() {
-    function<void(Node*)> purge = [&](Node *node) {
-      for(auto child: node->children) {
-        if(child == nullptr) continue;
-        purge(child);
+    auto purge = Y([&](auto &self, Node *node) -> void {
+      for(auto child: node->children | v::filter(λ(_ != nullptr))) {
+        self(child);
         delete child;
       }
-    };
+    });
     purge(&root);
   }
 
   template<class OnMatch>
   void match_in(string const& str, OnMatch on_match = OnMatch()) {
     auto node = &root;
-    for(int i = 0; i < str.size(); i++) {
+    for(auto i: v::iota(0, (int) str.size())) {
       node = node->next(str[i]);
       auto suffix = node;
       while(true) {
@@ -124,14 +122,14 @@ struct AhoCorasick {
   }
 
   vector<int> find_in(string const& str) {
-    vector<int> result(keyc, -1);
+    vector result(keyc, -1);
 
     match_in(str, [&](int l, int r, vector<int> const& keys) {
       if(result[keys.front()] == -1) {
         result[keys.front()] = l;
       }
     });
-    for(int i = 0; i < keyc; i++) {
+    for(auto i: v::iota(0, keyc)) {
       result[i] = result[key_repr[i]];
     }
 
@@ -139,12 +137,12 @@ struct AhoCorasick {
   }
 
   vector<int> count_in(string const& str) {
-    vector<int> result(keyc, 0);
+    vector result(keyc, 0);
 
     match_in(str, [&](int l, int r, vector<int> const& keys) {
       result[keys.front()]++;
     });
-    for(int i = 0; i < keyc; i++) {
+    for(auto i: v::iota(0, keyc)) {
       result[i] = result[key_repr[i]];
     }
 

@@ -36,10 +36,7 @@ bool is_prime_miller_rabin(ll x) {
     if(x == base) {
       return true;
     }
-    auto is_composite = true;
-    if(mod_pow(base, odd, x) == 1) {
-      is_composite = false;
-    }
+    auto is_composite = mod_pow(base, odd, x) != 1;
     for(auto i = odd; i < x - 1 && is_composite; i *= 2) {
       if(mod_pow(base, i, x) == x - 1) {
         is_composite = false;

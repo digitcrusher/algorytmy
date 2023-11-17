@@ -11,7 +11,6 @@
 #include "common.hpp"
 #include "math/int.hpp"
 #include <climits>
-#include <functional>
 #include <vector>
 
 /*
@@ -23,17 +22,17 @@
 vector<int> binary_lift(vector<int> const& parent) {
   int const n = parent.size();
 
-  vector<int> lift(n, -1);
+  vector lift(n, -1);
 
   vector<int> depth(n);
-  function<void(int)> calc = [&](int node) {
+  auto calc = Y([&](auto &self, int node) -> void {
     if(parent[node] == -1) {
       lift[node] = node;
       depth[node] = 0;
       return;
     }
     if(lift[parent[node]] == -1) {
-      calc(parent[node]);
+      self(parent[node]);
     }
     depth[node] = depth[parent[node]] + 1;
     auto p = parent[node];
@@ -42,11 +41,9 @@ vector<int> binary_lift(vector<int> const& parent) {
     } else {
       lift[node] = p;
     }
-  };
-  for(int node = 0; node < n; node++) {
-    if(lift[node] == -1) {
-      calc(node);
-    }
+  });
+  for(auto node: v::iota(0, n) | v::filter(λ(lift[_] == -1))) {
+    calc(node);
   }
 
   return lift;
@@ -62,8 +59,6 @@ template<class Predicate>
 int lifting_find_last(vector<int> const& parent, vector<int> const& lift,
                       int node, Predicate pred = Predicate())
 {
-  int const n = lift.size();
-
   if(!pred(node)) {
     return -1;
   }
@@ -88,8 +83,6 @@ template<class Predicate>
 int lifting_find_first(vector<int> const& parent, vector<int> const& lift,
                        int node, Predicate pred = Predicate())
 {
-  int const n = lift.size();
-
   if(pred(node)) {
     return node;
   }
@@ -116,20 +109,18 @@ vector<vector<int>> worse_binary_lift(vector<int> const& parent) {
 
   vector<vector<int>> lift(n);
 
-  function<void(int)> calc = [&](int node) {
+  auto calc = Y([&](auto &self, int node) -> void {
     if(parent[node] == -1) return;
     if(lift[parent[node]].empty()) {
-      calc(parent[node]);
+      self(parent[node]);
     }
     lift[node].push_back(parent[node]);
-    for(int i = 0; i < lift[lift[node][i]].size(); i++) {
+    for(auto i: v::iota(0) | v::take_while(λ(_ < lift[lift[node][_]].size()))) {
       lift[node].push_back(lift[lift[node][i]][i]);
     }
-  };
-  for(int node = 0; node < n; node++) {
-    if(lift[node].empty()) {
-      calc(node);
-    }
+  });
+  for(auto node: v::iota(0, n) | v::filter(λ(lift[_].empty()))) {
+    calc(node);
   }
 
   return lift;
@@ -148,24 +139,22 @@ vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
   vector<vector<int>> lift(n);
 
   vector<int> depth(n);
-  function<void(int)> calc = [&](int node) {
+  auto calc = Y([&](auto &self, int node) -> void {
     if(parent[node] == -1) {
       depth[node] = 0;
       return;
     }
     if(lift[parent[node]].empty()) {
-      calc(parent[node]);
+      self(parent[node]);
     }
     depth[node] = depth[parent[node]] + 1;
     lift[node].push_back(parent[node]);
-    for(int i = 0; i < countr_zero((uint) depth[node]) && i < lift[lift[node][i]].size(); i++) {
+    for(auto i: v::iota(0, countr_zero((uint) depth[node])) | v::take_while(λ(_ < lift[lift[node][_]].size()))) {
       lift[node].push_back(lift[lift[node][i]][i]);
     }
-  };
-  for(int node = 0; node < n; node++) {
-    if(lift[node].empty()) {
-      calc(node);
-    }
+  });
+  for(auto node: v::iota(0, n) | v::filter(λ(lift[_].empty()))) {
+    calc(node);
   }
 
   return lift;
@@ -179,10 +168,8 @@ vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
  */
 template<class Predicate>
 int worse_lifting_find_last(vector<vector<int>> const& lift,
-                      int node, Predicate pred = Predicate())
+                            int node, Predicate pred = Predicate())
 {
-  int const n = lift.size();
-
   if(!pred(node)) {
     return -1;
   }
@@ -207,10 +194,8 @@ int worse_lifting_find_last(vector<vector<int>> const& lift,
  */
 template<class Predicate>
 int worse_lifting_find_first(vector<vector<int>> const& lift,
-                       int node, Predicate pred = Predicate())
+                             int node, Predicate pred = Predicate())
 {
-  int const n = lift.size();
-
   if(pred(node)) {
     return node;
   }

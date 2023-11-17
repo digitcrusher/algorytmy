@@ -26,12 +26,12 @@ struct MaxFlow {
 MaxFlow max_flow(vector<vector<pair<int, ll>>> const& adj, int src, int sink) {
   int const n = adj.size();
 
-  vector flow(n, vector<ll>(n, 0));
+  vector flow(n, vector(n, 0ll));
   ll global_flow = 0;
 
   vector<vector<int>> undir_adj(n);
-  vector cap(n, vector<ll>(n, 0));
-  for(int a = 0; a < n; a++) {
+  vector cap(n, vector(n, 0ll));
+  for(auto a: v::iota(0, n)) {
     for(auto [b, edge_cap]: adj[a]) {
       undir_adj[a].push_back(b);
       undir_adj[b].push_back(a);
@@ -40,8 +40,8 @@ MaxFlow max_flow(vector<vector<pair<int, ll>>> const& adj, int src, int sink) {
   }
 
   while(true) {
-    vector<ll> path_cap(n, 0);
-    vector<int> prev(n, -1);
+    vector path_cap(n, 0ll);
+    vector prev(n, -1);
     queue<int> q;
 
     path_cap[src] = LLONG_MAX;

@@ -23,10 +23,8 @@ template<class A>
 Polygon<A> convex_hull(vector<Point<A>> pts, bool should_include_colinear = false) {
   vector<Point<A>> result;
 
-  auto pivot = *min_element(pts.begin(), pts.end(), SweepX());
-  sort(pts.begin(), pts.end(), [&](Point<A> a, Point<A> b) {
-    return AngleCmp()(a - pivot, b - pivot);
-  });
+  auto pivot = r::min(pts, SweepX());
+  r::sort(pts, AngleCmp(), λ(_ - pivot));
   if(should_include_colinear) {
     auto it = pts.end();
     while(it != pts.begin() && cross(*prev(it) - pivot, pts.back() - pivot) == 0) {

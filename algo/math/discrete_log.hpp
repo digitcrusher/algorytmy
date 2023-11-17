@@ -50,13 +50,13 @@ optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
 
   unordered_map<ll, ll> qs;
   auto curr = b;
-  for(ll q = 0; q < n; q++) {
+  for(auto q: v::iota(0, n)) {
     qs[curr] = q;
     curr = mod_mul(curr, a, mod);
   }
 
   curr = k;
-  for(ll p = 1; p <= n; p++) {
+  for(auto p: v::iota(1, n + 1)) {
     curr = mod_mul(curr, a_pow_n, mod);
     if(qs.count(curr) != 0) {
       auto ans = norm_mod(mod_mul(n, p, mod) - qs[curr] + off, mod);

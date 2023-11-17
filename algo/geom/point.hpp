@@ -92,13 +92,13 @@ bool are_colinear(Point<A> a, Point<A> b, Point<A> c) {
 struct SweepX {
   template<class A>
   bool operator()(Point<A> a, Point<A> b) const {
-    return a.x != b.x ? a.x < b.x : a.y < b.y;
+    return tie(a.x, a.y) < tie(b.x, b.y);
   }
 };
 struct SweepY {
   template<class A>
   bool operator()(Point<A> a, Point<A> b) const {
-    return a.y != b.y ? a.y < b.y : a.x < b.x;
+    return tie(a.y, a.x) < tie(b.y, b.x);
   }
 };
 

@@ -40,7 +40,7 @@ optional<vector<bool>> two_sat(int n, vector<Clause> const& formula) {
   auto [_1, scc, _2] = scc_kosaraju(adj, rev_adj);
 
   vector<bool> result(n);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     if(scc[i] == scc[i + n]) {
       return nullopt;
     }

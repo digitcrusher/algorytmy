@@ -32,7 +32,7 @@ ll fac(ll x, ll mod) {
   if(x / fac_skip - 1 >= fac_mem[mod].size()) {
     fac_mem[mod].resize(x / fac_skip);
   }
-  for(i = i * fac_skip + 1; i <= x; i++) {
+  for(auto i: v::iota(i * fac_skip + 1, x + 1)) {
     result = mod_mul(result, i, mod);
     if(i % fac_skip == 0) {
       fac_mem[mod][i / fac_skip - 1] = result;
@@ -49,13 +49,13 @@ struct Fac {
 
   Fac(int n, ll mod): fac(n + 1), inv_fac(n + 1) {
     fac[0] = 1;
-    for(int i = 1; i <= n; i++) {
+    for(auto i: v::iota(1, n + 1)) {
       fac[i] = mod_mul(fac[i - 1], i, mod);
     }
     auto inv = mod_inv(fac[n], mod);
     assert(inv);
     inv_fac[n] = *inv;
-    for(int i = n - 1; i >= 0; i--) {
+    for(auto i: v::iota(0, n) | v::reverse) {
       inv_fac[i] = mod_mul(inv_fac[i + 1], i + 1, mod);
     }
   }
@@ -97,7 +97,7 @@ ll choose_mul(int n, int k, ll mod) {
   if(k > n - k) {
     k = n - k;
   }
-  for(ll i = 1; i <= k; i++) {
+  for(auto i: v::iota(1, k + 1)) {
     auto a = mod_inv(i, mod);
     assert(a);
     result = mod_mul(result, mod_mul(n - i + 1, *a, mod), mod);
@@ -133,7 +133,7 @@ ll subfac(int n, ll mod) {
   vector<ll> result(max(n + 1, 2));
   result[0] = 1;
   result[1] = 0;
-  for(int i = 2; i <= n; i++) {
+  for(auto i: v::iota(2, n + 1)) {
     result[i] = mod_mul(i - 1, result[i - 1] + result[i - 2], mod);
   }
   return result[n];
@@ -146,7 +146,7 @@ ll subfac(int n, ll mod) {
 ll burnside(int n, int k, ll mod) {
   assert(mod > 0);
   ll result = 0;
-  for(int shift = 0; shift < n; shift++) {
+  for(auto shift: v::iota(0, n)) {
     result += mod_pow(k, gcd(shift, n), mod);
     if(result >= mod) {
       result -= mod;

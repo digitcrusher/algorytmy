@@ -9,10 +9,7 @@ int main() {
     cin >> nums;
 
     auto result = lis(nums);
-    for(auto i: result) {
-      cout << nums[i] << " ";
-    }
-    cout << endl;
+    cout << (result | v::transform(λ(nums[_]))) << endl;
     assert(result == lis_segtree(nums));
   }
 }

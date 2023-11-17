@@ -40,7 +40,7 @@ struct SegmentTreePointRange {
     base_offset = (1u << (height - 1)) - 1;
     nodes.resize(nodec, zero);
 
-    for(int i = 0; i < elemc; i++) {
+    for(auto i: v::iota(0, elemc)) {
       nodes[base_offset + i] = elems[i];
     }
     resum();

@@ -41,9 +41,9 @@ struct SqrtSums {
     elems(elems), sums(elemc / block_size),
     sum(sum), apply_change(apply_change)
   {
-    for(int i = 0; i < sums.size(); i++) {
+    for(auto i: v::iota(0, (int) sums.size())) {
       sums[i] = elems[i * block_size];
-      for(int j = 1; j < block_size && i * block_size + j < elemc; j++) {
+      for(auto j: v::iota(1, min(block_size, elemc - i * block_size))) {
         sums[i] = sum(sums[i], elems[i * block_size + j]);
       }
     }
@@ -52,7 +52,7 @@ struct SqrtSums {
   Value get(int l, int r) {
     assert(l <= r && r < elemc);
     Value result = elems[l];
-    for(int i = l + 1; i <= r;) {
+    for(auto i = l + 1; i <= r;) {
       if(i % block_size == 0 && i + block_size - 1 <= r) {
         result = sum(result, sums[i / block_size]);
         i += block_size;

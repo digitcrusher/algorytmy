@@ -46,8 +46,7 @@ struct FenwickTree {
     add(add), sub(sub), apply_change(apply_change)
   {
     partial_sum(sums.begin(), sums.end(), sums.begin(), add);
-    for(int i = elemc - 1; i >= 0; i--) {
-      if(sum_l(i) == 0) continue;
+    for(auto i: v::iota(0, elemc) | v::reverse | v::filter(λ(sum_l(_) != 0))) {
       sums[i] = sub(sums[i], sums[sum_l(i) - 1]);
     }
   }

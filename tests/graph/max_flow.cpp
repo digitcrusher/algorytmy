@@ -7,7 +7,7 @@ int main() {
     cin >> n >> m >> src >> sink;
     src--, sink--;
     vector<vector<pair<int, ll>>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       ll cap;
       cin >> a >> b >> cap;

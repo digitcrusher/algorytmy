@@ -57,14 +57,12 @@ template<
     auto block = l / sqrt_n + (l < 0 ? -1 : 0);
     return tuple(block, block % 2 == 0 ? r : -r, l);
   };
-  sort(order.begin(), order.end(), [&](int a, int b) {
-    return key(queries[a]) < key(queries[b]);
-  });
+  r::sort(order, {}, λ(key(queries[_])));
 
   auto [l, r] = queries[order[0]];
   init(l, r);
   answer(order[0]);
-  for(int i = 1; i < q; i++) {
+  for(auto i: v::iota(1, q)) {
     auto [new_l, new_r] = queries[order[i]];
     while(new_l < l) {
       expand_left();

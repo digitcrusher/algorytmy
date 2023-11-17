@@ -25,16 +25,14 @@ int main() {
   for(auto &i: kajaks) {
     cin >> i;
   }
-  sort(kajaks.begin(), kajaks.end());
+  r::sort(kajaks);
 
   vector<vector<int>> adj(n);
   vector<int> smalls, bigs;
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     if(kajaks[i] <= w / 2) {
       smalls.push_back(i);
-      for(int j = n - 1; j >= 0; j--) {
-        if(kajaks[j] <= w / 2) break;
-        if(kajaks[i] + kajaks[j] > w) continue;
+      for(auto j: v::iota(0, n) | v::reverse | v::take_while(λ(kajaks[_] > w / 2)) | v::drop_while(λ(kajaks[i] + kajaks[_] > w))) {
         adj[i].push_back(j);
         adj[j].push_back(i);
       }
@@ -44,13 +42,6 @@ int main() {
   }
   auto matching = match_hopcroft_karp(adj, smalls, bigs);
 
-  int result = n - matching.pairc;
-  int unpaired_smallc = 0;
-  for(auto i: smalls) {
-    if(matching.pair[i] == -1) {
-      unpaired_smallc++;
-    }
-  }
-  result -= unpaired_smallc / 2;
+  auto result = n - matching.pairc - r::count_if(smalls, λ(matching.pair[_] == -1)) / 2;
   cout << result << "\n";
 }

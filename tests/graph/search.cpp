@@ -7,7 +7,7 @@ int main() {
     cin >> n >> m >> root;
     root--;
     vector<vector<int>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;
@@ -16,31 +16,19 @@ int main() {
 
     auto bfs = ::bfs(adj, root);
     cout << bfs.is_vis << endl;
-    for(auto i: bfs.parent) {
-      cout << (i == -1 ? -1 : i + 1) << " ";
-    }
-    cout << endl;
+    cout << (bfs.parent | v::transform(λ(_ == -1 ? -1 : _ + 1))) << endl;
     cout << bfs.dist << endl;
 
     cout << endl;
     auto dfs = ::dfs(adj, root);
     cout << dfs.is_vis << endl;
-    for(auto i: dfs.parent) {
-      cout << (i == -1 ? -1 : i + 1) << " ";
-    }
-    cout << endl;
+    cout << (dfs.parent | v::transform(λ(_ == -1 ? -1 : _ + 1))) << endl;
     cout << dfs.depth << endl;
     cout << dfs.size << endl;
     cout << dfs.entry << endl;
     cout << dfs.exit << endl;
     cout << dfs.low << endl;
-    for(auto i: dfs.pre_order) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
-    for(auto i: dfs.post_order) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
+    cout << (dfs.pre_order | v::transform(λ(_ + 1))) << endl;
+    cout << (dfs.post_order | v::transform(λ(_ + 1))) << endl;
   }
 }

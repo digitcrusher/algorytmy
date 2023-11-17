@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <vector>
 
 /*
@@ -43,18 +42,17 @@ pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
   bccs.adj.resize(n);
 
   vector<int> entry(n, -1), low(n);
-  function<int(int, int)> dfs = [&](int node, int parent) {
+  auto dfs = Y([&](auto &self, int node, int parent) -> int {
     auto is_cut = false;
     bccs.parent[node] = node;
 
     low[node] = entry[node];
     auto exit = entry[node];
     auto is_first_child = true;
-    for(auto child: adj[node]) {
-      if(child == parent) continue;
+    for(auto child: adj[node] | v::filter(λ(_ != parent))) {
       if(entry[child] == -1) {
         entry[child] = exit + 1;
-        exit = dfs(child, node);
+        exit = self(child, node);
         low[node] = min(low[node], low[child]);
 
         if(entry[node] < low[child]) {
@@ -83,24 +81,22 @@ pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
       cut_vertices.push_back(node);
     }
     return exit;
-  };
+  });
 
   vector is_vis(n, false);
-  function<int(int)> connect_bccs = [&](int node) {
+  auto connect_bccs = Y([&](auto &self, int node) -> int {
     is_vis[node] = true;
     auto a = bccs.find_bcc(node);
-    for(auto child: adj[node]) {
-      if(is_vis[child]) continue;
-      auto b = connect_bccs(child);
+    for(auto child: adj[node] | v::filter(λ(!is_vis[_]))) {
+      auto b = self(child);
       if(a == b) continue;
       bccs.adj[a].push_back(b);
       bccs.adj[b].push_back(a);
     }
     return a;
-  };
+  });
 
-  for(int root = 0; root < n; root++) {
-    if(entry[root] != -1) continue;
+  for(auto root: v::iota(0, n) | v::filter(λ(entry[_] == -1))) {
     entry[root] = 0;
     dfs(root, -1);
     connect_bccs(root);

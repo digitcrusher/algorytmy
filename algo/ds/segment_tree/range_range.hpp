@@ -61,7 +61,7 @@ template<
     base_offset = level_offset(height - 1);
     nodes.resize(nodec);
 
-    for(int i = 0; i < elemc; i++) {
+    for(auto i: v::iota(0, elemc)) {
       nodes[base_offset + i].val = elems[i];
     }
     resum(0, elemc - 1);

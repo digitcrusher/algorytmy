@@ -26,12 +26,13 @@ struct CRT {
   ll soln, mod;
 };
 optional<CRT> crt(vector<ll> const& rems, vector<ll> const& mods) {
-  assert(rems.size() == mods.size());
+  int const n = rems.size();
+  assert(n == mods.size());
 
   auto mod1 = mods[0];
   assert(mod1 > 0);
   auto rem1 = norm_mod(rems[0], mod1);
-  for(int i = 1; i < rems.size(); i++) {
+  for(auto i: v::iota(1, n)) {
     auto mod2 = mods[i];
     assert(mod2 > 0);
     auto rem2 = norm_mod(rems[i], mod2);

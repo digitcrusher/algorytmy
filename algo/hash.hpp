@@ -49,8 +49,8 @@ struct std::hash<vector<A>> {
       return 0;
     }
     auto result = hash<A>()(vec[0]);
-    for(int i = 1; i < vec.size(); i++) {
-      result = hash_many<size_t, A>()(result, vec[i]);
+    for(auto const& i: vec | v::drop(1)) {
+      result = hash_many<size_t, A>()(result, i);
     }
     return result;
   }

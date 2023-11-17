@@ -19,10 +19,10 @@ int main() {
   }
 
   auto sorted = nums;
-  sort(sorted.begin(), sorted.end());
-  int uniquec = unique(sorted.begin(), sorted.end()) - sorted.begin();
+  r::sort(sorted);
+  int uniquec = r::unique(sorted).begin() - sorted.begin();
   unordered_map<ll, int> norm;
-  for(int i = 0; i < uniquec; i++) {
+  for(auto i: v::iota(0, uniquec)) {
     norm[sorted[i]] = i;
   }
 
@@ -36,7 +36,7 @@ int main() {
     cnt.modify(norm[nums[idx]], -1);
   };
   auto find = [&](int idx) {
-    int result = 0;
+    auto result = 0;
     while(idx >= cnt.sums[result / cnt.block_size]) {
       idx -= cnt.sums[result / cnt.block_size];
       result += cnt.block_size;
@@ -52,7 +52,7 @@ int main() {
     l = left, r = right;
     cnt.elems.assign(cnt.elems.size(), 0);
     cnt.sums.assign(cnt.sums.size(), 0);
-    for(int i = l; i <= r; i++) {
+    for(auto i: v::iota(l, r + 1)) {
       cnt.modify(norm[nums[i]], 1);
     }
   };

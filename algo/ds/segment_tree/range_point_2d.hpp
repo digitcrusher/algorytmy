@@ -61,7 +61,7 @@ struct SegmentTreeRangePoint2D {
     x += x_base_offset + 1;
     y += y_base_offset + 1;
     while(y >= 1) {
-      for(int i = x; i >= 1; i /= 2) {
+      for(auto i = x; i >= 1; i /= 2) {
         result = apply_change(result, changes[y - 1][i - 1]);
       }
       y /= 2;

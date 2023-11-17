@@ -9,7 +9,7 @@ int main() {
     int n, m;
     cin >> n >> m;
     vector<vector<int>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;
@@ -21,10 +21,7 @@ int main() {
 
     auto result = type == "dir" ? eulerian_path_dir(adj) : eulerian_path_undir(adj);
     if(result) {
-      for(auto i: *result) {
-        cout << i + 1 << " ";
-      }
-      cout << endl;
+      cout << (*result | v::transform(λ(_ + 1))) << endl;
     } else {
       cout << "nullopt" << endl;
     }

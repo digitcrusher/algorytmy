@@ -6,7 +6,7 @@ int main() {
     int n, m;
     cin >> n >> m;
     vector<vector<int>> adj(n), rev_adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;
@@ -16,11 +16,8 @@ int main() {
 
     auto result = scc_kosaraju(adj, rev_adj);
     cout << result.scc_cnt << endl;
-    for(auto i: result.node_scc) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
-    for(int a = 0; a < result.scc_cnt; a++) {
+    cout << (result.node_scc | v::transform(λ(_ + 1))) << endl;
+    for(auto a: v::iota(0, result.scc_cnt)) {
       for(auto b: result.scc_adj[a]) {
         cout << a + 1 << " " << b + 1 << endl;
       }

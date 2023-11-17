@@ -31,13 +31,13 @@ struct Edge {
 MinCostFlow min_cost_flow(vector<vector<Edge>> adj, int src, int sink, int desired_flow) {
   int const n = adj.size();
 
-  vector flow(n, vector<int>(n, 0));
-  int global_flow = 0;
+  vector flow(n, vector(n, 0));
+  auto global_flow = 0;
   ll global_cost = 0;
 
   vector<vector<pair<int, int>>> rev_adj(n);
-  for(int a = 0; a < n; a++) {
-    for(int i = 0; i < adj[a].size(); i++) {
+  for(auto a: v::iota(0, n)) {
+    for(auto i: v::iota(0, (int) adj[a].size())) {
       auto b = adj[a][i].other;
       rev_adj[b].emplace_back(a, i);
     }

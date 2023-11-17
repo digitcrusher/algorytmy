@@ -22,10 +22,8 @@ vector<int> lis(vector<ll> const& nums) {
   vector<int> dp;
   dp.reserve(n);
   vector<int> prev(n);
-  for(int i = 0; i < n; i++) {
-    auto it = lower_bound(dp.begin(), dp.end(), i, [&](int a, int b) {
-      return nums[a] < nums[b];
-    });
+  for(auto i: v::iota(0, n)) {
+    auto it = r::lower_bound(dp, i, {}, λ(nums[_]));
     if(it == dp.end()) {
       dp.push_back(i);
     } else {
@@ -39,8 +37,9 @@ vector<int> lis(vector<ll> const& nums) {
   }
 
   vector<int> result(dp.size());
-  for(int i = result.size() - 1, j = dp.back(); i >= 0; i--) {
-    result[i] = j;
+  auto j = dp.back();
+  for(auto &i: result | v::reverse) {
+    i = j;
     j = prev[j];
   }
   return result;
@@ -54,12 +53,12 @@ vector<int> lis_segtree(vector<ll> const& nums) {
   int const n = nums.size();
 
   auto sorted = nums;
-  sort(sorted.begin(), sorted.end());
-  int coordc = unique(sorted.begin(), sorted.end()) - sorted.begin();
+  r::sort(sorted);
+  int coordc = r::unique(sorted).begin() - sorted.begin();
   sorted.resize(coordc);
   vector<int> coord(n);
-  for(int i = 0; i < n; i++) {
-    coord[i] = lower_bound(sorted.begin(), sorted.end(), nums[i]) - sorted.begin();
+  for(auto i: v::iota(0, n)) {
+    coord[i] = r::lower_bound(sorted, nums[i]) - sorted.begin();
   }
 
   vector<int> dp(n), prev(n);
@@ -73,16 +72,16 @@ vector<int> lis_segtree(vector<ll> const& nums) {
     return dp[a] > dp[b] ? a : b;
   };
   SegmentTreePointRange<int, decltype(sum)> tree(vector(coordc, -1), -1, sum);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     prev[i] = coord[i] == 0 ? -1 : tree.get(0, coord[i] - 1);
     dp[i] = prev[i] == -1 ? 1 : dp[prev[i]] + 1;
     tree.set(coord[i], sum(tree.nodes[tree.base_offset + coord[i]], i));
   }
 
-  int j = tree.get(0, coordc - 1);
+  auto j = tree.get(0, coordc - 1);
   vector<int> result(dp[j]);
-  for(int i = result.size() - 1; i >= 0; i--) {
-    result[i] = j;
+  for(auto &i: result | v::reverse) {
+    i = j;
     j = prev[j];
   }
   return result;

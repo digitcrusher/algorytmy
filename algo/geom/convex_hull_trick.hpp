@@ -24,7 +24,7 @@ struct ConvexHullTrick {
   vector<Point<A>> hull;
 
   ConvexHullTrick(vector<Point<A>> funcs) {
-    sort(funcs.begin(), funcs.end(), SweepX());
+    r::sort(funcs, SweepX());
     hull.reserve(funcs.size());
     for(auto func: funcs) {
       // >= daje maksimum, <= - minimum

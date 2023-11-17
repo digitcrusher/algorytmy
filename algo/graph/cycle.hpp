@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <optional>
 #include <vector>
 
@@ -23,27 +22,26 @@ optional<vector<int>> find_cycle_undir(vector<vector<int>> const& adj) {
   result.reserve(n);
 
   vector is_vis(n, false);
-  function<bool(int, int)> dfs = [&](int node, int parent) {
+  auto dfs = Y([&](auto &self, int node, int parent) -> bool {
     if(is_vis[node]) {
       return false;
     }
     is_vis[node] = true;
     result.push_back(node);
 
-    for(auto neighbor: adj[node]) {
-      if(neighbor == parent) continue;
+    for(auto neighbor: adj[node] | v::filter(λ(_ != parent))) {
       if(is_vis[neighbor]) {
-        result.erase(result.begin(), find(result.begin(), result.end(), neighbor));
+        result.erase(result.begin(), r::find(result, neighbor));
         return true;
-      } else if(dfs(neighbor, node)) {
+      } else if(self(neighbor, node)) {
         return true;
       }
     }
 
     result.pop_back();
     return false;
-  };
-  for(int root = 0; root < n; root++) {
+  });
+  for(auto root: v::iota(0, n)) {
     if(dfs(root, -1)) break;
   }
 
@@ -59,8 +57,8 @@ optional<vector<int>> find_cycle_dir(vector<vector<int>> const& adj) {
   vector<int> result;
   result.reserve(n);
 
-  vector<int> is_vis(n, 0);
-  function<bool(int)> dfs = [&](int node) {
+  vector is_vis(n, 0);
+  auto dfs = Y([&](auto &self, int node) -> bool {
     if(is_vis[node] != 0) {
       return false;
     }
@@ -69,9 +67,9 @@ optional<vector<int>> find_cycle_dir(vector<vector<int>> const& adj) {
 
     for(auto child: adj[node]) {
       if(is_vis[child] == 1) {
-        result.erase(result.begin(), find(result.begin(), result.end(), child));
+        result.erase(result.begin(), r::find(result, child));
         return true;
-      } else if(dfs(child)) {
+      } else if(self(child)) {
         return true;
       }
     }
@@ -79,8 +77,8 @@ optional<vector<int>> find_cycle_dir(vector<vector<int>> const& adj) {
     result.pop_back();
     is_vis[node] = 2;
     return false;
-  };
-  for(int root = 0; root < n; root++) {
+  });
+  for(auto root: v::iota(0, n)) {
     if(dfs(root)) break;
   }
 

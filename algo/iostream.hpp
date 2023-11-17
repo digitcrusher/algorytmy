@@ -16,8 +16,7 @@
 #include <utility>
 #include <vector>
 
-template<class A>
-ostream& operator<<(ostream &stream, complex<A> const& num) {
+ostream& operator<<(ostream &stream, complex<auto> const& num) {
   if(num.real() != 0 || num.imag() == 0) {
     stream << num.real();
   }
@@ -50,12 +49,10 @@ istream& operator>>(istream &stream, complex<A> &num) {
   return stream;
 }
 
-template<class A, class B>
-ostream& operator<<(ostream &stream, pair<A, B> const& pair) {
+ostream& operator<<(ostream &stream, pair<auto, auto> const& pair) {
   return stream << pair.first << " " << pair.second;
 }
-template<class A, class B>
-istream& operator>>(istream &stream, pair<A, B> &pair) {
+istream& operator>>(istream &stream, pair<auto, auto> &pair) {
   return stream >> pair.first >> pair.second;
 }
 
@@ -75,36 +72,79 @@ istream& operator>>(istream &stream, tuple<A...> &tuple) {
   return stream;
 }
 
-template<class A, std::enable_if_t<std::is_arithmetic_v<A>, int> = 123>
+template<class A> requires std::is_arithmetic_v<A>
 ostream& operator<<(ostream &stream, vector<A> const& vec) {
   if(!vec.empty()) {
     stream << vec[0];
-    for(int i = 1; i < vec.size(); i++) {
-      stream << " " << vec[i];
+    for(auto const& i: vec | v::drop(1)) {
+      stream << " " << i;
     }
   }
   return stream;
 }
-template<class A, std::enable_if_t<!std::is_arithmetic_v<A>, int> = 123>
+template<class A> requires (!std::is_arithmetic_v<A>)
 ostream& operator<<(ostream &stream, vector<A> const& vec) {
   for(auto const& i: vec) {
     stream << i << "\n";
   }
   return stream;
 }
-template<class A>
-ostream& operator<<(ostream &stream, vector<complex<A>> const& vec) {
+ostream& operator<<(ostream &stream, vector<complex<auto>> const& vec) {
   if(!vec.empty()) {
     stream << vec[0];
-    for(int i = 1; i < vec.size(); i++) {
-      stream << " " << vec[i];
+    for(auto const& i: vec | v::drop(1)) {
+      stream << " " << i;
     }
   }
   return stream;
 }
-template<class A>
-istream& operator>>(istream &stream, vector<A> &vec) {
+istream& operator>>(istream &stream, vector<auto> &vec) {
   for(auto &i: vec) {
+    stream >> i;
+  }
+  return stream;
+}
+
+template<class A>
+constexpr auto enable_joined_print = false;
+template<>
+constexpr auto enable_joined_print<char> = true;
+
+template<class A>
+constexpr auto enable_compact_print = false;
+template<class A> requires std::is_arithmetic_v<A>
+constexpr auto enable_compact_print<A> = true;
+template<class A>
+constexpr auto enable_compact_print<complex<A>> = true;
+
+template<r::view V> requires enable_joined_print<r::range_value_t<V>>
+ostream& operator<<(ostream &stream, V view) {
+  for(auto const& i: view) {
+    stream << i;
+  }
+  return stream;
+}
+template<r::view V> requires (!enable_joined_print<r::range_value_t<V>> && enable_compact_print<r::range_value_t<V>>)
+ostream& operator<<(ostream &stream, V view) {
+  auto it = begin(view);
+  if(it != end(view)) {
+    stream << *it++;
+    while(it != end(view)) {
+      stream << " " << *it++;
+    }
+  }
+  return stream;
+}
+template<r::view V> requires (!enable_joined_print<r::range_value_t<V>> && !enable_compact_print<r::range_value_t<V>>)
+ostream& operator<<(ostream &stream, V view) {
+  for(auto const& i: view) {
+    stream << i << "\n";
+  }
+  return stream;
+}
+template<r::view V> requires is_lvalue_reference_v<r::range_value_t<V>>
+istream& operator>>(istream &stream, V view) {
+  for(auto &i: view) {
     stream >> i;
   }
   return stream;

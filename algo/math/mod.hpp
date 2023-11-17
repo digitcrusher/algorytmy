@@ -125,6 +125,12 @@ struct Z {
   explicit operator ll() const {
     return val;
   }
+  bool operator==(Z other) const {
+    return val == other.val;
+  }
+  bool operator!=(Z other) const {
+    return !(*this == other);
+  }
 
   Z operator+(Z other) const {
     auto result = val + other.val;
@@ -164,14 +170,20 @@ private:
   ll val;
 };
 
-template<ll a, bool b>
-ostream& operator<<(ostream &stream, Z<a, b> num) {
+template<auto... A>
+ostream& operator<<(ostream &stream, Z<A...> num) {
   return stream << (ll) num;
 }
-template<ll a, bool b>
-istream& operator>>(istream &stream, Z<a, b> &num) {
+template<auto... A>
+istream& operator>>(istream &stream, Z<A...> &num) {
   ll val;
   stream >> val;
   num = val;
   return stream;
 }
+template<auto... A>
+struct std::hash<Z<A...>> {
+  size_t operator()(Z<A...> const& num) const {
+    return hash<ll>()((ll) num);
+  }
+};

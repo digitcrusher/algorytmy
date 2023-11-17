@@ -34,8 +34,7 @@ void read(string &str) {
   }
 }
 
-template<class A, std::enable_if_t<std::is_integral_v<A>, int> = 123>
-void read(A &num) {
+void read(std::integral auto &num) {
   num = 0;
   auto is_start = true, is_neg = false;
   while(true) {
@@ -56,14 +55,12 @@ void read(A &num) {
   }
 }
 
-template<class A, class B>
-void read(pair<A, B> &pair) {
+void read(pair<auto, auto> &pair) {
   read(pair.first);
   read(pair.second);
 }
 
-template<class A>
-void read(vector<A> &vec) {
+void read(vector<auto> &vec) {
   for(auto &i: vec) {
     read(i);
   }
@@ -72,8 +69,8 @@ void read(vector<A> &vec) {
 /*
  * Szybkie wypisanie wartości
  */
-int const fastio_out_size = 1'000'000;
-int fastio_out_cnt = 0;
+auto const fastio_out_size = 1'000'000;
+auto fastio_out_cnt = 0;
 char fastio_out[fastio_out_size];
 
 void fastio_flush() {
@@ -94,8 +91,7 @@ void print(string const& str) {
   }
 }
 
-template<class A, std::enable_if_t<std::is_integral_v<A>, int> = 123>
-void print(A num) {
+void print(std::integral auto num) {
   if(num == 0) {
     print('0');
     return;
@@ -105,7 +101,7 @@ void print(A num) {
     num = -num;
   }
   char rev[32];
-  int cnt = 0;
+  auto cnt = 0;
   while(num > 0) {
     rev[cnt] = num % 10 + '0';
     num /= 10;

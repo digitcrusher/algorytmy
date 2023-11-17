@@ -23,11 +23,11 @@ int main() {
 
       mul(a, b);
       if(op.substr(3) == "_real") {
-        for(auto i: a) {
+        for(auto &i: a) {
           i = i.real();
         }
       } else if(op.substr(3) == "_int") {
-        for(auto i: a) {
+        for(auto &i: a) {
           i = round(i.real());
         }
       }

@@ -9,11 +9,8 @@ int main() {
 
     auto result = knights_tour(w, h, x, y);
     if(result) {
-      for(auto &row: *result) {
-        for(auto cell: row) {
-          cout << cell + 1 << " ";
-        }
-        cout << endl;
+      for(auto &i: *result) {
+        cout << (i | v::transform(λ(_ + 1))) << endl;
       }
     } else {
       cout << "nullopt" << endl;

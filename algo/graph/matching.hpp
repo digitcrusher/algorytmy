@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <climits>
-#include <functional>
 #include <queue>
 #include <vector>
 
@@ -28,8 +27,8 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
 {
   int const n = adj.size();
 
-  vector<int> pair(n, -1);
-  int pairc = 0;
+  vector pair(n, -1);
+  auto pairc = 0;
 
   vector<int> dist(n);
   auto bfs = [&]() {
@@ -62,9 +61,9 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
     return max_dist != INT_MAX;
   };
 
-  function<bool(int)> dfs = [&](int a) {
+  auto dfs = Y([&](auto &self, int a) -> bool {
     for(auto b: adj[a]) {
-      if(pair[b] == -1 || (dist[pair[b]] == dist[a] + 1 && dfs(pair[b]))) {
+      if(pair[b] == -1 || (dist[pair[b]] == dist[a] + 1 && self(pair[b]))) {
         pair[a] = b;
         pair[b] = a;
         return true;
@@ -72,7 +71,7 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
     }
     dist[a] = -1;
     return false;
-  };
+  });
 
   while(bfs()) {
     for(auto a: as) {

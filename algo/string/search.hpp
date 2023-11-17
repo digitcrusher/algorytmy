@@ -11,6 +11,7 @@
 #include "common.hpp"
 #include "string/prefix_func.hpp"
 #include "string/rolling_hash.hpp"
+#include <algorithm>
 #include <string>
 #include <vector>
 
@@ -34,18 +35,14 @@ vector<int> search_rabin_karp(string const& str, string const& pattern,
   vector<int> result;
 
   RollingHash<alpha_size, AlphaToNum> window(mod, alpha_to_num);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     window.push(str[i]);
     if(window.size() > pattern.size()) {
       window.pop();
     }
     if(window.size() == pattern.size() && window.hash == pattern_hash) {
-      auto is_match = true;
       auto start = i - m + 1;
-      for(int j = 0; j < m && is_match; j++) {
-        is_match &= str[start + j] == pattern[j];
-      }
-      if(is_match) {
+      if(r::all_of(v::iota(0, m), λ(str[start + _] == pattern[_]))) {
         result.push_back(start);
       }
     }
@@ -64,8 +61,8 @@ vector<int> search_kmp(string const& str, string const& pattern) {
   vector<int> result;
 
   auto kmp = prefix_func(pattern);
-  int matchedc = 0;
-  for(int i = 0; i < n; i++) {
+  auto matchedc = 0;
+  for(auto i: v::iota(0, n)) {
     while(matchedc > 0 && str[i] != pattern[matchedc]) {
       matchedc = kmp[matchedc];
     }

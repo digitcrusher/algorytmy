@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <functional>
 #include <vector>
 
 /*
@@ -78,8 +77,8 @@ template<
     y_base_offset = (1u << (y_height - 1)) - 1;
     nodes.resize(y_nodec, vector<Node>(x_nodec));
 
-    for(int y = 0; y < h; y++) {
-      for(int x = 0; x < w; x++) {
+    for(auto y: v::iota(0, h)) {
+      for(auto x: v::iota(0, w)) {
         nodes[y_base_offset + y][x_base_offset + x].val = elems[y][x];
       }
     }
@@ -94,9 +93,7 @@ template<
     assert(0 <= x1 && x1 <= x2 && x2 < w);
     assert(0 <= y1 && y1 <= y2 && y2 < h);
 
-    function<Value(int, int, int, int)> descend_x_for_val =
-      [&](int x_num, int y_num, int node_x1, int node_x2)
-    {
+    auto descend_x_for_val = Y([&](auto &self, int x_num, int y_num, int node_x1, int node_x2) -> Value {
       auto &node = nodes[y_num - 1][x_num - 1];
       if(is_in(node_x1, node_x2, x1, x2)) {
         return node.val;
@@ -104,13 +101,13 @@ template<
         Value result;
         auto mid = (node_x1 + node_x2) / 2;
         if(!do_intersect(mid + 1, node_x2, x1, x2)) {
-          result = descend_x_for_val(2 * x_num, y_num, node_x1, mid);
+          result = self(2 * x_num, y_num, node_x1, mid);
         } else if(!do_intersect(node_x1, mid, x1, x2)) {
-          result = descend_x_for_val(2 * x_num + 1, y_num, mid + 1, node_x2);
+          result = self(2 * x_num + 1, y_num, mid + 1, node_x2);
         } else {
           result = sum(
-            descend_x_for_val(2 * x_num, y_num, node_x1, mid),
-            descend_x_for_val(2 * x_num + 1, y_num, mid + 1, node_x2)
+            self(2 * x_num, y_num, node_x1, mid),
+            self(2 * x_num + 1, y_num, mid + 1, node_x2)
           );
         }
 
@@ -119,11 +116,9 @@ template<
         }
         return result;
       }
-    };
+    });
 
-    function<pair<Change, bool>(int, int, int, int)> descend_x_for_change =
-      [&](int x_num, int y_num, int node_x1, int node_x2)
-    {
+    auto descend_x_for_change = Y([&](auto &self, int x_num, int y_num, int node_x1, int node_x2) -> pair<Change, bool> {
       auto &node = nodes[y_num - 1][x_num - 1];
       if(is_in(node_x1, node_x2, x1, x2)) {
         return pair(node.change_y, node.has_change);
@@ -133,10 +128,10 @@ template<
 
         auto mid = (node_x1 + node_x2) / 2;
         if(do_intersect(node_x1, mid, x1, x2)) {
-          result = descend_x_for_change(2 * x_num, y_num, node_x1, mid);
+          result = self(2 * x_num, y_num, node_x1, mid);
         }
         if(do_intersect(mid + 1, node_x2, x1, x2)) {
-          auto other = descend_x_for_change(2 * x_num + 1, y_num, mid + 1, node_x2);
+          auto other = self(2 * x_num + 1, y_num, mid + 1, node_x2);
           if(!result.second) {
             result = other;
           } else if(other.second) {
@@ -151,20 +146,20 @@ template<
         }
         return result;
       }
-    };
+    });
 
-    function<Value(int, int, int)> descend_y = [&](int y_num, int node_y1, int node_y2) {
+    auto descend_y = Y([&](auto &self, int y_num, int node_y1, int node_y2) -> Value {
       if(is_in(node_y1, node_y2, y1, y2)) {
         return descend_x_for_val(1, y_num, 0, x_base_nodec - 1);
       } else {
         Value result;
         auto mid = (node_y1 + node_y2) / 2;
         if(!do_intersect(mid + 1, node_y2, y1, y2)) {
-          result = descend_y(2 * y_num, node_y1, mid);
+          result = self(2 * y_num, node_y1, mid);
         } else if(!do_intersect(node_y1, mid, y1, y2)) {
-          result = descend_y(2 * y_num + 1, mid + 1, node_y2);
+          result = self(2 * y_num + 1, mid + 1, node_y2);
         } else {
-          result = sum(descend_y(2 * y_num, node_y1, mid), descend_y(2 * y_num + 1, mid + 1, node_y2));
+          result = sum(self(2 * y_num, node_y1, mid), self(2 * y_num + 1, mid + 1, node_y2));
         }
 
         auto [change, has_change] = descend_x_for_change(1, y_num, 0, x_base_nodec - 1);
@@ -173,7 +168,7 @@ template<
         }
         return result;
       }
-    };
+    });
 
     return descend_y(1, 0, y_base_nodec - 1);
   }
@@ -182,16 +177,14 @@ template<
     assert(0 <= x1 && x1 <= x2 && x2 < w);
     assert(0 <= y1 && y1 <= y2 && y2 < h);
 
-    function<void(int, int, int, int, int, int)> descend_x =
-      [&](int x_num, int y_num, int node_x1, int node_y1, int node_x2, int node_y2)
-    {
+    auto descend_x = Y([&](auto &self, int x_num, int y_num, int node_x1, int node_y1, int node_x2, int node_y2) -> void {
       if(!is_in(node_x1, node_x2, x1, x2)) {
         auto mid = (node_x1 + node_x2) / 2;
         if(do_intersect(node_x1, mid, x1, x2)) {
-          descend_x(2 * x_num, y_num, node_x1, node_y1, mid, node_y2);
+          self(2 * x_num, y_num, node_x1, node_y1, mid, node_y2);
         }
         if(do_intersect(mid + 1, node_x2, x1, x2)) {
-          descend_x(2 * x_num + 1, y_num, mid + 1, node_y1, node_x2, node_y2);
+          self(2 * x_num + 1, y_num, mid + 1, node_y1, node_x2, node_y2);
         }
       }
 
@@ -216,34 +209,32 @@ template<
       if(is_x_covered || is_y_covered) {
         node.has_change = true;
       }
-    };
+    });
 
-    function<void(int, int, int)> descend_y = [&](int y_num, int node_y1, int node_y2) {
+    auto descend_y = Y([&](auto &self, int y_num, int node_y1, int node_y2) -> void {
       if(!is_in(node_y1, node_y2, y1, y2)) {
         auto mid = (node_y1 + node_y2) / 2;
         if(do_intersect(node_y1, mid, y1, y2)) {
-          descend_y(2 * y_num, node_y1, mid);
+          self(2 * y_num, node_y1, mid);
         }
         if(do_intersect(mid + 1, node_y2, y1, y2)) {
-          descend_y(2 * y_num + 1, mid + 1, node_y2);
+          self(2 * y_num + 1, mid + 1, node_y2);
         }
       }
       if(node_y2 < h) {
         descend_x(1, y_num, 0, node_y1, x_base_nodec - 1, node_y2);
       }
-    };
+    });
 
     return descend_y(1, 0, y_base_nodec - 1);
   }
 
   void resum() {
-    function<void(int, int, int, int)> descend_x =
-      [&](int x_num, int y_num, int node_x1, int node_x2)
-    {
+    auto descend_x = Y([&](auto &self, int x_num, int y_num, int node_x1, int node_x2) -> void {
       if(node_x1 != node_x2) {
         auto mid = (node_x1 + node_x2) / 2;
-        descend_x(2 * x_num, y_num, node_x1, mid);
-        descend_x(2 * x_num + 1, y_num, mid + 1, node_x2);
+        self(2 * x_num, y_num, node_x1, mid);
+        self(2 * x_num + 1, y_num, mid + 1, node_x2);
       }
 
       if(node_x2 >= w) return;
@@ -254,18 +245,18 @@ template<
         node.val = sum(nodes[y_num - 1][2 * x_num - 1].val, nodes[y_num - 1][2 * x_num].val);
       }
       node.has_change = false;
-    };
+    });
 
-    function<void(int, int, int)> descend_y = [&](int y_num, int node_y1, int node_y2) {
+    auto descend_y = Y([&](auto &self, int y_num, int node_y1, int node_y2) -> void {
       if(node_y1 != node_y2) {
         auto mid = (node_y1 + node_y2) / 2;
-        descend_y(2 * y_num, node_y1, mid);
-        descend_y(2 * y_num + 1, mid + 1, node_y2);
+        self(2 * y_num, node_y1, mid);
+        self(2 * y_num + 1, mid + 1, node_y2);
       }
       if(node_y2 < h) {
         descend_x(1, y_num, 0, x_base_nodec - 1);
       }
-    };
+    });
 
     descend_y(1, 0, y_base_nodec - 1);
   }

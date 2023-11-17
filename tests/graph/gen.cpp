@@ -21,21 +21,19 @@ int main() {
       is_acyclic, k_colorable
     );
 
-    for(int a = 0; a < n; a++) {
-      for(auto b: adj[a]) {
-        if(!is_directed && a > b) continue;
+    for(auto a: v::iota(0, n)) {
+      for(auto b: adj[a] | v::filter(λ(is_directed || a <= _))) {
         cout << a + 1 << " " << b + 1 << endl;
       }
     }
 
 #ifdef DOT
     cout << (is_directed ? "digraph" : "graph") << " {\n";
-    for(int i = 0; i < n; i++) {
+    for(auto i: v::iota(0, n)) {
       cout << "  " << i + 1 << ";\n";
     }
-    for(int a = 0; a < n; a++) {
-      for(auto b: adj[a]) {
-        if(!is_directed && a > b) continue;
+    for(auto a: v::iota(0, n)) {
+      for(auto b: adj[a] | v::filter(λ(is_directed || a <= _))) {
         cout << "  " << a + 1 << (is_directed ? " -> " : " -- ") << b + 1 << ";\n";
       }
     }

@@ -39,7 +39,7 @@ vector<vector<int>> gen_graph(int nodec, int edgec,
   }
   vector<vector<int>> color_groups(max(0, k_colorable));
   if(k_colorable > 0) {
-    for(int node = 0; node < nodec; node++) {
+    for(auto node: v::iota(0, nodec)) {
       color_groups[rand() % k_colorable].push_back(node);
     }
   }

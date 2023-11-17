@@ -7,13 +7,7 @@ int main() {
     cin >> s;
 
     auto result = manacher(s);
-    for(auto i: result.odd) {
-      cout << 2 * i + 1 << " ";
-    }
-    cout << endl;
-    for(auto i: result.even) {
-      cout << " " << 2 * i;
-    }
-    cout << endl;
+    cout << (result.odd | v::transform(λ(2 * _ + 1))) << endl;
+    cout << (result.even | v::transform(λ(2 * _))) << endl;
   }
 }

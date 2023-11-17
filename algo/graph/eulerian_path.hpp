@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "hash.hpp"
-#include <functional>
 #include <optional>
 #include <unordered_set>
 #include <vector>
@@ -21,17 +20,17 @@
 optional<vector<int>> eulerian_path_dir(vector<vector<int>> adj) {
   int const n = adj.size();
 
-  int m = 0;
-  vector<int> deg(n, 0);
-  for(int a = 0; a < n; a++) {
+  auto m = 0;
+  vector deg(n, 0);
+  for(auto a: v::iota(0, n)) {
     m += adj[a].size();
     deg[a] += adj[a].size();
     for(auto b: adj[a]) {
       deg[b]--;
     }
   }
-  int start = -1, end = -1;
-  for(int i = 0; i < n; i++) {
+  auto start = -1, end = -1;
+  for(auto i: v::iota(0, n)) {
     if(deg[i] == 1 && start == -1) {
       start = i;
     } else if(deg[i] == -1 && end == -1) {
@@ -45,17 +44,17 @@ optional<vector<int>> eulerian_path_dir(vector<vector<int>> adj) {
   }
 
   vector<int> result(m + 1);
-  int next_idx = m;
+  auto next_idx = m;
 
-  function<void(int)> walk = [&](int node) {
+  auto walk = Y([&](auto &self, int node) -> void {
     while(!adj[node].empty()) {
       auto child = adj[node].back();
       adj[node].pop_back();
-      walk(child);
+      self(child);
     }
     result[next_idx] = node;
     next_idx--;
-  };
+  });
   walk(start);
 
   return next_idx < 0 ? optional(result) : nullopt;
@@ -67,8 +66,8 @@ optional<vector<int>> eulerian_path_dir(vector<vector<int>> adj) {
 optional<vector<int>> eulerian_path_undir(vector<vector<int>> adj) {
   int const n = adj.size();
 
-  int m = 0, start = -1, end = -1;
-  for(int i = 0; i < n; i++) {
+  auto m = 0, start = -1, end = -1;
+  for(auto i: v::iota(0, n)) {
     m += adj[i].size();
     if(adj[i].size() % 2 == 0) continue;
     if(start == -1) {
@@ -88,20 +87,20 @@ optional<vector<int>> eulerian_path_undir(vector<vector<int>> adj) {
   result.reserve(m + 1);
 
   unordered_multiset<pair<int, int>> used_edges;
-  function<void(int)> walk = [&](int node) {
+  auto walk = Y([&](auto &self, int node) -> void {
     while(!adj[node].empty()) {
       auto neighbor = adj[node].back();
       adj[node].pop_back();
       auto it = used_edges.find({neighbor, node});
       if(it == used_edges.end()) {
         used_edges.insert({node, neighbor});
-        walk(neighbor);
+        self(neighbor);
       } else {
         used_edges.erase(it);
       }
     }
     result.push_back(node);
-  };
+  });
   walk(end);
 
   return result.size() == m + 1 ? optional(result) : nullopt;

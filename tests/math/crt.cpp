@@ -6,14 +6,14 @@ int main() {
     int n;
     cin >> n;
     vector<ll> rems(n), mods(n);
-    for(int i = 0; i < n; i++) {
+    for(auto i: v::iota(0, n)) {
       cin >> rems[i] >> mods[i];
     }
 
     auto result = crt(rems, mods);
     if(result) {
       cout << result->soln << " " << result->mod << endl;
-      for(int i = 0; i < n; i++) {
+      for(auto i: v::iota(0, n)) {
         assert(result->soln % mods[i] == norm_mod(rems[i], mods[i]));
       }
     } else {

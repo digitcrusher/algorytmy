@@ -39,8 +39,8 @@ struct SparseTable {
 
     sums.resize(height, vector<Value>(elemc));
     sums[0] = elems;
-    for(int j = 1; j < height; j++) {
-      for(int i = 0; i < elemc; i++) {
+    for(auto j: v::iota(1, height)) {
+      for(auto i: v::iota(0, elemc)) {
         sums[j][i] = sum(
           sums[j - 1][i],
           sums[j - 1][min(i + level_elemc(j - 1), elemc - 1)]

@@ -9,7 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
+#include <algorithm>
 #include <optional>
 #include <vector>
 
@@ -35,9 +35,9 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
     {2, -1},
   }};
 
-  vector result(h, vector<int>(w, -1));
+  vector result(h, vector(w, -1));
 
-  function<bool(int, int, int)> backtrack = [&](int x, int y, int visc) {
+  auto backtrack = Y([&](auto &self, int x, int y, int visc) -> bool {
     result[y][x] = visc;
     visc++;
     if(visc == w * h) {
@@ -61,7 +61,7 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
         if(result[my][mx] != -1) continue;
         furtherc++;
 
-        int my_furtherc = -1;
+        auto my_furtherc = -1;
         for(auto [dx, dy]: moves) {
           auto ox = mx + dx, oy = my + dy;
           if(ox < 0 || oy < 0 || ox >= w || oy >= h) continue;
@@ -73,19 +73,17 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
 
       nexts.emplace_back(furtherc, beyondc, nx, ny);
     }
-    sort(nexts.begin(), nexts.end(), [](Next const& a, Next const& b) {
-      return a.furtherc != b.furtherc ? a.furtherc < b.furtherc : a.beyondc < b.beyondc;
-    });
+    r::sort(nexts, {}, λ(tie(_.furtherc, _.beyondc)));
 
     for(auto [_1, _2, x, y]: nexts) {
-      if(backtrack(x, y, visc)) {
+      if(self(x, y, visc)) {
         return true;
       }
     }
 
     result[y][x] = -1;
     return false;
-  };
+  });
 
   return backtrack(x, y, 0) ? optional(result) : nullopt;
 }

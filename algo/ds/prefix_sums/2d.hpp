@@ -43,9 +43,9 @@ struct PrefixSums2D {
     sums(elems), add(add), sub(sub)
   {
     partial_sum(sums[0].begin(), sums[0].end(), sums[0].begin(), add);
-    for(int y = 1; y < sums.size(); y++) {
+    for(auto y: v::iota(1, (int) sums.size())) {
       partial_sum(sums[y].begin(), sums[y].end(), sums[y].begin(), add);
-      for(int x = 0; x < sums[y].size(); x++) {
+      for(auto x: v::iota(0, (int) sums[y].size())) {
         sums[y][x] = add(sums[y - 1][x], sums[y][x]);
       }
     }

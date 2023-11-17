@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <climits>
-#include <functional>
 #include <queue>
 #include <stdexcept>
 #include <vector>
@@ -29,25 +28,25 @@ SingleSource sssp_dag_dfs(vector<vector<pair<int, ll>>> const& rev_adj, int src)
   int const n = rev_adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
-  vector<int> prev(n, -1);
+  vector prev(n, -1);
 
   vector is_vis(n, false);
   dist[src] = 0;
   is_vis[src] = true;
-  function<void(int)> dfs = [&](int node) {
+  auto dfs = Y([&](auto &self, int node) -> void {
     if(is_vis[node]) return;
     is_vis[node] = true;
 
     for(auto [parent, cost]: rev_adj[node]) {
-      dfs(parent);
+      self(parent);
       if(dist[parent] == LLONG_MAX) continue;
       if(dist[node] > dist[parent] + cost) {
         dist[node] = dist[parent] + cost;
         prev[node] = parent;
       }
     }
-  };
-  for(int root = 0; root < n; root++) {
+  });
+  for(auto root: v::iota(0, n)) {
     dfs(root);
   }
 
@@ -65,11 +64,10 @@ SingleSource sssp_dag_toposort(vector<vector<pair<int, ll>>> const& adj, int src
   int const n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
-  vector<int> prev(n, -1);
+  vector prev(n, -1);
 
   dist[src] = 0;
-  for(auto node: toposort) {
-    if(dist[node] == LLONG_MAX) continue;
+  for(auto node: toposort | v::filter(λ(dist[_] != LLONG_MAX))) {
     for(auto [child, cost]: adj[node]) {
       if(dist[child] > dist[node] + cost) {
         dist[child] = dist[node] + cost;
@@ -93,7 +91,7 @@ SingleSource sssp_dijkstra(vector<vector<pair<int, ll>>> const& adj, int src) {
   int const n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
-  vector<int> prev(n, -1);
+  vector prev(n, -1);
 
   using QueueElem = pair<ll, int>;
   priority_queue<QueueElem, vector<QueueElem>, greater<>> q;
@@ -129,16 +127,14 @@ SingleSource sssp_dial(vector<vector<pair<int, ll>>> const& adj, int src) {
   int const n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
-  vector<int> prev(n, -1);
+  vector prev(n, -1);
 
   deque<vector<int>> layers;
   dist[src] = 0;
   layers.push_back({src});
 
-  for(int layer_dist = 0; !layers.empty(); layer_dist++) {
-    for(auto node: layers.front()) {
-      if(layer_dist != dist[node]) continue;
-
+  for(auto layer_dist: v::iota(0) | v::take_while(λ(!layers.empty()))) {
+    for(auto node: layers.front() | v::filter(λ(dist[_] == layer_dist))) {
       for(auto [neighbor, cost]: adj[node]) {
         assert(cost >= 0);
         if(dist[neighbor] > dist[node] + cost) {
@@ -167,14 +163,13 @@ SingleSource sssp_bellman_ford(vector<vector<pair<int, ll>>> const& adj, int src
   int const n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
-  vector<int> prev(n, -1);
+  vector prev(n, -1);
 
   dist[src] = 0;
   auto was_relaxed = true;
-  for(int i = 0; i < n - 1 && was_relaxed; i++) {
+  for(auto i: v::iota(0, n - 1) | v::take_while(λ(was_relaxed))) {
     was_relaxed = false;
-    for(int node = 0; node < n; node++) {
-      if(dist[node] == LLONG_MAX) continue;
+    for(auto node: v::iota(0, n) | v::filter(λ(dist[_] != LLONG_MAX))) {
       for(auto [neighbor, cost]: adj[node]) {
         if(dist[neighbor] > dist[node] + cost) {
           dist[neighbor] = dist[node] + cost;
@@ -186,7 +181,7 @@ SingleSource sssp_bellman_ford(vector<vector<pair<int, ll>>> const& adj, int src
   }
 
   if(was_relaxed) {
-    for(int node = 0; node < n; node++) {
+    for(auto node: v::iota(0, n)) {
       for(auto [neighbor, cost]: adj[node]) {
         if(dist[neighbor] > dist[node] + cost) {
           throw std::runtime_error("Graf zawiera ujemny cykl.");
@@ -208,7 +203,7 @@ SingleSource sssp_spfa(vector<vector<pair<int, ll>>> const& adj, int src) {
   int const n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
-  vector<int> prev(n, -1);
+  vector prev(n, -1);
 
   queue<int> q;
   vector is_in_q(n, false);
@@ -253,19 +248,18 @@ AllPairs apsp_floyd_warshall(vector<vector<pair<int, ll>>> const& adj) {
   int const n = adj.size();
 
   vector dist(n, vector<ll>(n, LLONG_MAX));
-  vector next(n, vector<int>(n, -1));
+  vector next(n, vector(n, -1));
 
-  for(int node = 0; node < n; node++) {
+  for(auto node: v::iota(0, n)) {
     dist[node][node] = 0;
     for(auto [neighbor, cost]: adj[node]) {
       dist[node][neighbor] = cost;
       next[node][neighbor] = neighbor;
     }
   }
-  for(int c = 0; c < n; c++) {
-    for(int a = 0; a < n; a++) {
-      for(int b = 0; b < n; b++) {
-        if(dist[a][c] == LLONG_MAX || dist[c][b] == LLONG_MAX) continue;
+  for(auto c: v::iota(0, n)) {
+    for(auto a: v::iota(0, n) | v::filter(λ(dist[_][c] != LLONG_MAX))) {
+      for(auto b: v::iota(0, n) | v::filter(λ(dist[c][_] != LLONG_MAX))) {
         if(dist[c][c] < 0) {
           dist[a][b] = LLONG_MIN;
           next[a][b] = -1;

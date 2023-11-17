@@ -7,7 +7,7 @@ int main() {
     int n, m;
     cin >> n >> m;
     vector<vector<int>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;
@@ -21,7 +21,7 @@ int main() {
       continue;
     }
     vector<int> as, bs;
-    for(int i = 0; i < n; i++) {
+    for(auto i: v::iota(0, n)) {
       if((*color)[i] == 1) {
         as.push_back(i);
       } else if((*color)[i] == 2) {
@@ -33,9 +33,8 @@ int main() {
 
     auto result = match_hopcroft_karp(adj, as, bs);
     cout << result.pairc << endl;
-    for(int a = 0; a < n; a++) {
+    for(auto a: v::iota(0, n) | v::filter(λ(_ <= result.pair[_]))) {
       auto b = result.pair[a];
-      if(b == -1 || a > b) continue;
       cout << a + 1 << " " << b + 1 << endl;
       assert(a == result.pair[b]);
     }

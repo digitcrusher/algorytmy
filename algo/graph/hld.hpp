@@ -11,7 +11,6 @@
 #include "common.hpp"
 #include "graph/binary_lift.hpp"
 #include "graph/lca.hpp"
-#include <functional>
 #include <vector>
 
 /*
@@ -34,16 +33,14 @@ struct HLD {
     size.resize(n, -1);
     parent.resize(n);
     depth.resize(n);
-    function<void(int)> calc_size = [&](int node) {
+    auto calc_size = Y([&](auto &self, int node) -> void {
       size[node] = 1;
       auto is_first_child = true;
-      for(auto &child: adj[node]) {
-        if(size[child] != -1) continue;
-
+      for(auto &child: adj[node] | v::filter(λ(size[_] == -1))) {
         parent[child] = node;
         depth[child] = depth[node] + 1;
 
-        calc_size(child);
+        self(child);
 
         size[node] += size[child];
         if(is_first_child || size[child] > size[adj[node][0]]) {
@@ -51,26 +48,25 @@ struct HLD {
         }
         is_first_child = false;
       }
-    };
+    });
     parent[root] = -1;
     depth[root] = 0;
     calc_size(root);
 
     heavy.resize(n, -1);
     entry.resize(n);
-    int time = 0;
-    function<void(int)> decompose = [&](int node) {
+    auto time = 0;
+    auto decompose = Y([&](auto &self, int node) -> void {
       entry[node] = time;
       time++;
 
       auto is_first_child = true;
-      for(auto child: adj[node]) {
-        if(heavy[child] != -1) continue;
+      for(auto child: adj[node] | v::filter(λ(heavy[_] == -1))) {
         heavy[child] = is_first_child ? heavy[node] : child;
-        decompose(child);
+        self(child);
         is_first_child = false;
       }
-    };
+    });
     heavy[root] = root;
     decompose(root);
 

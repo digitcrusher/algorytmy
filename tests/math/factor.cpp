@@ -8,7 +8,7 @@ int main() {
 
     auto result = factor_pollard_rho(x);
     for(auto [prime, exp]: result) {
-      for(int i = 0; i < exp; i++) {
+      for(auto i: v::iota(0, exp)) {
         cout << prime << " ";
       }
     }

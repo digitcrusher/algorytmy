@@ -22,8 +22,8 @@ vector<int> z_func(string const& str) {
 
   vector<int> result(n);
   result[0] = n;
-  int l = 0, r = 0;
-  for(int i = 1; i < n; i++) {
+  auto l = 0, r = 0;
+  for(auto i: v::iota(1, n)) {
     result[i] = i < r ? min(r - i, result[i - l]) : 0;
     while(i + result[i] < n && str[i + result[i]] == str[result[i]]) {
       result[i]++;

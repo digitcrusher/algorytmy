@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <algorithm>
-#include <functional>
 #include <optional>
 #include <vector>
 
@@ -40,9 +38,7 @@ struct FuncGraph {
     prev(n), entry(n), exit(n)
   {
     vector is_vis(n, false);
-    for(int root = 0; root < n; root++) {
-      if(is_vis[root]) continue;
-
+    for(auto root: v::iota(0, n) | v::filter(λ(!is_vis[_]))) {
       vector<int> path;
       auto node = root;
       while(!is_vis[node]) {
@@ -51,12 +47,12 @@ struct FuncGraph {
         node = next[node];
       }
 
-      auto cycle_begin = find(path.begin(), path.end(), node);
+      auto cycle_begin = r::find(path, node);
       if(cycle_begin != path.end()) {
         cycles.emplace_back(cycle_begin, path.end());
         path.erase(cycle_begin, path.end());
         auto &cycle = cycles.back();
-        for(int i = 0; i < cycle.size(); i++) {
+        for(auto i: v::iota(0, (int) cycle.size())) {
           auto node = cycle[i];
           subtree[node] = {(int) cycles.size() - 1, i};
 
@@ -65,7 +61,7 @@ struct FuncGraph {
         }
       }
 
-      for(int i = path.size() - 1; i >= 0; i--) {
+      for(auto i: v::iota(0, (int) path.size()) | v::reverse) {
         auto node = path[i];
         subtree[node] = subtree[next[node]];
 
@@ -81,16 +77,15 @@ struct FuncGraph {
       }
     }
 
-    int time = 0;
-    function<void(int)> dfs = [&](int node) {
+    auto time = 0;
+    auto dfs = Y([&](auto &self, int node) -> void {
       entry[node] = time++;
       for(auto child: prev[node]) {
-        dfs(child);
+        self(child);
       }
       exit[node] = time++;
-    };
-    for(int root = 0; root < n; root++) {
-      if(depth[root] != 0) continue;
+    });
+    for(auto root: v::iota(0, n) | v::filter(λ(depth[_] == 0))) {
       dfs(root);
     }
   }

@@ -35,7 +35,7 @@ struct PrefixHashes {
   {
     if(str.empty()) return;
     hashes[0] = 0;
-    for(int i = 1; i <= str.size(); i++) {
+    for(auto i: v::iota(1, (int) str.size() + 1)) {
       hashes[i] = norm_mod(mod_mul(hashes[i - 1], alpha_size + 1, mod) + alpha_to_num(str[i - 1]) + 1, mod);
     }
   }

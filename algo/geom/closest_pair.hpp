@@ -11,7 +11,6 @@
 #include "common.hpp"
 #include "geom/point.hpp"
 #include <algorithm>
-#include <functional>
 #include <set>
 #include <vector>
 
@@ -23,7 +22,7 @@ pair<Point<A>, Point<A>> closest_pair_sweep(vector<Point<A>> pts) {
   int const n = pts.size();
   assert(n >= 2);
 
-  sort(pts.begin(), pts.end(), SweepX());
+  r::sort(pts, SweepX());
   pair result = {pts[0], pts[1]};
   auto score = (result.first - result.second).mag_sqr();
 
@@ -64,23 +63,23 @@ pair<Point<A>, Point<A>> closest_pair_conquer(vector<Point<A>> pts) {
   int const n = pts.size();
   assert(n >= 2);
 
-  sort(pts.begin(), pts.end(), SweepX());
+  r::sort(pts, SweepX());
   pair result = {pts[0], pts[1]};
   auto score = (result.first - result.second).mag_sqr();
 
-  function<void(int, int)> conquer = [&](int l, int r) {
+  auto conquer = Y([&](auto &self, int l, int r) -> void {
     if(l >= r) return;
 
     auto mid = (l + r) / 2;
     auto mid_x = pts[mid].x;
-    conquer(l, mid);
-    conquer(mid + 1, r);
+    self(l, mid);
+    self(mid + 1, r);
 
     inplace_merge(pts.begin() + l, pts.begin() + mid + 1, pts.begin() + r + 1, SweepY());
-    for(int i = l; i <= r; i++) {
+    for(auto i: v::iota(l, r + 1)) {
       auto a = pts[i];
       if((mid_x - a.x) * (mid_x - a.x) >= score) continue;
-      for(int j = i + 1; j <= r; j++) {
+      for(auto j: v::iota(i + 1, r + 1)) {
         auto b = pts[j];
         if((b.y - a.y) * (b.y - a.y) >= score) break;
         auto new_score = (a - b).mag_sqr();
@@ -90,7 +89,7 @@ pair<Point<A>, Point<A>> closest_pair_conquer(vector<Point<A>> pts) {
         }
       }
     }
-  };
+  });
   conquer(0, n - 1);
 
   return result;

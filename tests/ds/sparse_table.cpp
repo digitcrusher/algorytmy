@@ -7,7 +7,7 @@ int main() {
   vector<ll> nums(n);
   cin >> nums;
 
-  auto sum = (ll const&(*)(ll const&, ll const&)) min;
+  auto sum = λ2(min(_1, _2));
   SparseTable<ll, decltype(sum)> rmq(nums, sum);
 
   while(cin) {

@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <array>
-#include <functional>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -50,19 +49,18 @@ struct CompressedTrie {
     alpha_to_num(alpha_to_num), num_to_alpha(num_to_alpha) {}
 
   ~CompressedTrie() {
-    function<void(Node*)> purge = [&](Node *node) {
-      for(auto child: node->children) {
-        if(child == nullptr) continue;
-        purge(child);
+    auto purge = Y([&](auto &self, Node *node) -> void {
+      for(auto child: node->children | v::filter(λ(_ != nullptr))) {
+        self(child);
         delete child;
       }
-    };
+    });
     purge(&root);
   }
 
   Node* find(string key) {
     auto node = &root;
-    int i = 0;
+    auto i = 0;
     while(i < key.size()) {
       auto first = alpha_to_num(key[i]);
       i++;
@@ -72,7 +70,7 @@ struct CompressedTrie {
       if(child == nullptr) {
         return nullptr;
       } else {
-        int j = 0;
+        auto j = 0;
         while(i < key.size() && j < label.size() && key[i] == label[j]) {
           i++, j++;
         }
@@ -103,7 +101,7 @@ struct CompressedTrie {
 
   void set(string key, Value val) {
     auto node = &root;
-    int i = 0;
+    auto i = 0;
     while(i < key.size()) {
       auto first = alpha_to_num(key[i]);
       i++;
@@ -116,7 +114,7 @@ struct CompressedTrie {
         label = key.substr(i);
         return;
       } else {
-        int j = 0;
+        auto j = 0;
         while(i < key.size() && j < label.size() && key[i] == label[j]) {
           i++, j++;
         }
@@ -151,7 +149,7 @@ struct CompressedTrie {
 
   bool erase(string key) {
     Node *node = &root, *parent = nullptr, *grandparent = nullptr;
-    int i = 0;
+    auto i = 0;
     while(i < key.size()) {
       auto first = alpha_to_num(key[i]);
       i++;
@@ -161,7 +159,7 @@ struct CompressedTrie {
       if(child == nullptr) {
         return false;
       } else {
-        int j = 0;
+        auto j = 0;
         while(i < key.size() && j < label.size() && key[i] == label[j]) {
           i++, j++;
         }
@@ -180,7 +178,7 @@ struct CompressedTrie {
     }
     node->has_val = false;
     if(parent != nullptr) {
-      int node_first = 0;
+      auto node_first = 0;
       while(parent->children[node_first] != node) {
         node_first++;
       }
@@ -194,11 +192,11 @@ struct CompressedTrie {
 
         if(!parent->has_val && parent->childc == 1 && grandparent != nullptr) {
           // Scalamy pustego rodzica wierzchołka z jedynym rodzeństwem wierzchołka.
-          int parent_first = 0;
+          auto parent_first = 0;
           while(grandparent->children[parent_first] != parent) {
             parent_first++;
           }
-          int sibling_first = 0;
+          auto sibling_first = 0;
           while(parent->children[sibling_first] == nullptr) {
             sibling_first++;
           }
@@ -211,7 +209,7 @@ struct CompressedTrie {
         }
       } else if(node->childc == 1) {
         // Scalamy pusty wierzchołek z jego jedynym dzieckiem.
-        int child_first = 0;
+        auto child_first = 0;
         while(node->children[child_first] == nullptr) {
           child_first++;
         }
@@ -230,19 +228,17 @@ struct CompressedTrie {
     vector<string> result;
 
     string key;
-    function<void(Node*)> collect = [&](Node *node) {
+    auto collect = Y([&](auto &self, Node *node) -> void {
       if(node->has_val) {
         result.push_back(key);
       }
-      for(int i = 0; i < alpha_size; i++) {
-        if(node->children[i] != nullptr) {
-          key.push_back(num_to_alpha(i));
-          key += node->labels[i];
-          collect(node->children[i]);
-          key.resize(key.size() - 1 - node->labels[i].size());
-        }
+      for(auto i: v::iota(0, alpha_size) | v::filter(λ(node->children[_] != nullptr))) {
+        key.push_back(num_to_alpha(i));
+        key += node->labels[i];
+        self(node->children[i]);
+        key.resize(key.size() - 1 - node->labels[i].size());
       }
-    };
+    });
     collect(&root);
 
     return result;

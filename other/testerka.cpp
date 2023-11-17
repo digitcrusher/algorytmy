@@ -24,10 +24,10 @@ vector<vector<int>> opt(vector<int> nums) {
   // Rozwiązanie wzorcowe
   int const n = nums.size();
 
-  auto smallest_factor = sieve_euler(*max_element(nums.begin(), nums.end())).smallest_factor;
+  auto smallest_factor = sieve_euler(r::max(nums)).smallest_factor;
 
   vector<vector<int>> result(n);
-  for(int i = 0; i < n; i++) {
+  for(auto i: v::iota(0, n)) {
     while(nums[i] > 1) {
       auto prime = smallest_factor[nums[i]];
       result[i].push_back(prime);
@@ -42,8 +42,8 @@ vector<vector<int>> brute(vector<int> nums) {
   int const n = nums.size();
 
   vector<vector<int>> result(n);
-  for(int i = 0; i < n; i++) {
-    for(int prime = 2; nums[i] > 1; prime++) {
+  for(auto i: v::iota(0, n)) {
+    for(auto prime: v::iota(2) | v::take_while(λ(nums[i] > 1))) {
       while(nums[i] % prime == 0) {
         result[i].push_back(prime);
         nums[i] /= prime;
@@ -72,7 +72,7 @@ int main() {
     }
   };
 
-  for(int test = 0; ; test++) {
+  for(auto test: v::iota(0)) {
     cout << "test " << test;
     cout.flush();
     gen_test();
@@ -147,7 +147,7 @@ int main() {
 #endif
 
   // Wypisanie wyniku wzorcówki
-  for(auto const& primes: ans) {
+  for(auto &primes: ans) {
     for(auto i: primes) {
       cout << i << " ";
     }

@@ -47,16 +47,16 @@ struct FenwickTree2D {
     add(add), sub(sub), apply_change(apply_change)
   {
     partial_sum(sums[0].begin(), sums[0].end(), sums[0].begin(), add);
-    for(int y = 1; y < h; y++) {
+    for(auto y: v::iota(1, h)) {
       partial_sum(sums[y].begin(), sums[y].end(), sums[y].begin(), add);
-      for(int x = 0; x < w; x++) {
+      for(auto x: v::iota(0, w)) {
         sums[y][x] = add(sums[y - 1][x], sums[y][x]);
       }
     }
 
-    for(int y = h - 1; y >= 0; y--) {
+    for(auto y: v::iota(0, h) | v::reverse) {
       auto j = sum_l(y);
-      for(int x = w - 1; x >= 0; x--) {
+      for(auto x: v::iota(0, w) | v::reverse) {
         auto i = sum_l(x);
         if(i != 0 && j != 0) {
           sums[y][x] = sub(add(sums[j - 1][i - 1], sub(sums[y][x], sums[j - 1][x])), sums[y][i - 1]);
@@ -84,11 +84,11 @@ struct FenwickTree2D {
       return sub(get(0, 0, x2, y2), get(0, 0, x2, y1 - 1));
     } else {
       Value result = sums[y2][x2];
-      for(int x = sum_l(x2) - 1; x >= 0; x = sum_l(x) - 1) {
+      for(auto x = sum_l(x2) - 1; x >= 0; x = sum_l(x) - 1) {
         result = add(sums[y2][x], result);
       }
-      for(int y = sum_l(y2) - 1; y >= 0; y = sum_l(y) - 1) {
-        for(int x = x2; x >= 0; x = sum_l(x) - 1) {
+      for(auto y = sum_l(y2) - 1; y >= 0; y = sum_l(y) - 1) {
+        for(auto x = x2; x >= 0; x = sum_l(x) - 1) {
           result = add(sums[y][x], result);
         }
       }
@@ -97,8 +97,8 @@ struct FenwickTree2D {
   }
   void modify(int x, int y, Change change) {
     assert(x < w && y < h);
-    for(int j = y; j < h; j |= j + 1) {
-      for(int i = x; i < w; i |= i + 1) {
+    for(auto j = y; j < h; j |= j + 1) {
+      for(auto i = x; i < w; i |= i + 1) {
         sums[j][i] = apply_change(sums[j][i], change);
       }
     }

@@ -12,7 +12,6 @@
 #include "ds/dsu/undoable.hpp"
 #include "hash.hpp"
 #include "math/int.hpp"
-#include <functional>
 #include <unordered_map>
 #include <vector>
 
@@ -37,20 +36,20 @@ vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
   vector<vector<pair<int, int>>> tree(nodec);
 
   auto add = [&](int l, int r, pair<int, int> edge) {
-    function<void(int, int, int)> descend = [&](int num, int node_l, int node_r) {
+    auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> void {
       if(l <= node_l && node_r <= r) {
         tree[num - 1].push_back(edge);
       } else if(!(node_r < l || r < node_l)) {
         auto mid = (node_l + node_r) / 2;
-        descend(2 * num, node_l, mid);
-        descend(2 * num + 1, mid + 1, node_r);
+        self(2 * num, node_l, mid);
+        self(2 * num + 1, mid + 1, node_r);
       }
-    };
+    });
     descend(1, 0, base_nodec - 1);
   };
 
   unordered_map<pair<int, int>, int> edge_add_time;
-  for(int i = 0; i < q; i++) {
+  for(auto i: v::iota(0, q)) {
     auto [type, a, b] = queries[i];
     if(a > b) {
       swap(a, b);
@@ -70,7 +69,7 @@ vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
   results.reserve(q);
 
   UndoableDSU dsu(n);
-  function<void(int, int, int)> calc = [&](int num, int node_l, int node_r) {
+  auto calc = Y([&](auto &self, int num, int node_l, int node_r) -> void {
     if(q <= node_l) return;
     for(auto [a, b]: tree[num - 1]) {
       dsu.merge(a, b);
@@ -82,13 +81,13 @@ vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
       }
     } else {
       auto mid = (node_l + node_r) / 2;
-      calc(2 * num, node_l, mid);
-      calc(2 * num + 1, mid + 1, node_r);
+      self(2 * num, node_l, mid);
+      self(2 * num + 1, mid + 1, node_r);
     }
-    for(int i = 0; i < tree[num - 1].size(); i++) {
+    for(auto i: v::iota(0, (int) tree[num - 1].size())) {
       dsu.undo();
     }
-  };
+  });
   calc(1, 0, base_nodec - 1);
 
   return results;

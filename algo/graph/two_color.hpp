@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <functional>
 #include <optional>
 #include <vector>
 
@@ -21,12 +20,12 @@
 optional<vector<int>> two_color(vector<vector<int>> const& adj) {
   int const n = adj.size();
 
-  vector<int> color(n, -1);
-  function<bool(int)> assign = [&](int node) {
+  vector color(n, -1);
+  auto assign = Y([&](auto &self, int node) -> bool {
     for(auto neighbor: adj[node]) {
       if(color[neighbor] == -1) {
         color[neighbor] = color[node] == 1 ? 2 : 1;
-        if(!assign(neighbor)) {
+        if(!self(neighbor)) {
           return false;
         }
       } else if(color[neighbor] == color[node]) {
@@ -34,10 +33,9 @@ optional<vector<int>> two_color(vector<vector<int>> const& adj) {
       }
     }
     return true;
-  };
+  });
 
-  for(int root = 0; root < n; root++) {
-    if(color[root] != -1) continue;
+  for(auto root: v::iota(0, n) | v::filter(λ(color[_] == -1))) {
     color[root] = 1;
     if(!assign(root)) {
       return nullopt;

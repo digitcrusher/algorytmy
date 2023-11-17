@@ -48,11 +48,8 @@ vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
   assert(lim * lim >= x);
 
   vector<pair<ll, int>> result;
-  for(auto prime: sieve.primes) {
-    if(x == 1 || (ll) prime * prime > x) break;
-    if(x % prime == 0) {
-      result.emplace_back(prime, 0);
-    }
+  for(auto prime: sieve.primes | v::take_while(λ((ll) _ * _ <= x)) | v::filter(λ(x % _ == 0))) {
+    result.emplace_back(prime, 0);
     while(x % prime == 0) {
       result.back().second++;
       x /= prime;
@@ -71,10 +68,8 @@ vector<pair<ll, int>> factor_trial(ll x) {
   assert(x >= 1);
 
   vector<pair<ll, int>> result;
-  for(int i = 2; (ll) i * i <= x; i++) {
-    if(x % i == 0) {
-      result.emplace_back(i, 0);
-    }
+  for(auto i: v::iota(2) | v::take_while(λ((ll) _ * _ <= x)) | v::filter(λ(x % _ == 0))) {
+    result.emplace_back(i, 0);
     while(x % i == 0) {
       result.back().second++;
       x /= i;

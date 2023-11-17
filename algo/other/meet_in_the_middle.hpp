@@ -24,15 +24,13 @@ ll subset_sum(vector<ll> const& nums, ll target) {
   ll result = target == 0 ? -1 : 0;
 
   auto subsets = [&](int l, int r) {
-    vector<ll> sums(1u << r - l + 1, 0);
-    for(uint mask = 0; mask < sums.size(); mask++) {
-      for(int i = l; i <= r; i++) {
-        if(mask & 1u << i - l) {
-          sums[mask] += nums[i];
-        }
+    vector sums(1u << r - l + 1, 0ll);
+    for(auto mask: v::iota(0u, sums.size())) {
+      for(auto i: v::iota(l, r + 1) | v::filter(λ(mask & 1u << _ - l))) {
+        sums[mask] += nums[i];
       }
     }
-    sort(sums.begin(), sums.end());
+    r::sort(sums);
     return sums;
   };
   auto left = subsets(0, n / 2 - 1), right = subsets(n / 2, n - 1);

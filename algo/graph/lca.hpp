@@ -11,7 +11,6 @@
 #include "common.hpp"
 #include "ds/sparse_table.hpp"
 #include <climits>
-#include <functional>
 #include <vector>
 
 /*
@@ -70,7 +69,7 @@ int lca_worse_lifting(vector<vector<int>> const& lift,
 
   max_jump = INT_MAX;
   while(lift[a][0] != lift[b][0]) {
-    auto jump = min(max_jump, (int) min(lift[a].size(), lift[b].size()) - 1);
+    auto jump = min(max_jump, min<int>(lift[a].size(), lift[b].size()) - 1);
     while(lift[a][jump] == lift[b][jump]) {
       jump--;
       max_jump = jump;
@@ -94,22 +93,19 @@ int lca_rmq(vector<vector<int>> const& adj, int root, int a, int b) {
   vector<int> euler_tour;
   euler_tour.reserve(2 * n - 1);
 
-  function<void(int, int)> dfs = [&](int node, int parent) {
+  auto dfs = Y([&](auto &self, int node, int parent) -> void {
     entry[node] = euler_tour.size();
     euler_tour.push_back(node);
-    for(auto child: adj[node]) {
-      if(child == parent) continue;
+    for(auto child: adj[node] | v::filter(λ(_ != parent))) {
       depth[child] = depth[node] + 1;
-      dfs(child, node);
+      self(child, node);
       euler_tour.push_back(node);
     }
-  };
+  });
   depth[root] = 0;
   dfs(root, -1);
 
-  auto sum = [&](int a, int b) {
-    return depth[a] < depth[b] ? a : (depth[a] > depth[b] ? b : min(a, b));
-  };
+  auto sum = λ2(depth[_1] < depth[_2] ? _1 : (depth[_1] > depth[_2] ? _2 : min(_1, _2)));
   SparseTable<int, decltype(sum)> rmq(euler_tour, sum);
 
   return rmq.get(min(entry[a], entry[b]), max(entry[a], entry[b]));

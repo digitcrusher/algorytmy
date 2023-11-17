@@ -6,7 +6,7 @@ int main() {
     int n, m;
     cin >> n >> m;
     vector<vector<int>> adj(n);
-    for(int i = 0; i < m; i++) {
+    for(auto i: v::iota(0, m)) {
       int a, b;
       cin >> a >> b;
       a--, b--;
@@ -15,24 +15,18 @@ int main() {
     }
 
     auto [result, bccs] = bridges(adj);
-    for(auto i: result.cut_vertices) {
-      cout << i + 1 << endl;
-    }
+    cout << (result.cut_vertices | v::transform(λ(_ + 1))) << endl;
     for(auto [a, b]: result.bridges) {
       cout << a + 1 << " " << b + 1 << endl;
     }
 
     cout << endl;
-    for(auto i: bccs.parent) {
-      cout << i + 1 << " ";
-    }
-    cout << endl;
-    for(int a = 0; a < n; a++) {
+    cout << (bccs.parent | v::transform(λ(_ + 1))) << endl;
+    for(auto a: v::iota(0, n)) {
       if(bccs.parent[a] != a) {
         assert(bccs.adj[a].empty());
       }
-      for(auto b: bccs.adj[a]) {
-        if(a > b) continue;
+      for(auto b: bccs.adj[a] | v::filter(λ(a <= _))) {
         cout << a + 1 << " " << b + 1 << endl;
       }
     }

@@ -24,8 +24,8 @@ Manacher manacher(string const& str) {
   int const n = str.size();
 
   vector<int> odd(n);
-  int l = 0, r = 0;
-  for(int i = 0; i < n; i++) {
+  auto l = 0, r = 0;
+  for(auto i: v::iota(0, n)) {
     odd[i] = i > r ? 0 : min(r - i, odd[l + r - i]);
     while(0 <= i - odd[i] - 1 && i + odd[i] + 1 < n && str[i - odd[i] - 1] == str[i + odd[i] + 1]) {
       odd[i]++;
@@ -38,7 +38,7 @@ Manacher manacher(string const& str) {
 
   vector<int> even(n - 1);
   l = 0, r = 0;
-  for(int i = 0; i < n - 1; i++) {
+  for(auto i: v::iota(0, n - 1)) {
     even[i] = i + 1 > r ? 0 : min(r - i, even[l + r - i - 1]);
     while(0 <= i - even[i] && i + 1 + even[i] < n && str[i - even[i]] == str[i + 1 + even[i]]) {
       even[i]++;
