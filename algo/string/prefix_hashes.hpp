@@ -30,7 +30,7 @@ struct PrefixHashes {
   ll mod;
   vector<ll> hashes;
 
-  PrefixHashes(string const& str, ll mod, AlphaToNum alpha_to_num = AlphaToNum()):
+  PrefixHashes(string const& str, ll mod, AlphaToNum alpha_to_num = {}):
     mod(mod), hashes(str.size() + 1), alpha_to_num(alpha_to_num)
   {
     if(str.empty()) return;

@@ -37,14 +37,14 @@ struct ImplicitTreap {
   Sum sum;
   Value all_sum;
 
-  ImplicitTreap(Value val, Sum sum = Sum()): val(val), sum(sum), all_sum(val) {}
+  ImplicitTreap(Value val, Sum sum = {}): val(val), sum(sum), all_sum(val) {}
 
   ~ImplicitTreap() {
     delete left;
     delete right;
   }
 
-  static ImplicitTreap* from(vector<Value> const& elems, Sum sum = Sum()) {
+  static ImplicitTreap* from(vector<Value> const& elems, Sum sum = {}) {
     int const n = elems.size();
 
     vector<ImplicitTreap*> nodes(n);

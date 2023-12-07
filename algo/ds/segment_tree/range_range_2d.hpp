@@ -60,10 +60,10 @@ template<
   int x_base_nodec, x_base_offset;
   int y_base_nodec, y_base_offset;
 
-  SegmentTree2D(vector<vector<Value>> const& elems, Sum sum = Sum(),
-                ApplyChange apply_change = ApplyChange(),
-                MergeChange merge_change = MergeChange(),
-                MultiplyChange multiply_change = MultiplyChange()):
+  SegmentTree2D(vector<vector<Value>> const& elems, Sum sum = {},
+                ApplyChange apply_change = {},
+                MergeChange merge_change = {},
+                MultiplyChange multiply_change = {}):
     w(elems[0].size()), h(elems.size()), sum(sum),
     apply_change(apply_change), merge_change(merge_change), multiply_change(multiply_change)
   {

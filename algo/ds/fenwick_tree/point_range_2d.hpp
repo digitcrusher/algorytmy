@@ -41,8 +41,8 @@ struct FenwickTree2D {
   vector<vector<Value>> sums;
 
   FenwickTree2D(vector<vector<Value>> const& elems,
-                Add add = Add(), Sub sub = Sub(),
-                ApplyChange apply_change = ApplyChange()):
+                Add add = {}, Sub sub = {},
+                ApplyChange apply_change = {}):
     w(elems[0].size()), h(elems.size()), sums(elems),
     add(add), sub(sub), apply_change(apply_change)
   {

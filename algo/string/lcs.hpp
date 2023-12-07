@@ -10,6 +10,7 @@
 #pragma once
 #include "common.hpp"
 #include <algorithm>
+#include <numeric>
 #include <string>
 #include <vector>
 
@@ -88,8 +89,8 @@ string lcs_str(string const& a, string const& b,
  * w O(a * b) z zużyciem pamięci O(min(a, b)).
  */
 string lcs_str(string const& _a, string const& _b) {
-  string const& a = _a.size() >= _b.size() ? _a : _b;
-  string const& b = _b.size() <= _a.size() ? _b : _a;
+  auto const& a = _a.size() >= _b.size() ? _a : _b;
+  auto const& b = _b.size() <= _a.size() ? _b : _a;
   auto are_swapped = _a.size() < _b.size();
 
   string result;
@@ -101,10 +102,10 @@ string lcs_str(string const& _a, string const& _b) {
     path_i = i, path_j = j;
   };
 
-  auto conquer = Y([&](auto &self, int a1, int a2, int b1, int b2) -> void {
-    auto const n = a2 - a1 + 1, m = b2 - b1 + 1;
+  auto conquer = Y([&](auto &self, int a1, int b1, int a2, int b2) -> void {
+    auto const n = a2 - a1, m = b2 - b1;
 
-    if(n <= 2) {
+    if(n <= 1) {
       auto did_match = false;
       for(auto j: v::iota(b1 + 1, b2 + 1)) {
         did_match |= a2 > 0 && a[a2 - 1] == b[j - 1];
@@ -112,7 +113,7 @@ string lcs_str(string const& _a, string const& _b) {
       }
       return;
     }
-    if(m <= 2) {
+    if(m <= 1) {
       auto did_match = false;
       for(auto i: v::iota(a1 + 1, a2 + 1)) {
         did_match |= b2 > 0 && a[i - 1] == b[b2 - 1];
@@ -121,48 +122,41 @@ string lcs_str(string const& _a, string const& _b) {
       return;
     }
 
-    auto mid_i = a1 + n / 2;
-    vector<int> mid_j(m), prev_mid_j(m);
-    vector<int> dp(m, 0), prev_dp(m);
-    for(auto j: v::iota(b1, b2 + 1)) {
-      mid_j[j - b1] = j;
-    }
-    prev_mid_j[0] = b1;
-    dp[0] = 0;
+    vector<int> mid(m + 1), prev_mid(m + 1, 0);
+    vector dp(m + 1, 0), prev_dp(m + 1, 0);
+    iota(mid.begin(), mid.end(), 0);
 
-    for(auto i: v::iota(a1 + 1, a2 + 1)) {
+    for(auto i: v::iota(1, n + 1)) {
       swap(dp, prev_dp);
-      if(i > mid_i) {
-        swap(mid_j, prev_mid_j);
+      if(i > n / 2) {
+        swap(mid, prev_mid);
       }
 
-      for(auto j: v::iota(b1 + 1, b2 + 1)) {
-        auto k = j - b1;
-
-        dp[k] = max(prev_dp[k], dp[k - 1]);
-        if(a[i - 1] == b[j - 1]) {
-          dp[k] = max(dp[k], prev_dp[k - 1] + 1);
+      for(auto j: v::iota(1, m + 1)) {
+        dp[j] = max(prev_dp[j], dp[j - 1]);
+        if(a[a1 + i - 1] == b[b1 + j - 1]) {
+          dp[j] = max(dp[j], prev_dp[j - 1] + 1);
         }
 
-        if(i > mid_i) {
-          if(a[i - 1] == b[j - 1]) {
-            mid_j[k] = prev_mid_j[k - 1];
-          } else if((!are_swapped && prev_dp[k] >= dp[k - 1]) ||
-                    (are_swapped && prev_dp[k] > dp[k - 1])) {
-            mid_j[k] = prev_mid_j[k];
+        if(i > n / 2) {
+          if(a[a1 + i - 1] == b[b1 + j - 1]) {
+            mid[j] = prev_mid[j - 1];
+          } else if((!are_swapped && prev_dp[j] >= dp[j - 1]) || (are_swapped && prev_dp[j] > dp[j - 1])) {
+            mid[j] = prev_mid[j];
           } else {
-            mid_j[k] = mid_j[k - 1];
+            mid[j] = mid[j - 1];
           }
         }
       }
     }
 
-    self(a1, mid_i, b1, mid_j[b2 - b1]);
-    move(mid_i, mid_j[b2 - b1]);
-    self(mid_i, a2, mid_j[b2 - b1], b2);
+    auto mid_i = a1 + n / 2, mid_j = b1 + mid[m];
+    self(a1, b1, mid_i, mid_j);
+    move(mid_i, mid_j);
+    self(mid_i, mid_j, a2, b2);
   });
 
-  conquer(0, a.size(), 0, b.size());
+  conquer(0, 0, a.size(), b.size());
   move(a.size(), b.size());
 
   return result;

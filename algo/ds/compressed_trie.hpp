@@ -44,8 +44,7 @@ struct CompressedTrie {
 
   Node root;
 
-  CompressedTrie(AlphaToNum alpha_to_num = AlphaToNum(),
-                 NumToAlpha num_to_alpha = NumToAlpha()):
+  CompressedTrie(AlphaToNum alpha_to_num = {}, NumToAlpha num_to_alpha = {}):
     alpha_to_num(alpha_to_num), num_to_alpha(num_to_alpha) {}
 
   ~CompressedTrie() {

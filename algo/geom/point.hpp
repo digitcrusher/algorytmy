@@ -9,6 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
+#include "hash.hpp"
 #include <cmath>
 #include <iostream>
 #include <numeric>
@@ -19,8 +20,7 @@ struct Point {
 
   Point() {}
   Point(A x, A y): x(x), y(y) {}
-  template<class B>
-  Point(Point<B> other): x(other.x), y(other.y) {}
+  Point(Point<auto> other): x(other.x), y(other.y) {}
 
   bool operator==(Point other) const {
     return x == other.x && y == other.y;
@@ -34,6 +34,9 @@ struct Point {
   Point operator-(Point other) const {
     return {x - other.x, y - other.y};
   }
+  Point operator*(Point other) const {
+    return {x * other.x - y * other.y, x * other.y + y * other.x};
+  }
   Point operator*(A scalar) const {
     return {x * scalar, y * scalar};
   }
@@ -45,6 +48,9 @@ struct Point {
   }
   Point& operator-=(Point other) {
     return *this = *this - other;
+  }
+  Point& operator*=(Point other) {
+    return *this = *this * other;
   }
   Point& operator*=(A scalar) {
     return *this = *this * scalar;
@@ -64,6 +70,15 @@ struct Point {
   }
   A gcd() const {
     return ::gcd(x, y);
+  }
+  Point unit() const {
+    return {x / mag(), y / mag()};
+  }
+  Point rot90() const {
+    return {-y, x};
+  }
+  Point rot270() const {
+    return {y, -x};
   }
 
   bool is_colinear_with(Point other) const;
@@ -110,11 +125,15 @@ struct AngleCmp {
   }
 };
 
-template<class A>
-ostream& operator<<(ostream &stream, Point<A> pt) {
+ostream& operator<<(ostream &stream, Point<auto> pt) {
   return stream << pt.x << " " << pt.y;
 }
-template<class A>
-istream& operator>>(istream &stream, Point<A> &pt) {
+istream& operator>>(istream &stream, Point<auto> &pt) {
   return stream >> pt.x >> pt.y;
 }
+template<class A>
+struct std::hash<Point<A>> {
+  size_t operator()(Point<A> pt) const {
+    return hash_many<A, A>()(pt.x, pt.y);
+  }
+};

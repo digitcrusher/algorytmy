@@ -42,8 +42,8 @@ struct SegmentTreeRangePoint2D {
   int y_base_offset;
 
   SegmentTreeRangePoint2D(vector<vector<Value>> const& elems, Change neutral_change,
-                          ApplyChange apply_change = ApplyChange(),
-                          MergeChange merge_change = MergeChange()):
+                          ApplyChange apply_change = {},
+                          MergeChange merge_change = {}):
     w(elems[0].size()), h(elems.size()), values(elems),
     apply_change(apply_change), merge_change(merge_change)
   {

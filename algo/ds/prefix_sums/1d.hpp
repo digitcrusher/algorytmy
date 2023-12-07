@@ -33,7 +33,7 @@ struct PrefixSums {
 
   vector<Value> sums;
 
-  PrefixSums(vector<Value> const& elems, Add add = Add(), Sub sub = Sub()):
+  PrefixSums(vector<Value> const& elems, Add add = {}, Sub sub = {}):
     sums(elems), add(add), sub(sub)
   {
     partial_sum(sums.begin(), sums.end(), sums.begin(), add);

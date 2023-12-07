@@ -35,8 +35,8 @@ struct SqrtSums {
   int elemc, block_size;
   vector<Value> elems, sums;
 
-  SqrtSums(vector<Value> const& elems, Sum sum = Sum(),
-           ApplyChange apply_change = ApplyChange()):
+  SqrtSums(vector<Value> const& elems, Sum sum = {},
+           ApplyChange apply_change = {}):
     elemc(elems.size()), block_size(max<int>(sqrt(elemc), 1)),
     elems(elems), sums(elemc / block_size),
     sum(sum), apply_change(apply_change)

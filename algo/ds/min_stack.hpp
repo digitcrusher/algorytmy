@@ -25,7 +25,7 @@ struct MinStack {
 
   stack<pair<Value, Value>> s;
 
-  MinStack(Cmp cmp = Cmp()): cmp(cmp) {}
+  MinStack(Cmp cmp = {}): cmp(cmp) {}
 
   Value top() {
     return s.top().first;

@@ -39,7 +39,7 @@ struct PrefixSums2D {
 
   vector<vector<Value>> sums;
 
-  PrefixSums2D(vector<vector<Value>> const& elems, Add add = Add(), Sub sub = Sub()):
+  PrefixSums2D(vector<vector<Value>> const& elems, Add add = {}, Sub sub = {}):
     sums(elems), add(add), sub(sub)
   {
     partial_sum(sums[0].begin(), sums[0].end(), sums[0].begin(), add);

@@ -77,7 +77,7 @@ struct AhoCorasick {
   int keyc;
   vector<int> key_repr;
 
-  AhoCorasick(vector<string> const& keys, AlphaToNum alpha_to_num = AlphaToNum()):
+  AhoCorasick(vector<string> const& keys, AlphaToNum alpha_to_num = {}):
     root(*this), keyc(keys.size()), key_repr(keyc), alpha_to_num(alpha_to_num)
   {
     root._fail = &root;
@@ -105,8 +105,7 @@ struct AhoCorasick {
     purge(&root);
   }
 
-  template<class OnMatch>
-  void match_in(string const& str, OnMatch on_match = OnMatch()) {
+  void match_in(string const& str, auto on_match) {
     auto node = &root;
     for(auto i: v::iota(0, (int) str.size())) {
       node = node->next(str[i]);

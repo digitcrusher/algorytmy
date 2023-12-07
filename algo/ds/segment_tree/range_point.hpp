@@ -40,8 +40,8 @@ struct SegmentTreeRangePoint {
   int base_offset;
 
   SegmentTreeRangePoint(vector<Value> const& elems, Change neutral_change,
-                        ApplyChange apply_change = ApplyChange(),
-                        MergeChange merge_change = MergeChange()):
+                        ApplyChange apply_change = {},
+                        MergeChange merge_change = {}):
     elemc(elems.size()), values(elems), apply_change(apply_change), merge_change(merge_change)
   {
     height = ceil_log2(elemc) + 1;

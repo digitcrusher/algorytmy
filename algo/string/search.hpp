@@ -20,10 +20,8 @@
  *   Znajduje pozycje wszystkich wystąpień wzorca
  *   w ciągu za pomocą haszowania w O(n * m).
  */
-template<int alpha_size, class AlphaToNum>
-vector<int> search_rabin_karp(string const& str, string const& pattern,
-                              AlphaToNum alpha_to_num = AlphaToNum())
-{
+template<int alpha_size>
+vector<int> search_rabin_karp(string const& str, string const& pattern, auto alpha_to_num) {
   int const n = str.size(), m = pattern.size();
   ll const mod = 4611686018427387847;
 
@@ -34,7 +32,7 @@ vector<int> search_rabin_karp(string const& str, string const& pattern,
 
   vector<int> result;
 
-  RollingHash<alpha_size, AlphaToNum> window(mod, alpha_to_num);
+  RollingHash<alpha_size, decltype(alpha_to_num)> window(mod, alpha_to_num);
   for(auto i: v::iota(0, n)) {
     window.push(str[i]);
     if(window.size() > pattern.size()) {

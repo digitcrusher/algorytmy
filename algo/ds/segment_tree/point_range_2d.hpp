@@ -36,7 +36,7 @@ struct SegmentTreePointRange2D {
   int x_base_offset;
   int y_base_offset;
 
-  SegmentTreePointRange2D(vector<vector<Value>> const& elems, Value zero, Sum sum = Sum()):
+  SegmentTreePointRange2D(vector<vector<Value>> const& elems, Value zero, Sum sum = {}):
     w(elems[0].size()), h(elems.size()), zero(zero), sum(sum)
   {
     x_height = ceil_log2(w) + 1;

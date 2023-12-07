@@ -40,8 +40,8 @@ struct FenwickTree {
   vector<Value> sums;
 
   FenwickTree(vector<Value> const& elems,
-              Add add = Add(), Sub sub = Sub(),
-              ApplyChange apply_change = ApplyChange()):
+              Add add = {}, Sub sub = {},
+              ApplyChange apply_change = {}):
     elemc(elems.size()), sums(elems),
     add(add), sub(sub), apply_change(apply_change)
   {

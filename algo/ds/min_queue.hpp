@@ -27,7 +27,7 @@ struct LazyMinQueue {
   deque<pair<Value, int>> q;
   int pushc = 0, popc = 0;
 
-  LazyMinQueue(Cmp cmp = Cmp()): cmp(cmp) {}
+  LazyMinQueue(Cmp cmp = {}): cmp(cmp) {}
 
   Value min() {
     return q.front().first;
@@ -72,7 +72,7 @@ struct MinQueue {
 
   MinStack<Value, Cmp> in, out;
 
-  MinQueue(Cmp cmp = Cmp()): cmp(cmp), in(cmp), out(cmp) {}
+  MinQueue(Cmp cmp = {}): cmp(cmp), in(cmp), out(cmp) {}
 
   Value front() {
     if(out.empty()) {

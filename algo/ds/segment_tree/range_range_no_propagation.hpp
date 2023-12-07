@@ -54,9 +54,9 @@ template<
   int height, nodec;
   int base_nodec, base_offset;
 
-  SegmentTreeNoPropagation(vector<Value> const& elems, Sum sum = Sum(),
-                           ApplyChange apply_change = ApplyChange(),
-                           MergeChange merge_change = MergeChange()):
+  SegmentTreeNoPropagation(vector<Value> const& elems, Sum sum = {},
+                           ApplyChange apply_change = {},
+                           MergeChange merge_change = {}):
     elemc(elems.size()), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
     height = ceil_log2(elemc) + 1;

@@ -73,11 +73,11 @@ template<
   FenwickTree2D<Change, MergeChange, MergeChange, Change, MergeChange> changes_x, changes_y, changes_xy;
 
   FenwickTreeRangeRange2D(vector<vector<Value>> const& elems, Change neutral_change,
-                          Add add = Add(), Sub sub = Sub(),
-                          ApplyChange apply_change = ApplyChange(),
-                          MergeChange merge_change = MergeChange(),
-                          NegateChange negate_change = NegateChange(),
-                          MultiplyChange multiply_change = MultiplyChange()):
+                          Add add = {}, Sub sub = {},
+                          ApplyChange apply_change = {},
+                          MergeChange merge_change = {},
+                          NegateChange negate_change = {},
+                          MultiplyChange multiply_change = {}):
     w(elems[0].size()), h(elems.size()),
     values(elems, add, sub, ValuesApplyChange(apply_change)),
     changes_x(vector(h, vector(w, neutral_change)), merge_change, merge_change, merge_change),

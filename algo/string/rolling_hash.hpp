@@ -29,7 +29,7 @@ struct RollingHash {
   ll mod, hash = 0;
   queue<char> chars;
 
-  RollingHash(ll mod, AlphaToNum alpha_to_num = AlphaToNum()):
+  RollingHash(ll mod, AlphaToNum alpha_to_num = {}):
     mod(mod), alpha_to_num(alpha_to_num) {}
 
   char front() {

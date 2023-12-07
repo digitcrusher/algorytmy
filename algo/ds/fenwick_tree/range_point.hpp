@@ -40,9 +40,9 @@ struct FenwickTreeRangePoint {
   vector<Change> changes;
 
   FenwickTreeRangePoint(vector<Value> const& elems, Change neutral_change,
-                        ApplyChange apply_change = ApplyChange(),
-                        MergeChange merge_change = MergeChange(),
-                        NegateChange negate_change = NegateChange()):
+                        ApplyChange apply_change = {},
+                        MergeChange merge_change = {},
+                        NegateChange negate_change = {}):
     elemc(elems.size()), values(elems), changes(elemc, neutral_change),
     apply_change(apply_change), merge_change(merge_change), negate_change(negate_change) {}
 

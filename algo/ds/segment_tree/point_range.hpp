@@ -32,7 +32,7 @@ struct SegmentTreePointRange {
   int height, nodec;
   int base_offset;
 
-  SegmentTreePointRange(vector<Value> const& elems, Value zero, Sum sum = Sum()):
+  SegmentTreePointRange(vector<Value> const& elems, Value zero, Sum sum = {}):
     elemc(elems.size()), zero(zero), sum(sum)
   {
     height = ceil_log2(elemc) + 1;

@@ -138,14 +138,14 @@ vector<int> suffix_array_slower(string const& str) {
  * leksykograficznie sufiksów, przy użyciu haszowania w O(n log^2 n).
  * Ten algorytm jest wolniejszy od poprzedniego.
  */
-template<int alpha_size, class AlphaToNum>
-vector<int> suffix_array_hash(string const& str, AlphaToNum alpha_to_num = AlphaToNum()) {
+template<int alpha_size>
+vector<int> suffix_array_hash(string const& str, auto alpha_to_num) {
   int const n = str.size();
 
   vector<int> result(n);
   iota(result.begin(), result.end(), 0);
 
-  PrefixHashes<alpha_size, AlphaToNum> hash(str, 4611686018427387847, alpha_to_num);
+  PrefixHashes<alpha_size, decltype(alpha_to_num)> hash(str, 4611686018427387847, alpha_to_num);
   r::sort(result, [&](int a, int b) {
     auto max_common_prefix = min(n - a, n - b);
     auto left = 0, right = max_common_prefix;

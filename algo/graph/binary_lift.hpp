@@ -55,10 +55,7 @@ vector<int> binary_lift(vector<int> const& parent) {
  * monotoniczny nierosnący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
-template<class Predicate>
-int lifting_find_last(vector<int> const& parent, vector<int> const& lift,
-                      int node, Predicate pred = Predicate())
-{
+int lifting_find_last(vector<int> const& parent, vector<int> const& lift, int node, auto pred) {
   if(!pred(node)) {
     return -1;
   }
@@ -79,10 +76,7 @@ int lifting_find_last(vector<int> const& parent, vector<int> const& lift,
  * monotoniczny niemalejący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
-template<class Predicate>
-int lifting_find_first(vector<int> const& parent, vector<int> const& lift,
-                       int node, Predicate pred = Predicate())
-{
+int lifting_find_first(vector<int> const& parent, vector<int> const& lift, int node, auto pred) {
   if(pred(node)) {
     return node;
   }
@@ -166,10 +160,7 @@ vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
  * monotoniczny nierosnący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
-template<class Predicate>
-int worse_lifting_find_last(vector<vector<int>> const& lift,
-                            int node, Predicate pred = Predicate())
-{
+int worse_lifting_find_last(vector<vector<int>> const& lift, int node, auto pred) {
   if(!pred(node)) {
     return -1;
   }
@@ -192,10 +183,7 @@ int worse_lifting_find_last(vector<vector<int>> const& lift,
  * monotoniczny niemalejący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
-template<class Predicate>
-int worse_lifting_find_first(vector<vector<int>> const& lift,
-                             int node, Predicate pred = Predicate())
-{
+int worse_lifting_find_first(vector<vector<int>> const& lift, int node, auto pred) {
   if(pred(node)) {
     return node;
   }

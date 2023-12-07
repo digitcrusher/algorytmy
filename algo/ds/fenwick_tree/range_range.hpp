@@ -66,10 +66,10 @@ template<
   FenwickTree<Change, MergeChange, MergeChange, Change, MergeChange> changes;
 
   FenwickTreeRangeRange(vector<Value> const& elems, Change neutral_change,
-                        Add add = Add(), Sub sub = Sub(),
-                        ApplyChange apply_change = ApplyChange(),
-                        MergeChange merge_change = MergeChange(),
-                        NegateChange negate_change = NegateChange()):
+                        Add add = {}, Sub sub = {},
+                        ApplyChange apply_change = {},
+                        MergeChange merge_change = {},
+                        NegateChange negate_change = {}):
     elemc(elems.size()), values(elems, add, sub, ValuesApplyChange(apply_change)),
     changes(vector(elemc, neutral_change), merge_change, merge_change, merge_change),
     sub(sub), apply_change(apply_change), negate_change(negate_change) {}

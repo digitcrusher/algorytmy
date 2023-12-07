@@ -76,11 +76,9 @@ struct Segment {
   }
 };
 
-template<class A>
-ostream& operator<<(ostream &stream, Segment<A> seg) {
+ostream& operator<<(ostream &stream, Segment<auto> seg) {
   return stream << seg.a << " " << seg.b;
 }
-template<class A>
-istream& operator>>(istream &stream, Segment<A> &seg) {
+istream& operator>>(istream &stream, Segment<auto> &seg) {
   return stream >> seg.a >> seg.b;
 }
