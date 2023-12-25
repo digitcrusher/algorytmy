@@ -119,6 +119,8 @@ optional<ll> mod_inv(ll x, ll mod) {
  */
 template<ll mod, bool is_mod_prime = false>
 struct Z {
+  static_assert(mod > 0);
+
   Z() {}
   Z(ll val): val(norm_mod(val, mod)) {}
 
@@ -163,7 +165,9 @@ struct Z {
     return mod_pow(val, exp, mod);
   }
   Z inv() const {
-    return is_mod_prime ? *mod_inv_prime(val, mod) : *mod_inv(val, mod);
+    auto result = is_mod_prime ? mod_inv_prime(val, mod) : mod_inv(val, mod);
+    assert(result);
+    return *result;
   }
 
 private:

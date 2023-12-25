@@ -22,29 +22,22 @@
  *   przedziałem aktualnej odpowiedzi, a użytkownik sam jest odpowiedzialny za
  *   trzymanie i odpowiednie modyfikowanie jej.
  *
- * Init: (int, int) -> void
+ * init: (int, int) -> void
  *   Inicjalizuje odpowiedź na dany przedział.
- * ExpandLeft: void -> void
+ * expand_left: void -> void
  *   Rozszerza lewą granicę odpowiedzi o jeden.
- * ExpandRight: void -> void
+ * expand_right: void -> void
  *   Rozszerza prawą granicę odpowiedzi o jeden.
- * ShrinkLeft: void -> void
+ * shrink_left: void -> void
  *   Kurczy lewą granicę odpowiedzi o jeden.
- * ShrinkRight: void -> void
+ * shrink_right: void -> void
  *   Kurczy prawą granicę odpowiedzi o jeden.
- * Answer: int -> void
+ * answer: int -> void
  *   Informuje, że odpowiedź jest gotowa dla danego zapytania.
  */
-template<
-  class Init,
-  class ExpandLeft,
-  class ExpandRight,
-  class ShrinkLeft,
-  class ShrinkRight,
-  class Answer
-> void mo(int n, vector<pair<int, int>> const& queries, Init init,
-          ExpandLeft expand_left, ExpandRight expand_right,
-          ShrinkLeft shrink_left, ShrinkRight shrink_right, Answer answer)
+void mo(int n, vector<pair<int, int>> const& queries,
+        auto init, auto expand_left, auto expand_right,
+        auto shrink_left, auto shrink_right, auto answer)
 {
   int const q = queries.size();
   if(q == 0) return;

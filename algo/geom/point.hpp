@@ -80,6 +80,9 @@ struct Point {
   Point rot270() const {
     return {y, -x};
   }
+  Point conj() const {
+    return {x, -y};
+  }
 
   bool is_colinear_with(Point other) const;
 };
@@ -120,6 +123,11 @@ struct SweepY {
 struct AngleCmp {
   template<class A>
   bool operator()(Point<A> a, Point<A> b) const {
+    auto half_a = a.y < 0 || (a.y == 0 && a.x < 0),
+         half_b = b.y < 0 || (b.y == 0 && b.x < 0);
+    if(half_a != half_b) {
+      return half_a < half_b;
+    }
     auto x = cross(a, b);
     return x != 0 ? x > 0 : a.mag_sqr() < b.mag_sqr();
   }

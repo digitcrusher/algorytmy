@@ -37,6 +37,7 @@
   - [x] podsilnia
   - [x] lemat Burnside'a
   - [x] liczby Catalana
+  - [x] FWHT o podstawie 3
   - [ ] rozszerzony binarny algorytm Euklidesa
   - [ ] eliminacja Gaussa - rzeczywista, modularna, bitowa
 - [ ] grafy

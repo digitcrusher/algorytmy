@@ -44,26 +44,25 @@ ll fac(ll x, ll mod) {
 /*
  * Zwyklejsza silnia w O(n)
  */
+template<class Z>
 struct Fac {
-  vector<ll> fac, inv_fac;
+  vector<Z> fac, inv_fac;
 
-  Fac(int n, ll mod): fac(n + 1), inv_fac(n + 1) {
+  Fac(int n): fac(n + 1), inv_fac(n + 1) {
     fac[0] = 1;
     for(auto i: v::iota(1, n + 1)) {
-      fac[i] = mod_mul(fac[i - 1], i, mod);
+      fac[i] = fac[i - 1] * i;
     }
-    auto inv = mod_inv(fac[n], mod);
-    assert(inv);
-    inv_fac[n] = *inv;
-    for(auto i: v::iota(0, n) | v::reverse) {
-      inv_fac[i] = mod_mul(inv_fac[i + 1], i + 1, mod);
+    inv_fac[n] = fac[n].inv();
+    for(auto i: v::iota(1, n + 1) | v::reverse) {
+      inv_fac[i - 1] = inv_fac[i] * i;
     }
   }
 
-  ll operator()(int x) const {
+  Z operator()(int x) const {
     return fac[x];
   }
-  ll inv(int x) const {
+  Z inv(int x) const {
     return inv_fac[x];
   }
 };
