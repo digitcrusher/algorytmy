@@ -13,7 +13,8 @@
 #include <iostream>
 
 /*
- * Normalizuje x do przedziału [0, mod) z zachowaniem x' = x % mod.
+ * Normalizuje x do przedziału [0, mod)
+ * niezmieniając reszty z dzielenia przez mod.
  */
 ll norm_mod(ll x, ll mod) {
   assert(mod > 0);
@@ -41,30 +42,6 @@ ll mod_pow(ll a, ll b, ll mod) {
     result += mod;
   }
   return result;
-}
-
-/*
- * Odwrotność modularna dla dzielników będących
- * liczbami pierwszymi w O(log prime_mod)
- */
-optional<ll> mod_inv_prime(ll x, ll prime_mod) {
-  assert(prime_mod >= 2);
-  if(x % prime_mod == 0) {
-    return nullopt;
-  }
-  return mod_pow(x, prime_mod - 2, prime_mod); // z małego twierdzenia Fermata
-}
-
-/*
- * Odwrotność modularna w O(log x) - x * mod_inv(x, mod) % mod = 1
- */
-optional<ll> mod_inv(ll x, ll mod) {
-  assert(mod > 0);
-  auto gcd = ext_euclid(x, mod);
-  if(gcd.gcd != 1) {
-    return nullopt;
-  }
-  return norm_mod(gcd.x, mod);
 }
 
 /*
@@ -120,9 +97,17 @@ struct Z {
     return unsafe(mod_pow(val, exp, mod));
   }
   Z inv() const {
-    auto result = is_mod_prime ? mod_inv_prime(val, mod) : mod_inv(val, mod);
-    assert(result);
-    return unsafe(*result);
+    if constexpr (is_mod_prime) {
+      assert(val != 0);
+      return pow(mod - 2); // z małego twierdzenia Fermata
+    } else {
+#ifndef EXT_EUCLID
+      auto ext_euclid(...);
+#endif
+      auto gcd = ext_euclid(val, mod);
+      assert(gcd.gcd == 1);
+      return gcd.x;
+    }
   }
 
 private:

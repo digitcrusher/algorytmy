@@ -17,30 +17,6 @@ int main() {
       cin >> a >> b >> mod;
 
       cout << mod_pow(a, b, mod) << endl;
-
-    } else if(op == "mod_inv") {
-      ll x, mod;
-      cin >> x >> mod;
-
-      auto result = mod_inv(x, mod);
-      if(result) {
-        cout << *result << endl;
-        assert(x * (i128) *result % mod == 1);
-      } else {
-        cout << "nullopt" << endl;
-      }
-
-    } else if(op == "mod_inv_prime") {
-      ll x, mod;
-      cin >> x >> mod;
-
-      auto result = mod_inv_prime(x, mod);
-      if(result) {
-        cout << *result << endl;
-        assert(x * (i128) *result % mod == 1);
-      } else {
-        cout << "nullopt" << endl;
-      }
     }
   }
 }

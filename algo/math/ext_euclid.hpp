@@ -60,3 +60,4 @@ ExtEuclid ext_euclid(ll a, ll b) {
   }
   return result;
 }
+#define EXT_EUCLID // dla math/mod.hpp
