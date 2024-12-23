@@ -1,7 +1,7 @@
 /*
  * Tablica sufiksowa - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,17 +10,13 @@
 #pragma once
 #include "common.hpp"
 #include "string/prefix_hashes.hpp"
-#include <algorithm>
-#include <numeric>
-#include <string>
-#include <vector>
 
 /*
  * Oblicza tablicę sufiksową, czyli tablicę początków posortowanych
  * leksykograficznie sufiksów, przy użyciu podwajania w O(n log n).
  */
 vector<int> suffix_array(string const& str) {
-  int const n = str.size();
+  int n = str.size();
 
   vector<int> result(n);
 
@@ -76,7 +72,7 @@ vector<int> suffix_array(string const& str) {
  *   sąsiednej pary sufiksów z tablicy sufiksowej w O(n).
  */
 vector<int> lcp(string const& str, vector<int> const& suffix_array) {
-  int const n = str.size();
+  int n = str.size();
 
   vector<int> result(n - 1);
 
@@ -108,7 +104,7 @@ vector<int> lcp(string const& str, vector<int> const& suffix_array) {
  * leksykograficznie sufiksów, przy użyciu podwajania w O(n log^2 n).
  */
 vector<int> suffix_array_slower(string const& str) {
-  int const n = str.size();
+  int n = str.size();
 
   vector<int> result(n);
   iota(result.begin(), result.end(), 0);
@@ -140,12 +136,12 @@ vector<int> suffix_array_slower(string const& str) {
  */
 template<int alpha_size>
 vector<int> suffix_array_hash(string const& str, auto alpha_to_num) {
-  int const n = str.size();
+  int n = str.size();
 
   vector<int> result(n);
   iota(result.begin(), result.end(), 0);
 
-  PrefixHashes<alpha_size, decltype(alpha_to_num)> hash(str, 4611686018427387847, alpha_to_num);
+  PrefixHashes<Z<(1ull << 62) - 57, true>, alpha_size, decltype(alpha_to_num)> hash(str, alpha_to_num);
   r::sort(result, [&](int a, int b) {
     auto max_common_prefix = min(n - a, n - b);
     auto left = 0, right = max_common_prefix;

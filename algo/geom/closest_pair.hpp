@@ -1,7 +1,7 @@
 /*
  * Najbliższa para punktów - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,19 +10,13 @@
 #pragma once
 #include "common.hpp"
 #include "geom/point.hpp"
-#include <algorithm>
 #include <set>
-#include <vector>
 
 /*
  * Znajduje najbliższą parę punktów przy użyciu zamiatania w O(n log n).
  */
 template<class A>
 pair<Point<A>, Point<A>> closest_pair_sweep(vector<Point<A>> pts) {
-  int const n = pts.size();
-  assert(n >= 2);
-
-  r::sort(pts, SweepX());
   pair result = {pts[0], pts[1]};
   auto score = (result.first - result.second).mag_sqr();
 
@@ -34,6 +28,7 @@ pair<Point<A>, Point<A>> closest_pair_sweep(vector<Point<A>> pts) {
     }
   };
 
+  r::sort(pts, SweepX());
   set<Point<A>, SweepY> window;
   auto tail = pts.begin();
   for(auto a: pts) {
@@ -60,10 +55,6 @@ pair<Point<A>, Point<A>> closest_pair_sweep(vector<Point<A>> pts) {
  */
 template<class A>
 pair<Point<A>, Point<A>> closest_pair_conquer(vector<Point<A>> pts) {
-  int const n = pts.size();
-  assert(n >= 2);
-
-  r::sort(pts, SweepX());
   pair result = {pts[0], pts[1]};
   auto score = (result.first - result.second).mag_sqr();
 
@@ -90,7 +81,8 @@ pair<Point<A>, Point<A>> closest_pair_conquer(vector<Point<A>> pts) {
       }
     }
   });
-  conquer(0, n - 1);
+  r::sort(pts, SweepX());
+  conquer(0, pts.size() - 1);
 
   return result;
 }

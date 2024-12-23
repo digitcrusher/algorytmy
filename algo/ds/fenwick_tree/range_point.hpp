@@ -1,7 +1,7 @@
 /*
  * Drzewo Fenwicka przedział-punkt - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <vector>
 
 /*
  * Drzewo Fenwicka przedział-punkt -
@@ -44,6 +43,13 @@ struct FenwickTreeRangePoint {
                         MergeChange merge_change = {},
                         NegateChange negate_change = {}):
     elemc(elems.size()), values(elems), changes(elemc, neutral_change),
+    apply_change(apply_change), merge_change(merge_change), negate_change(negate_change) {}
+
+  FenwickTreeRangePoint(int elemc, Value zero, Change neutral_change,
+                        ApplyChange apply_change = {},
+                        MergeChange merge_change = {},
+                        NegateChange negate_change = {}):
+    elemc(elemc), values(elemc, zero), changes(elemc, neutral_change),
     apply_change(apply_change), merge_change(merge_change), negate_change(negate_change) {}
 
   int sum_l(int r) {

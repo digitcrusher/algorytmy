@@ -1,7 +1,7 @@
 /*
  * Silnie spójne składowe - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <vector>
 
 /*
  * Algorytm Kosaraju -
@@ -23,7 +22,7 @@ struct SCCs {
 SCCs scc_kosaraju(vector<vector<int>> const& adj,
                   vector<vector<int>> const& rev_adj)
 {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector is_vis(n, false);
   vector<int> post_order;

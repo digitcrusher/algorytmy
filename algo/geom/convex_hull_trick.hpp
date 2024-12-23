@@ -1,7 +1,7 @@
 /*
  * Convex hull trick - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,8 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "geom/point.hpp"
-#include <algorithm>
-#include <vector>
 
 /*
  * Convex hull trick -
@@ -36,7 +34,7 @@ struct ConvexHullTrick {
     }
   }
 
-  A get(A x) {
+  A get(A x) const {
     int left = 0, right = hull.size() - 1;
     while(left < right) {
       auto mid = left + (right - left) / 2;

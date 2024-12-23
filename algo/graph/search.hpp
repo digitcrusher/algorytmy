@@ -1,7 +1,7 @@
 /*
  * Przeszukiwanie grafu - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <queue>
-#include <vector>
 
 /*
  * Breadth-first search (BFS) -
@@ -24,7 +23,7 @@ struct BFS {
   vector<int> parent, dist;
 };
 BFS bfs(vector<vector<int>> const& adj, int root) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector is_vis(n, false);
   vector<int> parent(n), dist(n);
@@ -64,7 +63,7 @@ struct DFS {
   vector<int> pre_order, post_order;
 };
 DFS dfs(vector<vector<int>> const& adj, int root) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector is_vis(n, false);
   vector<int> parent(n), depth(n), size(n);

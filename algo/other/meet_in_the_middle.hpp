@@ -1,7 +1,7 @@
 /*
  * Meet in the middle - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <algorithm>
-#include <vector>
 
 /*
  * Meet in the middle -
@@ -19,7 +17,7 @@
  *   rozwiązania problemu sumy podzbioru w O(n 2^n/2).
  */
 ll subset_sum(vector<ll> const& nums, ll target) {
-  int const n = nums.size();
+  int n = nums.size();
 
   ll result = target == 0 ? -1 : 0;
 

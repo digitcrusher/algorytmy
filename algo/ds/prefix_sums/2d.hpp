@@ -1,7 +1,7 @@
 /*
  * Sumy prefiksowe 2D - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <numeric>
-#include <vector>
 
 /*
  * Sumy prefiksowe 2D -
@@ -42,6 +40,7 @@ struct PrefixSums2D {
   PrefixSums2D(vector<vector<Value>> const& elems, Add add = {}, Sub sub = {}):
     sums(elems), add(add), sub(sub)
   {
+    if(elems.empty()) return;
     partial_sum(sums[0].begin(), sums[0].end(), sums[0].begin(), add);
     for(auto y: v::iota(1, (int) sums.size())) {
       partial_sum(sums[y].begin(), sums[y].end(), sums[y].begin(), add);
@@ -51,7 +50,7 @@ struct PrefixSums2D {
     }
   }
 
-  Value get(int x1, int y1, int x2, int y2) {
+  Value get(int x1, int y1, int x2, int y2) const {
     assert(x1 <= x2 && y1 <= y2);
     if(x1 == 0 && y1 == 0) {
       return sums[y2][x2];

@@ -1,7 +1,7 @@
 /*
  * Implicit treap - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,10 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <algorithm>
-#include <cstdlib>
-#include <ostream>
-#include <vector>
+#include <iostream>
 
 /*
  * Implicit treap -
@@ -45,7 +42,7 @@ struct ImplicitTreap {
   }
 
   static ImplicitTreap* from(vector<Value> const& elems, Sum sum = {}) {
-    int const n = elems.size();
+    int n = elems.size();
 
     vector<ImplicitTreap*> nodes(n);
     for(auto i: v::iota(0, n)) {

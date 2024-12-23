@@ -103,7 +103,7 @@ int main() {
 
       auto result = floor_div(a, b);
       cout << result << endl;
-      assert(result == floor((ld) a / b));
+      assert(result == floor(a / (ld) b));
 
     } else if(op == "ceil_div") {
       ll a, b;
@@ -111,7 +111,7 @@ int main() {
 
       auto result = ceil_div(a, b);
       cout << result << endl;
-      assert(result == ceil((ld) a / b));
+      assert(result == ceil(a / (ld) b));
 
     } else if(op == "fast_pow") {
       ll a, b;

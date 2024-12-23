@@ -1,7 +1,7 @@
 /*
  * Chińskie twierdzenie o resztach - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,8 +11,6 @@
 #include "common.hpp"
 #include "math/diophantine.hpp"
 #include "math/mod.hpp"
-#include <optional>
-#include <vector>
 
 /*
  * Chińskie twierdzenie o resztach -
@@ -26,7 +24,7 @@ struct CRT {
   ll soln, mod;
 };
 optional<CRT> crt(vector<ll> const& rems, vector<ll> const& mods) {
-  int const n = rems.size();
+  int n = rems.size();
   assert(n == mods.size());
 
   auto mod1 = mods[0];
@@ -43,10 +41,7 @@ optional<CRT> crt(vector<ll> const& rems, vector<ll> const& mods) {
     }
     auto lcm = mod1 / soln->gcd_ab * mod2;
     assert(lcm > 0);
-    rem1 += mod_mul(soln->x % (lcm / mod1), mod1, lcm);
-    if(rem1 >= lcm) {
-      rem1 -= lcm;
-    }
+    rem1 = (rem1 + soln->x % (lcm / mod1) * (i128) mod1) % lcm;
     mod1 = lcm;
   }
   return CRT{rem1, mod1};

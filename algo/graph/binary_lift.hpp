@@ -1,7 +1,7 @@
 /*
  * Binary lifting - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,8 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <climits>
-#include <vector>
 
 /*
  * Binary lifting -
@@ -20,7 +18,7 @@
  *   w O(log d), gdzie d to długość ścieżki.
  */
 vector<int> binary_lift(vector<int> const& parent) {
-  int const n = parent.size();
+  int n = parent.size();
 
   vector lift(n, -1);
 
@@ -51,7 +49,7 @@ vector<int> binary_lift(vector<int> const& parent) {
 
 /*
  * Znajduje ostatni wierzchołek na ścieżce z wierzchołka do korzenia
- * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
  * monotoniczny nierosnący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
@@ -72,7 +70,7 @@ int lifting_find_last(vector<int> const& parent, vector<int> const& lift, int no
 
 /*
  * Znajduje pierwszy wierzchołek na ścieżce z wierzchołka do korzenia
- * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
  * monotoniczny niemalejący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
@@ -99,7 +97,7 @@ int lifting_find_first(vector<int> const& parent, vector<int> const& lift, int n
  *   skoków niz zwykły jest wciąż wolniejszy, a mimo to popularniejszy.
  */
 vector<vector<int>> worse_binary_lift(vector<int> const& parent) {
-  int const n = parent.size();
+  int n = parent.size();
 
   vector<vector<int>> lift(n);
 
@@ -125,10 +123,10 @@ vector<vector<int>> worse_binary_lift(vector<int> const& parent) {
  *   Generuje strukturę z drzewa ukorzenionego w O(V log V) pozwalającą na
  *   wyszukiwanie binarne na ścieżce z dowolnego wierzchołka do korzenia
  *   w O(log d), gdzie d to długość ścieżki, ale z mniejszą stała pamięciową
- *   i większą stałą czasową niż zwykły gorszy binary lifting.
+ *   i większą stałą czasową niż zwykły gorszy binary lifting.
  */
 vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
-  int const n = parent.size();
+  int n = parent.size();
 
   vector<vector<int>> lift(n);
 
@@ -143,7 +141,7 @@ vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
     }
     depth[node] = depth[parent[node]] + 1;
     lift[node].push_back(parent[node]);
-    for(auto i: v::iota(0, countr_zero((uint) depth[node])) | v::take_while(λ(_ < lift[lift[node][_]].size()))) {
+    for(auto i: v::iota(0, countr_zero<uint>(depth[node])) | v::take_while(λ(_ < lift[lift[node][_]].size()))) {
       lift[node].push_back(lift[lift[node][i]][i]);
     }
   });
@@ -156,7 +154,7 @@ vector<vector<int>> worse_binary_lift_light(vector<int> const& parent) {
 
 /*
  * Znajduje ostatni wierzchołek na ścieżce z wierzchołka do korzenia
- * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
  * monotoniczny nierosnący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */
@@ -179,7 +177,7 @@ int worse_lifting_find_last(vector<vector<int>> const& lift, int node, auto pred
 
 /*
  * Znajduje pierwszy wierzchołek na ścieżce z wierzchołka do korzenia
- * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
+ * w O(log d), gdzie d to długość ścieżki, spełniający dowolny warunek
  * monotoniczny niemalejący (jak wiadomo, true to 1, a false to 0) lub -1,
  * jeśli taki wierzchołek nie istnieje.
  */

@@ -1,7 +1,7 @@
 /*
  * Graf funkcyjny - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <optional>
-#include <vector>
 
 /*
  * Struktura na grafie funkcyjnym pozwalająca na operacje wielokrotnego
@@ -90,7 +88,7 @@ struct FuncGraph {
     }
   }
 
-  int apply(int node, ll times) {
+  int apply(int node, ll times) const {
     while(times > 0 && depth[node] > 0) {
       if(depth[node] - depth[jump[node]]) {
         times -= depth[node] - depth[jump[node]];
@@ -109,11 +107,11 @@ struct FuncGraph {
     return node;
   }
 
-  int time_to_cycle(int node) {
+  int time_to_cycle(int node) const {
     return depth[node] + cycles[subtree[node].cycle].size();
   }
 
-  optional<int> dist(int from, int to) {
+  optional<int> dist(int from, int to) const {
     if(entry[to] <= entry[from] && exit[from] <= exit[to]) {
       return depth[from] - depth[to];
     } else if(subtree[from].cycle == subtree[to].cycle && depth[to] == 0) {

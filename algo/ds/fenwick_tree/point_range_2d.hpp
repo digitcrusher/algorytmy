@@ -1,7 +1,7 @@
 /*
  * Drzewo Fenwicka 2D - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <numeric>
-#include <vector>
 
 /*
  * Drzewo Fenwicka 2D -
@@ -68,6 +66,12 @@ struct FenwickTree2D {
       }
     }
   }
+
+  FenwickTree2D(int w, int h, Value zero,
+                Add add = {}, Sub sub = {},
+                ApplyChange apply_change = {}):
+    w(w), h(h), sums(h, vector(w, zero)),
+    add(add), sub(sub), apply_change(apply_change) {}
 
   int sum_l(int r) {
     return r & (r + 1);

@@ -1,7 +1,7 @@
 /*
  * Funkcja Z - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <string>
-#include <vector>
 
 /*
  * Funkcja Z -
@@ -18,7 +16,7 @@
  *   wspólnego prefiksu z całym ciągiem w O(n).
  */
 vector<int> z_func(string const& str) {
-  int const n = str.size();
+  int n = str.size();
 
   vector<int> result(n);
   result[0] = n;

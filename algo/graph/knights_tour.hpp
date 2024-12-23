@@ -1,7 +1,7 @@
 /*
  * Problem skoczka szachowego - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,14 +9,11 @@
  */
 #pragma once
 #include "common.hpp"
-#include <algorithm>
-#include <optional>
-#include <vector>
 
 /*
  * Heurystyka Warnsdorffa z modyfikacją Pohla -
  *   Znajduje ścieżkę skoczka szachowego przechodzącą po każdym polu planszy
- *   w prawie zawsze O(w * h). Tę heurystykę można też zastosować do
+ *   w prawie zawsze O(w * h). Tę heurystykę można też zastosować do
  *   ogólniejszego problemu ścieżki Hamiltona.
  */
 optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
@@ -24,7 +21,7 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
     return nullopt;
   }
 
-  array<pair<int, int>, 8> const moves = {{
+  constexpr pair<int, int> moves[] = {
     {2, 1},
     {1, 2},
     {-1, 2},
@@ -33,7 +30,7 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
     {-1, -2},
     {1, -2},
     {2, -1},
-  }};
+  };
 
   vector result(h, vector(w, -1));
 
@@ -48,13 +45,13 @@ optional<vector<vector<int>>> knights_tour(int w, int h, int x, int y) {
       int furtherc, beyondc, x, y;
     };
     vector<Next> nexts;
-    nexts.reserve(moves.size());
+    nexts.reserve(size(moves));
     for(auto [dx, dy]: moves) {
       auto nx = x + dx, ny = y + dy;
       if(nx < 0 || ny < 0 || nx >= w || ny >= h) continue;
       if(result[ny][nx] != -1) continue;
 
-      int furtherc = 0, beyondc = moves.size();
+      int furtherc = 0, beyondc = size(moves);
       for(auto [dx, dy]: moves) {
         auto mx = nx + dx, my = ny + dy;
         if(mx < 0 || my < 0 || mx >= w || my >= h) continue;

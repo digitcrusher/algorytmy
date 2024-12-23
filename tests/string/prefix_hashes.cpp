@@ -3,15 +3,14 @@
 
 int main() {
   string str;
-  ll mod;
-  cin >> str >> mod;
+  cin >> str;
 
   struct AlphaToNum {
     int operator()(char c) {
       return c - 'a';
     }
   };
-  PrefixHashes<'z' - 'a' + 1, AlphaToNum> prefix_hashes(str, mod);
+  PrefixHashes<Z<MOD>, 'z' - 'a' + 1, AlphaToNum> prefix_hashes(str);
 
   while(cin) {
     int a, b;

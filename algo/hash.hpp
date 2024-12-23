@@ -1,7 +1,7 @@
 /*
  * Haszowanie rzeczy ze standardowej biblioteki - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,9 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <tuple>
-#include <utility>
-#include <vector>
 
 template<class A, class... B>
 struct hash_many {
@@ -42,15 +39,12 @@ struct std::hash<tuple<A...>> {
   }
 };
 
-template<class A>
-struct std::hash<vector<A>> {
-  size_t operator()(vector<A> const& vec) const {
-    if(vec.empty()) {
-      return 0;
-    }
-    auto result = hash<A>()(vec[0]);
-    for(auto const& i: vec | v::drop(1)) {
-      result = hash_many<size_t, A>()(result, i);
+template<r::range R>
+struct std::hash<R> {
+  size_t operator()(R const& range) const {
+    size_t result = 0;
+    for(auto const& i: range) {
+      result = hash_many<size_t, r::range_value_t<R>>()(result, i);
     }
     return result;
   }

@@ -1,7 +1,7 @@
 /*
  * Drzewo przedziałowe punkt-przedział - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <vector>
 
 /*
  * Drzewo przedziałowe punkt-przedział -
@@ -44,6 +43,15 @@ struct SegmentTreePointRange {
       nodes[base_offset + i] = elems[i];
     }
     resum();
+  }
+
+  SegmentTreePointRange(int elemc, Value zero, Sum sum = {}):
+    elemc(elemc), zero(zero), sum(sum)
+  {
+    height = ceil_log2(elemc) + 1;
+    nodec = (1u << height) - 1;
+    base_offset = (1u << (height - 1)) - 1;
+    nodes.resize(nodec, zero);
   }
 
   Value get(int l, int r) {

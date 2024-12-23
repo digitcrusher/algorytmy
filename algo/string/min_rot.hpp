@@ -1,7 +1,7 @@
 /*
  * Najmniejsze przesunięcie cykliczne - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,15 +9,13 @@
  */
 #pragma once
 #include "common.hpp"
-#include <string>
-#include <vector>
 
 /*
  * Algorytm Bootha -
  *   Znajduje najmniejsze przesunięcie cykliczne przy użyciu KMP w O(n).
  */
 int min_rot(string str) {
-  int const n = str.size();
+  int n = str.size();
 
   auto result = 0;
 

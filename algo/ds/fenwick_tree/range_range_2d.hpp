@@ -1,7 +1,7 @@
 /*
  * Drzewo Fenwicka przedział-przedział 2D - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,10 +10,9 @@
 #pragma once
 #include "common.hpp"
 #include "ds/fenwick_tree/point_range_2d.hpp"
-#include <vector>
 
 /*
- * Drzewo Fenwicka przedział-przedział 2D -
+ * Drzewo Fenwicka przedział-przedział 2D -
  *   Struktura danych wspierająca operacje obliczenia sumy podmacierzy
  *   elementów (get) i modyfikacji (modify) w O(log w * log h).
  *
@@ -80,9 +79,22 @@ template<
                           MultiplyChange multiply_change = {}):
     w(elems[0].size()), h(elems.size()),
     values(elems, add, sub, ValuesApplyChange(apply_change)),
-    changes_x(vector(h, vector(w, neutral_change)), merge_change, merge_change, merge_change),
-    changes_y(vector(h, vector(w, neutral_change)), merge_change, merge_change, merge_change),
-    changes_xy(vector(h, vector(w, neutral_change)), merge_change, merge_change, merge_change),
+    changes_x(w, h, neutral_change, merge_change, merge_change, merge_change),
+    changes_y(w, h, neutral_change, merge_change, merge_change, merge_change),
+    changes_xy(w, h, neutral_change, merge_change, merge_change, merge_change),
+    add(add), sub(sub), apply_change(apply_change), negate_change(negate_change), multiply_change(multiply_change) {}
+
+  FenwickTreeRangeRange2D(int w, int h, Value zero, Change neutral_change,
+                          Add add = {}, Sub sub = {},
+                          ApplyChange apply_change = {},
+                          MergeChange merge_change = {},
+                          NegateChange negate_change = {},
+                          MultiplyChange multiply_change = {}):
+    w(w), h(h),
+    values(w, h, zero, add, sub, ValuesApplyChange(apply_change)),
+    changes_x(w, h, neutral_change, merge_change, merge_change, merge_change),
+    changes_y(w, h, neutral_change, merge_change, merge_change, merge_change),
+    changes_xy(w, h, neutral_change, merge_change, merge_change, merge_change),
     add(add), sub(sub), apply_change(apply_change), negate_change(negate_change), multiply_change(multiply_change) {}
 
   Value get(int x1, int y1, int x2, int y2) {

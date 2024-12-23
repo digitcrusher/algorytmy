@@ -1,7 +1,7 @@
 /*
  * Rozszerzony algorytm Euklidesa - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <cmath>
-#include <stdexcept>
 
 /*
  * Rozszerzony algorytm Euklidesa -
@@ -26,7 +24,7 @@ struct ExtEuclid {
   /*
    * Zwraca kolejne współczynniki Bézouta dla a i b.
    */
-  ExtEuclid shift(int step) {
+  ExtEuclid shift(int step) const {
     if(gcd == 0) {
       throw std::runtime_error(
         "Dla NWD równego zero istnieje nieskończenie wiele współczynników."

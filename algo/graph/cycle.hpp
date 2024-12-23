@@ -1,7 +1,7 @@
 /*
  * Cykle - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,14 +9,12 @@
  */
 #pragma once
 #include "common.hpp"
-#include <optional>
-#include <vector>
 
 /*
  * Znajduje dowolny cykl w grafie nieskierowanym w O(V + E).
  */
 optional<vector<int>> find_cycle_undir(vector<vector<int>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<int> result;
   result.reserve(n);
@@ -52,7 +50,7 @@ optional<vector<int>> find_cycle_undir(vector<vector<int>> const& adj) {
  * Znajduje dowolny cykl w grafie skierowanym w O(V + E).
  */
 optional<vector<int>> find_cycle_dir(vector<vector<int>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<int> result;
   result.reserve(n);

@@ -1,7 +1,7 @@
 /*
  * Haszowanie w okienku - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -22,28 +22,24 @@
  * NumToAlpha: int -> char
  *   Funkcja odwrotna do AlphaToNum
  */
-template<int alpha_size, class AlphaToNum>
+template<class Z, int alpha_size, class AlphaToNum>
 struct RollingHash {
   AlphaToNum alpha_to_num;
 
-  ll mod, hash = 0;
+  Z hash = 0;
   queue<char> chars;
 
-  RollingHash(ll mod, AlphaToNum alpha_to_num = {}):
-    mod(mod), alpha_to_num(alpha_to_num) {}
+  RollingHash(AlphaToNum alpha_to_num = {}): alpha_to_num(alpha_to_num) {}
 
   char front() {
     return chars.front();
   }
   void push(char c) {
-    hash = norm_mod(mod_mul(hash, alpha_size + 1, mod) + alpha_to_num(c) + 1, mod);
+    hash = hash * (alpha_size + 1) + alpha_to_num(c) + 1;
     chars.push(c);
   }
   void pop() {
-    hash -= mod_mul(alpha_to_num(front()) + 1, mod_pow(alpha_size + 1, size() - 1, mod), mod);
-    if(hash < 0) {
-      hash += mod;
-    }
+    hash -= Z(alpha_size + 1).pow(size() - 1) * (alpha_to_num(front()) + 1);
     chars.pop();
   }
   void clear() {

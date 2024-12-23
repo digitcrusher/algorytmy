@@ -1,7 +1,7 @@
 /*
  * Punkt - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -12,7 +12,6 @@
 #include "hash.hpp"
 #include <cmath>
 #include <iostream>
-#include <numeric>
 
 template<class A>
 struct Point {
@@ -20,7 +19,8 @@ struct Point {
 
   Point() {}
   Point(A x, A y): x(x), y(y) {}
-  Point(Point<auto> other): x(other.x), y(other.y) {}
+  template<class B>
+  Point(Point<B> other): x(other.x), y(other.y) {}
 
   bool operator==(Point other) const {
     return x == other.x && y == other.y;

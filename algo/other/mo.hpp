@@ -1,7 +1,7 @@
 /*
  * Algorytm Mo - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,10 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <algorithm>
 #include <cmath>
-#include <numeric>
-#include <vector>
 
 /*
  * Algorytm Mo -
@@ -39,24 +36,23 @@ void mo(int n, vector<pair<int, int>> const& queries,
         auto init, auto expand_left, auto expand_right,
         auto shrink_left, auto shrink_right, auto answer)
 {
-  int const q = queries.size();
+  int q = queries.size();
   if(q == 0) return;
 
   vector<int> order(q);
   iota(order.begin(), order.end(), 0);
   auto sqrt_n = max<int>(1, sqrt(n));
-  auto key = [&](pair<int, int> query) {
-    auto [l, r] = query;
+  r::sort(order, {}, [&](int idx) {
+    auto [l, r] = queries[idx];
     auto block = l / sqrt_n + (l < 0 ? -1 : 0);
     return tuple(block, block % 2 == 0 ? r : -r, l);
-  };
-  r::sort(order, {}, λ(key(queries[_])));
+  });
 
   auto [l, r] = queries[order[0]];
   init(l, r);
   answer(order[0]);
-  for(auto i: v::iota(1, q)) {
-    auto [new_l, new_r] = queries[order[i]];
+  for(auto i: order | v::drop(1)) {
+    auto [new_l, new_r] = queries[i];
     while(new_l < l) {
       expand_left();
       l--;
@@ -73,6 +69,6 @@ void mo(int n, vector<pair<int, int>> const& queries,
       shrink_right();
       r--;
     }
-    answer(order[i]);
+    answer(i);
   }
 }

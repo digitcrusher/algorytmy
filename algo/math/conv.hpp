@@ -1,7 +1,7 @@
 /*
  * Konwolucje - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,8 +11,6 @@
 #include "common.hpp"
 #include "math/int.hpp"
 #include <complex>
-#include <numbers>
-#include <vector>
 
 using cld = complex<long double>;
 
@@ -22,9 +20,9 @@ using cld = complex<long double>;
  *   dla wielomianu o stopniu będącym potęgą dwójki w O(n log n).
  */
 void fft(vector<cld> &poly, bool should_invert = false) {
-  int const n = poly.size();
+  int n = poly.size();
   if(n == 1) return;
-  assert(popcount((uint) n) == 1);
+  assert(popcount<uint>(n) == 1);
 
   vector<cld> a(n / 2), b(n / 2);
   for(auto i: v::iota(0, n / 2)) {
@@ -51,8 +49,8 @@ void fft(vector<cld> &poly, bool should_invert = false) {
  * Mnoży dwa wielomiany z użyciem FFT w O((a + b) log (a + b)).
  */
 void conv(vector<cld> &a, vector<cld> b) {
-  int const n = a.size() + b.size() - 1;
-  int const m = 1u << ceil_log2(n);
+  int n = a.size() + b.size() - 1;
+  int m = 1u << ceil_log2(n);
   a.resize(m);
   b.resize(m);
 
@@ -72,7 +70,7 @@ void conv(vector<cld> &a, vector<cld> b) {
  *   k zmiennych o stopniu 3 w O(k * 3^k).
  */
 void fwht3(vector<cld> &poly, bool should_invert = false) {
-  int const n = poly.size();
+  int n = poly.size();
   auto omega = polar<ld>(1, 2 * numbers::pi / 3 * (should_invert ? -1 : 1));
   auto omega2 = omega * omega;
   for(auto size = 1; size < n; size *= 3) {
@@ -96,10 +94,10 @@ void fwht3(vector<cld> &poly, bool should_invert = false) {
 /*
  * Konwolucja XOR o podstawie 3 -
  *   Mnoży dwa wielomiany z użyciem FWHT w O(max(a, b) log max(a, b)),
- *   ale potęgi się XORują w systemie trójkowym zamiast dodawać.
+ *   ale potęgi się XORują w systemie trójkowym zamiast dodawać.
  */
 void xor3_conv(vector<cld> &a, vector<cld> b) {
-  int const n = max(a.size(), b.size());
+  int n = max(a.size(), b.size());
   auto m = 1;
   for(auto i = n; i > 1; i /= 3) {
     m *= 3;

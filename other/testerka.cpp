@@ -1,7 +1,7 @@
 /*
  * Testerka w kodzie - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #include "common.hpp"
 #include <chrono>
-#include <cstdlib>
 #include <ctime>
 #include <iomanip>
 #include <iostream>
@@ -17,12 +16,10 @@
 // Przykładowe zadanie: Rozłóż każdą liczbę z ciągu na liczby pierwsze.
 
 #include "math/sieve.hpp"
-#include <algorithm>
-#include <vector>
 
 vector<vector<int>> opt(vector<int> nums) {
   // Rozwiązanie wzorcowe
-  int const n = nums.size();
+  int n = nums.size();
 
   auto smallest_factor = sieve_euler(r::max(nums)).smallest_factor;
 
@@ -39,7 +36,7 @@ vector<vector<int>> opt(vector<int> nums) {
 
 vector<vector<int>> brute(vector<int> nums) {
   // Rozwiązanie brutalne
-  int const n = nums.size();
+  int n = nums.size();
 
   vector<vector<int>> result(n);
   for(auto i: v::iota(0, n)) {

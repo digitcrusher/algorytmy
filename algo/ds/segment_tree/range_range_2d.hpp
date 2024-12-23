@@ -1,7 +1,7 @@
 /*
  * Drzewo przedziałowe przedział-przedział 2D - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <vector>
 
 /*
  * Drzewo przedziałowe przedział-przedział 2D -
@@ -83,6 +82,24 @@ template<
       }
     }
     resum();
+  }
+
+  SegmentTree2D(int w, int h, Value zero, Sum sum = {},
+                ApplyChange apply_change = {},
+                MergeChange merge_change = {},
+                MultiplyChange multiply_change = {}):
+    w(w), h(h), sum(sum),
+    apply_change(apply_change), merge_change(merge_change), multiply_change(multiply_change)
+  {
+    x_height = ceil_log2(w) + 1;
+    y_height = ceil_log2(h) + 1;
+    x_nodec = (1u << x_height) - 1;
+    y_nodec = (1u << y_height) - 1;
+    x_base_nodec = 1u << (x_height - 1);
+    y_base_nodec = 1u << (y_height - 1);
+    x_base_offset = (1u << (x_height - 1)) - 1;
+    y_base_offset = (1u << (y_height - 1)) - 1;
+    nodes.resize(y_nodec, vector(x_nodec, Node{ .val = zero }));
   }
 
   int overlap_of(int a1, int a2, int b1, int b2) {

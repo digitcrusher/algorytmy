@@ -1,7 +1,7 @@
 /*
  * Najkrótsze ścieżki - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,10 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <climits>
 #include <queue>
-#include <stdexcept>
-#include <vector>
 
 struct SingleSource {
   vector<ll> dist;
@@ -25,7 +22,7 @@ struct SingleSource {
  * z odwróconymi krawędziami.
  */
 SingleSource sssp_dag_dfs(vector<vector<pair<int, ll>>> const& rev_adj, int src) {
-  int const n = rev_adj.size();
+  int n = rev_adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
   vector prev(n, -1);
@@ -61,7 +58,7 @@ SingleSource sssp_dag_dfs(vector<vector<pair<int, ll>>> const& rev_adj, int src)
 SingleSource sssp_dag_toposort(vector<vector<pair<int, ll>>> const& adj, int src,
                                vector<int> const& toposort)
 {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
   vector prev(n, -1);
@@ -88,7 +85,7 @@ SingleSource sssp_dag_toposort(vector<vector<pair<int, ll>>> const& adj, int src
  *   wtedy wykładniczy. W grafie z ujemnym cyklem nie zatrzyma się.
  */
 SingleSource sssp_dijkstra(vector<vector<pair<int, ll>>> const& adj, int src) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
   vector prev(n, -1);
@@ -124,7 +121,7 @@ SingleSource sssp_dijkstra(vector<vector<pair<int, ll>>> const& adj, int src) {
  *   wagami krawędzi.
  */
 SingleSource sssp_dial(vector<vector<pair<int, ll>>> const& adj, int src) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
   vector prev(n, -1);
@@ -160,7 +157,7 @@ SingleSource sssp_dial(vector<vector<pair<int, ll>>> const& adj, int src) {
  *   każdego innego w grafie skierowanym w O(V * E).
  */
 SingleSource sssp_bellman_ford(vector<vector<pair<int, ll>>> const& adj, int src) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
   vector prev(n, -1);
@@ -200,7 +197,7 @@ SingleSource sssp_bellman_ford(vector<vector<pair<int, ll>>> const& adj, int src
  *   Bellmana-Forda. W grafie z ujemnym cyklem nie zatrzyma się.
  */
 SingleSource sssp_spfa(vector<vector<pair<int, ll>>> const& adj, int src) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<ll> dist(n, LLONG_MAX);
   vector prev(n, -1);
@@ -245,7 +242,7 @@ struct AllPairs {
  *   wierzchołków w grafie skierowanym w O(V^3).
  */
 AllPairs apsp_floyd_warshall(vector<vector<pair<int, ll>>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector dist(n, vector<ll>(n, LLONG_MAX));
   vector next(n, vector(n, -1));

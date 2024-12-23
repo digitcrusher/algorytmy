@@ -1,7 +1,7 @@
 /*
  * Otoczka wypukła - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,12 +11,10 @@
 #include "common.hpp"
 #include "geom/point.hpp"
 #include "geom/polygon.hpp"
-#include <algorithm>
-#include <vector>
 
 /*
  * Algorytm Grahama -
- *   Znaduje otoczkę wypukłą w kolejności przeciwnej
+ *   Znaduje otoczkę wypukłą w kolejności przeciwnej
  *   do ruchu wskazówek zegara zbioru punktów w O(n log n).
  */
 template<class A>

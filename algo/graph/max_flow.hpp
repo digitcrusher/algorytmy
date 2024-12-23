@@ -1,7 +1,7 @@
 /*
  * Maksymalny przeplyw - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,9 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <climits>
 #include <queue>
-#include <vector>
 
 /*
  * Algorytm Edmondsa-Karpa -
@@ -24,7 +22,7 @@ struct MaxFlow {
   ll global_flow;
 };
 MaxFlow max_flow(vector<vector<pair<int, ll>>> const& adj, int src, int sink) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector flow(n, vector(n, 0ll));
   ll global_flow = 0;

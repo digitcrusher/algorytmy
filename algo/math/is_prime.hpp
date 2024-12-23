@@ -1,7 +1,7 @@
 /*
  * Test pierwszości - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,10 +9,8 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 #include "math/mod.hpp"
 #include "math/sieve.hpp"
-#include <vector>
 
 /*
  * Pierwszość liczby można sprawdzać za pomocą sita.
@@ -23,7 +21,7 @@ bool is_prime_sieve(int x, Sieve const& sieve) {
 
 /*
  * Test pierwszości Millera-Rabina -
- *   Sprawdza czy liczba mieszcząca się w 64 bitach jest pierwsza w O(log x).
+ *   Sprawdza czy liczba mieszcząca się w 64 bitach jest pierwsza w O(log x).
  */
 bool is_prime_miller_rabin(ll x) {
   if(x <= 1) {

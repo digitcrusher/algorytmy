@@ -1,7 +1,7 @@
 /*
  * Kombinatoryka - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,160 +10,166 @@
 #pragma once
 #include "common.hpp"
 #include "math/mod.hpp"
-#include <numeric>
-#include <unordered_map>
-#include <vector>
 
 /*
- * Spamiętywana silnia w O(x)
- */
-unordered_map<ll, vector<ll>> fac_mem;
-ll const fac_skip = 1;
-ll fac(ll x, ll mod) {
-  assert(mod > 0 && x >= 0);
-  if(mod == 1) {
-    return 0;
-  } else if(x == 0) {
-    return 1;
-  }
-
-  auto i = min<int>(x / fac_skip, fac_mem[mod].size());
-  auto result = i == 0 ? 1 : fac_mem[mod][i - 1];
-  if(x / fac_skip - 1 >= fac_mem[mod].size()) {
-    fac_mem[mod].resize(x / fac_skip);
-  }
-  for(auto i: v::iota(i * fac_skip + 1, x + 1)) {
-    result = mod_mul(result, i, mod);
-    if(i % fac_skip == 0) {
-      fac_mem[mod][i / fac_skip - 1] = result;
-    }
-  }
-  return result;
-}
-
-/*
- * Zwyklejsza silnia w O(n)
+ * Spamiętywana silnia w O(x + log mod) dla pierwszego
+ * zapytania i O(1) dla kolejnych niewiększych od pierwszego
  */
 template<class Z>
 struct Fac {
-  vector<Z> fac, inv_fac;
+  vector<Z> fac = {1}, inv_fac = {1};
 
-  Fac(int n): fac(n + 1), inv_fac(n + 1) {
-    fac[0] = 1;
-    for(auto i: v::iota(1, n + 1)) {
-      fac[i] = fac[i - 1] * i;
-    }
-    inv_fac[n] = fac[n].inv();
-    for(auto i: v::iota(1, n + 1) | v::reverse) {
-      inv_fac[i - 1] = inv_fac[i] * i;
-    }
-  }
-
-  Z operator()(int x) const {
+  Z operator()(int x) {
+    preload(x);
     return fac[x];
   }
-  Z inv(int x) const {
+  Z inv(int x) {
+    preload(x);
     return inv_fac[x];
+  }
+
+  void preload(int n) {
+    int old_n = fac.size() - 1;
+    if(n <= old_n) return;
+    fac.resize(n + 1);
+    for(auto i: v::iota(old_n + 1, n + 1)) {
+      fac[i] = fac[i - 1] * i;
+    }
+    inv_fac.resize(n + 1);
+    inv_fac[n] = fac[n].inv();
+    for(auto i: v::iota(old_n + 1, n + 1) | v::reverse) {
+      inv_fac[i - 1] = inv_fac[i] * i;
+    }
   }
 };
 
 /*
- * Symbol Newtona -
- *  Liczba k-elementowych podzbiorów n-elementowego zbioru w O(n + log mod)
+ * Symbol Newtona - liczba k-elementowych podzbiorów n-elementowego zbioru
  */
-ll choose_fac(int n, int k, ll mod) {
-  assert(n >= 0 && mod > 0);
-  if(k < 0 || k > n) {
-    return 0;
-  }
-  auto a = fac(n, mod);
-  auto b = mod_inv(fac(n - k, mod), mod);
-  auto c = mod_inv(fac(k, mod), mod);
-  assert(b && c);
-  return mod_mul(mod_mul(a, *b, mod), *c, mod);
+auto choose(int n, int k, auto &fac) {
+  return 0 <= k && k <= n ? fac(n) * fac.inv(n - k) * fac.inv(k) : 0;
+}
+
+/*
+ * Liczba sposobów na wsadzenie n nierozróżnialnych elementów do k różnych zbiorów
+ */
+auto any_in_uniq(int n, int k, auto &fac) {
+  return choose(n + k - 1, k - 1, fac);
+}
+
+/*
+ * Liczba sposobów na wsadzenie n różnych elementów do k różnych zbiorów
+ */
+auto uniq_in_uniq(int n, int k, auto &fac) {
+  return any_in_uniq(n, k, fac) * fac(n);
+}
+
+/*
+ * Liczby Catalana - m.in. liczba poprawnych nawiasowań długości 2n
+ */
+auto catalan(int n, auto &fac) {
+  return choose(2 * n, n, fac) - choose(2 * n, n + 1, fac);
 }
 
 /*
  * Symbol Newtona -
  *   Liczba k-elementowych podzbiorów n-elementowego zbioru w O(min(k, n - k) log mod)
  */
-ll choose_mul(int n, int k, ll mod) {
-  assert(n >= 0 && mod > 0);
+template<class Z>
+Z choose(int n, int k) {
+  assert(n >= 0);
   if(k < 0 || k > n) {
     return 0;
   }
-  ll result = 1;
-  if(k > n - k) {
-    k = n - k;
-  }
-  for(auto i: v::iota(1, k + 1)) {
-    auto a = mod_inv(i, mod);
-    assert(a);
-    result = mod_mul(result, mod_mul(n - i + 1, *a, mod), mod);
+  Z result = 1;
+  for(auto i: v::iota(1, min(k, n - k) + 1)) {
+    result *= Z(i).inv() * (n - i + 1);
   }
   return result;
-}
-
-ll choose(int n, int k, ll mod) {
-  return choose_mul(n, k, mod);
-}
-
-/*
- * Liczba sposobów na wsadzenie n nierozróżnialnych elementów do k różnych zbiorów
- */
-ll any_in_uniq(int n, int k, ll mod) {
-  assert(mod > 0);
-  return choose(n + k - 1, k - 1, mod);
-}
-
-/*
- * Liczba sposobów na wsadzenie n różnych elementów do k różnych zbiorów
- */
-ll uniq_in_uniq(int n, int k, ll mod) {
-  assert(mod > 0);
-  return mod_mul(any_in_uniq(n, k, mod), fac(n, mod), mod);
 }
 
 /*
  * Podsilnia - liczba permutacji bez punktu stałego
  */
-ll subfac(int n, ll mod) {
-  assert(mod > 0);
-  vector<ll> result(max(n + 1, 2));
-  result[0] = 1;
-  result[1] = 0;
-  for(auto i: v::iota(2, n + 1)) {
-    result[i] = mod_mul(i - 1, result[i - 1] + result[i - 2], mod);
+template<class Z>
+struct Subfac {
+  vector<Z> subfac = {0, 1};
+
+  Z operator()(int x) {
+    preload(x);
+    return subfac[x];
   }
-  return result[n];
-}
+
+  void preload(int n) {
+    int old_n = subfac.size() - 1;
+    if(n <= old_n) return;
+    subfac.resize(n + 1);
+    for(auto i: v::iota(old_n + 1, n + 1)) {
+      subfac[i] = (subfac[i - 1] + subfac[i - 2]) * (i - 1);
+    }
+  }
+};
 
 /*
  * Klasyczne zastosowanie lematu Burnside'a do zliczenia wszystkich
- * cyklicznych ciągów długości n zawierających k możliwych wartości
+ * cyklicznych ciągów długości n zawierających wartości od 1 do k
  */
-ll burnside(int n, int k, ll mod) {
-  assert(mod > 0);
-  ll result = 0;
+template<class Z>
+Z burnside(int n, int k) {
+  Z result = 0;
   for(auto shift: v::iota(0, n)) {
-    result += mod_pow(k, gcd(shift, n), mod);
-    if(result >= mod) {
-      result -= mod;
-    }
+    result += Z(k).pow(gcd(shift, n));
   }
-  auto inv_n = mod_inv(n, mod);
-  assert(inv_n);
-  return mod_mul(result, *inv_n, mod);
+  return result * Z(n).inv();
 }
 
 /*
- * Liczby Catalana - m.in. liczba poprawnych nawiasowań długości 2n
+ * Spamiętywana silnia z przeskokami w O(x + log mod) dla pierwszego
+ * zapytania i O(skip) dla kolejnych niewiększych od pierwszego
  */
-ll catalan(int n, ll mod) {
-  assert(mod > 0);
-  auto result = choose(2 * n, n, mod) - choose(2 * n, n + 1, mod);
-  if(result < 0) {
-    result += mod;
+template<class Z>
+struct SkipFac {
+  vector<Z> fac = {1}, inv_fac = {1};
+  ll skip;
+
+  SkipFac(ll skip): skip(skip) {}
+
+  Z operator()(ll x) {
+    preload(x);
+    auto init = x / skip;
+    auto result = fac[init];
+    for(auto i: v::iota(skip * init + 1, x + 1)) {
+      result *= i;
+    }
+    return result;
   }
-  return result;
-}
+  Z inv(ll x) {
+    preload(x);
+    auto init = (x + skip - 1) / skip;
+    auto result = inv_fac[init];
+    for(auto i: v::iota(x + 1, skip * init + 1)) {
+      result *= i;
+    }
+    return result;
+  }
+
+  void preload(ll x) {
+    int n = (x + skip - 1) / skip, old_n = fac.size() - 1;
+    if(n <= old_n) return;
+    fac.resize(n + 1);
+    for(auto i: v::iota(old_n + 1, n + 1)) {
+      fac[i] = fac[i - 1];
+      for(auto j: v::iota(0, skip)) {
+        fac[i] *= skip * i - j;
+      }
+    }
+    inv_fac.resize(n + 1);
+    inv_fac[n] = fac[n].inv();
+    for(auto i: v::iota(old_n + 1, n + 1) | v::reverse) {
+      inv_fac[i - 1] = inv_fac[i];
+      for(auto j: v::iota(0, skip)) {
+        inv_fac[i - 1] *= skip * i - j;
+      }
+    }
+  }
+};

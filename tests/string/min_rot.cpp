@@ -1,6 +1,5 @@
 #include "string/min_rot.hpp"
 #include "iostream.hpp"
-#include <algorithm>
 
 int main() {
   while(cin) {

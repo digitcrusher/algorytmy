@@ -2,15 +2,12 @@
 #include "iostream.hpp"
 
 int main() {
-  ll mod;
-  cin >> mod;
-
   struct AlphaToNum {
     int operator()(char c) {
       return c - 'a';
     }
   };
-  RollingHash<'z' - 'a' + 1, AlphaToNum> window(mod);
+  RollingHash<Z<MOD>, 'z' - 'a' + 1, AlphaToNum> window;
 
   while(cin) {
     string op;

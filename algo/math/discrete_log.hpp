@@ -1,7 +1,7 @@
 /*
  * Logarytm dyskretny - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,8 +11,6 @@
 #include "common.hpp"
 #include "math/mod.hpp"
 #include <cmath>
-#include <numeric>
-#include <optional>
 #include <unordered_map>
 
 /*
@@ -21,10 +19,9 @@
  *   w O(sqrt(mod)). Rozpatrzenie przypadku gdy x = 0 jest trywialne, dlatego
  *   nie jest on tutaj uwzględniony.
  */
-optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
-  a = norm_mod(a, mod);
-  b = norm_mod(b, mod);
-  k = norm_mod(k, mod);
+template<class Z>
+optional<ll> discrete_log(Z _a, Z _b, Z _k = 1) {
+  auto a = (ll) _a, b = (ll) _b, k = (ll) _k, mod = Z::mod;
 
   ll g, off = 0;
   while((g = gcd(a, mod)) > 1) {
@@ -39,7 +36,7 @@ optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
     }
     b /= g;
     mod /= g;
-    k = mod_mul(k, a / g, mod);
+    k = k * (i128) (a / g) % mod;
     off++;
   }
 
@@ -52,14 +49,14 @@ optional<ll> discrete_log(ll a, ll b, ll mod, ll k = 1) {
   auto curr = b;
   for(auto q: v::iota(0, n)) {
     qs[curr] = q;
-    curr = mod_mul(curr, a, mod);
+    curr = curr * (i128) a % mod;
   }
 
   curr = k;
   for(auto p: v::iota(1, n + 1)) {
-    curr = mod_mul(curr, a_pow_n, mod);
+    curr = curr * (i128) a_pow_n % mod;
     if(qs.count(curr) != 0) {
-      auto ans = norm_mod(mod_mul(n, p, mod) - qs[curr] + off, mod);
+      auto ans = n * p - qs[curr] + off;
       if(ans != 0) {
         return ans;
       }

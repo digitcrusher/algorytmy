@@ -1,7 +1,7 @@
 /*
  * Dwukolorowanie grafu - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <optional>
-#include <vector>
 
 /*
  * Dwukolorowanie grafu nieskierowanego -
@@ -18,7 +16,7 @@
  *   tak, aby dwie takie same liczby nie sąsiadowały ze sobą.
  */
 optional<vector<int>> two_color(vector<vector<int>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector color(n, -1);
   auto assign = Y([&](auto &self, int node) -> bool {

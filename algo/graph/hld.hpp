@@ -1,7 +1,7 @@
 /*
  * Heavy-light decomposition - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,14 +11,13 @@
 #include "common.hpp"
 #include "graph/binary_lift.hpp"
 #include "graph/lca.hpp"
-#include <vector>
 
 /*
  * Heavy-light decomposition (HLD) -
  *   Rozkłada ukorzenione drzewo na "ciężkie" ścieżki w O(V) tak, że na każdej
  *   ścieżce z dowolnego wierzchołka do korzenia jest O(log V) ciężkich ścieżek,
  *   oraz przypisuje wierzchołkom numerację preorder tak, że kolejne wierzchołki
- *   na cięzkiej ścieżce mają przypisane kolejne liczby całkowite dodatnie.
+ *   na cięzkiej ścieżce mają przypisane kolejne liczby całkowite dodatnie.
  */
 struct HLD {
   int root;
@@ -28,7 +27,7 @@ struct HLD {
   vector<int> lift, depth;
 
   HLD(vector<vector<int>> adj, int root): root(root) {
-    int const n = adj.size();
+    int n = adj.size();
 
     size.resize(n, -1);
     parent.resize(n);
@@ -73,11 +72,11 @@ struct HLD {
     lift = binary_lift(parent);
   }
 
-  int node(int node) {
+  int node(int node) const {
     return entry[node];
   }
 
-  vector<pair<int, int>> path(int a, int b) {
+  vector<pair<int, int>> path(int a, int b) const {
     vector<pair<int, int>> result;
 
     auto lca = lca_lifting(parent, lift, depth, a, b);
@@ -100,7 +99,7 @@ struct HLD {
     return result;
   }
 
-  pair<int, int> subtree(int node) {
+  pair<int, int> subtree(int node) const {
     return {entry[node], entry[node] + size[node] - 1};
   }
 };

@@ -22,7 +22,7 @@ int main() {
         adj[a].emplace_back(b, cost);
       }
 
-    } else if(op.substr(0, 5) == "sssp_") {
+    } else if(op.starts_with("sssp_")) {
       int src;
       cin >> src;
       src--;

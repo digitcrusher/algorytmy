@@ -1,7 +1,7 @@
 /*
  * Ścieżki - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,9 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <climits>
-#include <optional>
-#include <vector>
 
 /*
  * Oblicza liczbę ścieżek z wierzchołka src do każdego innego w DAGu w O(V + E).
@@ -19,7 +16,7 @@
  * ogólniejszych grafów jest #P-zupełny.
  */
 vector<ll> count_paths_dag(vector<vector<int>> const& rev_adj, int src) {
-  int const n = rev_adj.size();
+  int n = rev_adj.size();
 
   vector result(n, -1ll);
   result[src] = 1;
@@ -44,7 +41,7 @@ vector<ll> count_paths_dag(vector<vector<int>> const& rev_adj, int src) {
  * Ten problem dla ogólniejszych grafów jest NP-trudny.
  */
 optional<vector<int>> longest_path_dag(vector<vector<int>> const& adj, int from, int to) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<int> dist(n, -1), next(n);
   dist[to] = 0;
@@ -84,9 +81,7 @@ struct MaxDistTree {
   int a, b;
 };
 MaxDistTree max_dist_tree(vector<vector<int>> const& adj) {
-  int const n = adj.size();
-
-  vector max_dist(n, 0);
+  vector max_dist(adj.size(), 0);
 
   auto dfs = Y([&](auto &self, int node, int parent, int dist) -> int {
     max_dist[node] = max(max_dist[node], dist);

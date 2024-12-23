@@ -1,7 +1,7 @@
 /*
  * Sortowanie topologiczne - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,8 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <queue>
-#include <stdexcept>
-#include <vector>
 
 /*
  * Algorytm Kahna -
@@ -19,7 +17,7 @@
  *   skierowanego grafu acyklicznego w O(V + E).
  */
 vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<int> result;
   result.reserve(n);
@@ -60,7 +58,7 @@ vector<int> toposort_kahn(vector<vector<int>> const& adj, vector<int> in_deg) {
  * grafu acyklicznego z użyciem DFS w O(V + E).
  */
 vector<int> toposort_dfs(vector<vector<int>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<int> result(n);
   auto next_idx = n - 1;

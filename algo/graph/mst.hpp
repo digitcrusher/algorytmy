@@ -1,7 +1,7 @@
 /*
  * Minimalne drzewo rozpinające - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,10 +10,7 @@
 #pragma once
 #include "common.hpp"
 #include "ds/dsu/standard.hpp"
-#include <algorithm>
-#include <climits>
 #include <queue>
-#include <vector>
 
 struct Edge {
   int a, b;
@@ -52,7 +49,7 @@ MST mst_kruskal(int nodec, vector<Edge> edges) {
  *   Znajduje minimalny las rozpinający grafu nieskierowanego w O(E log V).
  */
 MST mst_prim(vector<vector<Edge>> const& incident) {
-  int const n = incident.size();
+  int n = incident.size();
 
   MST mst;
   mst.edges.reserve(n - 1);
@@ -89,7 +86,7 @@ MST mst_prim(vector<vector<Edge>> const& incident) {
 }
 
 MST mst_prim(vector<vector<pair<int, ll>>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   MST mst;
   mst.edges.reserve(n - 1);

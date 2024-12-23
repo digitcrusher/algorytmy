@@ -1,6 +1,5 @@
 #include "graph/gen.hpp"
 #include "iostream.hpp"
-#include <ctime>
 
 int main() {
   auto is_directed = false;

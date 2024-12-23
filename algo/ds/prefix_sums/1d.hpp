@@ -1,7 +1,7 @@
 /*
  * Sumy prefiksowe - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <numeric>
-#include <vector>
 
 /*
  * Sumy prefiksowe -
@@ -39,7 +37,7 @@ struct PrefixSums {
     partial_sum(sums.begin(), sums.end(), sums.begin(), add);
   }
 
-  Value get(int l, int r) {
+  Value get(int l, int r) const {
     assert(l <= r);
     if(l == 0) {
       return sums[r];

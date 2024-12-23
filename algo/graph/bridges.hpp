@@ -1,7 +1,7 @@
 /*
  * Mosty, punkty artykulacji i dwuspójne składowe - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <vector>
 
 /*
  * Znajduje mosty, punkty artykulacji i dwuspójne składowe
@@ -32,7 +31,7 @@ struct BCCs {
   }
 };
 pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<pair<int, int>> bridges;
   vector<int> cut_vertices;
@@ -65,15 +64,10 @@ pair<Bridges, BCCs> bridges(vector<vector<int>> const& adj) {
         }
         is_first_child = false;
 
-        if(entry[bccs.parent[child]] < entry[bccs.parent[node]]) {
-          bccs.parent[node] = bccs.parent[child];
-        }
+        bccs.parent[node] = r::min(bccs.parent[node], bccs.parent[child], {}, λ(entry[_]));
       } else {
         low[node] = min(low[node], entry[child]);
-
-        if(entry[child] < entry[bccs.parent[node]]) {
-          bccs.parent[node] = child;
-        }
+        bccs.parent[node] = r::min(bccs.parent[node], child, {}, λ(entry[_]));
       }
     }
 

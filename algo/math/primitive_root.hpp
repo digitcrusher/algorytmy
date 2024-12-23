@@ -1,7 +1,7 @@
 /*
  * Pierwiastek pierwotny - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -12,8 +12,6 @@
 #include "math/eulers_phi.hpp"
 #include "math/factor.hpp"
 #include "math/mod.hpp"
-#include <algorithm>
-#include <optional>
 
 /*
  * Pierwiastek pierwotny -
@@ -31,10 +29,9 @@ optional<ll> primitive_root(ll mod) {
   }
 
   auto mod_factors = factor_pollard_rho(mod);
-  pair const two = {2ll, 1};
   if(mod_factors.size() > 2 ||
      (mod_factors.size() == 1 && mod_factors[0].first == 2) ||
-     (mod_factors.size() == 2 && mod_factors[0] != two && mod_factors[1] != two)) {
+     (mod_factors.size() == 2 && r::count(mod_factors, pair(2ll, 1)) == 0)) {
     return nullopt;
   }
 

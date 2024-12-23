@@ -1,7 +1,7 @@
 /*
  * Wyszukiwanie wzorca w tekście - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,11 +9,9 @@
  */
 #pragma once
 #include "common.hpp"
+#include "math/mod.hpp"
 #include "string/prefix_func.hpp"
 #include "string/rolling_hash.hpp"
-#include <algorithm>
-#include <string>
-#include <vector>
 
 /*
  * Algorytm Rabina-Karpa -
@@ -22,17 +20,17 @@
  */
 template<int alpha_size>
 vector<int> search_rabin_karp(string const& str, string const& pattern, auto alpha_to_num) {
-  int const n = str.size(), m = pattern.size();
-  ll const mod = 4611686018427387847;
+  int n = str.size(), m = pattern.size();
 
-  ll pattern_hash = 0;
+  using Z = Z<(1ull << 62) - 57, true>;
+  Z pattern_hash = 0;
   for(auto i: pattern) {
-    pattern_hash = norm_mod(mod_mul(pattern_hash, alpha_size + 1, mod) + alpha_to_num(i) + 1, mod);
+    pattern_hash = pattern_hash * (alpha_size + 1) + alpha_to_num(i) + 1;
   }
 
   vector<int> result;
 
-  RollingHash<alpha_size, decltype(alpha_to_num)> window(mod, alpha_to_num);
+  RollingHash<Z, alpha_size, decltype(alpha_to_num)> window(alpha_to_num);
   for(auto i: v::iota(0, n)) {
     window.push(str[i]);
     if(window.size() > pattern.size()) {
@@ -54,7 +52,7 @@ vector<int> search_rabin_karp(string const& str, string const& pattern, auto alp
  *   Znajduje pozycje wszystkich wystąpień wzorca w O(n + m).
  */
 vector<int> search_kmp(string const& str, string const& pattern) {
-  int const n = str.size(), m = pattern.size();
+  int n = str.size(), m = pattern.size();
 
   vector<int> result;
 

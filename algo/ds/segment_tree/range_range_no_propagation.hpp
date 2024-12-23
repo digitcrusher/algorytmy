@@ -2,7 +2,7 @@
  * Drzewo przedziałowe przedział-przedział bez propagacji
  *                                 digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,7 +11,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <vector>
 
 /*
  * Drzewo przedziałowe przedział-przedział bez propagacji -
@@ -71,27 +70,39 @@ template<
     resum(0, elemc - 1);
   }
 
+  SegmentTreeNoPropagation(int elemc, Value zero, Sum sum = {},
+                           ApplyChange apply_change = {},
+                           MergeChange merge_change = {}):
+    elemc(elemc), sum(sum), apply_change(apply_change), merge_change(merge_change)
+  {
+    height = ceil_log2(elemc) + 1;
+    nodec = (1u << height) - 1;
+    base_nodec = 1u << (height - 1);
+    base_offset = (1u << (height - 1)) - 1;
+    nodes.resize(nodec, Node{ .val = zero });
+  }
+
   Value get(int l, int r) {
     assert(0 <= l && l <= r && r < elemc);
     auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> Value {
       auto &node = nodes[num - 1];
-      if(is_in(node_l, node_r, l, r)) {
+      if(l <= node_l && node_r <= r) {
         return node.val;
-      } else {
-        Value result;
-        auto mid = (node_l + node_r) / 2;
-        if(!do_intersect(mid + 1, node_r, l, r)) {
-          result = self(2 * num, node_l, mid);
-        } else if(!do_intersect(node_l, mid, l, r)) {
-          result = self(2 * num + 1, mid + 1, node_r);
-        } else {
-          result = sum(self(2 * num, node_l, mid), self(2 * num + 1, mid + 1, node_r));
-        }
-        if(node.has_change) {
-          result = apply_change(result, node.change, min(r, node_r) - max(l, node_l) + 1);
-        }
-        return result;
       }
+
+      Value result;
+      auto mid = (node_l + node_r) / 2;
+      if(r <= mid) {
+        result = self(2 * num, node_l, mid);
+      } else if(mid + 1 <= l) {
+        result = self(2 * num + 1, mid + 1, node_r);
+      } else {
+        result = sum(self(2 * num, node_l, mid), self(2 * num + 1, mid + 1, node_r));
+      }
+      if(node.has_change) {
+        result = apply_change(result, node.change, min(r, node_r) - max(l, node_l) + 1);
+      }
+      return result;
     });
     return descend(1, 0, base_nodec - 1);
   }
@@ -99,19 +110,20 @@ template<
   void modify(int l, int r, Change change) {
     assert(0 <= l && l <= r && r < elemc);
     auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> void {
-      if(is_in(node_l, node_r, l, r)) {
+      if(l <= node_l && node_r <= r) {
         receive_change(num, node_l, node_r, change);
-      } else {
-        auto mid = (node_l + node_r) / 2;
-        if(do_intersect(node_l, mid, l, r)) {
-          self(2 * num, node_l, mid);
-        }
-        if(do_intersect(mid + 1, node_r, l, r)) {
-          self(2 * num + 1, mid + 1, node_r);
-        }
-        if(node_r < elemc) {
-          nodes[num - 1].val = apply_change(nodes[num - 1].val, change, min(r, node_r) - max(l, node_l) + 1);
-        }
+        return;
+      }
+
+      auto mid = (node_l + node_r) / 2;
+      if(l <= mid) {
+        self(2 * num, node_l, mid);
+      }
+      if(mid + 1 <= r) {
+        self(2 * num + 1, mid + 1, node_r);
+      }
+      if(node_r < elemc) {
+        nodes[num - 1].val = apply_change(nodes[num - 1].val, change, min(r, node_r) - max(l, node_l) + 1);
       }
     });
     descend(1, 0, base_nodec - 1);
@@ -128,18 +140,18 @@ template<
       if(node.has_change) {
         node.has_change = false;
 
-        if(!is_in(node_l, mid, l, r)) {
+        if(!(l <= node_l && mid <= r)) {
           receive_change(2 * num, node_l, mid, node.change);
         }
-        if(!is_in(mid + 1, node_r, l, r) && mid + 1 < elemc) {
+        if(!(l <= mid + 1 && node_r <= r) && mid + 1 < elemc) {
           receive_change(2 * num + 1, mid + 1, node_r, node.change);
         }
       }
 
-      if(do_intersect(node_l, mid, l, r)) {
+      if(l <= mid) {
         self(2 * num, node_l, mid);
       }
-      if(do_intersect(mid + 1, node_r, l, r)) {
+      if(mid + 1 <= r) {
         self(2 * num + 1, mid + 1, node_r);
       }
       if(node_r < elemc) {

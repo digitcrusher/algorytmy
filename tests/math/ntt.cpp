@@ -2,27 +2,29 @@
 #include "iostream.hpp"
 
 int main() {
+  using Z = Z<MOD>;
+  NTT<Z> ntt;
+
   while(cin) {
     string op;
-    ll mod;
     int n;
-    cin >> op >> mod >> n;
-    vector<ll> a(n);
+    cin >> op >> n;
+    vector<Z> a(n);
     cin >> a;
 
     if(op == "dft") {
-      ntt(a, mod);
+      ntt(a);
 
     } else if(op == "idft") {
-      ntt(a, mod, true);
+      ntt(a, true);
 
-    } else if(op == "mul") {
+    } else if(op == "conv") {
       int m;
       cin >> m;
-      vector<ll> b(m);
+      vector<Z> b(m);
       cin >> b;
 
-      mul(a, b, mod);
+      ntt.conv(a, b);
     }
 
     cout << a << endl;

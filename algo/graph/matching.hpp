@@ -1,7 +1,7 @@
 /*
  * Skojarzenie - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,9 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <climits>
 #include <queue>
-#include <vector>
 
 /*
  * Algorytm Hopcroft-Karp (tzw. "Turbo Matching") -
@@ -25,7 +23,7 @@ Matching match_hopcroft_karp(vector<vector<int>> const& adj,
                              vector<int> const& as,
                              vector<int> const& bs)
 {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector pair(n, -1);
   auto pairc = 0;

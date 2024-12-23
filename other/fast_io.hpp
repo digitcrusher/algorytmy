@@ -1,7 +1,7 @@
 /*
  * Szybkie I/O - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,116 +9,115 @@
  */
 #pragma once
 #include "common.hpp"
-#include <cstdio>
-#include <cctype>
-#include <string>
-#include <type_traits>
-#include <utility>
-#include <vector>
 
 /*
- * Szybkie wczytywanie do zmiennej
+ * Szybki drop-in zamiennik dla cin i cout.
  */
-void read(char &c) {
-  do {
-    c = getchar_unlocked();
-  } while(isspace(c));
-}
-
-void read(string &str) {
-  while(true) {
-    auto c = getchar_unlocked();
-    if(!isspace(c)) {
-      str.push_back(c);
-    } else if(!str.empty()) break;
+struct {
+  auto& operator>>(char &c) {
+    do {
+      c = getchar_unlocked();
+    } while(isspace(c));
+    return *this;
   }
-}
 
-void read(std::integral auto &num) {
-  num = 0;
-  auto is_start = true, is_neg = false;
-  while(true) {
-    auto c = getchar_unlocked();
-    if(!isspace(c)) {
-      if(c == '-' && !is_neg) {
-        is_neg = true;
-      } else {
-        assert('0' <= c && c <= '9');
-        num *= 10;
-        num += c - '0';
+  auto& operator>>(string &str) {
+    str.clear();
+    while(true) {
+      auto c = getchar_unlocked();
+      if(!isspace(c)) {
+        str.push_back(c);
+      } else if(!str.empty()) break;
+    }
+    return *this;
+  }
+
+  auto& operator>>(std::integral auto &num) {
+    num = 0;
+    auto is_start = true, is_neg = false;
+    while(true) {
+      auto c = getchar_unlocked();
+      if(!isspace(c)) {
+        if(c == '-' && !is_neg) {
+          is_neg = true;
+        } else {
+          assert('0' <= c && c <= '9');
+          num *= 10;
+          num += c - '0';
+        }
         is_start = false;
-      }
-    } else if(!is_start) break;
+      } else if(!is_start) break;
+    }
+    if(is_neg) {
+      num = -num;
+    }
+    return *this;
   }
-  if(is_neg) {
-    num = -num;
-  }
-}
 
-void read(pair<auto, auto> &pair) {
-  read(pair.first);
-  read(pair.second);
-}
-
-void read(vector<auto> &vec) {
-  for(auto &i: vec) {
-    read(i);
+  auto& operator>>(pair<auto, auto> &pair) {
+    return *this >> pair.first >> pair.second;
   }
-}
 
-/*
- * Szybkie wypisanie wartości
- */
-auto const fastio_out_size = 1'000'000;
-auto fastio_out_cnt = 0;
-char fastio_out[fastio_out_size];
+  auto& operator>>(r::range auto &range) {
+    for(auto &i: range) {
+      *this >> i;
+    }
+    return *this;
+  }
 
-void fastio_flush() {
-  fwrite(fastio_out, sizeof(char), fastio_out_cnt, stdout);
-  fastio_out_cnt = 0;
-}
+  char out[1'000'000];
+  int out_cnt = 0;
 
-void print(char c) {
-  if(fastio_out_cnt >= fastio_out_size) {
-    fastio_flush();
+  void flush() {
+    fwrite(out, sizeof(char), out_cnt, stdout);
+    out_cnt = 0;
   }
-  fastio_out[fastio_out_cnt++] = c;
-}
 
-void print(string const& str) {
-  for(auto i: str) {
-    print(i);
+  auto& operator<<(char c) {
+    if(out_cnt >= std::size(out)) {
+      flush();
+    }
+    out[out_cnt++] = c;
+    return *this;
   }
-}
 
-void print(std::integral auto num) {
-  if(num == 0) {
-    print('0');
-    return;
+  auto& operator<<(string const& str) {
+    for(auto i: str) {
+      *this << i;
+    }
+    return *this;
   }
-  if(num < 0) {
-    print('-');
-    num = -num;
-  }
-  char rev[32];
-  auto cnt = 0;
-  while(num > 0) {
-    rev[cnt] = num % 10 + '0';
-    num /= 10;
-    cnt++;
-  }
-  for(int i = cnt - 1; i >= 0; i--) {
-    print(rev[i]);
-  }
-}
 
-void print(char const* str) {
-  while(*str != '\0') {
-    print(*str);
-    str++;
+  auto& operator<<(std::integral auto num) {
+    if(num == 0) {
+      return *this << '0';
+    }
+    if(num < 0) {
+      *this << '-';
+      num = -num;
+    }
+    char rev[32];
+    auto cnt = 0;
+    while(num > 0) {
+      rev[cnt] = num % 10 + '0';
+      num /= 10;
+      cnt++;
+    }
+    for(auto i = cnt - 1; i >= 0; i--) {
+      *this << rev[i];
+    }
+    return *this;
   }
-}
 
-void print(bool val) {
-  print(val ? "true" : "false");
-}
+  auto& operator<<(char const* str) {
+    while(*str != '\0') {
+      *this << *str;
+      str++;
+    }
+    return *this;
+  }
+
+  auto& operator<<(bool val) {
+    return *this << (val ? "true" : "false");
+  }
+} fastio;

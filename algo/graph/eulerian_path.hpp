@@ -1,7 +1,7 @@
 /*
  * Ścieżka Eulera (lub cykl) - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,15 +10,13 @@
 #pragma once
 #include "common.hpp"
 #include "hash.hpp"
-#include <optional>
 #include <unordered_set>
-#include <vector>
 
 /*
  * Znajduje ścieżkę Eulera (lub cykl) w grafie skierowanym w O(V + E).
  */
 optional<vector<int>> eulerian_path_dir(vector<vector<int>> adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   auto m = 0;
   vector deg(n, 0);
@@ -64,7 +62,7 @@ optional<vector<int>> eulerian_path_dir(vector<vector<int>> adj) {
  * Znajduje ścieżkę Eulera (lub cykl) w grafie nieskierowanym w O(V + E).
  */
 optional<vector<int>> eulerian_path_undir(vector<vector<int>> adj) {
-  int const n = adj.size();
+  int n = adj.size();
 
   auto m = 0, start = -1, end = -1;
   for(auto i: v::iota(0, n)) {

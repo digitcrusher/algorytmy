@@ -1,7 +1,7 @@
 /*
  * Różne operacje na liczbach całkowitych - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <bit>
-#include <limits>
 
 /*
  * Zwraca wykładnik największej potęgi dwójki mniejszej lub równej x.
@@ -90,7 +88,7 @@ bool do_intersect(A a1, A a2, A b1, A b2) {
 }
 
 /*
- * Czy punkt zawiera się w przedziale?
+ * Czy punkt zawiera się w przedziale?
  */
 template<class A>
 bool do_intersect(A a1, A a2, A b) {
@@ -101,7 +99,7 @@ bool do_intersect(A a1, A a2, A b) {
 }
 
 /*
- * Czy przedział a zawiera się w przedziale b?
+ * Czy przedział a zawiera się w przedziale b?
  */
 template<class A>
 bool is_in(A a1, A a2, A b1, A b2) {

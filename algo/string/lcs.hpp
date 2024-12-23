@@ -1,7 +1,7 @@
 /*
  * Najdłuższy wspólny podciąg - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,19 +9,15 @@
  */
 #pragma once
 #include "common.hpp"
-#include <algorithm>
-#include <numeric>
-#include <string>
-#include <vector>
 
 /*
  * Oblicza długość najdłuższego wspólnego podciągu a i b
  * w O(a * b) z zużyciem pamięci O(min(a, b)).
  */
 int lcs_len(string const& _a, string const& _b) {
-  string const& a = _a.size() >= _b.size() ? _a : _b;
-  string const& b = _b.size() <= _a.size() ? _b : _a;
-  int const n = a.size(), m = b.size();
+  auto const& a = _a.size() >= _b.size() ? _a : _b;
+  auto const& b = _b.size() <= _a.size() ? _b : _a;
+  int n = a.size(), m = b.size();
 
   vector curr(m + 1, 0), prev(m + 1, 0);
   for(auto i: v::iota(1, n + 1)) {
@@ -42,7 +38,7 @@ int lcs_len(string const& _a, string const& _b) {
  * prefiksów a i prefiksów b w O(a * b) z zużyciem pamięci O(a * b).
  */
 vector<vector<int>> lcs_dp(string const& a, string const& b) {
-  int const n = a.size(), m = b.size();
+  int n = a.size(), m = b.size();
 
   vector dp(n + 1, vector(m + 1, 0));
   for(auto i: v::iota(1, n + 1)) {
@@ -89,9 +85,9 @@ string lcs_str(string const& a, string const& b,
  * w O(a * b) z zużyciem pamięci O(min(a, b)).
  */
 string lcs_str(string const& _a, string const& _b) {
-  auto const& a = _a.size() >= _b.size() ? _a : _b;
-  auto const& b = _b.size() <= _a.size() ? _b : _a;
   auto are_swapped = _a.size() < _b.size();
+  auto const& a = are_swapped ? _b : _a;
+  auto const& b = are_swapped ? _a : _b;
 
   string result;
   auto path_i = 0, path_j = 0;
@@ -103,7 +99,7 @@ string lcs_str(string const& _a, string const& _b) {
   };
 
   auto conquer = Y([&](auto &self, int a1, int b1, int a2, int b2) -> void {
-    auto const n = a2 - a1, m = b2 - b1;
+    auto n = a2 - a1, m = b2 - b1;
 
     if(n <= 1) {
       auto did_match = false;

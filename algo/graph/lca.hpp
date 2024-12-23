@@ -1,7 +1,7 @@
 /*
  * Najniższy wspólny przodek - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,8 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "ds/sparse_table.hpp"
-#include <climits>
-#include <vector>
 
 /*
  * Znajduje najniższego wspólnego przodka dwóch wierzchołków
@@ -87,7 +85,7 @@ int lca_worse_lifting(vector<vector<int>> const& lift,
  * przetwarzaniu w O(V).
  */
 int lca_rmq(vector<vector<int>> const& adj, int root, int a, int b) {
-  int const n = adj.size();
+  int n = adj.size();
 
   vector<int> entry(n), depth(n);
   vector<int> euler_tour;
@@ -105,7 +103,7 @@ int lca_rmq(vector<vector<int>> const& adj, int root, int a, int b) {
   depth[root] = 0;
   dfs(root, -1);
 
-  auto sum = λ2(depth[_1] < depth[_2] ? _1 : (depth[_1] > depth[_2] ? _2 : min(_1, _2)));
+  auto sum = λ2(r::min(_1, _2, {}, λ(depth[_])));
   SparseTable<int, decltype(sum)> rmq(euler_tour, sum);
 
   return rmq.get(min(entry[a], entry[b]), max(entry[a], entry[b]));

@@ -3,18 +3,15 @@
  * z użyciem struktury zbiorów rozłącznych
  *                                   digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
  * as-is, without any warranty.
  */
 #include "common.hpp"
-#include <climits>
-#include <iostream>
-#include <numeric>
+#include "iostream.hpp"
 #include <set>
-#include <vector>
 
 int main() {
   ios_base::sync_with_stdio(false);
@@ -51,7 +48,7 @@ int main() {
     grips_set.erase(grips_set.find(let_gos[i]));
   }
 
-  int const never = INT_MAX;
+  constexpr auto never = INT_MAX;
   vector fall_times(n, -1);
   fall_times[0] = never;
 

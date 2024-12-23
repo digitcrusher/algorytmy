@@ -2,11 +2,9 @@
 
 ## Metodologia
 
-- Nie ma jednej implementacji algorytmu zaspokojającej wszystkie przypadki użycia, więc algorytmy powinny być proste do skopiowania, wklejenia do własnego kodu i zmodyfikowania w ważnych punktach ich działania.
+- Biblioteczka powinna być stworzona z myślą o 90% przypadków użycia - algorytmy powinny być w nich szybkie do skopiowania, nie wymagać żadnych wewnętrznych modyfikacji i być wygodne w użyciu.
 
-- Wszystkie algorytmy w tej bibliotece powinny być możliwie niezależnymi od siebie kawałkami kodu, wymagać jak najmniej kodu do samodzielnego funkcjonowania i mieć jak najprostszy interfejs.
-
-- Kod ma być czytelny, krótki, bez mikrooptymalizacji.
+- Dla zaspokojenia tych pozostałych 10% kod powinien być czytelny, krótki i bez mikrooptymalizacji - tak, żeby można było go łatwo zmodyfikować w ważnych punktach jego działania.
 
 - Asserty powinny sprawdzać warunki dotyczące wejścia, które nie mogą być wykryte na inne sposoby (np. przez sygnał naruszenia ochrony pamięci lub tryb debugowania w glibc++).
 
@@ -15,10 +13,9 @@
 ### Algorytmy
 
 - [ ] matematyka
-  - [x] NWD, NWW
   - [x] mnożenie i potęgowanie modularne
   - [x] rozszerzony algorytm Euklidesa
-  - [x] odwrotność modularna
+  - [x] odwrotność modularna
   - [x] liniowe równania diofantyczne
   - [x] chińskie twierdzenie o resztach
   - [x] logarytm dyskretny
@@ -27,7 +24,7 @@
   - [x] rozkład na czynniki pierwsze - z sita, rho Pollarda
   - [x] funkcja φ Eulera
   - [x] liczba, suma i iloczyn dzielników
-  - [x] silnia - spamiętywana, zwyklejsza
+  - [x] spamiętywana silnia - zwykła, z przeskokami
   - [x] symbol Newtona
   - [x] liczba podziałów elementów do kilku zbiorów
   - [x] FFT

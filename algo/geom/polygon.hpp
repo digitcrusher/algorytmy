@@ -1,7 +1,7 @@
 /*
  * Wielokąt - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "geom/point.hpp"
-#include <vector>
 
 template<class A>
 struct Polygon {
@@ -19,26 +18,26 @@ struct Polygon {
   Polygon() {}
   Polygon(vector<Point<A>> &&pts): pts(pts) {}
 
-  ld signed_area() {
+  ld signed_area() const {
     A result = 0;
     auto a = pts.back();
     for(auto b: pts) {
       result += cross(a, b);
       a = b;
     }
-    return (ld) result / 2;
+    return result / 2.0l;
   }
-  ld area() {
+  ld area() const {
     return abs(signed_area());
   }
-  bool is_ccw() {
+  bool is_ccw() const {
     return signed_area() >= 0;
   }
 
   enum Side {
     inside, edge, outside
   };
-  Side which_side(Point<A> pt) {
+  Side which_side(Point<A> pt) const {
     auto is_in = false;
     auto prev = pts.back();
     for(auto curr: pts) {

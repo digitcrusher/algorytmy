@@ -1,7 +1,7 @@
 /*
  * Najdłuższy rosnący podciąg - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,14 +10,12 @@
 #pragma once
 #include "common.hpp"
 #include "ds/segment_tree/point_range.hpp"
-#include <algorithm>
-#include <vector>
 
 /*
  * Znajduje najdłuższy rosnący podciąg w O(n log n).
  */
 vector<int> lis(vector<ll> const& nums) {
-  int const n = nums.size();
+  int n = nums.size();
 
   vector<int> dp;
   dp.reserve(n);
@@ -50,7 +48,7 @@ vector<int> lis(vector<ll> const& nums) {
  * drzewa przedziałowego punkt-przedział w O(n log n).
  */
 vector<int> lis_segtree(vector<ll> const& nums) {
-  int const n = nums.size();
+  int n = nums.size();
 
   auto sorted = nums;
   r::sort(sorted);

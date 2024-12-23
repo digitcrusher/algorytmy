@@ -1,7 +1,7 @@
 /*
  * Sumy pierwiastkowe - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include <cmath>
-#include <vector>
 
 /*
  * Sumy pierwiastkowe -
@@ -48,6 +47,12 @@ struct SqrtSums {
       }
     }
   }
+
+  SqrtSums(int elemc, Value zero, Sum sum = {},
+           ApplyChange apply_change = {}):
+    elemc(elemc), block_size(max<int>(sqrt(elemc), 1)),
+    elems(elemc, zero), sums(elemc / block_size, zero),
+    sum(sum), apply_change(apply_change) {}
 
   Value get(int l, int r) {
     assert(l <= r && r < elemc);

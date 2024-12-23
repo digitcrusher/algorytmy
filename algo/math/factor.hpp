@@ -1,7 +1,7 @@
 /*
  * Rozkład na dzielniki pierwsze - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,15 +9,10 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 #include "math/is_prime.hpp"
-#include "math/mod.hpp"
 #include "math/sieve.hpp"
-#include <cstdlib>
-#include <numeric>
 #include <stack>
 #include <unordered_map>
-#include <vector>
 
 /*
  * Zwraca czynniki pierwsze liczby w kolejności rosnącej przy pomocy
@@ -48,7 +43,7 @@ vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
   assert(lim * lim >= x);
 
   vector<pair<ll, int>> result;
-  for(auto prime: sieve.primes | v::take_while(λ((ll) _ * _ <= x)) | v::filter(λ(x % _ == 0))) {
+  for(auto prime: sieve.primes | v::take_while(λ(_ * (ll) _ <= x)) | v::filter(λ(x % _ == 0))) {
     result.emplace_back(prime, 0);
     while(x % prime == 0) {
       result.back().second++;
@@ -68,7 +63,7 @@ vector<pair<ll, int>> factor_trial(ll x) {
   assert(x >= 1);
 
   vector<pair<ll, int>> result;
-  for(auto i: v::iota(2) | v::take_while(λ((ll) _ * _ <= x)) | v::filter(λ(x % _ == 0))) {
+  for(auto i: v::iota(2) | v::take_while(λ(_ * (ll) _ <= x)) | v::filter(λ(x % _ == 0))) {
     result.emplace_back(i, 0);
     while(x % i == 0) {
       result.back().second++;
@@ -200,13 +195,10 @@ vector<pair<ll, int>> factor_pollard_rho(ll x) {
     ll a;
     do {
       a = 1;
-      ll x = rand(), c = (rand() + 1) % factor;
+      ll x = rand(), c = rand() + 1ll;
       auto y = x;
       for(uint i = 1; a == 1; i++) {
-        x = mod_mul(x, x, factor) + c;
-        if(x >= factor) {
-          x -= factor;
-        }
+        x = (x * (i128) x + c) % factor;
         a = gcd(abs(x - y), factor);
         if(popcount(i) == 1) {
           y = x;

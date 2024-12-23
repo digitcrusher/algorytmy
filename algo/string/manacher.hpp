@@ -1,7 +1,7 @@
 /*
  * Algorytm Manachera - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,8 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <string>
-#include <vector>
 
 /*
  * Algorytm Manachera -
@@ -21,7 +19,7 @@ struct Manacher {
   vector<int> odd, even;
 };
 Manacher manacher(string const& str) {
-  int const n = str.size();
+  int n = str.size();
 
   vector<int> odd(n);
   auto l = 0, r = 0;

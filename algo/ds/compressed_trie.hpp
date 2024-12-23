@@ -1,7 +1,7 @@
 /*
  * Skompresowane drzewo trie - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,10 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include <array>
-#include <stdexcept>
-#include <string>
-#include <vector>
 
 /*
  * Skompresowane drzewo trie -

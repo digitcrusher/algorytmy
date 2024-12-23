@@ -1,7 +1,7 @@
 /*
  * Drzewo przedziałowe przedział-przedział - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -10,7 +10,6 @@
 #pragma once
 #include "common.hpp"
 #include "math/int.hpp"
-#include <vector>
 
 /*
  * Drzewo przedziałowe przedział-przedział -
@@ -42,7 +41,6 @@ template<
     Change latent_change;
     bool has_change = false;
   };
-  struct NodeOps;
 
   int elemc;
   vector<Node> nodes;
@@ -56,9 +54,9 @@ template<
     elemc(elems.size()), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
     height = ceil_log2(elemc) + 1;
-    nodec = level_offset(height);
-    base_nodec = level_nodec(height - 1);
-    base_offset = level_offset(height - 1);
+    nodec = (1u << height) - 1;
+    base_nodec = 1u << (height - 1);
+    base_offset = (1u << (height - 1)) - 1;
     nodes.resize(nodec);
 
     for(auto i: v::iota(0, elemc)) {
@@ -67,143 +65,116 @@ template<
     resum(0, elemc - 1);
   }
 
-  int level_nodec(int level) {
-    return 1u << level;
-  }
-  int level_offset(int level) {
-    return (1u << level) - 1;
+  SegmentTree(int elemc, Value zero, Sum sum = {},
+              ApplyChange apply_change = {},
+              MergeChange merge_change = {}):
+    elemc(elemc), sum(sum), apply_change(apply_change), merge_change(merge_change)
+  {
+    height = ceil_log2(elemc) + 1;
+    nodec = (1u << height) - 1;
+    base_nodec = 1u << (height - 1);
+    base_offset = (1u << (height - 1)) - 1;
+    nodes.resize(nodec, Node{ .val = zero });
   }
 
-  NodeOps root() {
-    return NodeOps(1, *this);
-  }
   Value get(int l, int r) {
     assert(0 <= l && l <= r && r < elemc);
-    return root().get(l, r);
+    auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> Value {
+      if(l <= node_l && node_r <= r) {
+        return nodes[num - 1].val;
+      }
+
+      propagate_change(num, node_l, node_r);
+      auto mid = (node_l + node_r) / 2;
+      if(r <= mid) {
+        return self(2 * num, node_l, mid);
+      } else if(mid + 1 <= l) {
+        return self(2 * num + 1, mid + 1, node_r);
+      } else {
+        return sum(self(2 * num, node_l, mid), self(2 * num + 1, mid + 1, node_r));
+      }
+    });
+    return descend(1, 0, base_nodec - 1);
   }
+
   void modify(int l, int r, Change change) {
     assert(0 <= l && l <= r && r < elemc);
-    root().modify(l, r, change);
+    auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> void {
+      if(l <= node_l && node_r <= r) {
+        receive_change(num, node_l, node_r, change);
+        return;
+      }
+
+      propagate_change(num, node_l, node_r);
+      auto mid = (node_l + node_r) / 2;
+      if(l <= mid) {
+        self(2 * num, node_l, mid);
+      }
+      if(mid + 1 <= r) {
+        self(2 * num + 1, mid + 1, node_r);
+      }
+      if(node_r < elemc) {
+        nodes[num - 1].val = sum(nodes[2 * num - 1].val, nodes[2 * num].val);
+      }
+    });
+    descend(1, 0, base_nodec - 1);
   }
+
   void resum(int l, int r) {
     assert(0 <= l && l <= r && r < elemc);
-    root().resum(l, r);
-  }
-
-  /*
-   * Node nie ma dostępu do drzewa z jego metod, a referencja do drzewa
-   * w każdym wierzchołku byłaby za bardzo kosztowna pamięciowo.
-   */
-  struct NodeOps {
-    int num;
-    SegmentTree &tree;
-    Node &node;
-
-    int level, elemc, l, r;
-    bool has_children;
-
-    NodeOps(int num, SegmentTree &tree):
-      num(num), tree(tree), node(tree.nodes[num - 1])
-    {
-      level = floor_log2(num);
-      elemc = tree.base_nodec >> level;
-      l = (num - 1 - tree.level_offset(level)) * elemc;
-      r = l + elemc - 1;
-      has_children = l != r;
-    }
-
-    NodeOps left() {
-      return NodeOps(num * 2, tree);
-    }
-    NodeOps right() {
-      return NodeOps(num * 2 + 1, tree);
-    }
-
-    bool is_in(int l, int r) {
-      return l <= this->l && this->r <= r;
-    }
-    bool does_intersect(int l, int r) {
-      return !(l > this->r || r < this->l);
-    }
-
-    void receive_change(Change change) {
-      // Nie aktualizujemy wierzchołków z elementami spoza tablicy.
-      if(r < tree.elemc) {
-        node.val = tree.apply_change(node.val, change, elemc);
-      }
-      if(has_children) {
-        node.latent_change = node.has_change ? tree.merge_change(node.latent_change, change) : change;
-        node.has_change = true;
-      }
-    }
-    void propagate_change() {
-      if(!node.has_change) return;
-      node.has_change = false;
-
-      if(has_children) {
-        left().receive_change(node.latent_change);
-        if(right().l < tree.elemc) {
-          right().receive_change(node.latent_change);
-        }
-      }
-    }
-
-    Value get(int l, int r) {
-      if(is_in(l, r)) {
-        return node.val;
-      } else {
-        propagate_change();
-        if(!right().does_intersect(l, r)) {
-          return left().get(l, r);
-        } else if(!left().does_intersect(l, r)) {
-          return right().get(l, r);
-        } else {
-          return tree.sum(left().get(l, r), right().get(l, r));
-        }
-      }
-    }
-
-    void modify(int l, int r, Change change) {
-      if(is_in(l, r)) {
-        receive_change(change);
-      } else {
-        propagate_change();
-        if(left().does_intersect(l, r)) {
-          left().modify(l, r, change);
-        }
-        if(right().does_intersect(l, r)) {
-          right().modify(l, r, change);
-        }
-        if(this->r < tree.elemc) {
-          node.val = tree.sum(left().node.val, right().node.val);
-        }
-      }
-    }
-
-    void resum(int l, int r) {
-      if(!has_children) return;
+    auto descend = Y([&](auto &self, int num, int node_l, int node_r) -> void {
+      if(node_l == node_r) return;
+      auto &node = nodes[num - 1];
+      auto mid = (node_l + node_r) / 2;
 
       // Nie propagujemy zmian do wierzchołków w całości w [l, r].
       if(node.has_change) {
         node.has_change = false;
 
-        if(!left().is_in(l, r)) {
-          left().receive_change(node.latent_change);
+        if(!(l <= node_l && mid <= r)) {
+          receive_change(2 * num, node_l, mid, node.latent_change);
         }
-        if(!right().is_in(l, r) && right().l < tree.elemc) {
-          right().receive_change(node.latent_change);
+        if(!(l <= mid + 1 && node_r <= r) && mid + 1 < elemc) {
+          receive_change(2 * num + 1, mid + 1, node_r, node.latent_change);
         }
       }
 
-      if(left().does_intersect(l, r)) {
-        left().resum(l, r);
+      if(l <= mid) {
+        self(2 * num, node_l, mid);
       }
-      if(right().does_intersect(l, r)) {
-        right().resum(l, r);
+      if(mid + 1 <= r) {
+        self(2 * num + 1, mid + 1, node_r);
       }
-      if(this->r < tree.elemc) {
-        node.val = tree.sum(left().node.val, right().node.val);
+      if(node_r < elemc) {
+        node.val = sum(nodes[2 * num - 1].val, nodes[2 * num].val);
+      }
+    });
+    descend(1, 0, base_nodec - 1);
+  }
+
+  void receive_change(int num, int node_l, int node_r, Change change) {
+    auto &node = nodes[num - 1];
+    // Nie aktualizujemy wierzchołków z elementami spoza tablicy.
+    if(node_r < elemc) {
+      node.val = apply_change(node.val, change, node_r - node_l + 1);
+    }
+    if(node_l != node_r) {
+      node.latent_change = node.has_change ? merge_change(node.latent_change, change) : change;
+      node.has_change = true;
+    }
+  }
+
+  void propagate_change(int num, int node_l, int node_r) {
+    auto &node = nodes[num - 1];
+    if(!node.has_change) return;
+    node.has_change = false;
+
+    if(node_l != node_r) {
+      auto mid = (node_l + node_r) / 2;
+      receive_change(2 * num, node_l, mid, node.latent_change);
+      if(mid + 1 < elemc) {
+        receive_change(2 * num + 1, mid + 1, node_r, node.latent_change);
       }
     }
-  };
+  }
 };

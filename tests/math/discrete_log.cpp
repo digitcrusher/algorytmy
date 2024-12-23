@@ -3,13 +3,13 @@
 
 int main() {
   while(cin) {
-    ll a, b, mod, k;
-    cin >> a >> b >> mod >> k;
+    Z<MOD> a, b, k;
+    cin >> a >> b >> k;
 
-    auto result = discrete_log(a, b, mod, k);
+    auto result = discrete_log(a, b, k);
     if(result) {
       cout << *result << endl;
-      assert(mod_mul(k, mod_pow(a, *result, mod), mod) == norm_mod(b, mod));
+      assert(k * a.pow(*result) == b);
     } else {
       cout << "nullopt" << endl;
     }

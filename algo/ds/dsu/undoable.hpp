@@ -1,7 +1,7 @@
 /*
  * Struktura zbiorów rozłącznych z cofaniem - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,9 +9,7 @@
  */
 #pragma once
 #include "common.hpp"
-#include <numeric>
 #include <stack>
-#include <vector>
 
 /*
  * Las zbiorów rozłącznych z cofaniem -

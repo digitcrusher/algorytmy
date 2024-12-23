@@ -1,9 +1,9 @@
 /*
  * Rozwiązanie zadania "Kajaki" z IV OI w czasie O(n^2.5)
- * z użyciem skojarzeń w grafie dwudzielnym
+ * z użyciem skojarzeń w grafie dwudzielnym
  *                                 digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2023 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,9 +11,7 @@
  */
 #include "common.hpp"
 #include "graph/matching.hpp"
-#include <algorithm>
-#include <iostream>
-#include <vector>
+#include "iostream.hpp"
 
 int main() {
   ios_base::sync_with_stdio(false);
@@ -22,9 +20,7 @@ int main() {
   int w, n;
   cin >> w >> n;
   vector<int> kajaks(n);
-  for(auto &i: kajaks) {
-    cin >> i;
-  }
+  cin >> kajaks;
   r::sort(kajaks);
 
   vector<vector<int>> adj(n);

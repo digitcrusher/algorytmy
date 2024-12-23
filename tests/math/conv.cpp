@@ -15,18 +15,18 @@ int main() {
     } else if(op == "idft") {
       fft(a, true);
 
-    } else if(op.substr(0, 4) == "conv") {
+    } else if(op.starts_with("conv")) {
       int m;
       cin >> m;
       vector<cld> b(m);
       cin >> b;
 
       conv(a, b);
-      if(op.substr(4) == "_real") {
+      if(op.ends_with("_real")) {
         for(auto &i: a) {
           i = i.real();
         }
-      } else if(op.substr(4) == "_int") {
+      } else if(op.ends_with("_int")) {
         for(auto &i: a) {
           i = round(i.real());
         }
@@ -38,18 +38,18 @@ int main() {
     } else if(op == "iwht3") {
       fwht3(a, true);
 
-    } else if(op.substr(0, 9) == "xor3_conv") {
+    } else if(op.starts_with("xor3_conv")) {
       int m;
       cin >> m;
       vector<cld> b(m);
       cin >> b;
 
       xor3_conv(a, b);
-      if(op.substr(9) == "_real") {
+      if(op.ends_with("_real")) {
         for(auto &i: a) {
           i = i.real();
         }
-      } else if(op.substr(9) == "_int") {
+      } else if(op.ends_with("_int")) {
         for(auto &i: a) {
           i = round(i.real());
         }
