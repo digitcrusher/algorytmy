@@ -1,7 +1,7 @@
 /*
  * Convex hull trick - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -26,8 +26,7 @@ struct ConvexHullTrick {
     hull.reserve(funcs.size());
     for(auto func: funcs) {
       // >= daje maksimum, <= - minimum
-      while(hull.size() >= 2 && cross(hull.back() - hull[hull.size() - 2],
-                                      func - hull.back()) >= 0) {
+      while(hull.size() >= 2 && cross(hull.back() - hull.rbegin()[1], func - hull.back()) >= 0) {
         hull.pop_back();
       }
       hull.push_back(func);

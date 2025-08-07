@@ -1,7 +1,7 @@
 /*
  * Drzewo Li Chao - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 
 /*
  * Drzewo Li Chao -
@@ -33,7 +32,7 @@ struct LiChao {
   int base_nodec, base_offset;
 
   LiChao(int min_x, int max_x, LinFunc first): min_x(min_x), max_x(max_x) {
-    height = ceil_log2(max_x - min_x + 1) + 1;
+    height = bit_width<uint>(max_x - min_x) + 1;
     nodec = (1u << height) - 1;
     base_nodec = 1u << (height - 1);
     base_offset = (1u << (height - 1)) - 1;

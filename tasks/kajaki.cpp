@@ -3,7 +3,7 @@
  * z użyciem skojarzeń w grafie dwudzielnym
  *                                 digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered

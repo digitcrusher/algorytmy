@@ -1,7 +1,7 @@
 /*
  * Drzewo przedziałowe przedział-punkt 2D - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 
 /*
  * Drzewo przedziałowe przedział-punkt 2D -
@@ -46,8 +45,8 @@ struct SegmentTreeRangePoint2D {
     w(elems[0].size()), h(elems.size()), values(elems),
     apply_change(apply_change), merge_change(merge_change)
   {
-    x_height = ceil_log2(w) + 1;
-    y_height = ceil_log2(h) + 1;
+    x_height = bit_width(w - 1u) + 1;
+    y_height = bit_width(h - 1u) + 1;
     x_nodec = (1u << x_height) - 1;
     y_nodec = (1u << y_height) - 1;
     x_base_offset = (1u << (x_height - 1)) - 1;
@@ -61,8 +60,8 @@ struct SegmentTreeRangePoint2D {
     w(w), h(h), values(h, vector(w, zero)),
     apply_change(apply_change), merge_change(merge_change)
   {
-    x_height = ceil_log2(w) + 1;
-    y_height = ceil_log2(h) + 1;
+    x_height = bit_width(w - 1u) + 1;
+    y_height = bit_width(h - 1u) + 1;
     x_nodec = (1u << x_height) - 1;
     y_nodec = (1u << y_height) - 1;
     x_base_offset = (1u << (x_height - 1)) - 1;

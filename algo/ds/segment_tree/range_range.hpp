@@ -1,7 +1,7 @@
 /*
  * Drzewo przedziałowe przedział-przedział - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 
 /*
  * Drzewo przedziałowe przedział-przedział -
@@ -53,7 +52,7 @@ template<
               MergeChange merge_change = {}):
     elemc(elems.size()), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
-    height = ceil_log2(elemc) + 1;
+    height = bit_width(elemc - 1u) + 1;
     nodec = (1u << height) - 1;
     base_nodec = 1u << (height - 1);
     base_offset = (1u << (height - 1)) - 1;
@@ -70,7 +69,7 @@ template<
               MergeChange merge_change = {}):
     elemc(elemc), sum(sum), apply_change(apply_change), merge_change(merge_change)
   {
-    height = ceil_log2(elemc) + 1;
+    height = bit_width(elemc - 1u) + 1;
     nodec = (1u << height) - 1;
     base_nodec = 1u << (height - 1);
     base_offset = (1u << (height - 1)) - 1;

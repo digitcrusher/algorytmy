@@ -1,7 +1,7 @@
 /*
  * Offline dynamic connectivity - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,7 +11,6 @@
 #include "common.hpp"
 #include "ds/dsu/undoable.hpp"
 #include "hash.hpp"
-#include "math/int.hpp"
 #include <unordered_map>
 
 /*
@@ -28,7 +27,7 @@ struct Query {
 vector<bool> offline_dynamic_connectivity(int n, vector<Query> const& queries) {
   int q = queries.size();
 
-  int height = ceil_log2(q) + 1;
+  int height = bit_width(q - 1u) + 1;
   int nodec = (1u << height) - 1;
   int base_nodec = 1u << (height - 1);
   int base_offset = (1u << (height - 1)) - 1;

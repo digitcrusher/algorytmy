@@ -1,7 +1,7 @@
 /*
  * Heavy-light decomposition - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -78,24 +78,16 @@ struct HLD {
 
   vector<pair<int, int>> path(int a, int b) const {
     vector<pair<int, int>> result;
-
     auto lca = lca_lifting(parent, lift, depth, a, b);
-
-    while(true) {
-      auto l = entry[heavy[a] == heavy[lca] ? lca : heavy[a]];
-      auto r = entry[a];
-      result.emplace_back(l, r);
-      if(heavy[a] == heavy[lca]) break;
+    while(heavy[a] != heavy[lca]) {
+      result.emplace_back(entry[heavy[a]], entry[a]);
       a = parent[heavy[a]];
     }
-    while(b != lca) {
-      auto l = heavy[b] == heavy[lca] ? entry[lca] + 1 : entry[heavy[b]];
-      auto r = entry[b];
-      result.emplace_back(l, r);
-      if(heavy[b] == heavy[lca]) break;
+    while(heavy[b] != heavy[lca]) {
+      result.emplace_back(entry[heavy[b]], entry[b]);
       b = parent[heavy[b]];
     }
-
+    result.push_back(minmax(entry[a], entry[b]));
     return result;
   }
 

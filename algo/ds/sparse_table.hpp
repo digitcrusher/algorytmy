@@ -1,7 +1,7 @@
 /*
  * Sparse table - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 
 /*
  * Sparse table -
@@ -34,7 +33,7 @@ struct SparseTable {
   SparseTable(vector<Value> const& elems, Sum sum = {}):
     elemc(elems.size()), sum(sum)
   {
-    height = elemc == 1 ? 1 : ceil_log2(elemc);
+    height = elemc == 1 ? 1 : bit_width(elemc - 1u);
 
     sums.resize(height, vector<Value>(elemc));
     sums[0] = elems;
@@ -48,16 +47,16 @@ struct SparseTable {
     }
   }
 
-  int level_elemc(int level) {
+  int level_elemc(int level) const {
     return 1u << level;
   }
 
-  Value get(int l, int r) {
+  Value get(int l, int r) const {
     assert(l <= r && r < elemc);
     if(l == r) {
       return sums[0][l];
     }
-    auto level = ceil_log2(r - l + 1) - 1;
+    auto level = bit_width<uint>(r - l) - 1;
     return sum(sums[level][l], sums[level][r - level_elemc(level) + 1]);
   }
 };

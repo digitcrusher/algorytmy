@@ -1,7 +1,7 @@
 /*
  * Test pierwszości - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,13 +11,6 @@
 #include "common.hpp"
 #include "math/mod.hpp"
 #include "math/sieve.hpp"
-
-/*
- * Pierwszość liczby można sprawdzać za pomocą sita.
- */
-bool is_prime_sieve(int x, Sieve const& sieve) {
-  return sieve.is_prime[x];
-}
 
 /*
  * Test pierwszości Millera-Rabina -
@@ -45,4 +38,11 @@ bool is_prime_miller_rabin(ll x) {
     }
   }
   return true;
+}
+
+/*
+ * Pierwszość liczby można sprawdzać za pomocą sita.
+ */
+bool is_prime_sieve(int x, Sieve const& sieve) {
+  return sieve.is_prime[x];
 }

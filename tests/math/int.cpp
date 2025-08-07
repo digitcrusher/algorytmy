@@ -29,32 +29,6 @@ int main() {
    * Discord Together C & C++.
    */
 
-  assert(floor_log2(1) == 0);
-  assert(floor_log2(2) == 1);
-  assert(floor_log2(3) == 1);
-  assert(floor_log2(4) == 2);
-  assert(floor_log2(5) == 2);
-  assert(floor_log2(6) == 2);
-  assert(floor_log2(7) == 2);
-  assert(floor_log2(8) == 3);
-  assert(floor_log2(9) == 3);
-  assert(floor_log2((1ull << 63) - 1) == 62);
-  assert(floor_log2(1ull << 63) == 63);
-  assert(floor_log2(~0ull) == 63);
-
-  assert(ceil_log2(1) == 0);
-  assert(ceil_log2(2) == 1);
-  assert(ceil_log2(3) == 2);
-  assert(ceil_log2(4) == 2);
-  assert(ceil_log2(5) == 3);
-  assert(ceil_log2(6) == 3);
-  assert(ceil_log2(7) == 3);
-  assert(ceil_log2(8) == 3);
-  assert(ceil_log2(9) == 4);
-  assert(ceil_log2((1ull << 63) - 1) == 63);
-  assert(ceil_log2(1ull << 63) == 63);
-  assert(ceil_log2(~0ull) == 64);
-
   assert(floor_div(-2, 2) == -1);
   assert(floor_div(-1, 2) == -1);
   assert(floor_div(0, 2) == 0);
@@ -81,23 +55,7 @@ int main() {
     string op;
     cin >> op;
 
-    if(op == "floor_log2") {
-      ull x;
-      cin >> x;
-
-      auto result = floor_log2(x);
-      cout << result << endl;
-      assert(result == floor(log2(x)));
-
-    } else if(op == "ceil_log2") {
-      ull x;
-      cin >> x;
-
-      auto result = ceil_log2(x);
-      cout << result << endl;
-      assert(result == ceil(log2(x)));
-
-    } else if(op == "floor_div") {
+    if(op == "floor_div") {
       ll a, b;
       cin >> a >> b;
 

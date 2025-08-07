@@ -1,7 +1,7 @@
 /*
  * Różne operacje na liczbach całkowitych - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,22 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-
-/*
- * Zwraca wykładnik największej potęgi dwójki mniejszej lub równej x.
- */
-int floor_log2(ull x) {
-  assert(x != 0);
-  return numeric_limits<ull>::digits - countl_zero(x) - 1;
-}
-
-/*
- * Zwraca wykładnik najmniejszej potęgi dwójki większej lub równej x.
- */
-int ceil_log2(ull x) {
-  assert(x != 0);
-  return numeric_limits<ull>::digits - countl_zero(x - 1);
-}
 
 /*
  * Dzielenie z zaokrągleniem w dół
@@ -56,9 +40,9 @@ ll fast_pow(ll a, ll b) {
   ll result = 1;
   while(b > 0) {
     if(b % 2 != 0) {
-      result = result * a;
+      result *= a;
     }
-    a = a * a;
+    a *= a;
     b /= 2;
   }
   return result;

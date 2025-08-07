@@ -1,7 +1,7 @@
 /*
  * Transformacja liczbowo-teoretyczna - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -11,7 +11,6 @@
 #include "common.hpp"
 #include "math/eulers_phi.hpp"
 #include "math/factor.hpp"
-#include "math/int.hpp"
 #include "math/mod.hpp"
 #include "math/primitive_root.hpp"
 
@@ -34,7 +33,7 @@ struct NTT {
 
   void operator()(vector<Z> &poly, bool should_invert = false) const {
     int n = poly.size();
-    assert(popcount<uint>(n) == 1);
+    assert(has_single_bit<uint>(n));
 
     auto conquer = Y([&](auto &self, vector<Z> &poly, Z omega) {
       int n = poly.size();
@@ -73,7 +72,7 @@ struct NTT {
    */
   void conv(vector<Z> &a, vector<Z> b) const {
     int n = a.size() + b.size() - 1;
-    int m = 1u << ceil_log2(n);
+    int m = bit_ceil<uint>(n);
     a.resize(m);
     b.resize(m);
 

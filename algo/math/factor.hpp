@@ -1,7 +1,7 @@
 /*
  * Rozkład na dzielniki pierwsze - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -13,68 +13,6 @@
 #include "math/sieve.hpp"
 #include <stack>
 #include <unordered_map>
-
-/*
- * Zwraca czynniki pierwsze liczby w kolejności rosnącej przy pomocy
- * sita do x w O(n) = O(log x), gdzie n to liczba czynników pierwszych.
- */
-vector<pair<int, int>> factor_sieve_1(int x, Sieve const& sieve) {
-  assert(x >= 1);
-
-  vector<pair<int, int>> result;
-  while(x > 1) {
-    auto prime = sieve.smallest_factor[x];
-    if(result.empty() || result.back().first != prime) {
-      result.emplace_back(prime, 0);
-    }
-    result.back().second++;
-    x /= prime;
-  }
-  return result;
-}
-
-/*
- * Zwraca czynniki pierwsze liczby w kolejności rosnącej przy
- * pomocy sita do sqrt(x) w O(π(sqrt(x))) = O(sqrt(x) / log x).
- */
-vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
-  assert(x >= 1);
-  ll lim = sieve.is_prime.size() - 1;
-  assert(lim * lim >= x);
-
-  vector<pair<ll, int>> result;
-  for(auto prime: sieve.primes | v::take_while(λ(_ * (ll) _ <= x)) | v::filter(λ(x % _ == 0))) {
-    result.emplace_back(prime, 0);
-    while(x % prime == 0) {
-      result.back().second++;
-      x /= prime;
-    }
-  }
-  if(x > 1) {
-    result.emplace_back(x, 1);
-  }
-  return result;
-}
-
-/*
- * Zwraca czynniki pierwsze liczby w kolejności rosnącej w O(sqrt(x)).
- */
-vector<pair<ll, int>> factor_trial(ll x) {
-  assert(x >= 1);
-
-  vector<pair<ll, int>> result;
-  for(auto i: v::iota(2) | v::take_while(λ(_ * (ll) _ <= x)) | v::filter(λ(x % _ == 0))) {
-    result.emplace_back(i, 0);
-    while(x % i == 0) {
-      result.back().second++;
-      x /= i;
-    }
-  }
-  if(x > 1) {
-    result.emplace_back(x, 1);
-  }
-  return result;
-}
 
 /*
  * Algorytm rho Pollarda -
@@ -200,7 +138,7 @@ vector<pair<ll, int>> factor_pollard_rho(ll x) {
       for(uint i = 1; a == 1; i++) {
         x = (x * (i128) x + c) % factor;
         a = gcd(abs(x - y), factor);
-        if(popcount(i) == 1) {
+        if(has_single_bit(i)) {
           y = x;
         }
       }
@@ -220,4 +158,66 @@ vector<pair<ll, int>> factor_pollard_rho(ll x) {
   }
 
   return vector<pair<ll, int>>(result.begin(), result.end());
+}
+
+/*
+ * Zwraca czynniki pierwsze liczby w kolejności rosnącej przy pomocy
+ * sita do x w O(n) = O(log x), gdzie n to liczba czynników pierwszych.
+ */
+vector<pair<int, int>> factor_sieve_1(int x, Sieve const& sieve) {
+  assert(x >= 1);
+
+  vector<pair<int, int>> result;
+  while(x > 1) {
+    auto prime = sieve.smallest_factor[x];
+    if(result.empty() || result.back().first != prime) {
+      result.emplace_back(prime, 0);
+    }
+    result.back().second++;
+    x /= prime;
+  }
+  return result;
+}
+
+/*
+ * Zwraca czynniki pierwsze liczby w kolejności rosnącej przy
+ * pomocy sita do sqrt(x) w O(π(sqrt(x))) = O(sqrt(x) / log x).
+ */
+vector<pair<ll, int>> factor_sieve_2(ll x, Sieve const& sieve) {
+  assert(x >= 1);
+  ll lim = sieve.is_prime.size() - 1;
+  assert(lim * lim >= x);
+
+  vector<pair<ll, int>> result;
+  for(auto prime: sieve.primes | v::take_while(λ(_ * (ll) _ <= x)) | v::filter(λ(x % _ == 0))) {
+    result.emplace_back(prime, 0);
+    while(x % prime == 0) {
+      result.back().second++;
+      x /= prime;
+    }
+  }
+  if(x > 1) {
+    result.emplace_back(x, 1);
+  }
+  return result;
+}
+
+/*
+ * Zwraca czynniki pierwsze liczby w kolejności rosnącej w O(sqrt(x)).
+ */
+vector<pair<ll, int>> factor_trial(ll x) {
+  assert(x >= 1);
+
+  vector<pair<ll, int>> result;
+  for(auto i: v::iota(2) | v::take_while(λ(_ * (ll) _ <= x)) | v::filter(λ(x % _ == 0))) {
+    result.emplace_back(i, 0);
+    while(x % i == 0) {
+      result.back().second++;
+      x /= i;
+    }
+  }
+  if(x > 1) {
+    result.emplace_back(x, 1);
+  }
+  return result;
 }

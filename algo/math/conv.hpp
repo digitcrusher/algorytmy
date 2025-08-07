@@ -1,7 +1,7 @@
 /*
  * Konwolucje - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -9,7 +9,6 @@
  */
 #pragma once
 #include "common.hpp"
-#include "math/int.hpp"
 #include <complex>
 
 using cld = complex<long double>;
@@ -22,7 +21,7 @@ using cld = complex<long double>;
 void fft(vector<cld> &poly, bool should_invert = false) {
   int n = poly.size();
   if(n == 1) return;
-  assert(popcount<uint>(n) == 1);
+  assert(has_single_bit<uint>(n));
 
   vector<cld> a(n / 2), b(n / 2);
   for(auto i: v::iota(0, n / 2)) {
@@ -50,7 +49,7 @@ void fft(vector<cld> &poly, bool should_invert = false) {
  */
 void conv(vector<cld> &a, vector<cld> b) {
   int n = a.size() + b.size() - 1;
-  int m = 1u << ceil_log2(n);
+  int m = bit_ceil<uint>(n);
   a.resize(m);
   b.resize(m);
 
@@ -74,8 +73,7 @@ void fwht3(vector<cld> &poly, bool should_invert = false) {
   auto omega = polar<ld>(1, 2 * numbers::pi / 3 * (should_invert ? -1 : 1));
   auto omega2 = omega * omega;
   for(auto size = 1; size < n; size *= 3) {
-    for(auto i: v::iota(0, n / 3 / size)) {
-      i *= 3 * size;
+    for(auto i = 0; i < n; i += 3 * size) {
       for(auto j: v::iota(i, i + size)) {
         auto a = poly[j], b = poly[j + size], c = poly[j + 2 * size];
         poly[j] = a + b + c;
@@ -99,7 +97,7 @@ void fwht3(vector<cld> &poly, bool should_invert = false) {
 void xor3_conv(vector<cld> &a, vector<cld> b) {
   int n = max(a.size(), b.size());
   auto m = 1;
-  for(auto i = n; i > 1; i /= 3) {
+  while(m < n) {
     m *= 3;
   }
   a.resize(m);

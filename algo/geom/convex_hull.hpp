@@ -1,7 +1,7 @@
 /*
  * Otoczka wypukła - digitcrusher/algorytmy
  *
- * Copyright (C) 2021-2024 Karol "digitcrusher" Łacina
+ * Copyright (C) 2021-2025 Karol "digitcrusher" Łacina
  *
  * Copying and distribution of this software, with or without modification,
  * are permitted in any medium without royalty. This software is offered
@@ -32,7 +32,7 @@ Polygon<A> convex_hull(vector<Point<A>> pts, bool should_include_colinear = fals
   }
   for(auto i: pts) {
     while(result.size() >= 2) {
-      auto x = cross(result.back() - result.end()[-2], i - result.back());
+      auto x = cross(result.back() - result.rbegin()[1], i - result.back());
       if(x > 0 || (should_include_colinear && x == 0)) break;
       result.pop_back();
     }
